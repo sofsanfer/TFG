@@ -1,0 +1,3008 @@
+%
+\begin{isabellebody}%
+\setisabellecontext{Sintaxis}%
+%
+\isadelimtheory
+%
+\endisadelimtheory
+%
+\isatagtheory
+%
+\endisatagtheory
+{\isafoldtheory}%
+%
+\isadelimtheory
+%
+\endisadelimtheory
+%
+\isadelimdocument
+%
+\endisadelimdocument
+%
+\isatagdocument
+%
+\isamarkupsection{Sintaxis%
+}
+\isamarkuptrue%
+%
+\endisatagdocument
+{\isafolddocument}%
+%
+\isadelimdocument
+%
+\endisadelimdocument
+\isacommand{notation}\isamarkupfalse%
+\ insert\ {\isacharparenleft}{\isachardoublequoteopen}{\isacharunderscore}\ {\isasymtriangleright}\ {\isacharunderscore}{\isachardoublequoteclose}\ {\isacharbrackleft}{\isadigit{5}}{\isadigit{6}}{\isacharcomma}{\isadigit{5}}{\isadigit{5}}{\isacharbrackright}\ {\isadigit{5}}{\isadigit{5}}{\isacharparenright}%
+\begin{isamarkuptext}%
+En este apartado vamos a desarrollar los elementos de la sintaxis junto con varios resultados 
+sobre los mismos. La lógica proposicional cuenta, fundamentalmente con:
+\begin{description}
+    \item[Alfabeto:] Se trata de una lista infinita de variables proposicionales, consideradas como 
+expresiones cuya estructura interna no vamos a analizar.
+    \item[Conectivas:] Conectores que interactúan con los elementos del alfabeto. Pueden ser monarias que afectan a 
+un único elemento o binarias que afectan a dos. En el primer grupo se encuentra le negación (\isa{{\isasymnot}}) y 
+en el segundo vamos a considerar la conjunción (\isa{{\isasymand}}), la disyunción (\isa{{\isasymor}}) y la implicación (\isa{{\isasymlongrightarrow}}).
+\end{description}
+
+De este modo, informalmente diremos que una fórmula es el resultado de relacionar los elementos del 
+alfabeto mediante las conectivas definidas anteriormente. En primer lugar, podemos definir las 
+fórmulas atómicas como el tipo de fórmulas más básico, formadas únicamente por una variable 
+porposicional del alfabeto. Por abuso de notación llamaremos \isa{átomos} a las variables proposicionales
+del alfabeto. Aunque son intuitivamente equivalentes a las fórmulas atómicas, debemos recalcar 
+su diferencia, pues los átomos son los elementos del alfabeto y las fórmulas atómicas son
+construcciones básicas de ellos. Este apunte es fundamental para entender el tipo correspondiente
+de fórmulas en nuestro programa.%
+\end{isamarkuptext}\isamarkuptrue%
+%
+\begin{isamarkuptext}%
+En Isabelle, las fórmulas son entendidas como un árbol con distintos tipos de nodos, que
+son las conectivas, y hojas, que serán las fórmulas atómicas. De este modo, se define el tipo de 
+las fórmulas como sigue.%
+\end{isamarkuptext}\isamarkuptrue%
+\isacommand{datatype}\isamarkupfalse%
+\ {\isacharparenleft}atoms{\isacharcolon}\ {\isacharprime}a{\isacharparenright}\ formula\ {\isacharequal}\ \isanewline
+\ \ \ \ Atom\ {\isacharprime}a\isanewline
+\ \ {\isacharbar}\ Bot\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ {\isacharparenleft}{\isachardoublequoteopen}{\isasymbottom}{\isachardoublequoteclose}{\isacharparenright}\ \ \isanewline
+\ \ {\isacharbar}\ Not\ {\isachardoublequoteopen}{\isacharprime}a\ formula{\isachardoublequoteclose}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ {\isacharparenleft}{\isachardoublequoteopen}\isactrlbold {\isasymnot}{\isachardoublequoteclose}{\isacharparenright}\isanewline
+\ \ {\isacharbar}\ And\ {\isachardoublequoteopen}{\isacharprime}a\ formula{\isachardoublequoteclose}\ {\isachardoublequoteopen}{\isacharprime}a\ formula{\isachardoublequoteclose}\ \ \ \ {\isacharparenleft}\isakeyword{infix}\ {\isachardoublequoteopen}\isactrlbold {\isasymand}{\isachardoublequoteclose}\ {\isadigit{6}}{\isadigit{8}}{\isacharparenright}\isanewline
+\ \ {\isacharbar}\ Or\ {\isachardoublequoteopen}{\isacharprime}a\ formula{\isachardoublequoteclose}\ {\isachardoublequoteopen}{\isacharprime}a\ formula{\isachardoublequoteclose}\ \ \ \ \ {\isacharparenleft}\isakeyword{infix}\ {\isachardoublequoteopen}\isactrlbold {\isasymor}{\isachardoublequoteclose}\ {\isadigit{6}}{\isadigit{8}}{\isacharparenright}\isanewline
+\ \ {\isacharbar}\ Imp\ {\isachardoublequoteopen}{\isacharprime}a\ formula{\isachardoublequoteclose}\ {\isachardoublequoteopen}{\isacharprime}a\ formula{\isachardoublequoteclose}\ \ \ \ {\isacharparenleft}\isakeyword{infixr}\ {\isachardoublequoteopen}\isactrlbold {\isasymrightarrow}{\isachardoublequoteclose}\ {\isadigit{6}}{\isadigit{8}}{\isacharparenright}%
+\begin{isamarkuptext}%
+Como podemos observar en la definición, \isa{formula} es un tipo de datos recursivo que se 
+entiende como un árbol que relaciona elementos de un tipo \isa{{\isacharprime}a} cualquiera del alfabeto proposicional. 
+En ella aparecen los siguientes elementos:
+\begin{description}
+\item[Constructores]:  
+  \begin{enumerate} 
+  \item \isa{Atom\ {\isacharcolon}{\isacharcolon}\ {\isacharprime}a\ formula}  
+  \item \isa{Not\ {\isacharcolon}{\isacharcolon}\ {\isacharprime}a\ {\isasymRightarrow}\ {\isacharprime}a\ formula\ {\isasymRightarrow}\ {\isacharprime}a\ formula}
+  \item \isa{And\ {\isacharcolon}{\isacharcolon}\ {\isacharprime}a\ {\isasymRightarrow}\ {\isacharprime}a\ formula\ {\isasymRightarrow}\ {\isacharprime}a\ formula\ {\isasymRightarrow}\ {\isacharprime}a\ formula}
+  \item \isa{Or\ {\isacharcolon}{\isacharcolon}\ {\isacharprime}a\ {\isasymRightarrow}\ {\isacharprime}a\ formula\ {\isasymRightarrow}\ {\isacharprime}a\ formula\ {\isasymRightarrow}\ {\isacharprime}a\ formula}
+  \item \isa{Imp\ {\isacharcolon}{\isacharcolon}\ {\isacharprime}a\ {\isasymRightarrow}\ {\isacharprime}a\ formula\ {\isasymRightarrow}\ {\isacharprime}a\ formula\ {\isasymRightarrow}\ {\isacharprime}a\ formula}
+  \item \isa{Bot\ {\isacharcolon}{\isacharcolon}\ {\isacharprime}a\ formula}
+  \end{enumerate}
+\item[Función de conjunto]: \isa{atoms\ {\isacharcolon}{\isacharcolon}\ ′a\ formula\ {\isasymRightarrow}\ ′a\ set}
+\end{description}
+
+Podemos observar que se define simultáneamente la función \isa{atoms} de modo que al aplicarla 
+sobre una fórmula nos devuelve el conjunto de los átomos que la componen.
+En particular, \isa{Atom\ {\isacharprime}a} es la construcción de las fórmulas atómicas. \isa{Bot} es un constructor que 
+para cada tipo \isa{{\isacharprime}a} cualquiera construye la fórmula falsa cuyo símbolo queda retratado en la definición.
+Observemos que para emplear \isa{Bot} en solitario es necesario especificar el tipo \isa{{\isacharprime}a}.%
+\end{isamarkuptext}\isamarkuptrue%
+\isacommand{value}\isamarkupfalse%
+{\isachardoublequoteopen}{\isacharparenleft}Bot{\isacharcolon}{\isacharcolon}nat\ formula{\isacharparenright}{\isachardoublequoteclose}%
+\begin{isamarkuptext}%
+Veamos ejemplos de obtención del conjunto de las variables proposicionales de las fórmulas atómicas y 
+de negación.%
+\end{isamarkuptext}\isamarkuptrue%
+\isacommand{value}\isamarkupfalse%
+\ {\isachardoublequoteopen}atoms\ {\isacharparenleft}Atom\ p{\isacharparenright}\ {\isacharequal}\ {\isacharbraceleft}p{\isacharbraceright}{\isachardoublequoteclose}\isanewline
+\isanewline
+\isacommand{value}\isamarkupfalse%
+\ {\isachardoublequoteopen}atoms\ {\isacharparenleft}Not\ {\isacharparenleft}Atom\ p{\isacharparenright}{\isacharparenright}\ {\isacharequal}\ {\isacharbraceleft}p{\isacharbraceright}{\isachardoublequoteclose}%
+\begin{isamarkuptext}%
+En particular, al aplicar \isa{atoms} sobre la construcción \isa{Bot} nos devuelve el conjunto
+vacío, pues como hemos señalado, no contiene ninguna variable del alfabeto.%
+\end{isamarkuptext}\isamarkuptrue%
+\isacommand{lemma}\isamarkupfalse%
+\ {\isachardoublequoteopen}atoms\ Bot\ {\isacharequal}\ {\isacharbraceleft}{\isacharbraceright}{\isachardoublequoteclose}\isanewline
+%
+\isadelimproof
+\ \ %
+\endisadelimproof
+%
+\isatagproof
+\isacommand{by}\isamarkupfalse%
+\ auto%
+\endisatagproof
+{\isafoldproof}%
+%
+\isadelimproof
+\isanewline
+%
+\endisadelimproof
+\isanewline
+\isacommand{lemma}\isamarkupfalse%
+\ {\isachardoublequoteopen}atoms\ {\isacharparenleft}Or\ {\isacharparenleft}Atom\ p{\isacharparenright}\ Bot{\isacharparenright}\ {\isacharequal}\ {\isacharbraceleft}p{\isacharbraceright}{\isachardoublequoteclose}\isanewline
+%
+\isadelimproof
+\ \ %
+\endisadelimproof
+%
+\isatagproof
+\isacommand{by}\isamarkupfalse%
+\ auto%
+\endisatagproof
+{\isafoldproof}%
+%
+\isadelimproof
+%
+\endisadelimproof
+%
+\begin{isamarkuptext}%
+El resto de elementos que aparecen son equivalentes a las conectivas binarias y la negación. 
+Cabe señalar que el término \isa{infix} que precede al símbolo de notación de los nodos nos señala que 
+son infijos, y \isa{infixr} se trata de un infijo asociado a la derecha.
+A continuación vamos a incluir el ejemplo de fórmula: \isa{{\isacharparenleft}p\ {\isasymlongrightarrow}\ q{\isacharparenright}\ {\isasymor}\ r} y su árbol de formación 
+correspondiente.%
+\end{isamarkuptext}\isamarkuptrue%
+\isacommand{value}\isamarkupfalse%
+\ {\isachardoublequoteopen}Or\ {\isacharparenleft}Imp\ {\isacharparenleft}Atom\ p{\isacharparenright}\ {\isacharparenleft}Atom\ q{\isacharparenright}{\isacharparenright}\ {\isacharparenleft}Atom\ r{\isacharparenright}{\isachardoublequoteclose}%
+\begin{isamarkuptext}%
+(Aquí debería salir el árbol pero no sé hacerlo)%
+\end{isamarkuptext}\isamarkuptrue%
+%
+\begin{isamarkuptext}%
+Por otro lado, veamos cómo actúa la función \isa{atoms} sobre fórmulas construidas con 
+conectivas binarias, señalando los casos en que interactúan variables distintas y repetidas. 
+Como se observa, por definición de conjunto, no contiene elementos repetidos.%
+\end{isamarkuptext}\isamarkuptrue%
+\isacommand{lemma}\isamarkupfalse%
+\ {\isachardoublequoteopen}atoms\ {\isacharparenleft}Or\ {\isacharparenleft}Imp\ {\isacharparenleft}Atom\ p{\isacharparenright}\ {\isacharparenleft}Atom\ q{\isacharparenright}{\isacharparenright}\ {\isacharparenleft}Atom\ r{\isacharparenright}{\isacharparenright}\ {\isacharequal}\ {\isacharbraceleft}p{\isacharcomma}q{\isacharcomma}r{\isacharbraceright}{\isachardoublequoteclose}\isanewline
+%
+\isadelimproof
+\ \ %
+\endisadelimproof
+%
+\isatagproof
+\isacommand{by}\isamarkupfalse%
+\ auto%
+\endisatagproof
+{\isafoldproof}%
+%
+\isadelimproof
+\isanewline
+%
+\endisadelimproof
+\isanewline
+\isacommand{lemma}\isamarkupfalse%
+\ {\isachardoublequoteopen}atoms\ {\isacharparenleft}Or\ {\isacharparenleft}Imp\ {\isacharparenleft}Atom\ r{\isacharparenright}\ {\isacharparenleft}Atom\ p{\isacharparenright}{\isacharparenright}\ {\isacharparenleft}Atom\ r{\isacharparenright}{\isacharparenright}\ {\isacharequal}\ {\isacharbraceleft}p{\isacharcomma}r{\isacharbraceright}{\isachardoublequoteclose}\isanewline
+%
+\isadelimproof
+\ \ %
+\endisadelimproof
+%
+\isatagproof
+\isacommand{by}\isamarkupfalse%
+\ auto%
+\endisatagproof
+{\isafoldproof}%
+%
+\isadelimproof
+%
+\endisadelimproof
+%
+\begin{isamarkuptext}%
+En esta sección, para demostrar los distintos resultados utilizaremos la táctica \isa{induction}, 
+que hace uso del esquema de indución. Para el tipo de las fórmulas, el esquema inductivo
+se aplicará en cada uno de los casos de los constructores, desglosándose
+así seis casos correspondientes a las distintas conectivas, fórmula atómica y \isa{Bot}. Además, todas 
+las demostraciones sobre casos de conectivas binarias son equivalentes en esta sección,
+pues la construcción sintáctica de fórmulas es idéntica entre ellas. Estas se
+diferencian esencialmente por la semántica, que veremos en la siguiente sección. Por tanto, para
+simplificar las demostraciones sintácticas detalladas más extensas, daré un nuevo tipo equivalente: 
+\isa{formula{\isacharunderscore}simp}.%
+\end{isamarkuptext}\isamarkuptrue%
+\isacommand{datatype}\isamarkupfalse%
+\ {\isacharparenleft}atoms{\isacharunderscore}s{\isacharcolon}\ {\isacharprime}a{\isacharparenright}\ formula{\isacharunderscore}simp\ {\isacharequal}\ \isanewline
+\ \ \ \ Atom{\isacharunderscore}s\ {\isacharprime}a\isanewline
+\ \ {\isacharbar}\ Bot{\isacharunderscore}s\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ {\isacharparenleft}{\isachardoublequoteopen}Falso{\isachardoublequoteclose}{\isacharparenright}\ \ \isanewline
+\ \ {\isacharbar}\ Mon\ {\isachardoublequoteopen}{\isacharprime}a\ formula{\isacharunderscore}simp{\isachardoublequoteclose}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ {\isacharparenleft}{\isachardoublequoteopen}Neg{\isachardoublequoteclose}{\isacharparenright}\isanewline
+\ \ {\isacharbar}\ Bi\ {\isachardoublequoteopen}{\isacharprime}a\ formula{\isacharunderscore}simp{\isachardoublequoteclose}\ {\isachardoublequoteopen}{\isacharprime}a\ formula{\isacharunderscore}simp{\isachardoublequoteclose}\ \ \ \ {\isacharparenleft}\isakeyword{infix}\ {\isachardoublequoteopen}\isactrlbold {\isacharasterisk}{\isachardoublequoteclose}\ {\isadigit{6}}{\isadigit{8}}{\isacharparenright}%
+\begin{isamarkuptext}%
+De este modo, se consideran todas las conectivas binarias dentro de un mismo caso de constructor 
+\isa{Bi} con notación \isa{{\isacharasterisk}},
+y la conectiva mónica como \isa{Mon}, de notación \isa{Neg}. Para que no haya confusión, he renombrado
+la notación del equivalente de \isa{Bot} como \isa{Falso}.
+De este modo, en la inducción sobre esta nueva definición se deglosarán únicamente cuatro casos.
+
+Análogamente,
+a lo largo de la sección definiré si es necesario la versión simplificada de otros tipos que se incluyan.
+La demostración automática aparecerá enunciada y demostrada con la definición original de \isa{formula}.%
+\end{isamarkuptext}\isamarkuptrue%
+%
+\begin{isamarkuptext}%
+Llegamos así al primer resultado de este apartado:
+ \begin{lema}
+    Los átomos de cualquier fórmula conforman un conjunto finito.
+  \end{lema}%
+\end{isamarkuptext}\isamarkuptrue%
+%
+\begin{isamarkuptext}%
+En Isabelle, se traduce del siguiente modo.%
+\end{isamarkuptext}\isamarkuptrue%
+\isacommand{lemma}\isamarkupfalse%
+\ atoms{\isacharunderscore}finite{\isacharbrackleft}simp{\isacharcomma}intro{\isacharbang}{\isacharbrackright}{\isacharcolon}\ {\isachardoublequoteopen}finite\ {\isacharparenleft}atoms\ F{\isacharparenright}{\isachardoublequoteclose}\isanewline
+%
+\isadelimproof
+\ \ %
+\endisadelimproof
+%
+\isatagproof
+\isacommand{oops}\isamarkupfalse%
+%
+\endisatagproof
+{\isafoldproof}%
+%
+\isadelimproof
+%
+\endisadelimproof
+%
+\begin{isamarkuptext}%
+El lema anterior contiene la notación \isa{simp{\isacharcomma}intro{\isacharbang}} a continuación del título para incluir este
+resultado en las tácticas automática (mediante \isa{intro{\isacharbang}}) y de simplificación (mediante \isa{simp}). 
+Esto ocurrirá en varios resultados de esta sección.%
+\end{isamarkuptext}\isamarkuptrue%
+%
+\begin{isamarkuptext}%
+Por otro lado, el enunciado contiene la defición \isa{finite\ S}, perteneciente a la teoría 
+\href{https://n9.cl/x86r}{FiniteSet.thy}. Se trata de una definición
+inductiva que nos permite la demostración del lema por simplificacion ya que dentro de ella,
+las reglas que especifica se han añadido como tácticas de \isa{simp} e \isa{intro{\isacharbang}}.
+\\
+\isa{inductive\ finite\ {\isacharcolon}{\isacharcolon}\ {\isachardoublequote}{\isacharprime}a\ set\ {\isasymRightarrow}\ bool{\isachardoublequote}}\\
+\isa{where}\\
+\isa{emptyI\ {\isacharbrackleft}simp{\isacharcomma}\ intro{\isacharbang}{\isacharbrackright}{\isacharcolon}\ {\isachardoublequote}finite\ {\isacharbraceleft}{\isacharbraceright}{\isachardoublequote}}\\
+\isa{{\isacharbar}\ insertI\ {\isacharbrackleft}simp{\isacharcomma}\ intro{\isacharbang}{\isacharbrackright}{\isacharcolon}\ {\isachardoublequote}finite\ A\ {\isasymLongrightarrow}\ finite\ {\isacharparenleft}insert\ a\ A{\isacharparenright}{\isachardoublequote}}\\%
+\end{isamarkuptext}\isamarkuptrue%
+%
+\begin{isamarkuptext}%
+Veamos la prueba detallada del resultado que, aunque se resulve 
+fácilmente por simplificación, nos muestra un ejemplo claro de la estructura inductiva
+que nos acompañará en las siguientes demostraciones de este apartado.%
+\end{isamarkuptext}\isamarkuptrue%
+\isacommand{lemma}\isamarkupfalse%
+\ atoms{\isacharunderscore}finite{\isacharunderscore}detallada{\isacharcolon}\ {\isachardoublequoteopen}finite\ {\isacharparenleft}atoms\ F{\isacharparenright}{\isachardoublequoteclose}\isanewline
+%
+\isadelimproof
+%
+\endisadelimproof
+%
+\isatagproof
+\isacommand{proof}\isamarkupfalse%
+\ {\isacharparenleft}induction\ F{\isacharparenright}\isanewline
+\isacommand{case}\isamarkupfalse%
+\ {\isacharparenleft}Atom\ x{\isacharparenright}\isanewline
+\isacommand{then}\isamarkupfalse%
+\ \isacommand{show}\isamarkupfalse%
+\ {\isacharquery}case\ \isacommand{by}\isamarkupfalse%
+\ simp\isanewline
+\isacommand{next}\isamarkupfalse%
+\isanewline
+\isacommand{case}\isamarkupfalse%
+\ Bot\isanewline
+\ \ \isacommand{then}\isamarkupfalse%
+\ \isacommand{show}\isamarkupfalse%
+\ {\isacharquery}case\ \isacommand{by}\isamarkupfalse%
+\ simp\isanewline
+\isacommand{next}\isamarkupfalse%
+\isanewline
+\ \ \isacommand{case}\isamarkupfalse%
+\ {\isacharparenleft}Not\ F{\isacharparenright}\isanewline
+\ \ \isacommand{then}\isamarkupfalse%
+\ \isacommand{show}\isamarkupfalse%
+\ {\isacharquery}case\ \isacommand{by}\isamarkupfalse%
+\ simp\isanewline
+\isacommand{next}\isamarkupfalse%
+\isanewline
+\ \ \isacommand{case}\isamarkupfalse%
+\ {\isacharparenleft}And\ F{\isadigit{1}}\ F{\isadigit{2}}{\isacharparenright}\isanewline
+\ \ \isacommand{then}\isamarkupfalse%
+\ \isacommand{show}\isamarkupfalse%
+\ {\isacharquery}case\ \isacommand{by}\isamarkupfalse%
+\ simp\isanewline
+\isacommand{next}\isamarkupfalse%
+\isanewline
+\ \ \isacommand{case}\isamarkupfalse%
+\ {\isacharparenleft}Or\ F{\isadigit{1}}\ F{\isadigit{2}}{\isacharparenright}\isanewline
+\ \ \isacommand{then}\isamarkupfalse%
+\ \isacommand{show}\isamarkupfalse%
+\ {\isacharquery}case\ \isacommand{by}\isamarkupfalse%
+\ simp\isanewline
+\isacommand{next}\isamarkupfalse%
+\isanewline
+\ \ \isacommand{case}\isamarkupfalse%
+\ {\isacharparenleft}Imp\ F{\isadigit{1}}\ F{\isadigit{2}}{\isacharparenright}\isanewline
+\ \ \isacommand{then}\isamarkupfalse%
+\ \isacommand{show}\isamarkupfalse%
+\ {\isacharquery}case\ \isacommand{by}\isamarkupfalse%
+\ simp\isanewline
+\isacommand{qed}\isamarkupfalse%
+%
+\endisatagproof
+{\isafoldproof}%
+%
+\isadelimproof
+%
+\endisadelimproof
+%
+\begin{isamarkuptext}%
+Las demostraciones aplicativa y automática son las siguientes respectivamente.%
+\end{isamarkuptext}\isamarkuptrue%
+\isacommand{lemma}\isamarkupfalse%
+\ atoms{\isacharunderscore}finite{\isacharunderscore}aplicativa{\isacharcolon}\ {\isachardoublequoteopen}finite\ {\isacharparenleft}atoms\ F{\isacharparenright}{\isachardoublequoteclose}\ \isanewline
+%
+\isadelimproof
+\ \ %
+\endisadelimproof
+%
+\isatagproof
+\isacommand{apply}\isamarkupfalse%
+\ {\isacharparenleft}induction\ F{\isacharparenright}\isanewline
+\ \ \isacommand{apply}\isamarkupfalse%
+\ simp{\isacharunderscore}all\isanewline
+\ \isacommand{done}\isamarkupfalse%
+%
+\endisatagproof
+{\isafoldproof}%
+%
+\isadelimproof
+\isanewline
+%
+\endisadelimproof
+\isanewline
+\isacommand{lemma}\isamarkupfalse%
+\ atoms{\isacharunderscore}finite{\isacharbrackleft}simp{\isacharcomma}intro{\isacharbang}{\isacharbrackright}{\isacharcolon}\ {\isachardoublequoteopen}finite\ {\isacharparenleft}atoms\ F{\isacharparenright}{\isachardoublequoteclose}\ \isanewline
+%
+\isadelimproof
+\ \ %
+\endisadelimproof
+%
+\isatagproof
+\isacommand{by}\isamarkupfalse%
+\ {\isacharparenleft}induction\ F{\isacharsemicolon}\ simp{\isacharparenright}%
+\endisatagproof
+{\isafoldproof}%
+%
+\isadelimproof
+%
+\endisadelimproof
+%
+\isadelimdocument
+%
+\endisadelimdocument
+%
+\isatagdocument
+%
+\isamarkupsubsection{Subfórmulas%
+}
+\isamarkuptrue%
+%
+\endisatagdocument
+{\isafolddocument}%
+%
+\isadelimdocument
+%
+\endisadelimdocument
+%
+\begin{isamarkuptext}%
+Otra construcción natural a partir de la definición de fórmulas son las subfórmulas.
+
+  \begin{definicion}
+La lista de las subfórmulas de una fórmula F (\isa{Subf{\isacharparenleft}F{\isacharparenright}}) se define recursivamente por:
+    \begin{enumerate}
+      \item \isa{{\isacharbrackleft}F{\isacharbrackright}} si \isa{F} es atómica.
+      \item \isa{{\isacharbrackleft}Bot{\isacharbrackright}} si \isa{F} es \isa{Bot}.
+      \item \isa{F{\isacharhash}Subf{\isacharparenleft}G{\isacharparenright}} si \isa{F} es \isa{{\isasymnot}G}.
+      \item \isa{F{\isacharhash}Subf{\isacharparenleft}G{\isacharparenright}{\isacharat}Subf{\isacharparenleft}H{\isacharparenright}} si \isa{F} es \isa{G{\isacharasterisk}H} donde \isa{{\isacharasterisk}} es cualquier conectiva binaria.
+    \end{enumerate}
+  \end{definicion}%
+\end{isamarkuptext}\isamarkuptrue%
+%
+\begin{isamarkuptext}%
+En la definición anterior, \isa{{\isacharhash}} es el operador que añade un elemento al comienzo de una lista
+y \isa{{\isacharat}} concatena varias listas.
+Análogamente, vamos a definir la función primitiva recursiva \isa{subformulae}, que nos dará
+una lista de todas las subfórmulas de una fórmula original obtenidas recursivamente.%
+\end{isamarkuptext}\isamarkuptrue%
+\isacommand{primrec}\isamarkupfalse%
+\ subformulae\ {\isacharcolon}{\isacharcolon}\ {\isachardoublequoteopen}{\isacharprime}a\ formula\ {\isasymRightarrow}\ {\isacharprime}a\ formula\ list{\isachardoublequoteclose}\ \isakeyword{where}\isanewline
+{\isachardoublequoteopen}subformulae\ {\isasymbottom}\ {\isacharequal}\ {\isacharbrackleft}{\isasymbottom}{\isacharbrackright}{\isachardoublequoteclose}\ {\isacharbar}\isanewline
+{\isachardoublequoteopen}subformulae\ {\isacharparenleft}Atom\ k{\isacharparenright}\ {\isacharequal}\ {\isacharbrackleft}Atom\ k{\isacharbrackright}{\isachardoublequoteclose}\ {\isacharbar}\isanewline
+{\isachardoublequoteopen}subformulae\ {\isacharparenleft}Not\ F{\isacharparenright}\ {\isacharequal}\ Not\ F\ {\isacharhash}\ subformulae\ F{\isachardoublequoteclose}\ {\isacharbar}\isanewline
+{\isachardoublequoteopen}subformulae\ {\isacharparenleft}And\ F\ G{\isacharparenright}\ {\isacharequal}\ And\ F\ G\ {\isacharhash}\ subformulae\ F\ {\isacharat}\ subformulae\ G{\isachardoublequoteclose}\ {\isacharbar}\isanewline
+{\isachardoublequoteopen}subformulae\ {\isacharparenleft}Imp\ F\ G{\isacharparenright}\ {\isacharequal}\ Imp\ F\ G\ {\isacharhash}\ subformulae\ F\ {\isacharat}\ subformulae\ G{\isachardoublequoteclose}\ {\isacharbar}\isanewline
+{\isachardoublequoteopen}subformulae\ {\isacharparenleft}Or\ F\ G{\isacharparenright}\ {\isacharequal}\ Or\ F\ G\ {\isacharhash}\ subformulae\ F\ {\isacharat}\ subformulae\ G{\isachardoublequoteclose}%
+\begin{isamarkuptext}%
+Su definición simplificada equivalente es la siguiente.%
+\end{isamarkuptext}\isamarkuptrue%
+\isacommand{primrec}\isamarkupfalse%
+\ subformulae{\isacharunderscore}s\ {\isacharcolon}{\isacharcolon}\ {\isachardoublequoteopen}{\isacharprime}a\ formula{\isacharunderscore}simp\ {\isasymRightarrow}\ {\isacharprime}a\ formula{\isacharunderscore}simp\ list{\isachardoublequoteclose}\ \isakeyword{where}\isanewline
+{\isachardoublequoteopen}subformulae{\isacharunderscore}s\ {\isacharparenleft}Bot{\isacharunderscore}s{\isacharparenright}\ {\isacharequal}\ {\isacharbrackleft}Bot{\isacharunderscore}s{\isacharbrackright}{\isachardoublequoteclose}\ {\isacharbar}\isanewline
+{\isachardoublequoteopen}subformulae{\isacharunderscore}s\ {\isacharparenleft}Atom{\isacharunderscore}s\ k{\isacharparenright}\ {\isacharequal}\ {\isacharbrackleft}Atom{\isacharunderscore}s\ k{\isacharbrackright}{\isachardoublequoteclose}\ {\isacharbar}\isanewline
+{\isachardoublequoteopen}subformulae{\isacharunderscore}s\ {\isacharparenleft}Mon\ F{\isacharparenright}\ {\isacharequal}\ Mon\ F\ {\isacharhash}\ subformulae{\isacharunderscore}s\ F{\isachardoublequoteclose}\ {\isacharbar}\isanewline
+{\isachardoublequoteopen}subformulae{\isacharunderscore}s\ {\isacharparenleft}Bi\ F\ G{\isacharparenright}\ {\isacharequal}\ Bi\ F\ G\ {\isacharhash}\ subformulae{\isacharunderscore}s\ F\ {\isacharat}\ subformulae{\isacharunderscore}s\ G{\isachardoublequoteclose}%
+\begin{isamarkuptext}%
+Siguiendo con los ejemplos, observemos cómo actúa \isa{subformulae} en las distintas fórmulas. 
+En primer lugar, veamos los casos base de fórmulas atómicas y con conectiva de negación.%
+\end{isamarkuptext}\isamarkuptrue%
+\isacommand{value}\isamarkupfalse%
+\ {\isachardoublequoteopen}subformulae\ {\isacharparenleft}Atom\ p{\isacharparenright}\ {\isacharequal}\ {\isacharbrackleft}Atom\ p{\isacharbrackright}{\isachardoublequoteclose}\isanewline
+\isanewline
+\isacommand{value}\isamarkupfalse%
+\ {\isachardoublequoteopen}subformulae\ {\isacharparenleft}Not\ {\isacharparenleft}Atom\ p{\isacharparenright}{\isacharparenright}\ {\isacharequal}\ {\isacharbrackleft}Not\ {\isacharparenleft}Atom\ p{\isacharparenright}{\isacharcomma}\ Atom\ p{\isacharbrackright}{\isachardoublequoteclose}%
+\begin{isamarkuptext}%
+A continuación, una fórmula con conectivas binarias y variables todas distintas.%
+\end{isamarkuptext}\isamarkuptrue%
+\isacommand{value}\isamarkupfalse%
+\ {\isachardoublequoteopen}subformulae\ {\isacharparenleft}Or\ {\isacharparenleft}Imp\ {\isacharparenleft}Atom\ p{\isacharparenright}\ {\isacharparenleft}Atom\ q{\isacharparenright}{\isacharparenright}\ {\isacharparenleft}Atom\ r{\isacharparenright}{\isacharparenright}\ {\isacharequal}\ \isanewline
+\ \ {\isacharbrackleft}{\isacharparenleft}Atom\ p\ \isactrlbold {\isasymrightarrow}\ Atom\ q{\isacharparenright}\ \isactrlbold {\isasymor}\ Atom\ r{\isacharcomma}\ Atom\ p\ \isactrlbold {\isasymrightarrow}\ Atom\ q{\isacharcomma}\ Atom\ p{\isacharcomma}\ Atom\ q{\isacharcomma}\ Atom\ r{\isacharbrackright}{\isachardoublequoteclose}%
+\begin{isamarkuptext}%
+En particular, al tratarse de una lista pueden aparecer elementos repetidos como se muestra a
+continuación.%
+\end{isamarkuptext}\isamarkuptrue%
+\isacommand{value}\isamarkupfalse%
+\ {\isachardoublequoteopen}subformulae\ {\isacharparenleft}Or\ {\isacharparenleft}Atom\ p{\isacharparenright}\ {\isacharparenleft}Atom\ p{\isacharparenright}{\isacharparenright}\ {\isacharequal}\ \ \isanewline
+\ \ {\isacharbrackleft}Or\ {\isacharparenleft}Atom\ p{\isacharparenright}\ {\isacharparenleft}Atom\ p{\isacharparenright}{\isacharcomma}\ Atom\ p{\isacharcomma}\ Atom\ p{\isacharbrackright}{\isachardoublequoteclose}\isanewline
+\isanewline
+\isacommand{value}\isamarkupfalse%
+\ {\isachardoublequoteopen}subformulae\ {\isacharparenleft}Or\ {\isacharparenleft}Atom\ p{\isacharparenright}\ {\isacharparenleft}Atom\ p{\isacharparenright}{\isacharparenright}\ {\isacharequal}\ \ \isanewline
+\ \ {\isacharbrackleft}Or\ {\isacharparenleft}Atom\ p{\isacharparenright}\ {\isacharparenleft}Atom\ p{\isacharparenright}{\isacharcomma}\ Atom\ p{\isacharbrackright}\ {\isacharequal}\ False{\isachardoublequoteclose}%
+\begin{isamarkuptext}%
+Veamos su valor en presencia de \isa{Bot}.%
+\end{isamarkuptext}\isamarkuptrue%
+\isacommand{value}\isamarkupfalse%
+\ {\isachardoublequoteopen}subformulae\ {\isacharparenleft}And\ {\isacharparenleft}Atom\ p{\isacharparenright}\ Bot{\isacharparenright}\ {\isacharequal}\ \isanewline
+\ \ {\isacharbrackleft}And\ {\isacharparenleft}Atom\ p{\isacharparenright}\ Bot{\isacharcomma}\ Atom\ p{\isacharcomma}\ Bot{\isacharbrackright}{\isachardoublequoteclose}%
+\begin{isamarkuptext}%
+A partir de esta definición, aparecen varios resultados sencillos 
+que demostraremos siguiendo tácticas similares a las empleadas en el 
+lema anterior. Como se ha argumentado anteriormente,
+para resumir las demostraciones detalladas se harán mediante las definiciones simplificadas de los tipos.
+Además, trabajaremos
+con conjuntos en vez de listas, pues poseen ventajas como la eliminación de elementos repetidos
+o las operaciones de conjuntos.
+De este modo, definimos \isa{setSubformulae}, que convierte en un tipo conjunto la lista de 
+subfórmulas anterior. Añadimos también su versión simplificada.%
+\end{isamarkuptext}\isamarkuptrue%
+\isacommand{abbreviation}\isamarkupfalse%
+\ setSubformulae\ {\isacharcolon}{\isacharcolon}\ {\isachardoublequoteopen}{\isacharprime}a\ formula\ {\isasymRightarrow}\ {\isacharprime}a\ formula\ set{\isachardoublequoteclose}\ \isakeyword{where}\isanewline
+{\isachardoublequoteopen}setSubformulae\ F\ {\isasymequiv}\ set\ {\isacharparenleft}subformulae\ F{\isacharparenright}{\isachardoublequoteclose}\isanewline
+\isanewline
+\isacommand{abbreviation}\isamarkupfalse%
+\ setSubformulae{\isacharunderscore}s\ {\isacharcolon}{\isacharcolon}\ {\isachardoublequoteopen}{\isacharprime}a\ formula{\isacharunderscore}simp\ {\isasymRightarrow}\ {\isacharprime}a\ formula{\isacharunderscore}simp\ set{\isachardoublequoteclose}\ \isakeyword{where}\isanewline
+{\isachardoublequoteopen}setSubformulae{\isacharunderscore}s\ F\ {\isasymequiv}\ set\ {\isacharparenleft}subformulae{\isacharunderscore}s\ F{\isacharparenright}{\isachardoublequoteclose}%
+\begin{isamarkuptext}%
+De este modo, observemos la diferencia de repetición con el ejemplo anterior.%
+\end{isamarkuptext}\isamarkuptrue%
+\isacommand{value}\isamarkupfalse%
+\ {\isachardoublequoteopen}setSubformulae\ {\isacharparenleft}Or\ {\isacharparenleft}Atom\ p{\isacharparenright}\ {\isacharparenleft}Atom\ p{\isacharparenright}{\isacharparenright}\ {\isacharequal}\ \ {\isacharbraceleft}Or\ {\isacharparenleft}Atom\ p{\isacharparenright}\ {\isacharparenleft}Atom\ p{\isacharparenright}{\isacharcomma}\ Atom\ p{\isacharbraceright}{\isachardoublequoteclose}\isanewline
+\isanewline
+\isacommand{lemma}\isamarkupfalse%
+\ {\isachardoublequoteopen}setSubformulae\ {\isacharparenleft}Or\ {\isacharparenleft}Imp\ {\isacharparenleft}Atom\ p{\isacharparenright}\ {\isacharparenleft}Atom\ q{\isacharparenright}{\isacharparenright}\ {\isacharparenleft}Atom\ r{\isacharparenright}{\isacharparenright}\ {\isacharequal}\ \isanewline
+\ \ {\isacharbraceleft}{\isacharparenleft}Atom\ p\ \isactrlbold {\isasymrightarrow}\ Atom\ q{\isacharparenright}\ \isactrlbold {\isasymor}\ Atom\ r{\isacharcomma}\ Atom\ p\ \isactrlbold {\isasymrightarrow}\ Atom\ q{\isacharcomma}\ Atom\ p{\isacharcomma}\ Atom\ q{\isacharcomma}\ Atom\ r{\isacharbraceright}{\isachardoublequoteclose}\isanewline
+%
+\isadelimproof
+\ \ %
+\endisadelimproof
+%
+\isatagproof
+\isacommand{by}\isamarkupfalse%
+\ auto%
+\endisatagproof
+{\isafoldproof}%
+%
+\isadelimproof
+%
+\endisadelimproof
+%
+\begin{isamarkuptext}%
+Como hemos señalado, utilizaremos varios resultados de la teoría de conjuntos definida en Isabelle
+como \href{https://n9.cl/qatp}{Set.thy}.
+Voy a especificar el esquema de las usadas en esta sección que no están incluidas en las tácticas de
+simplificación para aclarar las demostraciones detalladas que presentaré en este apartado.\\
+ \begin{itemize}
+  \item[] \isa{\mbox{}\inferrule{\mbox{A\ {\isasymsubseteq}\ B\ {\isasymand}\ B\ {\isasymsubseteq}\ C}}{\mbox{A\ {\isasymsubseteq}\ C}}} \hfill (\isa{subset{\isacharunderscore}trans})
+  \end{itemize}
+
+ \begin{itemize}
+  \item[] \isa{\mbox{}\inferrule{\mbox{c\ {\isasymin}\ A\ {\isasymand}\ A\ {\isasymsubseteq}\ B}}{\mbox{c\ {\isasymin}\ B}}} \hfill (\isa{rev{\isacharunderscore}subsetD})
+  \end{itemize}
+Además, definiré alguna propiedad más que no aparece en la teoría de Isabelle y que utilizaremos
+con frecuencia. Su demostración será la automática.%
+\end{isamarkuptext}\isamarkuptrue%
+\isacommand{lemma}\isamarkupfalse%
+\ subContUnion{\isadigit{1}}{\isacharcolon}\ {\isachardoublequoteopen}A\ {\isacharequal}\ B\ {\isasymunion}\ C\ {\isasymLongrightarrow}\ B\ {\isasymsubseteq}\ A{\isachardoublequoteclose}\isanewline
+%
+\isadelimproof
+\ \ %
+\endisadelimproof
+%
+\isatagproof
+\isacommand{by}\isamarkupfalse%
+\ auto%
+\endisatagproof
+{\isafoldproof}%
+%
+\isadelimproof
+\isanewline
+%
+\endisadelimproof
+\isanewline
+\isacommand{lemma}\isamarkupfalse%
+\ subContUnion{\isadigit{2}}{\isacharcolon}\ {\isachardoublequoteopen}A\ {\isacharequal}\ B\ {\isasymunion}\ C\ {\isasymLongrightarrow}\ C\ {\isasymsubseteq}\ A{\isachardoublequoteclose}\isanewline
+%
+\isadelimproof
+\ \ %
+\endisadelimproof
+%
+\isatagproof
+\isacommand{by}\isamarkupfalse%
+\ auto%
+\endisatagproof
+{\isafoldproof}%
+%
+\isadelimproof
+\isanewline
+%
+\endisadelimproof
+\isanewline
+\isacommand{lemma}\isamarkupfalse%
+\ subContUnionRev{\isadigit{1}}{\isacharcolon}\ {\isachardoublequoteopen}A\ {\isasymunion}\ B\ {\isasymsubseteq}\ C\ {\isasymLongrightarrow}\ A\ {\isasymsubseteq}\ C{\isachardoublequoteclose}\isanewline
+%
+\isadelimproof
+\ \ %
+\endisadelimproof
+%
+\isatagproof
+\isacommand{by}\isamarkupfalse%
+\ auto%
+\endisatagproof
+{\isafoldproof}%
+%
+\isadelimproof
+\isanewline
+%
+\endisadelimproof
+\isanewline
+\isacommand{lemma}\isamarkupfalse%
+\ subContUnionRev{\isadigit{2}}{\isacharcolon}\ {\isachardoublequoteopen}A\ {\isasymunion}\ B\ {\isasymsubseteq}\ C\ {\isasymLongrightarrow}\ B\ {\isasymsubseteq}\ C{\isachardoublequoteclose}\isanewline
+%
+\isadelimproof
+\ \ %
+\endisadelimproof
+%
+\isatagproof
+\isacommand{by}\isamarkupfalse%
+\ auto%
+\endisatagproof
+{\isafoldproof}%
+%
+\isadelimproof
+\isanewline
+%
+\endisadelimproof
+\isanewline
+\isacommand{lemma}\isamarkupfalse%
+\ subConts{\isacharcolon}\ {\isachardoublequoteopen}{\isasymlbrakk}A\ {\isasymsubseteq}\ B{\isacharsemicolon}\ C\ {\isasymsubseteq}\ D{\isasymrbrakk}\ {\isasymLongrightarrow}\ \ A\ {\isasymunion}\ C\ {\isasymsubseteq}\ B\ {\isasymunion}\ D{\isachardoublequoteclose}\isanewline
+%
+\isadelimproof
+\ \ %
+\endisadelimproof
+%
+\isatagproof
+\isacommand{by}\isamarkupfalse%
+\ auto%
+\endisatagproof
+{\isafoldproof}%
+%
+\isadelimproof
+%
+\endisadelimproof
+%
+\begin{isamarkuptext}%
+Una vez aclarada la nueva función de conjuntos, vamos a demostrar el siguiente lema sirviéndonos 
+de ella.
+
+ \begin{lema}
+    El conjunto de los átomos de una fórmula está contenido en el conjunto de subfórmulas de la 
+    misma, es decir, las fórmulas atómicas son subfórmulas.
+  \end{lema}
+
+En Isabelle, se especifica como sigue.%
+\end{isamarkuptext}\isamarkuptrue%
+\isacommand{lemma}\isamarkupfalse%
+\ atoms{\isacharunderscore}are{\isacharunderscore}subformulae{\isacharcolon}\ {\isachardoublequoteopen}Atom\ {\isacharbackquote}\ atoms\ F\ {\isasymsubseteq}\ setSubformulae\ F{\isachardoublequoteclose}\isanewline
+%
+\isadelimproof
+\ \ %
+\endisadelimproof
+%
+\isatagproof
+\isacommand{oops}\isamarkupfalse%
+%
+\endisatagproof
+{\isafoldproof}%
+%
+\isadelimproof
+%
+\endisadelimproof
+%
+\begin{isamarkuptext}%
+Este resultado es especialmente interesante para aclarar la naturaleza de la función 
+\isa{atoms} aplicada a una fórmula. De este modo, \isa{Atom\ {\isacharbackquote}\ atoms\ F} se encarga de 
+construir las fórmulas atómicas a partir de cada uno de los elementos del conjunto de átomos de la fórmula \isa{F}, 
+creando un conjunto de fórmulas atómicas. Para ello emplea el infijo \isa{{\isacharbackquote}} definido como notación
+abreviada de \isa{{\isacharparenleft}{\isacharbackquote}{\isacharparenright}} que calcula la imagen de un conjunto en la teoría \href{https://n9.cl/qatp}{Set.thy}.
+ \begin{itemize}
+  \item[] \isa{f\ {\isacharbackquote}\ A\ {\isacharequal}\ {\isacharbraceleft}y\ {\isacharbar}\ {\isasymexists}x{\isasymin}A{\isachardot}\ y\ {\isacharequal}\ f\ x{\isacharbraceright}} \hfill (\isa{image{\isacharunderscore}def})
+  \end{itemize}
+Para aclarar su funcionamiento, veamos ejemplos para distintos casos de fórmulas.%
+\end{isamarkuptext}\isamarkuptrue%
+\isacommand{value}\isamarkupfalse%
+\ {\isachardoublequoteopen}Atom\ {\isacharbackquote}atoms\ {\isacharparenleft}Or\ {\isacharparenleft}Atom\ p{\isacharparenright}\ Bot{\isacharparenright}\ {\isacharequal}\ {\isacharbraceleft}Atom\ p{\isacharbraceright}{\isachardoublequoteclose}\isanewline
+\isanewline
+\isacommand{lemma}\isamarkupfalse%
+\ {\isachardoublequoteopen}Atom\ {\isacharbackquote}atoms\ {\isacharparenleft}Or\ {\isacharparenleft}Imp\ {\isacharparenleft}Atom\ p{\isacharparenright}\ {\isacharparenleft}Atom\ q{\isacharparenright}{\isacharparenright}\ {\isacharparenleft}Atom\ r{\isacharparenright}{\isacharparenright}\ {\isacharequal}\ {\isacharbraceleft}Atom\ p{\isacharcomma}\ Atom\ q{\isacharcomma}\ Atom\ r{\isacharbraceright}{\isachardoublequoteclose}\isanewline
+%
+\isadelimproof
+\ \ %
+\endisadelimproof
+%
+\isatagproof
+\isacommand{by}\isamarkupfalse%
+\ auto%
+\endisatagproof
+{\isafoldproof}%
+%
+\isadelimproof
+\isanewline
+%
+\endisadelimproof
+\isanewline
+\isacommand{lemma}\isamarkupfalse%
+\ {\isachardoublequoteopen}Atom\ {\isacharbackquote}atoms\ {\isacharparenleft}Or\ {\isacharparenleft}Imp\ {\isacharparenleft}Atom\ p{\isacharparenright}\ {\isacharparenleft}Atom\ p{\isacharparenright}{\isacharparenright}\ {\isacharparenleft}Atom\ r{\isacharparenright}{\isacharparenright}\ {\isacharequal}\ {\isacharbraceleft}Atom\ p{\isacharcomma}\ Atom\ r{\isacharbraceright}{\isachardoublequoteclose}\isanewline
+%
+\isadelimproof
+\ \ %
+\endisadelimproof
+%
+\isatagproof
+\isacommand{by}\isamarkupfalse%
+\ auto%
+\endisatagproof
+{\isafoldproof}%
+%
+\isadelimproof
+%
+\endisadelimproof
+%
+\begin{isamarkuptext}%
+Además, esta función tiene la siguiente propiedad sobre la unión de conjuntos que utilizaré
+en la demostración.\\
+ \begin{itemize}
+  \item[] \isa{f\ {\isacharbackquote}\ {\isacharparenleft}A\ {\isasymunion}\ B{\isacharparenright}\ {\isacharequal}\ f\ {\isacharbackquote}\ A\ {\isasymunion}\ f\ {\isacharbackquote}\ B} \hfill (\isa{image{\isacharunderscore}Un})
+  \end{itemize}%
+\end{isamarkuptext}\isamarkuptrue%
+%
+\begin{isamarkuptext}%
+Una vez hecha la aclaración anterior, comencemos la demostración detallada simplificada, 
+que seguirá el esquema inductivo señalado con anterioridad.%
+\end{isamarkuptext}\isamarkuptrue%
+\isacommand{lemma}\isamarkupfalse%
+\ atoms{\isacharunderscore}are{\isacharunderscore}subformulae{\isacharunderscore}detallada{\isacharunderscore}s{\isacharcolon}\ {\isachardoublequoteopen}Atom{\isacharunderscore}s\ {\isacharbackquote}\ atoms{\isacharunderscore}s\ F\ {\isasymsubseteq}\ setSubformulae{\isacharunderscore}s\ F{\isachardoublequoteclose}\isanewline
+%
+\isadelimproof
+%
+\endisadelimproof
+%
+\isatagproof
+\isacommand{proof}\isamarkupfalse%
+\ {\isacharparenleft}induction\ F{\isacharparenright}\isanewline
+\isacommand{case}\isamarkupfalse%
+\ {\isacharparenleft}Atom{\isacharunderscore}s\ x{\isacharparenright}\isanewline
+\ \ \isacommand{then}\isamarkupfalse%
+\ \isacommand{show}\isamarkupfalse%
+\ {\isacharquery}case\ \isacommand{by}\isamarkupfalse%
+\ simp\isanewline
+\isacommand{next}\isamarkupfalse%
+\isanewline
+\ \ \isacommand{case}\isamarkupfalse%
+\ Bot{\isacharunderscore}s\isanewline
+\ \ \isacommand{then}\isamarkupfalse%
+\ \isacommand{show}\isamarkupfalse%
+\ {\isacharquery}case\ \isacommand{by}\isamarkupfalse%
+\ simp\isanewline
+\isacommand{next}\isamarkupfalse%
+\isanewline
+\ \ \isacommand{case}\isamarkupfalse%
+\ {\isacharparenleft}Mon\ F{\isacharparenright}\isanewline
+\ \ \isacommand{assume}\isamarkupfalse%
+\ H{\isacharcolon}{\isachardoublequoteopen}Atom{\isacharunderscore}s\ {\isacharbackquote}\ atoms{\isacharunderscore}s\ F\ {\isasymsubseteq}\ setSubformulae{\isacharunderscore}s\ F{\isachardoublequoteclose}\isanewline
+\ \ \isacommand{show}\isamarkupfalse%
+\ {\isachardoublequoteopen}Atom{\isacharunderscore}s\ {\isacharbackquote}\ atoms{\isacharunderscore}s\ {\isacharparenleft}Mon\ F{\isacharparenright}\ {\isasymsubseteq}\ setSubformulae{\isacharunderscore}s\ {\isacharparenleft}Mon\ F{\isacharparenright}{\isachardoublequoteclose}\isanewline
+\ \ \isacommand{proof}\isamarkupfalse%
+\ {\isacharminus}\isanewline
+\ \ \ \ \isacommand{have}\isamarkupfalse%
+\ {\isachardoublequoteopen}setSubformulae{\isacharunderscore}s\ {\isacharparenleft}Mon\ F{\isacharparenright}\ {\isacharequal}\ {\isacharbraceleft}Mon\ F{\isacharbraceright}\ {\isasymunion}\ setSubformulae{\isacharunderscore}s\ F{\isachardoublequoteclose}\ \isacommand{by}\isamarkupfalse%
+\ simp\isanewline
+\ \ \ \ \isacommand{then}\isamarkupfalse%
+\ \isacommand{have}\isamarkupfalse%
+\ {\isadigit{1}}{\isacharcolon}{\isachardoublequoteopen}setSubformulae{\isacharunderscore}s\ F\ {\isasymsubseteq}\ setSubformulae{\isacharunderscore}s\ {\isacharparenleft}Mon\ F{\isacharparenright}{\isachardoublequoteclose}\ \isacommand{by}\isamarkupfalse%
+\ {\isacharparenleft}rule\ subContUnion{\isadigit{2}}{\isacharparenright}\isanewline
+\ \ \ \ \isacommand{also}\isamarkupfalse%
+\ \isacommand{have}\isamarkupfalse%
+\ {\isachardoublequoteopen}Atom{\isacharunderscore}s\ {\isacharbackquote}\ atoms{\isacharunderscore}s\ F\ {\isacharequal}\ Atom{\isacharunderscore}s\ {\isacharbackquote}\ atoms{\isacharunderscore}s\ {\isacharparenleft}Mon\ F{\isacharparenright}{\isachardoublequoteclose}\ \isacommand{by}\isamarkupfalse%
+\ simp\ \isanewline
+\ \ \ \ \isacommand{then}\isamarkupfalse%
+\ \isacommand{have}\isamarkupfalse%
+\ {\isachardoublequoteopen}Atom{\isacharunderscore}s\ {\isacharbackquote}\ atoms{\isacharunderscore}s\ {\isacharparenleft}Mon\ F{\isacharparenright}\ {\isasymsubseteq}\ setSubformulae{\isacharunderscore}s\ F{\isachardoublequoteclose}\ \isacommand{using}\isamarkupfalse%
+\ H\ \isacommand{by}\isamarkupfalse%
+\ simp\ \isanewline
+\ \ \ \ \isacommand{then}\isamarkupfalse%
+\ \isacommand{show}\isamarkupfalse%
+\ {\isachardoublequoteopen}Atom{\isacharunderscore}s\ {\isacharbackquote}\ atoms{\isacharunderscore}s\ {\isacharparenleft}Mon\ F{\isacharparenright}\ {\isasymsubseteq}\ setSubformulae{\isacharunderscore}s\ {\isacharparenleft}Mon\ F{\isacharparenright}{\isachardoublequoteclose}\ \isacommand{using}\isamarkupfalse%
+\ {\isadigit{1}}\ \isacommand{by}\isamarkupfalse%
+\ {\isacharparenleft}rule\ subset{\isacharunderscore}trans{\isacharparenright}\isanewline
+\ \ \isacommand{qed}\isamarkupfalse%
+\isanewline
+\isacommand{next}\isamarkupfalse%
+\isanewline
+\ \ \isacommand{case}\isamarkupfalse%
+\ {\isacharparenleft}Bi\ F{\isadigit{1}}\ F{\isadigit{2}}{\isacharparenright}\isanewline
+\ \ \isacommand{assume}\isamarkupfalse%
+\ H{\isadigit{1}}{\isacharcolon}{\isachardoublequoteopen}Atom{\isacharunderscore}s\ {\isacharbackquote}\ atoms{\isacharunderscore}s\ F{\isadigit{1}}\ {\isasymsubseteq}\ setSubformulae{\isacharunderscore}s\ F{\isadigit{1}}{\isachardoublequoteclose}\isanewline
+\ \ \isacommand{assume}\isamarkupfalse%
+\ H{\isadigit{2}}{\isacharcolon}{\isachardoublequoteopen}Atom{\isacharunderscore}s\ {\isacharbackquote}\ atoms{\isacharunderscore}s\ F{\isadigit{2}}\ {\isasymsubseteq}\ setSubformulae{\isacharunderscore}s\ F{\isadigit{2}}{\isachardoublequoteclose}\isanewline
+\ \ \isacommand{show}\isamarkupfalse%
+\ {\isachardoublequoteopen}Atom{\isacharunderscore}s\ {\isacharbackquote}\ atoms{\isacharunderscore}s\ {\isacharparenleft}Bi\ F{\isadigit{1}}\ F{\isadigit{2}}{\isacharparenright}\ {\isasymsubseteq}\ setSubformulae{\isacharunderscore}s\ {\isacharparenleft}Bi\ F{\isadigit{1}}\ F{\isadigit{2}}{\isacharparenright}{\isachardoublequoteclose}\isanewline
+\ \ \isacommand{proof}\isamarkupfalse%
+\ {\isacharminus}\isanewline
+\ \ \ \ \isacommand{have}\isamarkupfalse%
+\ {\isadigit{2}}{\isacharcolon}{\isachardoublequoteopen}{\isacharparenleft}Atom{\isacharunderscore}s\ {\isacharbackquote}\ atoms{\isacharunderscore}s\ F{\isadigit{1}}{\isacharparenright}\ {\isasymunion}\ {\isacharparenleft}Atom{\isacharunderscore}s\ {\isacharbackquote}\ atoms{\isacharunderscore}s\ F{\isadigit{2}}{\isacharparenright}\ {\isasymsubseteq}\ setSubformulae{\isacharunderscore}s\ F{\isadigit{1}}\ {\isasymunion}\ setSubformulae{\isacharunderscore}s\ F{\isadigit{2}}{\isachardoublequoteclose}\ \isanewline
+\ \ \ \ \ \ \isacommand{using}\isamarkupfalse%
+\ H{\isadigit{1}}\ H{\isadigit{2}}\ \isacommand{by}\isamarkupfalse%
+\ {\isacharparenleft}rule\ subConts{\isacharparenright}\isanewline
+\ \ \ \ \isacommand{have}\isamarkupfalse%
+\ {\isachardoublequoteopen}setSubformulae{\isacharunderscore}s\ {\isacharparenleft}Bi\ F{\isadigit{1}}\ F{\isadigit{2}}{\isacharparenright}\ {\isacharequal}\ {\isacharbraceleft}Bi\ F{\isadigit{1}}\ F{\isadigit{2}}{\isacharbraceright}\ {\isasymunion}\ {\isacharparenleft}setSubformulae{\isacharunderscore}s\ F{\isadigit{1}}\ {\isasymunion}\ setSubformulae{\isacharunderscore}s\ F{\isadigit{2}}{\isacharparenright}{\isachardoublequoteclose}\ \isacommand{by}\isamarkupfalse%
+\ simp\isanewline
+\ \ \ \ \isacommand{then}\isamarkupfalse%
+\ \isacommand{have}\isamarkupfalse%
+\ {\isadigit{3}}{\isacharcolon}{\isachardoublequoteopen}setSubformulae{\isacharunderscore}s\ F{\isadigit{1}}\ {\isasymunion}\ setSubformulae{\isacharunderscore}s\ F{\isadigit{2}}\ {\isasymsubseteq}\ setSubformulae{\isacharunderscore}s\ {\isacharparenleft}Bi\ F{\isadigit{1}}\ F{\isadigit{2}}{\isacharparenright}{\isachardoublequoteclose}\ \isacommand{by}\isamarkupfalse%
+\ {\isacharparenleft}rule\ subContUnion{\isadigit{2}}{\isacharparenright}\isanewline
+\ \ \ \ \isacommand{then}\isamarkupfalse%
+\ \isacommand{have}\isamarkupfalse%
+\ {\isachardoublequoteopen}setSubformulae{\isacharunderscore}s\ F{\isadigit{1}}\ {\isasymsubseteq}\ setSubformulae{\isacharunderscore}s\ {\isacharparenleft}Bi\ F{\isadigit{1}}\ F{\isadigit{2}}{\isacharparenright}{\isachardoublequoteclose}\ \isacommand{by}\isamarkupfalse%
+\ simp\isanewline
+\ \ \ \ \isacommand{have}\isamarkupfalse%
+\ {\isachardoublequoteopen}setSubformulae{\isacharunderscore}s\ F{\isadigit{2}}\ {\isasymsubseteq}\ setSubformulae{\isacharunderscore}s\ {\isacharparenleft}Bi\ F{\isadigit{1}}\ F{\isadigit{2}}{\isacharparenright}{\isachardoublequoteclose}\ \isacommand{using}\isamarkupfalse%
+\ {\isadigit{3}}\ \isacommand{by}\isamarkupfalse%
+\ simp\isanewline
+\ \ \ \ \isacommand{also}\isamarkupfalse%
+\ \isacommand{have}\isamarkupfalse%
+\ {\isachardoublequoteopen}atoms{\isacharunderscore}s\ {\isacharparenleft}Bi\ F{\isadigit{1}}\ F{\isadigit{2}}{\isacharparenright}\ {\isacharequal}\ atoms{\isacharunderscore}s\ F{\isadigit{1}}\ {\isasymunion}\ atoms{\isacharunderscore}s\ F{\isadigit{2}}{\isachardoublequoteclose}\ \isacommand{by}\isamarkupfalse%
+\ simp\isanewline
+\ \ \ \ \isacommand{then}\isamarkupfalse%
+\ \isacommand{have}\isamarkupfalse%
+\ {\isachardoublequoteopen}Atom{\isacharunderscore}s\ {\isacharbackquote}\ atoms{\isacharunderscore}s\ {\isacharparenleft}Bi\ F{\isadigit{1}}\ F{\isadigit{2}}{\isacharparenright}\ {\isacharequal}\ Atom{\isacharunderscore}s\ {\isacharbackquote}\ {\isacharparenleft}atoms{\isacharunderscore}s\ F{\isadigit{1}}\ {\isasymunion}\ atoms{\isacharunderscore}s\ F{\isadigit{2}}{\isacharparenright}{\isachardoublequoteclose}\ \isacommand{by}\isamarkupfalse%
+\ simp\isanewline
+\ \ \ \ \isacommand{also}\isamarkupfalse%
+\ \isacommand{have}\isamarkupfalse%
+\ {\isachardoublequoteopen}{\isachardot}{\isachardot}{\isachardot}\ {\isacharequal}\ Atom{\isacharunderscore}s\ {\isacharbackquote}\ atoms{\isacharunderscore}s\ F{\isadigit{1}}\ {\isasymunion}\ Atom{\isacharunderscore}s\ {\isacharbackquote}\ atoms{\isacharunderscore}s\ F{\isadigit{2}}{\isachardoublequoteclose}\ \isacommand{by}\isamarkupfalse%
+\ {\isacharparenleft}rule\ image{\isacharunderscore}Un{\isacharparenright}\isanewline
+\ \ \ \ \isacommand{then}\isamarkupfalse%
+\ \isacommand{have}\isamarkupfalse%
+\ {\isachardoublequoteopen}Atom{\isacharunderscore}s\ {\isacharbackquote}\ atoms{\isacharunderscore}s\ {\isacharparenleft}Bi\ F{\isadigit{1}}\ F{\isadigit{2}}{\isacharparenright}\ {\isacharequal}\ Atom{\isacharunderscore}s\ {\isacharbackquote}\ atoms{\isacharunderscore}s\ F{\isadigit{1}}\ {\isasymunion}\ Atom{\isacharunderscore}s\ {\isacharbackquote}\ atoms{\isacharunderscore}s\ F{\isadigit{2}}{\isachardoublequoteclose}\ \isacommand{by}\isamarkupfalse%
+\ simp\isanewline
+\ \ \ \ \isacommand{then}\isamarkupfalse%
+\ \isacommand{have}\isamarkupfalse%
+\ {\isachardoublequoteopen}Atom{\isacharunderscore}s\ {\isacharbackquote}\ atoms{\isacharunderscore}s\ {\isacharparenleft}Bi\ F{\isadigit{1}}\ F{\isadigit{2}}{\isacharparenright}\ {\isasymsubseteq}\ setSubformulae{\isacharunderscore}s\ F{\isadigit{1}}\ {\isasymunion}\ setSubformulae{\isacharunderscore}s\ F{\isadigit{2}}{\isachardoublequoteclose}\ \isacommand{using}\isamarkupfalse%
+\ {\isadigit{2}}\ \isacommand{by}\isamarkupfalse%
+\ simp\isanewline
+\ \ \ \ \isacommand{then}\isamarkupfalse%
+\ \isacommand{show}\isamarkupfalse%
+\ {\isachardoublequoteopen}Atom{\isacharunderscore}s\ {\isacharbackquote}\ atoms{\isacharunderscore}s\ {\isacharparenleft}Bi\ F{\isadigit{1}}\ F{\isadigit{2}}{\isacharparenright}\ {\isasymsubseteq}\ setSubformulae{\isacharunderscore}s\ {\isacharparenleft}Bi\ F{\isadigit{1}}\ F{\isadigit{2}}{\isacharparenright}{\isachardoublequoteclose}\ \isacommand{using}\isamarkupfalse%
+\ {\isadigit{3}}\ \isacommand{by}\isamarkupfalse%
+\ {\isacharparenleft}rule\ subset{\isacharunderscore}trans{\isacharparenright}\isanewline
+\ \ \isacommand{qed}\isamarkupfalse%
+\isanewline
+\isacommand{qed}\isamarkupfalse%
+%
+\endisatagproof
+{\isafoldproof}%
+%
+\isadelimproof
+%
+\endisadelimproof
+%
+\begin{isamarkuptext}%
+Mostremos también la demostración automática con la definición original.%
+\end{isamarkuptext}\isamarkuptrue%
+\isacommand{lemma}\isamarkupfalse%
+\ atoms{\isacharunderscore}are{\isacharunderscore}subformulae{\isacharcolon}\ {\isachardoublequoteopen}Atom\ {\isacharbackquote}\ atoms\ F\ {\isasymsubseteq}\ setSubformulae\ F{\isachardoublequoteclose}\isanewline
+%
+\isadelimproof
+\ \ %
+\endisadelimproof
+%
+\isatagproof
+\isacommand{by}\isamarkupfalse%
+\ {\isacharparenleft}induction\ F{\isacharparenright}\ auto%
+\endisatagproof
+{\isafoldproof}%
+%
+\isadelimproof
+%
+\endisadelimproof
+%
+\begin{isamarkuptext}%
+Otro resultado de esta sección es la propia pertenencia de una fórmula en el conjunto 
+de sus subfórmulas. 
+\begin{lema}
+    La propia fórmula pertence a la lista de sus subfórmulas, es decir: \isa{F\ {\isasymin}\ Subf{\isacharparenleft}F{\isacharparenright}}.
+  \end{lema}
+
+A continuación incluimos el enunciado del lema con su demostración automática. Las demostraciones detallada
+y aplicativa son análogas a las del primer lema de la sección, utilizando únicamente inducción y 
+simplificación. Para facilitar pruebas posteriores, vamos a añadir la regla a las tácticas de 
+simplificación.%
+\end{isamarkuptext}\isamarkuptrue%
+\isacommand{lemma}\isamarkupfalse%
+\ subformulae{\isacharunderscore}self{\isacharbrackleft}simp{\isacharcomma}intro{\isacharbrackright}{\isacharcolon}\ {\isachardoublequoteopen}F\ {\isasymin}\ setSubformulae\ F{\isachardoublequoteclose}\isanewline
+%
+\isadelimproof
+\ \ %
+\endisadelimproof
+%
+\isatagproof
+\isacommand{by}\isamarkupfalse%
+\ {\isacharparenleft}induction\ F{\isacharparenright}\ simp{\isacharunderscore}all%
+\endisatagproof
+{\isafoldproof}%
+%
+\isadelimproof
+\ \isanewline
+%
+\endisadelimproof
+\isanewline
+\isacommand{lemma}\isamarkupfalse%
+\ subformulae{\isacharunderscore}self{\isacharunderscore}s{\isacharbrackleft}simp{\isacharcomma}intro{\isacharbrackright}{\isacharcolon}\ {\isachardoublequoteopen}F\ {\isasymin}\ setSubformulae{\isacharunderscore}s\ F{\isachardoublequoteclose}\isanewline
+%
+\isadelimproof
+\ \ %
+\endisadelimproof
+%
+\isatagproof
+\isacommand{by}\isamarkupfalse%
+\ {\isacharparenleft}induction\ F{\isacharparenright}\ simp{\isacharunderscore}all%
+\endisatagproof
+{\isafoldproof}%
+%
+\isadelimproof
+%
+\endisadelimproof
+%
+\begin{isamarkuptext}%
+La siguiente propiedad declara que el conjunto de átomos de una subfórmula está contenido en el
+conjunto de átomos de la propia fórmula.
+\begin{lema}
+    Sea \isa{G\ {\isasymin}\ Subf{\isacharparenleft}F{\isacharparenright}}, entonces el conjunto de los átomos de \isa{G} está contenido en los de \isa{F}.
+  \end{lema}
+
+Traducido a Isabelle:%
+\end{isamarkuptext}\isamarkuptrue%
+\isacommand{lemma}\isamarkupfalse%
+\ subformula{\isacharunderscore}atoms{\isacharcolon}\ {\isachardoublequoteopen}G\ {\isasymin}\ setSubformulae\ F\ {\isasymLongrightarrow}\ atoms\ G\ {\isasymsubseteq}\ atoms\ F{\isachardoublequoteclose}\isanewline
+%
+\isadelimproof
+\ \ %
+\endisadelimproof
+%
+\isatagproof
+\isacommand{oops}\isamarkupfalse%
+%
+\endisatagproof
+{\isafoldproof}%
+%
+\isadelimproof
+%
+\endisadelimproof
+%
+\begin{isamarkuptext}%
+Veamos su demostración estructurada con la definición simplificada para resumir los casos
+de conectivas binarias.%
+\end{isamarkuptext}\isamarkuptrue%
+\isacommand{lemma}\isamarkupfalse%
+\ subformula{\isacharunderscore}atoms{\isacharunderscore}estructurada{\isacharunderscore}s{\isacharcolon}\ {\isachardoublequoteopen}G\ {\isasymin}\ setSubformulae{\isacharunderscore}s\ F\ {\isasymLongrightarrow}\ atoms{\isacharunderscore}s\ G\ {\isasymsubseteq}\ atoms{\isacharunderscore}s\ F{\isachardoublequoteclose}\isanewline
+%
+\isadelimproof
+%
+\endisadelimproof
+%
+\isatagproof
+\isacommand{proof}\isamarkupfalse%
+\ {\isacharparenleft}induction\ F{\isacharparenright}\isanewline
+\ \ \isacommand{case}\isamarkupfalse%
+\ {\isacharparenleft}Atom{\isacharunderscore}s\ x{\isacharparenright}\isanewline
+\ \ \isacommand{then}\isamarkupfalse%
+\ \isacommand{show}\isamarkupfalse%
+\ {\isacharquery}case\ \isacommand{by}\isamarkupfalse%
+\ simp\ \isanewline
+\isacommand{next}\isamarkupfalse%
+\isanewline
+\ \ \isacommand{case}\isamarkupfalse%
+\ Bot{\isacharunderscore}s\isanewline
+\ \ \isacommand{then}\isamarkupfalse%
+\ \isacommand{show}\isamarkupfalse%
+\ {\isacharquery}case\ \isacommand{by}\isamarkupfalse%
+\ simp\isanewline
+\isacommand{next}\isamarkupfalse%
+\isanewline
+\ \ \isacommand{case}\isamarkupfalse%
+\ {\isacharparenleft}Mon\ F{\isacharparenright}\isanewline
+\ \ \isacommand{assume}\isamarkupfalse%
+\ H{\isadigit{1}}{\isacharcolon}\ {\isachardoublequoteopen}G\ {\isasymin}\ setSubformulae{\isacharunderscore}s\ {\isacharparenleft}Mon\ F{\isacharparenright}{\isachardoublequoteclose}\isanewline
+\ \ \isacommand{assume}\isamarkupfalse%
+\ H{\isadigit{2}}{\isacharcolon}\ {\isachardoublequoteopen}G\ {\isasymin}\ setSubformulae{\isacharunderscore}s\ F\ {\isasymLongrightarrow}\ atoms{\isacharunderscore}s\ G\ {\isasymsubseteq}\ atoms{\isacharunderscore}s\ F{\isachardoublequoteclose}\isanewline
+\ \ \isacommand{show}\isamarkupfalse%
+\ {\isachardoublequoteopen}atoms{\isacharunderscore}s\ G\ {\isasymsubseteq}\ atoms{\isacharunderscore}s\ {\isacharparenleft}Mon\ F{\isacharparenright}{\isachardoublequoteclose}\isanewline
+\ \ \isacommand{proof}\isamarkupfalse%
+\ {\isacharparenleft}cases\ {\isachardoublequoteopen}G\ {\isacharequal}\ Mon\ F{\isachardoublequoteclose}{\isacharparenright}\isanewline
+\ \ \ \ \isacommand{case}\isamarkupfalse%
+\ True\ \isanewline
+\ \ \ \ \isacommand{then}\isamarkupfalse%
+\ \isacommand{have}\isamarkupfalse%
+\ {\isachardoublequoteopen}G\ {\isacharequal}\ Mon\ F{\isachardoublequoteclose}\ \isacommand{by}\isamarkupfalse%
+\ simp\isanewline
+\ \ \ \ \isacommand{then}\isamarkupfalse%
+\ \isacommand{show}\isamarkupfalse%
+\ {\isachardoublequoteopen}atoms{\isacharunderscore}s\ G\ {\isasymsubseteq}\ atoms{\isacharunderscore}s\ {\isacharparenleft}Mon\ F{\isacharparenright}{\isachardoublequoteclose}\ \isacommand{by}\isamarkupfalse%
+\ simp\isanewline
+\ \ \isacommand{next}\isamarkupfalse%
+\isanewline
+\ \ \ \ \isacommand{case}\isamarkupfalse%
+\ False\isanewline
+\ \ \ \ \isacommand{then}\isamarkupfalse%
+\ \isacommand{have}\isamarkupfalse%
+\ {\isadigit{1}}{\isacharcolon}{\isachardoublequoteopen}G\ {\isasymnoteq}\ Mon\ F{\isachardoublequoteclose}\ \isacommand{by}\isamarkupfalse%
+\ simp\isanewline
+\ \ \ \ \isacommand{have}\isamarkupfalse%
+\ {\isachardoublequoteopen}setSubformulae{\isacharunderscore}s\ {\isacharparenleft}Mon\ F{\isacharparenright}\ {\isacharequal}\ {\isacharbraceleft}Mon\ F{\isacharbraceright}\ {\isasymunion}\ setSubformulae{\isacharunderscore}s\ F{\isachardoublequoteclose}\ \isacommand{by}\isamarkupfalse%
+\ simp\isanewline
+\ \ \ \ \isacommand{then}\isamarkupfalse%
+\ \isacommand{have}\isamarkupfalse%
+\ {\isadigit{2}}{\isacharcolon}{\isachardoublequoteopen}G\ {\isasymin}\ setSubformulae{\isacharunderscore}s\ F{\isachardoublequoteclose}\ \isacommand{using}\isamarkupfalse%
+\ {\isadigit{1}}\ H{\isadigit{1}}\ \isacommand{by}\isamarkupfalse%
+\ simp\isanewline
+\ \ \ \ \isacommand{have}\isamarkupfalse%
+\ {\isachardoublequoteopen}atoms{\isacharunderscore}s\ F\ {\isacharequal}\ atoms{\isacharunderscore}s\ {\isacharparenleft}Mon\ F{\isacharparenright}{\isachardoublequoteclose}\ \isacommand{by}\isamarkupfalse%
+\ simp\isanewline
+\ \ \ \ \isacommand{then}\isamarkupfalse%
+\ \isacommand{show}\isamarkupfalse%
+\ {\isachardoublequoteopen}atoms{\isacharunderscore}s\ G\ {\isasymsubseteq}\ atoms{\isacharunderscore}s\ {\isacharparenleft}Mon\ F{\isacharparenright}{\isachardoublequoteclose}\ \isacommand{using}\isamarkupfalse%
+\ {\isadigit{2}}\ H{\isadigit{2}}\ \isacommand{by}\isamarkupfalse%
+\ simp\isanewline
+\ \ \isacommand{qed}\isamarkupfalse%
+\ \isanewline
+\isacommand{next}\isamarkupfalse%
+\isanewline
+\ \ \isacommand{case}\isamarkupfalse%
+\ {\isacharparenleft}Bi\ F{\isadigit{1}}\ F{\isadigit{2}}{\isacharparenright}\isanewline
+\ \ \isacommand{assume}\isamarkupfalse%
+\ H{\isadigit{3}}{\isacharcolon}\ {\isachardoublequoteopen}G\ {\isasymin}\ setSubformulae{\isacharunderscore}s\ {\isacharparenleft}Bi\ F{\isadigit{1}}\ F{\isadigit{2}}{\isacharparenright}{\isachardoublequoteclose}\isanewline
+\ \ \isacommand{assume}\isamarkupfalse%
+\ H{\isadigit{4}}{\isacharcolon}\ {\isachardoublequoteopen}G\ {\isasymin}\ setSubformulae{\isacharunderscore}s\ F{\isadigit{1}}\ {\isasymLongrightarrow}\ atoms{\isacharunderscore}s\ G\ {\isasymsubseteq}\ atoms{\isacharunderscore}s\ F{\isadigit{1}}{\isachardoublequoteclose}\isanewline
+\ \ \isacommand{assume}\isamarkupfalse%
+\ H{\isadigit{5}}{\isacharcolon}\ {\isachardoublequoteopen}G\ {\isasymin}\ setSubformulae{\isacharunderscore}s\ F{\isadigit{2}}\ {\isasymLongrightarrow}\ atoms{\isacharunderscore}s\ G\ {\isasymsubseteq}\ atoms{\isacharunderscore}s\ F{\isadigit{2}}{\isachardoublequoteclose}\isanewline
+\ \ \isacommand{then}\isamarkupfalse%
+\ \isacommand{show}\isamarkupfalse%
+\ {\isachardoublequoteopen}atoms{\isacharunderscore}s\ G\ {\isasymsubseteq}\ atoms{\isacharunderscore}s\ {\isacharparenleft}Bi\ F{\isadigit{1}}\ F{\isadigit{2}}{\isacharparenright}{\isachardoublequoteclose}\isanewline
+\ \ \isacommand{proof}\isamarkupfalse%
+\ {\isacharparenleft}cases\ {\isachardoublequoteopen}G\ {\isacharequal}\ Bi\ F{\isadigit{1}}\ F{\isadigit{2}}{\isachardoublequoteclose}{\isacharparenright}\isanewline
+\ \ \ \ \isacommand{case}\isamarkupfalse%
+\ True\isanewline
+\ \ \ \ \isacommand{then}\isamarkupfalse%
+\ \isacommand{have}\isamarkupfalse%
+\ {\isachardoublequoteopen}G\ {\isacharequal}\ Bi\ F{\isadigit{1}}\ F{\isadigit{2}}{\isachardoublequoteclose}\ \isacommand{by}\isamarkupfalse%
+\ simp\isanewline
+\ \ \ \ \isacommand{then}\isamarkupfalse%
+\ \isacommand{show}\isamarkupfalse%
+\ {\isachardoublequoteopen}atoms{\isacharunderscore}s\ G\ {\isasymsubseteq}\ atoms{\isacharunderscore}s\ {\isacharparenleft}Bi\ F{\isadigit{1}}\ F{\isadigit{2}}{\isacharparenright}{\isachardoublequoteclose}\ \isacommand{by}\isamarkupfalse%
+\ simp\isanewline
+\ \ \isacommand{next}\isamarkupfalse%
+\isanewline
+\ \ \ \ \isacommand{case}\isamarkupfalse%
+\ False\isanewline
+\ \ \ \ \isacommand{then}\isamarkupfalse%
+\ \isacommand{have}\isamarkupfalse%
+\ {\isadigit{3}}{\isacharcolon}{\isachardoublequoteopen}G\ {\isasymnoteq}\ Bi\ F{\isadigit{1}}\ F{\isadigit{2}}{\isachardoublequoteclose}\ \isacommand{by}\isamarkupfalse%
+\ simp\isanewline
+\ \ \ \ \isacommand{have}\isamarkupfalse%
+\ {\isachardoublequoteopen}setSubformulae{\isacharunderscore}s\ {\isacharparenleft}Bi\ F{\isadigit{1}}\ F{\isadigit{2}}{\isacharparenright}\ {\isacharequal}\ {\isacharbraceleft}Bi\ F{\isadigit{1}}\ F{\isadigit{2}}{\isacharbraceright}\ {\isasymunion}\ setSubformulae{\isacharunderscore}s\ F{\isadigit{1}}\ {\isasymunion}\ setSubformulae{\isacharunderscore}s\ F{\isadigit{2}}{\isachardoublequoteclose}\ \isacommand{by}\isamarkupfalse%
+\ simp\isanewline
+\ \ \ \ \isacommand{then}\isamarkupfalse%
+\ \isacommand{have}\isamarkupfalse%
+\ {\isadigit{4}}{\isacharcolon}{\isachardoublequoteopen}G\ {\isasymin}\ setSubformulae{\isacharunderscore}s\ F{\isadigit{1}}\ {\isasymunion}\ setSubformulae{\isacharunderscore}s\ F{\isadigit{2}}{\isachardoublequoteclose}\ \isacommand{using}\isamarkupfalse%
+\ {\isadigit{3}}\ H{\isadigit{3}}\ \isacommand{by}\isamarkupfalse%
+\ simp\isanewline
+\ \ \ \ \isacommand{have}\isamarkupfalse%
+\ {\isadigit{5}}{\isacharcolon}{\isachardoublequoteopen}atoms{\isacharunderscore}s\ {\isacharparenleft}Bi\ F{\isadigit{1}}\ F{\isadigit{2}}{\isacharparenright}\ {\isacharequal}\ atoms{\isacharunderscore}s\ F{\isadigit{1}}\ {\isasymunion}\ atoms{\isacharunderscore}s\ F{\isadigit{2}}{\isachardoublequoteclose}\ \isacommand{by}\isamarkupfalse%
+\ simp\isanewline
+\ \ \ \ \isacommand{then}\isamarkupfalse%
+\ \isacommand{show}\isamarkupfalse%
+\ {\isachardoublequoteopen}atoms{\isacharunderscore}s\ G\ {\isasymsubseteq}\ atoms{\isacharunderscore}s\ {\isacharparenleft}Bi\ F{\isadigit{1}}\ F{\isadigit{2}}{\isacharparenright}{\isachardoublequoteclose}\isanewline
+\ \ \ \ \isacommand{proof}\isamarkupfalse%
+\ {\isacharparenleft}cases\ {\isachardoublequoteopen}G\ {\isasymin}\ setSubformulae{\isacharunderscore}s\ F{\isadigit{1}}{\isachardoublequoteclose}{\isacharparenright}\isanewline
+\ \ \ \ \ \ \isacommand{case}\isamarkupfalse%
+\ True\isanewline
+\ \ \ \ \ \ \isacommand{then}\isamarkupfalse%
+\ \isacommand{have}\isamarkupfalse%
+\ {\isachardoublequoteopen}G\ {\isasymin}\ setSubformulae{\isacharunderscore}s\ F{\isadigit{1}}{\isachardoublequoteclose}\ \isacommand{by}\isamarkupfalse%
+\ simp\isanewline
+\ \ \ \ \ \ \isacommand{then}\isamarkupfalse%
+\ \isacommand{have}\isamarkupfalse%
+\ {\isadigit{6}}{\isacharcolon}{\isachardoublequoteopen}atoms{\isacharunderscore}s\ G\ {\isasymsubseteq}\ atoms{\isacharunderscore}s\ F{\isadigit{1}}{\isachardoublequoteclose}\ \isacommand{using}\isamarkupfalse%
+\ H{\isadigit{4}}\ \isacommand{by}\isamarkupfalse%
+\ simp\isanewline
+\ \ \ \ \ \ \isacommand{have}\isamarkupfalse%
+\ {\isadigit{7}}{\isacharcolon}{\isachardoublequoteopen}atoms{\isacharunderscore}s\ F{\isadigit{1}}\ {\isasymsubseteq}\ atoms{\isacharunderscore}s\ {\isacharparenleft}Bi\ F{\isadigit{1}}\ F{\isadigit{2}}{\isacharparenright}{\isachardoublequoteclose}\ \isacommand{using}\isamarkupfalse%
+\ {\isadigit{5}}\ \isacommand{by}\isamarkupfalse%
+\ {\isacharparenleft}rule\ subContUnion{\isadigit{1}}{\isacharparenright}\isanewline
+\ \ \ \ \ \ \isacommand{show}\isamarkupfalse%
+\ {\isachardoublequoteopen}atoms{\isacharunderscore}s\ G\ {\isasymsubseteq}\ atoms{\isacharunderscore}s\ {\isacharparenleft}Bi\ F{\isadigit{1}}\ F{\isadigit{2}}{\isacharparenright}{\isachardoublequoteclose}\ \isacommand{using}\isamarkupfalse%
+\ {\isadigit{6}}\ {\isadigit{7}}\ \isacommand{by}\isamarkupfalse%
+\ {\isacharparenleft}rule\ subset{\isacharunderscore}trans{\isacharparenright}\isanewline
+\ \ \ \ \isacommand{next}\isamarkupfalse%
+\isanewline
+\ \ \ \ \ \ \isacommand{case}\isamarkupfalse%
+\ False\isanewline
+\ \ \ \ \ \ \isacommand{then}\isamarkupfalse%
+\ \isacommand{have}\isamarkupfalse%
+\ {\isachardoublequoteopen}G\ {\isasymnotin}\ setSubformulae{\isacharunderscore}s\ F{\isadigit{1}}{\isachardoublequoteclose}\ \isacommand{by}\isamarkupfalse%
+\ simp\isanewline
+\ \ \ \ \ \ \isacommand{then}\isamarkupfalse%
+\ \isacommand{have}\isamarkupfalse%
+\ {\isachardoublequoteopen}G\ {\isasymin}\ setSubformulae{\isacharunderscore}s\ F{\isadigit{2}}{\isachardoublequoteclose}\ \isacommand{using}\isamarkupfalse%
+\ {\isadigit{4}}\ \isacommand{by}\isamarkupfalse%
+\ simp\isanewline
+\ \ \ \ \ \ \isacommand{then}\isamarkupfalse%
+\ \isacommand{have}\isamarkupfalse%
+\ {\isadigit{8}}{\isacharcolon}{\isachardoublequoteopen}atoms{\isacharunderscore}s\ G\ {\isasymsubseteq}\ atoms{\isacharunderscore}s\ F{\isadigit{2}}{\isachardoublequoteclose}\ \isacommand{using}\isamarkupfalse%
+\ H{\isadigit{5}}\ \isacommand{by}\isamarkupfalse%
+\ simp\isanewline
+\ \ \ \ \ \ \isacommand{have}\isamarkupfalse%
+\ {\isadigit{9}}{\isacharcolon}{\isachardoublequoteopen}atoms{\isacharunderscore}s\ F{\isadigit{2}}\ {\isasymsubseteq}\ atoms{\isacharunderscore}s\ {\isacharparenleft}Bi\ F{\isadigit{1}}\ F{\isadigit{2}}{\isacharparenright}{\isachardoublequoteclose}\ \isacommand{using}\isamarkupfalse%
+\ {\isadigit{5}}\ \isacommand{by}\isamarkupfalse%
+\ simp\isanewline
+\ \ \ \ \ \ \isacommand{show}\isamarkupfalse%
+\ {\isachardoublequoteopen}atoms{\isacharunderscore}s\ G\ {\isasymsubseteq}\ atoms{\isacharunderscore}s\ {\isacharparenleft}Bi\ F{\isadigit{1}}\ F{\isadigit{2}}{\isacharparenright}{\isachardoublequoteclose}\ \isacommand{using}\isamarkupfalse%
+\ {\isadigit{8}}\ {\isadigit{9}}\ \isacommand{by}\isamarkupfalse%
+\ {\isacharparenleft}rule\ subset{\isacharunderscore}trans{\isacharparenright}\isanewline
+\ \ \ \ \isacommand{qed}\isamarkupfalse%
+\isanewline
+\ \ \isacommand{qed}\isamarkupfalse%
+\isanewline
+\isacommand{qed}\isamarkupfalse%
+%
+\endisatagproof
+{\isafoldproof}%
+%
+\isadelimproof
+%
+\endisadelimproof
+%
+\begin{isamarkuptext}%
+Por último, su demostración aplicativa y automática con la definición no simplificada.%
+\end{isamarkuptext}\isamarkuptrue%
+\isacommand{lemma}\isamarkupfalse%
+\ subformula{\isacharunderscore}atoms{\isacharunderscore}aplicativa{\isacharcolon}\ {\isachardoublequoteopen}G\ {\isasymin}\ setSubformulae\ F\ {\isasymLongrightarrow}\ atoms\ G\ {\isasymsubseteq}\ atoms\ F{\isachardoublequoteclose}\isanewline
+%
+\isadelimproof
+\ \ %
+\endisadelimproof
+%
+\isatagproof
+\isacommand{apply}\isamarkupfalse%
+\ {\isacharparenleft}induction\ F{\isacharparenright}\isanewline
+\ \ \isacommand{apply}\isamarkupfalse%
+\ auto\isanewline
+\ \isacommand{done}\isamarkupfalse%
+%
+\endisatagproof
+{\isafoldproof}%
+%
+\isadelimproof
+\isanewline
+%
+\endisadelimproof
+\isanewline
+\isacommand{lemma}\isamarkupfalse%
+\ subformula{\isacharunderscore}atoms{\isacharcolon}\ {\isachardoublequoteopen}G\ {\isasymin}\ setSubformulae\ F\ {\isasymLongrightarrow}\ atoms\ G\ {\isasymsubseteq}\ atoms\ F{\isachardoublequoteclose}\isanewline
+%
+\isadelimproof
+\ \ %
+\endisadelimproof
+%
+\isatagproof
+\isacommand{by}\isamarkupfalse%
+\ {\isacharparenleft}induction\ F{\isacharparenright}\ auto%
+\endisatagproof
+{\isafoldproof}%
+%
+\isadelimproof
+%
+\endisadelimproof
+%
+\begin{isamarkuptext}%
+A continuación voy a introducir un lema que no pertenece a la teoría original de Isabelle pero
+facilita las siguientes demostraciones detalladas mediante contenciones en cadena.
+\begin{lema}
+    Sea \isa{G\ {\isasymin}\ SubfSet{\isacharparenleft}F{\isacharparenright}} entonces \isa{SubfSet{\isacharparenleft}G{\isacharparenright}\ {\isasymsubseteq}\ SubSet{\isacharparenleft}F{\isacharparenright}}.
+  \end{lema} 
+Para que la propiedad de contención esté bien definida, considero \isa{SubfSet{\isacharparenleft}·{\isacharparenright}} el conjunto equivalente
+a \isa{setSubformulae} aplicado a una fórmula. Veamos las demostraciones estructurada simplificada
+y automática del mismo.%
+\end{isamarkuptext}\isamarkuptrue%
+\isacommand{lemma}\isamarkupfalse%
+\ subsubformulae{\isacharunderscore}estructurada{\isacharunderscore}s{\isacharcolon}\ {\isachardoublequoteopen}G\ {\isasymin}\ setSubformulae{\isacharunderscore}s\ F\ {\isasymLongrightarrow}\ setSubformulae{\isacharunderscore}s\ G\ {\isasymsubseteq}\ setSubformulae{\isacharunderscore}s\ F{\isachardoublequoteclose}\isanewline
+%
+\isadelimproof
+%
+\endisadelimproof
+%
+\isatagproof
+\isacommand{proof}\isamarkupfalse%
+\ {\isacharparenleft}induction\ F{\isacharparenright}\isanewline
+\ \ \isacommand{case}\isamarkupfalse%
+\ {\isacharparenleft}Atom{\isacharunderscore}s\ x{\isacharparenright}\isanewline
+\ \ \isacommand{then}\isamarkupfalse%
+\ \isacommand{show}\isamarkupfalse%
+\ {\isacharquery}case\ \isacommand{by}\isamarkupfalse%
+\ simp\isanewline
+\isacommand{next}\isamarkupfalse%
+\isanewline
+\ \ \isacommand{case}\isamarkupfalse%
+\ Bot{\isacharunderscore}s\isanewline
+\ \ \isacommand{then}\isamarkupfalse%
+\ \isacommand{show}\isamarkupfalse%
+\ {\isacharquery}case\ \isacommand{by}\isamarkupfalse%
+\ simp\isanewline
+\isacommand{next}\isamarkupfalse%
+\isanewline
+\ \ \isacommand{case}\isamarkupfalse%
+\ {\isacharparenleft}Mon\ F{\isacharparenright}\isanewline
+\ \ \isacommand{assume}\isamarkupfalse%
+\ H{\isadigit{1}}{\isacharcolon}{\isachardoublequoteopen}G\ {\isasymin}\ setSubformulae{\isacharunderscore}s\ F\ {\isasymLongrightarrow}\ setSubformulae{\isacharunderscore}s\ G\ {\isasymsubseteq}\ setSubformulae{\isacharunderscore}s\ F{\isachardoublequoteclose}\isanewline
+\ \ \isacommand{assume}\isamarkupfalse%
+\ H{\isadigit{2}}{\isacharcolon}{\isachardoublequoteopen}G\ {\isasymin}\ setSubformulae{\isacharunderscore}s\ {\isacharparenleft}Mon\ F{\isacharparenright}{\isachardoublequoteclose}\isanewline
+\ \ \isacommand{then}\isamarkupfalse%
+\ \isacommand{show}\isamarkupfalse%
+\ {\isachardoublequoteopen}setSubformulae{\isacharunderscore}s\ G\ {\isasymsubseteq}\ setSubformulae{\isacharunderscore}s\ {\isacharparenleft}Mon\ F{\isacharparenright}{\isachardoublequoteclose}\isanewline
+\ \ \isacommand{proof}\isamarkupfalse%
+\ {\isacharparenleft}cases\ {\isachardoublequoteopen}G\ {\isacharequal}\ Mon\ F{\isachardoublequoteclose}{\isacharparenright}\isanewline
+\ \ \ \ \isacommand{case}\isamarkupfalse%
+\ True\isanewline
+\ \ \ \ \isacommand{then}\isamarkupfalse%
+\ \isacommand{show}\isamarkupfalse%
+\ {\isacharquery}thesis\ \isacommand{by}\isamarkupfalse%
+\ simp\isanewline
+\ \ \isacommand{next}\isamarkupfalse%
+\isanewline
+\ \ \ \ \isacommand{case}\isamarkupfalse%
+\ False\isanewline
+\ \ \ \ \isacommand{then}\isamarkupfalse%
+\ \isacommand{have}\isamarkupfalse%
+\ {\isachardoublequoteopen}G\ {\isasymnoteq}\ Mon\ F{\isachardoublequoteclose}\ \isacommand{by}\isamarkupfalse%
+\ simp\isanewline
+\ \ \ \ \isacommand{then}\isamarkupfalse%
+\ \isacommand{have}\isamarkupfalse%
+\ {\isachardoublequoteopen}G\ {\isasymin}\ setSubformulae{\isacharunderscore}s\ F{\isachardoublequoteclose}\ \isacommand{using}\isamarkupfalse%
+\ H{\isadigit{2}}\ \isacommand{by}\isamarkupfalse%
+\ simp\isanewline
+\ \ \ \ \isacommand{then}\isamarkupfalse%
+\ \isacommand{have}\isamarkupfalse%
+\ {\isadigit{1}}{\isacharcolon}{\isachardoublequoteopen}setSubformulae{\isacharunderscore}s\ G\ {\isasymsubseteq}\ setSubformulae{\isacharunderscore}s\ F{\isachardoublequoteclose}\ \isacommand{using}\isamarkupfalse%
+\ H{\isadigit{1}}\ \isacommand{by}\isamarkupfalse%
+\ simp\isanewline
+\ \ \ \ \isacommand{have}\isamarkupfalse%
+\ {\isachardoublequoteopen}setSubformulae{\isacharunderscore}s\ {\isacharparenleft}Mon\ F{\isacharparenright}\ {\isacharequal}\ {\isacharbraceleft}Mon\ F{\isacharbraceright}\ {\isasymunion}\ setSubformulae{\isacharunderscore}s\ F{\isachardoublequoteclose}\ \isacommand{by}\isamarkupfalse%
+\ simp\isanewline
+\ \ \ \ \isacommand{then}\isamarkupfalse%
+\ \isacommand{have}\isamarkupfalse%
+\ {\isadigit{2}}{\isacharcolon}{\isachardoublequoteopen}setSubformulae{\isacharunderscore}s\ F\ {\isasymsubseteq}\ setSubformulae{\isacharunderscore}s\ {\isacharparenleft}Mon\ F{\isacharparenright}{\isachardoublequoteclose}\ \isacommand{by}\isamarkupfalse%
+\ {\isacharparenleft}rule\ subContUnion{\isadigit{2}}{\isacharparenright}\isanewline
+\ \ \ \ \isacommand{show}\isamarkupfalse%
+\ {\isachardoublequoteopen}setSubformulae{\isacharunderscore}s\ G\ {\isasymsubseteq}\ setSubformulae{\isacharunderscore}s\ {\isacharparenleft}Mon\ F{\isacharparenright}{\isachardoublequoteclose}\ \isacommand{using}\isamarkupfalse%
+\ {\isadigit{1}}\ {\isadigit{2}}\ \isacommand{by}\isamarkupfalse%
+\ {\isacharparenleft}rule\ subset{\isacharunderscore}trans{\isacharparenright}\isanewline
+\ \ \isacommand{qed}\isamarkupfalse%
+\isanewline
+\isacommand{next}\isamarkupfalse%
+\isanewline
+\ \ \isacommand{case}\isamarkupfalse%
+\ {\isacharparenleft}Bi\ F{\isadigit{1}}\ F{\isadigit{2}}{\isacharparenright}\isanewline
+\ \ \isacommand{assume}\isamarkupfalse%
+\ H{\isadigit{3}}{\isacharcolon}{\isachardoublequoteopen}G\ {\isasymin}\ setSubformulae{\isacharunderscore}s\ F{\isadigit{1}}\ {\isasymLongrightarrow}\ setSubformulae{\isacharunderscore}s\ G\ {\isasymsubseteq}\ setSubformulae{\isacharunderscore}s\ F{\isadigit{1}}{\isachardoublequoteclose}\isanewline
+\ \ \isacommand{assume}\isamarkupfalse%
+\ H{\isadigit{4}}{\isacharcolon}{\isachardoublequoteopen}G\ {\isasymin}\ setSubformulae{\isacharunderscore}s\ F{\isadigit{2}}\ {\isasymLongrightarrow}\ setSubformulae{\isacharunderscore}s\ G\ {\isasymsubseteq}\ setSubformulae{\isacharunderscore}s\ F{\isadigit{2}}{\isachardoublequoteclose}\isanewline
+\ \ \isacommand{assume}\isamarkupfalse%
+\ H{\isadigit{5}}{\isacharcolon}{\isachardoublequoteopen}G\ {\isasymin}\ setSubformulae{\isacharunderscore}s\ {\isacharparenleft}Bi\ F{\isadigit{1}}\ F{\isadigit{2}}{\isacharparenright}{\isachardoublequoteclose}\isanewline
+\ \ \isacommand{have}\isamarkupfalse%
+\ {\isadigit{4}}{\isacharcolon}{\isachardoublequoteopen}setSubformulae{\isacharunderscore}s\ {\isacharparenleft}Bi\ F{\isadigit{1}}\ F{\isadigit{2}}{\isacharparenright}\ {\isacharequal}\ {\isacharbraceleft}Bi\ F{\isadigit{1}}\ F{\isadigit{2}}{\isacharbraceright}\ {\isasymunion}\ {\isacharparenleft}setSubformulae{\isacharunderscore}s\ F{\isadigit{1}}\ {\isasymunion}\ setSubformulae{\isacharunderscore}s\ F{\isadigit{2}}{\isacharparenright}{\isachardoublequoteclose}\ \isacommand{by}\isamarkupfalse%
+\ simp\isanewline
+\ \ \isacommand{then}\isamarkupfalse%
+\ \isacommand{show}\isamarkupfalse%
+\ {\isachardoublequoteopen}setSubformulae{\isacharunderscore}s\ G\ {\isasymsubseteq}\ setSubformulae{\isacharunderscore}s\ {\isacharparenleft}Bi\ F{\isadigit{1}}\ F{\isadigit{2}}{\isacharparenright}{\isachardoublequoteclose}\isanewline
+\ \ \isacommand{proof}\isamarkupfalse%
+\ {\isacharparenleft}cases\ {\isachardoublequoteopen}G\ {\isacharequal}\ Bi\ F{\isadigit{1}}\ F{\isadigit{2}}{\isachardoublequoteclose}{\isacharparenright}\isanewline
+\ \ \ \ \isacommand{case}\isamarkupfalse%
+\ True\isanewline
+\ \ \ \ \isacommand{then}\isamarkupfalse%
+\ \isacommand{show}\isamarkupfalse%
+\ {\isacharquery}thesis\ \isacommand{by}\isamarkupfalse%
+\ simp\isanewline
+\ \ \isacommand{next}\isamarkupfalse%
+\isanewline
+\ \ \ \ \isacommand{case}\isamarkupfalse%
+\ False\isanewline
+\ \ \ \ \isacommand{then}\isamarkupfalse%
+\ \isacommand{have}\isamarkupfalse%
+\ {\isadigit{5}}{\isacharcolon}{\isachardoublequoteopen}G\ {\isasymnoteq}\ Bi\ F{\isadigit{1}}\ F{\isadigit{2}}{\isachardoublequoteclose}\ \isacommand{by}\isamarkupfalse%
+\ simp\isanewline
+\ \ \ \ \isacommand{have}\isamarkupfalse%
+\ {\isadigit{6}}{\isacharcolon}{\isachardoublequoteopen}setSubformulae{\isacharunderscore}s\ F{\isadigit{1}}\ {\isasymunion}\ setSubformulae{\isacharunderscore}s\ F{\isadigit{2}}\ {\isasymsubseteq}\ setSubformulae{\isacharunderscore}s\ {\isacharparenleft}Bi\ F{\isadigit{1}}\ F{\isadigit{2}}{\isacharparenright}{\isachardoublequoteclose}\ \isacommand{using}\isamarkupfalse%
+\ {\isadigit{4}}\ \isacommand{by}\isamarkupfalse%
+\ {\isacharparenleft}rule\ subContUnion{\isadigit{2}}{\isacharparenright}\isanewline
+\ \ \ \ \isacommand{then}\isamarkupfalse%
+\ \isacommand{show}\isamarkupfalse%
+\ {\isachardoublequoteopen}setSubformulae{\isacharunderscore}s\ G\ {\isasymsubseteq}\ setSubformulae{\isacharunderscore}s\ {\isacharparenleft}Bi\ F{\isadigit{1}}\ F{\isadigit{2}}{\isacharparenright}{\isachardoublequoteclose}\isanewline
+\ \ \ \ \isacommand{proof}\isamarkupfalse%
+\ {\isacharparenleft}cases\ {\isachardoublequoteopen}G\ {\isasymin}\ setSubformulae{\isacharunderscore}s\ F{\isadigit{1}}{\isachardoublequoteclose}{\isacharparenright}\isanewline
+\ \ \ \ \ \ \isacommand{case}\isamarkupfalse%
+\ True\isanewline
+\ \ \ \ \ \ \isacommand{then}\isamarkupfalse%
+\ \isacommand{have}\isamarkupfalse%
+\ {\isachardoublequoteopen}G\ {\isasymin}\ setSubformulae{\isacharunderscore}s\ F{\isadigit{1}}{\isachardoublequoteclose}\ \isacommand{by}\isamarkupfalse%
+\ simp\isanewline
+\ \ \ \ \ \ \isacommand{then}\isamarkupfalse%
+\ \isacommand{have}\isamarkupfalse%
+\ {\isadigit{7}}{\isacharcolon}{\isachardoublequoteopen}setSubformulae{\isacharunderscore}s\ G\ {\isasymsubseteq}\ setSubformulae{\isacharunderscore}s\ F{\isadigit{1}}{\isachardoublequoteclose}\ \isacommand{using}\isamarkupfalse%
+\ H{\isadigit{3}}\ \isacommand{by}\isamarkupfalse%
+\ simp\isanewline
+\ \ \ \ \ \ \isacommand{have}\isamarkupfalse%
+\ {\isadigit{8}}{\isacharcolon}{\isachardoublequoteopen}setSubformulae{\isacharunderscore}s\ F{\isadigit{1}}\ {\isasymsubseteq}\ setSubformulae{\isacharunderscore}s\ {\isacharparenleft}Bi\ F{\isadigit{1}}\ F{\isadigit{2}}{\isacharparenright}{\isachardoublequoteclose}\ \isacommand{using}\isamarkupfalse%
+\ {\isadigit{6}}\ \isacommand{by}\isamarkupfalse%
+\ {\isacharparenleft}rule\ subContUnionRev{\isadigit{1}}{\isacharparenright}\ \ \isanewline
+\ \ \ \ \ \ \isacommand{show}\isamarkupfalse%
+\ {\isachardoublequoteopen}setSubformulae{\isacharunderscore}s\ G\ {\isasymsubseteq}\ setSubformulae{\isacharunderscore}s\ {\isacharparenleft}Bi\ F{\isadigit{1}}\ F{\isadigit{2}}{\isacharparenright}{\isachardoublequoteclose}\ \isacommand{using}\isamarkupfalse%
+\ {\isadigit{7}}\ {\isadigit{8}}\ \isacommand{by}\isamarkupfalse%
+\ {\isacharparenleft}rule\ subset{\isacharunderscore}trans{\isacharparenright}\isanewline
+\ \ \ \ \isacommand{next}\isamarkupfalse%
+\isanewline
+\ \ \ \ \ \ \isacommand{case}\isamarkupfalse%
+\ False\isanewline
+\ \ \ \ \ \ \isacommand{then}\isamarkupfalse%
+\ \isacommand{have}\isamarkupfalse%
+\ {\isadigit{9}}{\isacharcolon}{\isachardoublequoteopen}G\ {\isasymnotin}\ setSubformulae{\isacharunderscore}s\ F{\isadigit{1}}{\isachardoublequoteclose}\ \isacommand{by}\isamarkupfalse%
+\ simp\isanewline
+\ \ \ \ \ \ \isacommand{have}\isamarkupfalse%
+\ {\isachardoublequoteopen}G\ {\isasymin}\ setSubformulae{\isacharunderscore}s\ F{\isadigit{1}}\ {\isasymunion}\ setSubformulae{\isacharunderscore}s\ F{\isadigit{2}}{\isachardoublequoteclose}\ \isacommand{using}\isamarkupfalse%
+\ {\isadigit{5}}\ H{\isadigit{5}}\ \isacommand{by}\isamarkupfalse%
+\ simp\isanewline
+\ \ \ \ \ \ \isacommand{then}\isamarkupfalse%
+\ \isacommand{have}\isamarkupfalse%
+\ {\isachardoublequoteopen}G\ {\isasymin}\ setSubformulae{\isacharunderscore}s\ F{\isadigit{2}}{\isachardoublequoteclose}\ \isacommand{using}\isamarkupfalse%
+\ {\isadigit{9}}\ \isacommand{by}\isamarkupfalse%
+\ simp\isanewline
+\ \ \ \ \ \ \isacommand{then}\isamarkupfalse%
+\ \isacommand{have}\isamarkupfalse%
+\ {\isadigit{1}}{\isadigit{0}}{\isacharcolon}{\isachardoublequoteopen}setSubformulae{\isacharunderscore}s\ G\ {\isasymsubseteq}\ setSubformulae{\isacharunderscore}s\ F{\isadigit{2}}{\isachardoublequoteclose}\ \isacommand{using}\isamarkupfalse%
+\ H{\isadigit{4}}\ \isacommand{by}\isamarkupfalse%
+\ simp\isanewline
+\ \ \ \ \ \ \isacommand{have}\isamarkupfalse%
+\ {\isadigit{1}}{\isadigit{1}}{\isacharcolon}{\isachardoublequoteopen}setSubformulae{\isacharunderscore}s\ F{\isadigit{2}}\ {\isasymsubseteq}\ setSubformulae{\isacharunderscore}s\ {\isacharparenleft}Bi\ F{\isadigit{1}}\ F{\isadigit{2}}{\isacharparenright}{\isachardoublequoteclose}\ \isacommand{using}\isamarkupfalse%
+\ {\isadigit{6}}\ \isacommand{by}\isamarkupfalse%
+\ simp\isanewline
+\ \ \ \ \ \ \isacommand{show}\isamarkupfalse%
+\ {\isachardoublequoteopen}setSubformulae{\isacharunderscore}s\ G\ {\isasymsubseteq}\ setSubformulae{\isacharunderscore}s\ {\isacharparenleft}Bi\ F{\isadigit{1}}\ F{\isadigit{2}}{\isacharparenright}{\isachardoublequoteclose}\ \isacommand{using}\isamarkupfalse%
+\ {\isadigit{1}}{\isadigit{0}}\ {\isadigit{1}}{\isadigit{1}}\ \isacommand{by}\isamarkupfalse%
+\ {\isacharparenleft}rule\ subset{\isacharunderscore}trans{\isacharparenright}\isanewline
+\ \ \ \ \isacommand{qed}\isamarkupfalse%
+\isanewline
+\ \ \isacommand{qed}\isamarkupfalse%
+\isanewline
+\isacommand{qed}\isamarkupfalse%
+%
+\endisatagproof
+{\isafoldproof}%
+%
+\isadelimproof
+\isanewline
+%
+\endisadelimproof
+\isanewline
+\isanewline
+\isanewline
+\isacommand{lemma}\isamarkupfalse%
+\ subformulae{\isacharunderscore}setSubformulae{\isacharcolon}{\isachardoublequoteopen}G\ {\isasymin}\ setSubformulae\ F\ {\isasymLongrightarrow}\ setSubformulae\ G\ {\isasymsubseteq}\ setSubformulae\ F{\isachardoublequoteclose}\isanewline
+%
+\isadelimproof
+\ \ %
+\endisadelimproof
+%
+\isatagproof
+\isacommand{by}\isamarkupfalse%
+\ {\isacharparenleft}induction\ F{\isacharparenright}\ auto%
+\endisatagproof
+{\isafoldproof}%
+%
+\isadelimproof
+%
+\endisadelimproof
+%
+\begin{isamarkuptext}%
+El siguiente lema nos da la noción de transitividad de contención en cadena de las subfórmulas, de modo que la
+subfórmula de una subfórmula es del mismo modo subfórmula de la mayor. Es un resultado sencillo
+derivado de la estructura de árbol de formación que siguen las fórmulas según las hemos definido.
+
+\begin{lema}
+    Sea \isa{G\ {\isasymin}\ Subf{\isacharparenleft}F{\isacharparenright}} y \isa{H\ {\isasymin}\ Subf{\isacharparenleft}G{\isacharparenright}}, entonces \isa{H\ {\isasymin}\ Subf{\isacharparenleft}F{\isacharparenright}}.
+  \end{lema}
+
+La demostración estructurada se hace de manera sencilla con el resultado introducido anteriormente. 
+Veamos su prueba según las distintas tácticas.%
+\end{isamarkuptext}\isamarkuptrue%
+\isacommand{lemma}\isamarkupfalse%
+\ subsubformulae{\isacharunderscore}estruct{\isacharcolon}\isanewline
+\ \ \isakeyword{assumes}\ {\isachardoublequoteopen}G\ {\isasymin}\ setSubformulae\ F{\isachardoublequoteclose}\ \isanewline
+\ \ \ \ \ \ \ \ \ \ {\isachardoublequoteopen}H\ {\isasymin}\ setSubformulae\ G{\isachardoublequoteclose}\isanewline
+\ \ \ \ \isakeyword{shows}\ {\isachardoublequoteopen}H\ {\isasymin}\ setSubformulae\ F{\isachardoublequoteclose}\isanewline
+%
+\isadelimproof
+%
+\endisadelimproof
+%
+\isatagproof
+\isacommand{proof}\isamarkupfalse%
+\ {\isacharminus}\isanewline
+\ \ \isacommand{have}\isamarkupfalse%
+\ {\isadigit{1}}{\isacharcolon}{\isachardoublequoteopen}setSubformulae\ G\ {\isasymsubseteq}\ setSubformulae\ F{\isachardoublequoteclose}\ \isacommand{using}\isamarkupfalse%
+\ assms{\isacharparenleft}{\isadigit{1}}{\isacharparenright}\ \isacommand{by}\isamarkupfalse%
+\ {\isacharparenleft}rule\ subformulae{\isacharunderscore}setSubformulae{\isacharparenright}\isanewline
+\ \ \isacommand{have}\isamarkupfalse%
+\ {\isachardoublequoteopen}setSubformulae\ H\ {\isasymsubseteq}\ setSubformulae\ G{\isachardoublequoteclose}\ \isacommand{using}\isamarkupfalse%
+\ assms{\isacharparenleft}{\isadigit{2}}{\isacharparenright}\ \isacommand{by}\isamarkupfalse%
+\ {\isacharparenleft}rule\ subformulae{\isacharunderscore}setSubformulae{\isacharparenright}\isanewline
+\ \ \isacommand{then}\isamarkupfalse%
+\ \isacommand{have}\isamarkupfalse%
+\ {\isadigit{2}}{\isacharcolon}{\isachardoublequoteopen}setSubformulae\ H\ {\isasymsubseteq}\ setSubformulae\ F{\isachardoublequoteclose}\ \isacommand{using}\isamarkupfalse%
+\ {\isadigit{1}}\ \isacommand{by}\isamarkupfalse%
+\ {\isacharparenleft}rule\ subset{\isacharunderscore}trans{\isacharparenright}\isanewline
+\ \ \isacommand{have}\isamarkupfalse%
+\ {\isachardoublequoteopen}H\ {\isasymin}\ setSubformulae\ H{\isachardoublequoteclose}\ \isacommand{by}\isamarkupfalse%
+\ simp\isanewline
+\ \ \isacommand{then}\isamarkupfalse%
+\ \isacommand{show}\isamarkupfalse%
+\ {\isachardoublequoteopen}H\ {\isasymin}\ setSubformulae\ F{\isachardoublequoteclose}\ \isacommand{using}\isamarkupfalse%
+\ {\isadigit{2}}\ \isacommand{by}\isamarkupfalse%
+\ {\isacharparenleft}rule\ rev{\isacharunderscore}subsetD{\isacharparenright}\isanewline
+\isacommand{qed}\isamarkupfalse%
+%
+\endisatagproof
+{\isafoldproof}%
+%
+\isadelimproof
+\isanewline
+%
+\endisadelimproof
+\isanewline
+\isacommand{lemma}\isamarkupfalse%
+\ subsubformulae{\isacharunderscore}aplic{\isacharcolon}\ {\isachardoublequoteopen}G\ {\isasymin}\ setSubformulae\ F\ {\isasymLongrightarrow}\ H\ {\isasymin}\ setSubformulae\ G\ {\isasymLongrightarrow}\ H\ {\isasymin}\ setSubformulae\ F{\isachardoublequoteclose}\isanewline
+%
+\isadelimproof
+\ \ %
+\endisadelimproof
+%
+\isatagproof
+\isacommand{oops}\isamarkupfalse%
+%
+\endisatagproof
+{\isafoldproof}%
+%
+\isadelimproof
+\isanewline
+%
+\endisadelimproof
+\ \ \isanewline
+\isacommand{lemma}\isamarkupfalse%
+\ subsubformulae{\isacharcolon}\ {\isachardoublequoteopen}G\ {\isasymin}\ setSubformulae\ F\ {\isasymLongrightarrow}\ H\ {\isasymin}\ setSubformulae\ G\ {\isasymLongrightarrow}\ H\ {\isasymin}\ setSubformulae\ F{\isachardoublequoteclose}\isanewline
+%
+\isadelimproof
+\ \ %
+\endisadelimproof
+%
+\isatagproof
+\isacommand{by}\isamarkupfalse%
+\ {\isacharparenleft}induction\ F{\isacharsemicolon}\ force{\isacharparenright}%
+\endisatagproof
+{\isafoldproof}%
+%
+\isadelimproof
+%
+\endisadelimproof
+%
+\begin{isamarkuptext}%
+A continuación, la versión del lema con definiciones simplificadas, pues será utilizada para
+la siguiente prueba.%
+\end{isamarkuptext}\isamarkuptrue%
+\isacommand{lemma}\isamarkupfalse%
+\ subsubformulae{\isacharunderscore}s{\isacharcolon}\ {\isachardoublequoteopen}G\ {\isasymin}\ setSubformulae{\isacharunderscore}s\ F\ {\isasymLongrightarrow}\ H\ {\isasymin}\ setSubformulae{\isacharunderscore}s\ G\ {\isasymLongrightarrow}\ H\ {\isasymin}\ setSubformulae{\isacharunderscore}s\ F{\isachardoublequoteclose}\isanewline
+%
+\isadelimproof
+\ \ %
+\endisadelimproof
+%
+\isatagproof
+\isacommand{by}\isamarkupfalse%
+\ {\isacharparenleft}induction\ F{\isacharsemicolon}\ force{\isacharparenright}%
+\endisatagproof
+{\isafoldproof}%
+%
+\isadelimproof
+%
+\endisadelimproof
+%
+\begin{isamarkuptext}%
+A continuación presentamos otro resultado que relaciona las subfórmulas de una fórmula según 
+las conectivas con operaciones sobre los conjuntos de subfórmulas de cada parte.%
+\end{isamarkuptext}\isamarkuptrue%
+\isacommand{lemma}\isamarkupfalse%
+\ subformulas{\isacharunderscore}in{\isacharunderscore}subformulas{\isacharcolon}\isanewline
+\ \ {\isachardoublequoteopen}G\ \isactrlbold {\isasymand}\ H\ {\isasymin}\ setSubformulae\ F\ {\isasymLongrightarrow}\ G\ {\isasymin}\ setSubformulae\ F\ {\isasymand}\ H\ {\isasymin}\ setSubformulae\ F{\isachardoublequoteclose}\isanewline
+\ \ {\isachardoublequoteopen}G\ \isactrlbold {\isasymor}\ H\ {\isasymin}\ setSubformulae\ F\ {\isasymLongrightarrow}\ G\ {\isasymin}\ setSubformulae\ F\ {\isasymand}\ H\ {\isasymin}\ setSubformulae\ F{\isachardoublequoteclose}\isanewline
+\ \ {\isachardoublequoteopen}G\ \isactrlbold {\isasymrightarrow}\ H\ {\isasymin}\ setSubformulae\ F\ {\isasymLongrightarrow}\ G\ {\isasymin}\ setSubformulae\ F\ {\isasymand}\ H\ {\isasymin}\ setSubformulae\ F{\isachardoublequoteclose}\isanewline
+\ \ {\isachardoublequoteopen}\isactrlbold {\isasymnot}\ G\ {\isasymin}\ setSubformulae\ F\ {\isasymLongrightarrow}\ G\ {\isasymin}\ setSubformulae\ F{\isachardoublequoteclose}\isanewline
+%
+\isadelimproof
+\ \ %
+\endisadelimproof
+%
+\isatagproof
+\isacommand{oops}\isamarkupfalse%
+%
+\endisatagproof
+{\isafoldproof}%
+%
+\isadelimproof
+%
+\endisadelimproof
+%
+\begin{isamarkuptext}%
+Como podemos observar, el resultado es análogo en todas las conectivas binarias aunque
+aparezcan definidas por separado, por tanto haré la demostración estructurada para
+las definiciones simplificadas. Nos basaremos en el lema anterior \isa{subsubformulae}.%
+\end{isamarkuptext}\isamarkuptrue%
+\isacommand{lemma}\isamarkupfalse%
+\ subformulas{\isacharunderscore}in{\isacharunderscore}subformulas{\isacharunderscore}estructurada{\isadigit{1}}{\isacharunderscore}s{\isacharcolon}\isanewline
+\ \ \isakeyword{assumes}\ {\isachardoublequoteopen}Bi\ G\ H\ {\isasymin}\ setSubformulae{\isacharunderscore}s\ F{\isachardoublequoteclose}\ \isanewline
+\ \ \isakeyword{shows}\ {\isachardoublequoteopen}G\ {\isasymin}\ setSubformulae{\isacharunderscore}s\ F\ {\isasymand}\ H\ {\isasymin}\ setSubformulae{\isacharunderscore}s\ F{\isachardoublequoteclose}\isanewline
+%
+\isadelimproof
+%
+\endisadelimproof
+%
+\isatagproof
+\isacommand{proof}\isamarkupfalse%
+\ {\isacharparenleft}rule\ conjI{\isacharparenright}\isanewline
+\ \ \isacommand{have}\isamarkupfalse%
+\ {\isadigit{1}}{\isacharcolon}{\isachardoublequoteopen}setSubformulae{\isacharunderscore}s\ {\isacharparenleft}Bi\ G\ H{\isacharparenright}\ {\isacharequal}\ {\isacharbraceleft}Bi\ G\ H{\isacharbraceright}\ {\isasymunion}\ setSubformulae{\isacharunderscore}s\ G\ {\isasymunion}\ setSubformulae{\isacharunderscore}s\ H{\isachardoublequoteclose}\ \isacommand{by}\isamarkupfalse%
+\ simp\isanewline
+\ \ \isacommand{then}\isamarkupfalse%
+\ \isacommand{have}\isamarkupfalse%
+\ {\isadigit{2}}{\isacharcolon}{\isachardoublequoteopen}G\ {\isasymin}\ setSubformulae{\isacharunderscore}s\ {\isacharparenleft}Bi\ G\ H{\isacharparenright}{\isachardoublequoteclose}\ \isacommand{by}\isamarkupfalse%
+\ simp\isanewline
+\ \ \isacommand{have}\isamarkupfalse%
+\ {\isadigit{3}}{\isacharcolon}{\isachardoublequoteopen}H\ {\isasymin}\ setSubformulae{\isacharunderscore}s\ {\isacharparenleft}Bi\ G\ H{\isacharparenright}{\isachardoublequoteclose}\ \isacommand{using}\isamarkupfalse%
+\ {\isadigit{1}}\ \isacommand{by}\isamarkupfalse%
+\ simp\isanewline
+\ \ \isacommand{show}\isamarkupfalse%
+\ {\isachardoublequoteopen}G\ {\isasymin}\ setSubformulae{\isacharunderscore}s\ F{\isachardoublequoteclose}\ \isacommand{using}\isamarkupfalse%
+\ assms\ {\isadigit{2}}\ \isacommand{by}\isamarkupfalse%
+\ {\isacharparenleft}rule\ subsubformulae{\isacharunderscore}s{\isacharparenright}\isanewline
+\ \ \isacommand{show}\isamarkupfalse%
+\ {\isachardoublequoteopen}H\ {\isasymin}\ setSubformulae{\isacharunderscore}s\ F{\isachardoublequoteclose}\ \isacommand{using}\isamarkupfalse%
+\ assms\ {\isadigit{3}}\ \isacommand{by}\isamarkupfalse%
+\ {\isacharparenleft}rule\ subsubformulae{\isacharunderscore}s{\isacharparenright}\isanewline
+\isacommand{qed}\isamarkupfalse%
+%
+\endisatagproof
+{\isafoldproof}%
+%
+\isadelimproof
+\isanewline
+%
+\endisadelimproof
+\isanewline
+\isacommand{lemma}\isamarkupfalse%
+\ subformulas{\isacharunderscore}in{\isacharunderscore}subformulas{\isacharunderscore}negacion{\isacharunderscore}estructurada{\isacharcolon}\isanewline
+\ \ \isakeyword{assumes}\ {\isachardoublequoteopen}Mon\ G\ {\isasymin}\ setSubformulae{\isacharunderscore}s\ F{\isachardoublequoteclose}\isanewline
+\ \ \isakeyword{shows}\ {\isachardoublequoteopen}G\ {\isasymin}\ setSubformulae{\isacharunderscore}s\ F{\isachardoublequoteclose}\isanewline
+%
+\isadelimproof
+%
+\endisadelimproof
+%
+\isatagproof
+\isacommand{proof}\isamarkupfalse%
+\ {\isacharminus}\isanewline
+\ \ \isacommand{have}\isamarkupfalse%
+\ {\isachardoublequoteopen}setSubformulae{\isacharunderscore}s\ {\isacharparenleft}Mon\ G{\isacharparenright}\ {\isacharequal}\ {\isacharbraceleft}Mon\ G{\isacharbraceright}\ {\isasymunion}\ setSubformulae{\isacharunderscore}s\ G{\isachardoublequoteclose}\ \isacommand{by}\isamarkupfalse%
+\ simp\ \isanewline
+\ \ \isacommand{then}\isamarkupfalse%
+\ \isacommand{have}\isamarkupfalse%
+\ {\isadigit{1}}{\isacharcolon}{\isachardoublequoteopen}G\ {\isasymin}\ setSubformulae{\isacharunderscore}s\ {\isacharparenleft}Mon\ G{\isacharparenright}{\isachardoublequoteclose}\ \isacommand{by}\isamarkupfalse%
+\ simp\isanewline
+\ \ \isacommand{show}\isamarkupfalse%
+\ {\isachardoublequoteopen}G\ {\isasymin}\ setSubformulae{\isacharunderscore}s\ F{\isachardoublequoteclose}\ \isacommand{using}\isamarkupfalse%
+\ assms\ {\isadigit{1}}\ \isacommand{by}\isamarkupfalse%
+\ {\isacharparenleft}rule\ subsubformulae{\isacharunderscore}s{\isacharparenright}\isanewline
+\isacommand{qed}\isamarkupfalse%
+%
+\endisatagproof
+{\isafoldproof}%
+%
+\isadelimproof
+%
+\endisadelimproof
+%
+\begin{isamarkuptext}%
+Mostremos ahora la demostración aplicativa para estos casos y la automática para el lema 
+completo.%
+\end{isamarkuptext}\isamarkuptrue%
+\isacommand{lemma}\isamarkupfalse%
+\ subformulas{\isacharunderscore}in{\isacharunderscore}subformulas{\isacharunderscore}aplicativa{\isacharunderscore}s{\isacharcolon}\isanewline
+\ \ {\isachardoublequoteopen}Bi\ G\ H\ {\isasymin}\ setSubformulae{\isacharunderscore}s\ F\ {\isasymLongrightarrow}\ G\ {\isasymin}\ setSubformulae{\isacharunderscore}s\ F\ {\isasymand}\ H\ {\isasymin}\ setSubformulae{\isacharunderscore}s\ F{\isachardoublequoteclose}\isanewline
+\ \ {\isachardoublequoteopen}Mon\ G\ {\isasymin}\ setSubformulae{\isacharunderscore}s\ F\ {\isasymLongrightarrow}\ G\ {\isasymin}\ setSubformulae{\isacharunderscore}s\ F{\isachardoublequoteclose}\isanewline
+%
+\isadelimproof
+\ \ \ %
+\endisadelimproof
+%
+\isatagproof
+\isacommand{apply}\isamarkupfalse%
+\ {\isacharparenleft}rule\ conjI{\isacharparenright}\isanewline
+\ \ \ \isacommand{apply}\isamarkupfalse%
+\ {\isacharparenleft}erule\ subsubformulae{\isacharunderscore}s{\isacharcomma}simp{\isacharparenright}{\isacharplus}\isanewline
+\ \ \isacommand{done}\isamarkupfalse%
+%
+\endisatagproof
+{\isafoldproof}%
+%
+\isadelimproof
+\isanewline
+%
+\endisadelimproof
+\isanewline
+\isacommand{lemma}\isamarkupfalse%
+\ subformulas{\isacharunderscore}in{\isacharunderscore}subformulas{\isacharcolon}\isanewline
+\ \ {\isachardoublequoteopen}G\ \isactrlbold {\isasymand}\ H\ {\isasymin}\ setSubformulae\ F\ {\isasymLongrightarrow}\ G\ {\isasymin}\ setSubformulae\ F\ {\isasymand}\ H\ {\isasymin}\ setSubformulae\ F{\isachardoublequoteclose}\isanewline
+\ \ {\isachardoublequoteopen}G\ \isactrlbold {\isasymor}\ H\ {\isasymin}\ setSubformulae\ F\ {\isasymLongrightarrow}\ G\ {\isasymin}\ setSubformulae\ F\ {\isasymand}\ H\ {\isasymin}\ setSubformulae\ F{\isachardoublequoteclose}\isanewline
+\ \ {\isachardoublequoteopen}G\ \isactrlbold {\isasymrightarrow}\ H\ {\isasymin}\ setSubformulae\ F\ {\isasymLongrightarrow}\ G\ {\isasymin}\ setSubformulae\ F\ {\isasymand}\ H\ {\isasymin}\ setSubformulae\ F{\isachardoublequoteclose}\isanewline
+\ \ {\isachardoublequoteopen}\isactrlbold {\isasymnot}\ G\ {\isasymin}\ setSubformulae\ F\ {\isasymLongrightarrow}\ G\ {\isasymin}\ setSubformulae\ F{\isachardoublequoteclose}\isanewline
+%
+\isadelimproof
+\ \ %
+\endisadelimproof
+%
+\isatagproof
+\isacommand{by}\isamarkupfalse%
+\ {\isacharparenleft}fastforce\ elim{\isacharcolon}\ subsubformulae{\isacharparenright}{\isacharplus}%
+\endisatagproof
+{\isafoldproof}%
+%
+\isadelimproof
+%
+\endisadelimproof
+%
+\begin{isamarkuptext}%
+Concluimos la sección de subfórmulas con un resultado que relaciona varias funciones
+sobre la longitud de la lista \isa{subformulae\ F} de una fórmula \isa{F} cualquiera.%
+\end{isamarkuptext}\isamarkuptrue%
+\isacommand{lemma}\isamarkupfalse%
+\ length{\isacharunderscore}subformulae{\isacharcolon}\ {\isachardoublequoteopen}length\ {\isacharparenleft}subformulae\ F{\isacharparenright}\ {\isacharequal}\ size\ F{\isachardoublequoteclose}\ \isanewline
+%
+\isadelimproof
+\ \ %
+\endisadelimproof
+%
+\isatagproof
+\isacommand{oops}\isamarkupfalse%
+%
+\endisatagproof
+{\isafoldproof}%
+%
+\isadelimproof
+%
+\endisadelimproof
+%
+\begin{isamarkuptext}%
+En prime lugar aparece la clase \isa{size} de la teoría de números naturales ....
+Vamos a definir \isa{size{\isadigit{1}}} de manera idéntica a como aparace \isa{size} en la teoría.%
+\end{isamarkuptext}\isamarkuptrue%
+\isacommand{class}\isamarkupfalse%
+\ size{\isadigit{1}}\ {\isacharequal}\isanewline
+\ \ \isakeyword{fixes}\ size{\isadigit{1}}\ {\isacharcolon}{\isacharcolon}\ {\isachardoublequoteopen}{\isacharprime}a\ {\isasymRightarrow}\ nat{\isachardoublequoteclose}\ \isanewline
+\isanewline
+\isacommand{instantiation}\isamarkupfalse%
+\ nat\ {\isacharcolon}{\isacharcolon}\ size{\isadigit{1}}\isanewline
+\isakeyword{begin}\isanewline
+\isanewline
+\isacommand{definition}\isamarkupfalse%
+\ size{\isadigit{1}}{\isacharunderscore}nat\ \isakeyword{where}\ {\isacharbrackleft}simp{\isacharcomma}\ code{\isacharbrackright}{\isacharcolon}\ {\isachardoublequoteopen}size{\isadigit{1}}\ {\isacharparenleft}n{\isacharcolon}{\isacharcolon}nat{\isacharparenright}\ {\isacharequal}\ n{\isachardoublequoteclose}\isanewline
+\isanewline
+\isacommand{instance}\isamarkupfalse%
+%
+\isadelimproof
+\ %
+\endisadelimproof
+%
+\isatagproof
+\isacommand{{\isachardot}{\isachardot}}\isamarkupfalse%
+%
+\endisatagproof
+{\isafoldproof}%
+%
+\isadelimproof
+%
+\endisadelimproof
+\isanewline
+\isanewline
+\isacommand{end}\isamarkupfalse%
+%
+\begin{isamarkuptext}%
+Como podemos observar, se trata de una clase que actúa sobre un parámetro global
+de tipo \isa{{\isacharprime}a} cualquiera. Por otro lado, \isa{instantation} define una clase de
+parámetros, en este caso los números naturales \isa{nat} que devuelve como resultado. Incluye
+una definición concreta del operador \isa{size{\isadigit{1}}} sobre dichos parámetros. Además, el 
+último \isa{instance} abre una prueba que afirma que los parámetros dados conforman la clase 
+especificada en la definición. Esta prueba que nos afirma que está bien definida la clase aparece
+omitida utilizando \isa{{\isachardot}{\isachardot}} .
+\\
+En particular,
+sobre una fórmula nos devuelve el número de elementos de la lista cuyos elementos son los nodos
+y las hojas de su árbol de formación.%
+\end{isamarkuptext}\isamarkuptrue%
+\isacommand{value}\isamarkupfalse%
+\ {\isachardoublequoteopen}size{\isacharparenleft}n{\isacharcolon}{\isacharcolon}nat{\isacharparenright}\ {\isacharequal}\ n{\isachardoublequoteclose}\isanewline
+\isacommand{value}\isamarkupfalse%
+{\isachardoublequoteopen}size{\isacharparenleft}{\isadigit{5}}{\isacharcolon}{\isacharcolon}nat{\isacharparenright}\ {\isacharequal}\ {\isadigit{5}}{\isachardoublequoteclose}%
+\begin{isamarkuptext}%
+Por otro lado, la función \isa{length} de la teoría \href{http://cort.as/-Stfm}{List.thy}
+nos indica la longitud de una lista cualquiera de elementos, definiéndose utilizando el comando
+\isa{size} visto anteriormente.%
+\end{isamarkuptext}\isamarkuptrue%
+\isacommand{abbreviation}\isamarkupfalse%
+\ length\ {\isacharcolon}{\isacharcolon}\ {\isachardoublequoteopen}{\isacharprime}a\ list\ {\isasymRightarrow}\ nat{\isachardoublequoteclose}\ \isakeyword{where}\isanewline
+{\isachardoublequoteopen}length\ {\isasymequiv}\ size{\isachardoublequoteclose}%
+\begin{isamarkuptext}%
+Las demostración del resultado se vuelve a basar en la inducción que nos despliega seis casos. 
+La prueba estructurada no resulta interesante, pues todos los casos son
+inmediatos por simplificación como en el primer lema de esta sección. 
+Incluimos a continuación la prueba aplicativa y 
+automática.%
+\end{isamarkuptext}\isamarkuptrue%
+\isacommand{lemma}\isamarkupfalse%
+\ length{\isacharunderscore}subformulae{\isacharunderscore}aplicativa{\isacharcolon}\ {\isachardoublequoteopen}length\ {\isacharparenleft}subformulae\ F{\isacharparenright}\ {\isacharequal}\ size\ F{\isachardoublequoteclose}\ \isanewline
+%
+\isadelimproof
+\ \ %
+\endisadelimproof
+%
+\isatagproof
+\isacommand{apply}\isamarkupfalse%
+\ {\isacharparenleft}induction\ F{\isacharparenright}\ \isanewline
+\ \ \isacommand{apply}\isamarkupfalse%
+\ simp{\isacharunderscore}all\isanewline
+\ \isacommand{done}\isamarkupfalse%
+%
+\endisatagproof
+{\isafoldproof}%
+%
+\isadelimproof
+\isanewline
+%
+\endisadelimproof
+\isanewline
+\isacommand{lemma}\isamarkupfalse%
+\ length{\isacharunderscore}subformulae{\isacharcolon}\ {\isachardoublequoteopen}length\ {\isacharparenleft}subformulae\ F{\isacharparenright}\ {\isacharequal}\ size\ F{\isachardoublequoteclose}\ \isanewline
+%
+\isadelimproof
+\ \ %
+\endisadelimproof
+%
+\isatagproof
+\isacommand{by}\isamarkupfalse%
+\ {\isacharparenleft}induction\ F{\isacharsemicolon}\ simp{\isacharparenright}%
+\endisatagproof
+{\isafoldproof}%
+%
+\isadelimproof
+%
+\endisadelimproof
+%
+\isadelimdocument
+%
+\endisadelimdocument
+%
+\isatagdocument
+%
+\isamarkupsubsection{Conectivas Derivadas%
+}
+\isamarkuptrue%
+%
+\endisatagdocument
+{\isafolddocument}%
+%
+\isadelimdocument
+%
+\endisadelimdocument
+%
+\begin{isamarkuptext}%
+En esta sección definiremos nuevas conectivas y elementos a partir de los ya definidos en el
+apartado anterior. Además veremos varios resultados sobre los mismos.%
+\end{isamarkuptext}\isamarkuptrue%
+%
+\begin{isamarkuptext}%
+En primer lugar, vamos a definir \isa{Top{\isacharcolon}{\isacharcolon}\ {\isacharprime}a\ formula\ {\isasymRightarrow}\ bool} como la constante  que devuelve
+el booleano contrario a \isa{Bot}. Se trata, por tanto, de una constante de la misma naturaleza que
+la ya definida para \isa{Bot}. De este modo, \isa{Top} será equivalente a \isa{Verdadero}, y \isa{Bot} a \isa{Falso},
+según se muestra en la siguiente ecuación. Su símbolo queda igualmente retratado a continuación.%
+\end{isamarkuptext}\isamarkuptrue%
+\isacommand{definition}\isamarkupfalse%
+\ Top\ {\isacharparenleft}{\isachardoublequoteopen}{\isasymtop}{\isachardoublequoteclose}{\isacharparenright}\ \isakeyword{where}\isanewline
+{\isachardoublequoteopen}{\isasymtop}\ {\isasymequiv}\ {\isasymbottom}\ \isactrlbold {\isasymrightarrow}\ {\isasymbottom}{\isachardoublequoteclose}%
+\begin{isamarkuptext}%
+Por la propia definición y naturaleza de \isa{Top}, verifica que no contiene ninguna variable del
+alfabeto, como ya sabíamos análogamente para \isa{Bot}. Tenemos así la siguiente propiedad.%
+\end{isamarkuptext}\isamarkuptrue%
+\isacommand{lemma}\isamarkupfalse%
+\ top{\isacharunderscore}atoms{\isacharunderscore}simp{\isacharbrackleft}simp{\isacharbrackright}{\isacharcolon}\ {\isachardoublequoteopen}atoms\ {\isasymtop}\ {\isacharequal}\ {\isacharbraceleft}{\isacharbraceright}{\isachardoublequoteclose}\ \isanewline
+%
+\isadelimproof
+\ \ %
+\endisadelimproof
+%
+\isatagproof
+\isacommand{unfolding}\isamarkupfalse%
+\ Top{\isacharunderscore}def\ \isacommand{by}\isamarkupfalse%
+\ simp%
+\endisatagproof
+{\isafoldproof}%
+%
+\isadelimproof
+%
+\endisadelimproof
+%
+\begin{isamarkuptext}%
+A continuación vamos a definir dos conectivas que generalizarán la conjunción y la disyunción
+para una lista finita de fórmulas. .%
+\end{isamarkuptext}\isamarkuptrue%
+\isacommand{primrec}\isamarkupfalse%
+\ BigAnd\ {\isacharcolon}{\isacharcolon}\ {\isachardoublequoteopen}{\isacharprime}a\ formula\ list\ {\isasymRightarrow}\ {\isacharprime}a\ formula{\isachardoublequoteclose}\ {\isacharparenleft}{\isachardoublequoteopen}\isactrlbold {\isasymAnd}{\isacharunderscore}{\isachardoublequoteclose}{\isacharparenright}\ \isakeyword{where}\isanewline
+\ \ {\isachardoublequoteopen}\isactrlbold {\isasymAnd}Nil\ {\isacharequal}\ {\isacharparenleft}\isactrlbold {\isasymnot}{\isasymbottom}{\isacharparenright}{\isachardoublequoteclose}\ \isanewline
+{\isacharbar}\ {\isachardoublequoteopen}\isactrlbold {\isasymAnd}{\isacharparenleft}F{\isacharhash}Fs{\isacharparenright}\ {\isacharequal}\ F\ \isactrlbold {\isasymand}\ \isactrlbold {\isasymAnd}Fs{\isachardoublequoteclose}\isanewline
+\isanewline
+\isacommand{primrec}\isamarkupfalse%
+\ BigOr\ {\isacharcolon}{\isacharcolon}\ {\isachardoublequoteopen}{\isacharprime}a\ formula\ list\ {\isasymRightarrow}\ {\isacharprime}a\ formula{\isachardoublequoteclose}\ {\isacharparenleft}{\isachardoublequoteopen}\isactrlbold {\isasymOr}{\isacharunderscore}{\isachardoublequoteclose}{\isacharparenright}\ \isakeyword{where}\isanewline
+\ \ {\isachardoublequoteopen}\isactrlbold {\isasymOr}Nil\ {\isacharequal}\ {\isasymbottom}{\isachardoublequoteclose}\ \isanewline
+{\isacharbar}\ {\isachardoublequoteopen}\isactrlbold {\isasymOr}{\isacharparenleft}F{\isacharhash}Fs{\isacharparenright}\ {\isacharequal}\ F\ \isactrlbold {\isasymor}\ \isactrlbold {\isasymOr}Fs{\isachardoublequoteclose}%
+\begin{isamarkuptext}%
+Ambas nuevas conectivas se caracterizarán por ser del tipo funciones primitivas recursivas. Por
+tanto, sus definiciones se basan en dos casos:
+  \begin{description}
+  \item[Lista vacía:] Representada como \isa{Nil}. En este caso, la conjunción plural aplicada a la lista
+vacía nos devuelve la negación de \isa{Bot}, es decir, \isa{Verdadero}, y la disyunción plural sobre la lista
+vacía nos da simplemente \isa{Bot}, luego \isa{Falso}. 
+  \item[Lista recursiva:] En este caso actúa sobre \isa{F{\isacharhash}Fs} donde \isa{F} es una fórmula concatenada a la
+lista de fórmulas \isa{Fs}. Como es lógico, \isa{BigAnd} nos devuelve la conjunción de todas las fórmulas
+de la lista y \isa{BigOr} nos devuelve su disyunción.
+  \end{description}
+Además, se observa en cada función el símbolo de notación que aparece entre paréntesis.
+La conjunción plural nos da el siguiente resultado.%
+\end{isamarkuptext}\isamarkuptrue%
+\isacommand{lemma}\isamarkupfalse%
+\ atoms{\isacharunderscore}BigAnd{\isacharbrackleft}simp{\isacharbrackright}{\isacharcolon}\ {\isachardoublequoteopen}atoms\ {\isacharparenleft}\isactrlbold {\isasymAnd}Fs{\isacharparenright}\ {\isacharequal}\ {\isasymUnion}{\isacharparenleft}atoms\ {\isacharbackquote}\ set\ Fs{\isacharparenright}{\isachardoublequoteclose}\isanewline
+%
+\isadelimproof
+\ \ %
+\endisadelimproof
+%
+\isatagproof
+\isacommand{by}\isamarkupfalse%
+{\isacharparenleft}induction\ Fs{\isacharsemicolon}\ simp{\isacharparenright}\isanewline
+\isanewline
+%
+\endisatagproof
+{\isafoldproof}%
+%
+\isadelimproof
+%
+\endisadelimproof
+%
+\isadelimtheory
+%
+\endisadelimtheory
+%
+\isatagtheory
+%
+\endisatagtheory
+{\isafoldtheory}%
+%
+\isadelimtheory
+%
+\endisadelimtheory
+%
+\end{isabellebody}%
+\endinput
+%:%file=~/LogicaProposicional/Sintaxis.thy%:%
+%:%24=11%:%
+%:%34=13%:%
+%:%35=13%:%
+%:%37=15%:%
+%:%38=16%:%
+%:%39=17%:%
+%:%40=18%:%
+%:%41=19%:%
+%:%42=20%:%
+%:%43=21%:%
+%:%44=22%:%
+%:%45=23%:%
+%:%46=24%:%
+%:%47=25%:%
+%:%48=26%:%
+%:%49=27%:%
+%:%50=28%:%
+%:%51=29%:%
+%:%52=30%:%
+%:%53=31%:%
+%:%54=32%:%
+%:%58=34%:%
+%:%59=35%:%
+%:%60=36%:%
+%:%62=38%:%
+%:%63=38%:%
+%:%64=39%:%
+%:%65=40%:%
+%:%66=41%:%
+%:%67=42%:%
+%:%68=43%:%
+%:%69=44%:%
+%:%71=46%:%
+%:%72=47%:%
+%:%73=48%:%
+%:%74=49%:%
+%:%75=50%:%
+%:%76=51%:%
+%:%77=52%:%
+%:%78=53%:%
+%:%79=54%:%
+%:%80=55%:%
+%:%81=56%:%
+%:%82=57%:%
+%:%83=58%:%
+%:%84=59%:%
+%:%85=60%:%
+%:%86=61%:%
+%:%87=62%:%
+%:%88=63%:%
+%:%89=64%:%
+%:%90=65%:%
+%:%91=66%:%
+%:%93=68%:%
+%:%94=68%:%
+%:%96=70%:%
+%:%97=71%:%
+%:%99=73%:%
+%:%100=73%:%
+%:%101=74%:%
+%:%102=75%:%
+%:%103=75%:%
+%:%105=77%:%
+%:%106=78%:%
+%:%108=80%:%
+%:%109=80%:%
+%:%112=81%:%
+%:%116=81%:%
+%:%117=81%:%
+%:%122=81%:%
+%:%125=82%:%
+%:%126=83%:%
+%:%127=83%:%
+%:%130=84%:%
+%:%134=84%:%
+%:%135=84%:%
+%:%144=86%:%
+%:%145=87%:%
+%:%146=88%:%
+%:%147=89%:%
+%:%148=90%:%
+%:%150=93%:%
+%:%151=93%:%
+%:%153=96%:%
+%:%157=99%:%
+%:%158=100%:%
+%:%159=101%:%
+%:%161=103%:%
+%:%162=103%:%
+%:%165=104%:%
+%:%169=104%:%
+%:%170=104%:%
+%:%175=104%:%
+%:%178=105%:%
+%:%179=106%:%
+%:%180=106%:%
+%:%183=107%:%
+%:%187=107%:%
+%:%188=107%:%
+%:%197=109%:%
+%:%198=110%:%
+%:%199=111%:%
+%:%200=112%:%
+%:%201=113%:%
+%:%202=114%:%
+%:%203=115%:%
+%:%204=116%:%
+%:%205=117%:%
+%:%207=120%:%
+%:%208=120%:%
+%:%209=121%:%
+%:%210=122%:%
+%:%211=123%:%
+%:%212=124%:%
+%:%214=126%:%
+%:%215=127%:%
+%:%216=128%:%
+%:%217=129%:%
+%:%218=130%:%
+%:%219=131%:%
+%:%220=132%:%
+%:%221=133%:%
+%:%222=134%:%
+%:%226=136%:%
+%:%227=137%:%
+%:%228=138%:%
+%:%229=139%:%
+%:%233=142%:%
+%:%235=144%:%
+%:%236=144%:%
+%:%239=145%:%
+%:%243=145%:%
+%:%253=147%:%
+%:%254=148%:%
+%:%255=149%:%
+%:%259=151%:%
+%:%260=152%:%
+%:%261=153%:%
+%:%262=154%:%
+%:%263=155%:%
+%:%264=156%:%
+%:%265=157%:%
+%:%266=158%:%
+%:%267=159%:%
+%:%271=163%:%
+%:%272=164%:%
+%:%273=165%:%
+%:%275=167%:%
+%:%276=167%:%
+%:%283=168%:%
+%:%284=168%:%
+%:%285=169%:%
+%:%286=169%:%
+%:%287=170%:%
+%:%288=170%:%
+%:%289=170%:%
+%:%290=170%:%
+%:%291=171%:%
+%:%292=171%:%
+%:%293=172%:%
+%:%294=172%:%
+%:%295=173%:%
+%:%296=173%:%
+%:%297=173%:%
+%:%298=173%:%
+%:%299=174%:%
+%:%300=174%:%
+%:%301=175%:%
+%:%302=175%:%
+%:%303=176%:%
+%:%304=176%:%
+%:%305=176%:%
+%:%306=176%:%
+%:%307=177%:%
+%:%308=177%:%
+%:%309=178%:%
+%:%310=178%:%
+%:%311=179%:%
+%:%312=179%:%
+%:%313=179%:%
+%:%314=179%:%
+%:%315=180%:%
+%:%316=180%:%
+%:%317=181%:%
+%:%318=181%:%
+%:%319=182%:%
+%:%320=182%:%
+%:%321=182%:%
+%:%322=182%:%
+%:%323=183%:%
+%:%324=183%:%
+%:%325=184%:%
+%:%326=184%:%
+%:%327=185%:%
+%:%328=185%:%
+%:%329=185%:%
+%:%330=185%:%
+%:%331=186%:%
+%:%341=188%:%
+%:%343=190%:%
+%:%344=190%:%
+%:%347=191%:%
+%:%351=191%:%
+%:%352=191%:%
+%:%353=192%:%
+%:%354=192%:%
+%:%355=193%:%
+%:%361=193%:%
+%:%364=194%:%
+%:%365=195%:%
+%:%366=195%:%
+%:%369=196%:%
+%:%373=196%:%
+%:%374=196%:%
+%:%388=198%:%
+%:%400=200%:%
+%:%401=201%:%
+%:%402=202%:%
+%:%403=203%:%
+%:%404=204%:%
+%:%405=205%:%
+%:%406=206%:%
+%:%407=207%:%
+%:%408=208%:%
+%:%409=209%:%
+%:%410=210%:%
+%:%414=212%:%
+%:%415=213%:%
+%:%416=214%:%
+%:%417=215%:%
+%:%419=217%:%
+%:%420=217%:%
+%:%421=218%:%
+%:%422=219%:%
+%:%423=220%:%
+%:%424=221%:%
+%:%425=222%:%
+%:%426=223%:%
+%:%428=225%:%
+%:%430=227%:%
+%:%431=227%:%
+%:%432=228%:%
+%:%433=229%:%
+%:%434=230%:%
+%:%435=231%:%
+%:%437=233%:%
+%:%438=234%:%
+%:%440=236%:%
+%:%441=236%:%
+%:%442=237%:%
+%:%443=238%:%
+%:%444=238%:%
+%:%446=240%:%
+%:%448=242%:%
+%:%449=242%:%
+%:%452=245%:%
+%:%453=246%:%
+%:%455=248%:%
+%:%456=248%:%
+%:%457=249%:%
+%:%458=250%:%
+%:%459=251%:%
+%:%460=251%:%
+%:%463=254%:%
+%:%465=256%:%
+%:%466=256%:%
+%:%469=259%:%
+%:%470=260%:%
+%:%471=261%:%
+%:%472=262%:%
+%:%473=263%:%
+%:%474=264%:%
+%:%475=265%:%
+%:%476=266%:%
+%:%477=267%:%
+%:%479=269%:%
+%:%480=269%:%
+%:%481=270%:%
+%:%482=271%:%
+%:%483=272%:%
+%:%484=272%:%
+%:%485=273%:%
+%:%487=275%:%
+%:%489=277%:%
+%:%490=277%:%
+%:%491=278%:%
+%:%492=279%:%
+%:%493=279%:%
+%:%494=280%:%
+%:%497=281%:%
+%:%501=281%:%
+%:%502=281%:%
+%:%511=283%:%
+%:%512=284%:%
+%:%513=285%:%
+%:%514=286%:%
+%:%515=287%:%
+%:%516=288%:%
+%:%517=289%:%
+%:%518=290%:%
+%:%519=291%:%
+%:%520=292%:%
+%:%521=293%:%
+%:%522=294%:%
+%:%523=295%:%
+%:%525=297%:%
+%:%526=297%:%
+%:%529=298%:%
+%:%533=298%:%
+%:%534=298%:%
+%:%539=298%:%
+%:%542=299%:%
+%:%543=300%:%
+%:%544=300%:%
+%:%547=301%:%
+%:%551=301%:%
+%:%552=301%:%
+%:%557=301%:%
+%:%560=302%:%
+%:%561=303%:%
+%:%562=303%:%
+%:%565=304%:%
+%:%569=304%:%
+%:%570=304%:%
+%:%575=304%:%
+%:%578=305%:%
+%:%579=306%:%
+%:%580=306%:%
+%:%583=307%:%
+%:%587=307%:%
+%:%588=307%:%
+%:%593=307%:%
+%:%596=308%:%
+%:%597=309%:%
+%:%598=309%:%
+%:%601=310%:%
+%:%605=310%:%
+%:%606=310%:%
+%:%615=312%:%
+%:%616=313%:%
+%:%617=314%:%
+%:%618=315%:%
+%:%619=316%:%
+%:%620=317%:%
+%:%621=318%:%
+%:%622=319%:%
+%:%623=320%:%
+%:%625=323%:%
+%:%626=323%:%
+%:%629=324%:%
+%:%633=324%:%
+%:%643=326%:%
+%:%644=327%:%
+%:%645=328%:%
+%:%646=329%:%
+%:%647=330%:%
+%:%648=331%:%
+%:%649=332%:%
+%:%650=333%:%
+%:%651=334%:%
+%:%653=336%:%
+%:%654=336%:%
+%:%655=337%:%
+%:%656=338%:%
+%:%657=338%:%
+%:%660=339%:%
+%:%664=339%:%
+%:%665=339%:%
+%:%670=339%:%
+%:%673=340%:%
+%:%674=341%:%
+%:%675=341%:%
+%:%678=342%:%
+%:%682=342%:%
+%:%683=342%:%
+%:%692=344%:%
+%:%693=345%:%
+%:%694=346%:%
+%:%695=347%:%
+%:%696=348%:%
+%:%700=350%:%
+%:%701=351%:%
+%:%703=353%:%
+%:%704=353%:%
+%:%711=354%:%
+%:%712=354%:%
+%:%713=355%:%
+%:%714=355%:%
+%:%715=356%:%
+%:%716=356%:%
+%:%717=356%:%
+%:%718=356%:%
+%:%719=357%:%
+%:%720=357%:%
+%:%721=358%:%
+%:%722=358%:%
+%:%723=359%:%
+%:%724=359%:%
+%:%725=359%:%
+%:%726=359%:%
+%:%727=360%:%
+%:%728=360%:%
+%:%729=361%:%
+%:%730=361%:%
+%:%731=362%:%
+%:%732=362%:%
+%:%733=363%:%
+%:%734=363%:%
+%:%735=364%:%
+%:%736=364%:%
+%:%737=365%:%
+%:%738=365%:%
+%:%739=365%:%
+%:%740=366%:%
+%:%741=366%:%
+%:%742=366%:%
+%:%743=366%:%
+%:%744=367%:%
+%:%745=367%:%
+%:%746=367%:%
+%:%747=367%:%
+%:%748=368%:%
+%:%749=368%:%
+%:%750=368%:%
+%:%751=368%:%
+%:%752=368%:%
+%:%753=369%:%
+%:%754=369%:%
+%:%755=369%:%
+%:%756=369%:%
+%:%757=369%:%
+%:%758=370%:%
+%:%759=370%:%
+%:%760=371%:%
+%:%761=371%:%
+%:%762=372%:%
+%:%763=372%:%
+%:%764=373%:%
+%:%765=373%:%
+%:%766=374%:%
+%:%767=374%:%
+%:%768=375%:%
+%:%769=375%:%
+%:%770=376%:%
+%:%771=376%:%
+%:%772=377%:%
+%:%773=377%:%
+%:%774=378%:%
+%:%775=378%:%
+%:%776=378%:%
+%:%777=379%:%
+%:%778=379%:%
+%:%779=379%:%
+%:%780=380%:%
+%:%781=380%:%
+%:%782=380%:%
+%:%783=380%:%
+%:%784=381%:%
+%:%785=381%:%
+%:%786=381%:%
+%:%787=381%:%
+%:%788=382%:%
+%:%789=382%:%
+%:%790=382%:%
+%:%791=382%:%
+%:%792=383%:%
+%:%793=383%:%
+%:%794=383%:%
+%:%795=383%:%
+%:%796=384%:%
+%:%797=384%:%
+%:%798=384%:%
+%:%799=384%:%
+%:%800=385%:%
+%:%801=385%:%
+%:%802=385%:%
+%:%803=385%:%
+%:%804=386%:%
+%:%805=386%:%
+%:%806=386%:%
+%:%807=386%:%
+%:%808=387%:%
+%:%809=387%:%
+%:%810=387%:%
+%:%811=387%:%
+%:%812=387%:%
+%:%813=388%:%
+%:%814=388%:%
+%:%815=388%:%
+%:%816=388%:%
+%:%817=388%:%
+%:%818=389%:%
+%:%819=389%:%
+%:%820=390%:%
+%:%830=392%:%
+%:%832=394%:%
+%:%833=394%:%
+%:%836=395%:%
+%:%840=395%:%
+%:%841=395%:%
+%:%850=397%:%
+%:%851=398%:%
+%:%852=399%:%
+%:%853=400%:%
+%:%854=401%:%
+%:%855=402%:%
+%:%856=403%:%
+%:%857=404%:%
+%:%858=405%:%
+%:%859=406%:%
+%:%861=408%:%
+%:%862=408%:%
+%:%865=409%:%
+%:%869=409%:%
+%:%870=409%:%
+%:%875=409%:%
+%:%878=410%:%
+%:%879=411%:%
+%:%880=411%:%
+%:%883=412%:%
+%:%887=412%:%
+%:%888=412%:%
+%:%897=414%:%
+%:%898=415%:%
+%:%899=416%:%
+%:%900=417%:%
+%:%901=418%:%
+%:%902=419%:%
+%:%903=420%:%
+%:%905=422%:%
+%:%906=422%:%
+%:%909=423%:%
+%:%913=423%:%
+%:%923=425%:%
+%:%924=426%:%
+%:%926=428%:%
+%:%927=428%:%
+%:%934=429%:%
+%:%935=429%:%
+%:%936=430%:%
+%:%937=430%:%
+%:%938=431%:%
+%:%939=431%:%
+%:%940=431%:%
+%:%941=431%:%
+%:%942=432%:%
+%:%943=432%:%
+%:%944=433%:%
+%:%945=433%:%
+%:%946=434%:%
+%:%947=434%:%
+%:%948=434%:%
+%:%949=434%:%
+%:%950=435%:%
+%:%951=435%:%
+%:%952=436%:%
+%:%953=436%:%
+%:%954=437%:%
+%:%955=437%:%
+%:%956=438%:%
+%:%957=438%:%
+%:%958=439%:%
+%:%959=439%:%
+%:%960=440%:%
+%:%961=440%:%
+%:%962=441%:%
+%:%963=441%:%
+%:%964=442%:%
+%:%965=442%:%
+%:%966=442%:%
+%:%967=442%:%
+%:%968=443%:%
+%:%969=443%:%
+%:%970=443%:%
+%:%971=443%:%
+%:%972=444%:%
+%:%973=444%:%
+%:%974=445%:%
+%:%975=445%:%
+%:%976=446%:%
+%:%977=446%:%
+%:%978=446%:%
+%:%979=446%:%
+%:%980=447%:%
+%:%981=447%:%
+%:%982=447%:%
+%:%983=448%:%
+%:%984=448%:%
+%:%985=448%:%
+%:%986=448%:%
+%:%987=448%:%
+%:%988=449%:%
+%:%989=449%:%
+%:%990=449%:%
+%:%991=450%:%
+%:%992=450%:%
+%:%993=450%:%
+%:%994=450%:%
+%:%995=450%:%
+%:%996=451%:%
+%:%997=451%:%
+%:%998=452%:%
+%:%999=452%:%
+%:%1000=453%:%
+%:%1001=453%:%
+%:%1002=454%:%
+%:%1003=454%:%
+%:%1004=455%:%
+%:%1005=455%:%
+%:%1006=456%:%
+%:%1007=456%:%
+%:%1008=457%:%
+%:%1009=457%:%
+%:%1010=457%:%
+%:%1011=458%:%
+%:%1012=458%:%
+%:%1013=459%:%
+%:%1014=459%:%
+%:%1015=460%:%
+%:%1016=460%:%
+%:%1017=460%:%
+%:%1018=460%:%
+%:%1019=461%:%
+%:%1020=461%:%
+%:%1021=461%:%
+%:%1022=461%:%
+%:%1023=462%:%
+%:%1024=462%:%
+%:%1025=463%:%
+%:%1026=463%:%
+%:%1027=464%:%
+%:%1028=464%:%
+%:%1029=464%:%
+%:%1030=464%:%
+%:%1031=465%:%
+%:%1032=465%:%
+%:%1033=465%:%
+%:%1034=466%:%
+%:%1035=466%:%
+%:%1036=466%:%
+%:%1037=466%:%
+%:%1038=466%:%
+%:%1039=467%:%
+%:%1040=467%:%
+%:%1041=467%:%
+%:%1042=468%:%
+%:%1043=468%:%
+%:%1044=468%:%
+%:%1045=469%:%
+%:%1046=469%:%
+%:%1047=470%:%
+%:%1048=470%:%
+%:%1049=471%:%
+%:%1050=471%:%
+%:%1051=471%:%
+%:%1052=471%:%
+%:%1053=472%:%
+%:%1054=472%:%
+%:%1055=472%:%
+%:%1056=472%:%
+%:%1057=472%:%
+%:%1058=473%:%
+%:%1059=473%:%
+%:%1060=473%:%
+%:%1061=473%:%
+%:%1062=474%:%
+%:%1063=474%:%
+%:%1064=474%:%
+%:%1065=474%:%
+%:%1066=475%:%
+%:%1067=475%:%
+%:%1068=476%:%
+%:%1069=476%:%
+%:%1070=477%:%
+%:%1071=477%:%
+%:%1072=477%:%
+%:%1073=477%:%
+%:%1074=478%:%
+%:%1075=478%:%
+%:%1076=478%:%
+%:%1077=478%:%
+%:%1078=478%:%
+%:%1079=479%:%
+%:%1080=479%:%
+%:%1081=479%:%
+%:%1082=479%:%
+%:%1083=479%:%
+%:%1084=480%:%
+%:%1085=480%:%
+%:%1086=480%:%
+%:%1087=480%:%
+%:%1088=481%:%
+%:%1089=481%:%
+%:%1090=481%:%
+%:%1091=481%:%
+%:%1092=482%:%
+%:%1093=482%:%
+%:%1094=483%:%
+%:%1095=483%:%
+%:%1096=484%:%
+%:%1106=486%:%
+%:%1108=488%:%
+%:%1109=488%:%
+%:%1112=489%:%
+%:%1116=489%:%
+%:%1117=489%:%
+%:%1118=490%:%
+%:%1119=490%:%
+%:%1120=491%:%
+%:%1126=491%:%
+%:%1129=492%:%
+%:%1130=493%:%
+%:%1131=493%:%
+%:%1134=494%:%
+%:%1138=494%:%
+%:%1139=494%:%
+%:%1148=496%:%
+%:%1149=497%:%
+%:%1150=498%:%
+%:%1151=499%:%
+%:%1152=500%:%
+%:%1153=501%:%
+%:%1154=502%:%
+%:%1155=503%:%
+%:%1157=505%:%
+%:%1158=505%:%
+%:%1165=506%:%
+%:%1166=506%:%
+%:%1167=507%:%
+%:%1168=507%:%
+%:%1169=508%:%
+%:%1170=508%:%
+%:%1171=508%:%
+%:%1172=508%:%
+%:%1173=509%:%
+%:%1174=509%:%
+%:%1175=510%:%
+%:%1176=510%:%
+%:%1177=511%:%
+%:%1178=511%:%
+%:%1179=511%:%
+%:%1180=511%:%
+%:%1181=512%:%
+%:%1182=512%:%
+%:%1183=513%:%
+%:%1184=513%:%
+%:%1185=514%:%
+%:%1186=514%:%
+%:%1187=515%:%
+%:%1188=515%:%
+%:%1189=516%:%
+%:%1190=516%:%
+%:%1191=516%:%
+%:%1192=517%:%
+%:%1193=517%:%
+%:%1194=518%:%
+%:%1195=518%:%
+%:%1196=519%:%
+%:%1197=519%:%
+%:%1198=519%:%
+%:%1199=519%:%
+%:%1200=520%:%
+%:%1201=520%:%
+%:%1202=521%:%
+%:%1203=521%:%
+%:%1204=522%:%
+%:%1205=522%:%
+%:%1206=522%:%
+%:%1207=522%:%
+%:%1208=523%:%
+%:%1209=523%:%
+%:%1210=523%:%
+%:%1211=523%:%
+%:%1212=523%:%
+%:%1213=524%:%
+%:%1214=524%:%
+%:%1215=524%:%
+%:%1216=524%:%
+%:%1217=524%:%
+%:%1218=525%:%
+%:%1219=525%:%
+%:%1220=525%:%
+%:%1221=526%:%
+%:%1222=526%:%
+%:%1223=526%:%
+%:%1224=526%:%
+%:%1225=527%:%
+%:%1226=527%:%
+%:%1227=527%:%
+%:%1228=527%:%
+%:%1229=528%:%
+%:%1230=528%:%
+%:%1231=529%:%
+%:%1232=529%:%
+%:%1233=530%:%
+%:%1234=530%:%
+%:%1235=531%:%
+%:%1236=531%:%
+%:%1237=532%:%
+%:%1238=532%:%
+%:%1239=533%:%
+%:%1240=533%:%
+%:%1241=534%:%
+%:%1242=534%:%
+%:%1243=534%:%
+%:%1244=535%:%
+%:%1245=535%:%
+%:%1246=535%:%
+%:%1247=536%:%
+%:%1248=536%:%
+%:%1249=537%:%
+%:%1250=537%:%
+%:%1251=538%:%
+%:%1252=538%:%
+%:%1253=538%:%
+%:%1254=538%:%
+%:%1255=539%:%
+%:%1256=539%:%
+%:%1257=540%:%
+%:%1258=540%:%
+%:%1259=541%:%
+%:%1260=541%:%
+%:%1261=541%:%
+%:%1262=541%:%
+%:%1263=542%:%
+%:%1264=542%:%
+%:%1265=542%:%
+%:%1266=542%:%
+%:%1267=543%:%
+%:%1268=543%:%
+%:%1269=543%:%
+%:%1270=544%:%
+%:%1271=544%:%
+%:%1272=545%:%
+%:%1273=545%:%
+%:%1274=546%:%
+%:%1275=546%:%
+%:%1276=546%:%
+%:%1277=546%:%
+%:%1278=547%:%
+%:%1279=547%:%
+%:%1280=547%:%
+%:%1281=547%:%
+%:%1282=547%:%
+%:%1283=548%:%
+%:%1284=548%:%
+%:%1285=548%:%
+%:%1286=548%:%
+%:%1287=549%:%
+%:%1288=549%:%
+%:%1289=549%:%
+%:%1290=549%:%
+%:%1291=550%:%
+%:%1292=550%:%
+%:%1293=551%:%
+%:%1294=551%:%
+%:%1295=552%:%
+%:%1296=552%:%
+%:%1297=552%:%
+%:%1298=552%:%
+%:%1299=553%:%
+%:%1300=553%:%
+%:%1301=553%:%
+%:%1302=553%:%
+%:%1303=554%:%
+%:%1304=554%:%
+%:%1305=554%:%
+%:%1306=554%:%
+%:%1307=554%:%
+%:%1308=555%:%
+%:%1309=555%:%
+%:%1310=555%:%
+%:%1311=555%:%
+%:%1312=555%:%
+%:%1313=556%:%
+%:%1314=556%:%
+%:%1315=556%:%
+%:%1316=556%:%
+%:%1317=557%:%
+%:%1318=557%:%
+%:%1319=557%:%
+%:%1320=557%:%
+%:%1321=558%:%
+%:%1322=558%:%
+%:%1323=559%:%
+%:%1324=559%:%
+%:%1325=560%:%
+%:%1331=560%:%
+%:%1334=561%:%
+%:%1335=562%:%
+%:%1336=563%:%
+%:%1337=564%:%
+%:%1338=564%:%
+%:%1341=565%:%
+%:%1345=565%:%
+%:%1346=565%:%
+%:%1355=567%:%
+%:%1356=568%:%
+%:%1357=569%:%
+%:%1358=570%:%
+%:%1359=571%:%
+%:%1360=572%:%
+%:%1361=573%:%
+%:%1362=574%:%
+%:%1363=575%:%
+%:%1364=576%:%
+%:%1366=578%:%
+%:%1367=578%:%
+%:%1368=579%:%
+%:%1369=580%:%
+%:%1370=581%:%
+%:%1377=582%:%
+%:%1378=582%:%
+%:%1379=583%:%
+%:%1380=583%:%
+%:%1381=583%:%
+%:%1382=583%:%
+%:%1383=584%:%
+%:%1384=584%:%
+%:%1385=584%:%
+%:%1386=584%:%
+%:%1387=585%:%
+%:%1388=585%:%
+%:%1389=585%:%
+%:%1390=585%:%
+%:%1391=585%:%
+%:%1392=586%:%
+%:%1393=586%:%
+%:%1394=586%:%
+%:%1395=587%:%
+%:%1396=587%:%
+%:%1397=587%:%
+%:%1398=587%:%
+%:%1399=587%:%
+%:%1400=588%:%
+%:%1406=588%:%
+%:%1409=589%:%
+%:%1410=590%:%
+%:%1411=590%:%
+%:%1414=591%:%
+%:%1418=591%:%
+%:%1424=591%:%
+%:%1427=592%:%
+%:%1428=593%:%
+%:%1429=593%:%
+%:%1432=594%:%
+%:%1436=594%:%
+%:%1437=594%:%
+%:%1446=596%:%
+%:%1447=597%:%
+%:%1449=599%:%
+%:%1450=599%:%
+%:%1453=600%:%
+%:%1457=600%:%
+%:%1458=600%:%
+%:%1467=602%:%
+%:%1468=603%:%
+%:%1470=605%:%
+%:%1471=605%:%
+%:%1472=606%:%
+%:%1473=607%:%
+%:%1474=608%:%
+%:%1475=609%:%
+%:%1478=610%:%
+%:%1482=610%:%
+%:%1492=612%:%
+%:%1493=613%:%
+%:%1494=614%:%
+%:%1496=616%:%
+%:%1497=616%:%
+%:%1498=617%:%
+%:%1499=618%:%
+%:%1506=619%:%
+%:%1507=619%:%
+%:%1508=620%:%
+%:%1509=620%:%
+%:%1510=620%:%
+%:%1511=621%:%
+%:%1512=621%:%
+%:%1513=621%:%
+%:%1514=621%:%
+%:%1515=622%:%
+%:%1516=622%:%
+%:%1517=622%:%
+%:%1518=622%:%
+%:%1519=623%:%
+%:%1520=623%:%
+%:%1521=623%:%
+%:%1522=623%:%
+%:%1523=624%:%
+%:%1524=624%:%
+%:%1525=624%:%
+%:%1526=624%:%
+%:%1527=625%:%
+%:%1533=625%:%
+%:%1536=626%:%
+%:%1537=627%:%
+%:%1538=627%:%
+%:%1539=628%:%
+%:%1540=629%:%
+%:%1547=630%:%
+%:%1548=630%:%
+%:%1549=631%:%
+%:%1550=631%:%
+%:%1551=631%:%
+%:%1552=632%:%
+%:%1553=632%:%
+%:%1554=632%:%
+%:%1555=632%:%
+%:%1556=633%:%
+%:%1557=633%:%
+%:%1558=633%:%
+%:%1559=633%:%
+%:%1560=634%:%
+%:%1570=636%:%
+%:%1571=637%:%
+%:%1573=639%:%
+%:%1574=639%:%
+%:%1575=640%:%
+%:%1576=641%:%
+%:%1579=642%:%
+%:%1583=642%:%
+%:%1584=642%:%
+%:%1585=643%:%
+%:%1586=643%:%
+%:%1587=644%:%
+%:%1593=644%:%
+%:%1596=645%:%
+%:%1597=646%:%
+%:%1598=646%:%
+%:%1599=647%:%
+%:%1600=648%:%
+%:%1601=649%:%
+%:%1602=650%:%
+%:%1605=651%:%
+%:%1609=651%:%
+%:%1610=651%:%
+%:%1619=653%:%
+%:%1620=654%:%
+%:%1622=656%:%
+%:%1623=656%:%
+%:%1626=657%:%
+%:%1630=657%:%
+%:%1640=659%:%
+%:%1641=660%:%
+%:%1643=662%:%
+%:%1644=662%:%
+%:%1645=663%:%
+%:%1646=664%:%
+%:%1647=665%:%
+%:%1648=665%:%
+%:%1649=666%:%
+%:%1650=667%:%
+%:%1651=668%:%
+%:%1652=668%:%
+%:%1653=669%:%
+%:%1654=670%:%
+%:%1657=670%:%
+%:%1661=670%:%
+%:%1669=670%:%
+%:%1670=671%:%
+%:%1671=672%:%
+%:%1674=674%:%
+%:%1675=675%:%
+%:%1676=676%:%
+%:%1677=677%:%
+%:%1678=678%:%
+%:%1679=679%:%
+%:%1680=680%:%
+%:%1681=681%:%
+%:%1682=682%:%
+%:%1683=683%:%
+%:%1684=684%:%
+%:%1686=687%:%
+%:%1687=687%:%
+%:%1688=688%:%
+%:%1689=688%:%
+%:%1691=691%:%
+%:%1692=692%:%
+%:%1693=693%:%
+%:%1695=695%:%
+%:%1696=695%:%
+%:%1697=696%:%
+%:%1699=698%:%
+%:%1700=699%:%
+%:%1701=700%:%
+%:%1702=701%:%
+%:%1703=702%:%
+%:%1705=704%:%
+%:%1706=704%:%
+%:%1709=705%:%
+%:%1713=705%:%
+%:%1714=705%:%
+%:%1715=706%:%
+%:%1716=706%:%
+%:%1717=707%:%
+%:%1723=707%:%
+%:%1726=708%:%
+%:%1727=709%:%
+%:%1728=709%:%
+%:%1731=710%:%
+%:%1735=710%:%
+%:%1736=710%:%
+%:%1750=712%:%
+%:%1762=714%:%
+%:%1763=715%:%
+%:%1767=717%:%
+%:%1768=718%:%
+%:%1769=719%:%
+%:%1770=720%:%
+%:%1772=723%:%
+%:%1773=723%:%
+%:%1774=724%:%
+%:%1776=726%:%
+%:%1777=727%:%
+%:%1779=729%:%
+%:%1780=729%:%
+%:%1783=730%:%
+%:%1787=730%:%
+%:%1788=730%:%
+%:%1789=730%:%
+%:%1798=732%:%
+%:%1799=733%:%
+%:%1801=735%:%
+%:%1802=735%:%
+%:%1803=736%:%
+%:%1804=737%:%
+%:%1805=738%:%
+%:%1806=739%:%
+%:%1807=739%:%
+%:%1808=740%:%
+%:%1809=741%:%
+%:%1811=743%:%
+%:%1812=744%:%
+%:%1813=745%:%
+%:%1814=746%:%
+%:%1815=747%:%
+%:%1816=748%:%
+%:%1817=749%:%
+%:%1818=750%:%
+%:%1819=751%:%
+%:%1820=752%:%
+%:%1821=753%:%
+%:%1822=754%:%
+%:%1824=757%:%
+%:%1825=757%:%
+%:%1828=758%:%
+%:%1832=758%:%
+%:%1833=758%:%
+%:%1834=759%:%

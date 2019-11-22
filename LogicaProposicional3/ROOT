@@ -1,0 +1,11 @@
+session Ejercicios_de_LMF = HOL +
+  options [document = pdf, document_output = "output"]
+  sessions
+    "HOL-Library"    
+  theories
+    Sintaxis
+  document_files
+    "root.tex"
+    "root.bib"
+    "definiciones.tex"
+    "castellano.tex"

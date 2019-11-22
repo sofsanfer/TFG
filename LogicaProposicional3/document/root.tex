@@ -1,0 +1,86 @@
+\documentclass[12pt,a4paper]{article}
+\usepackage{isabelle,isabellesym}
+\usepackage{ifthen,mathpartir}
+
+% further packages required for unusual symbols (see also
+% isabellesym.sty), use only when needed
+
+% Personalización
+% \usepackage{color,graphicx}        % Usa figuras.
+\usepackage[utf8x]{inputenc}       % Acentos de UTF8
+% \usepackage[T1]{fontenc}           % Codificación T1 con European Computer
+% \usepackage[spanish]{babel}        % Castellanización.
+% \usepackage{ucs}
+% \usepackage{mathpazo}              % Tipo de fuente
+% \usepackage[scaled=.90]{helvet}    % Tipo de fuente
+% \usepackage{a4wide}                % Márgenes
+% \linespread{1.05}                  % Distancia entre líneas
+% \setlength{\parindent}{2em}        % Indentación de comienzo de párrafo
+
+\usepackage{amssymb}
+  %for \<leadsto>, \<box>, \<diamond>, \<sqsupset>, \<mho>, \<Join>,
+  %\<lhd>, \<lesssim>, \<greatersim>, \<lessapprox>, \<greaterapprox>,
+  %\<triangleq>, \<yen>, \<lozenge>
+
+%\usepackage{eurosym}
+  %for \<euro>
+
+%\usepackage[only,bigsqcap]{stmaryrd}
+  %for \<Sqinter>
+
+%\usepackage{eufrak}
+  %for \<AA> ... \<ZZ>, \<aa> ... \<zz> (also included in amssymb)
+
+% \usepackage{textcomp}
+  %for \<onequarter>, \<onehalf>, \<threequarters>, \<degree>, \<cent>,
+  %\<currency>
+
+% this should be the last package used
+\usepackage{pdfsetup}
+
+% urls in roman style, theory text in math-similar italics
+\urlstyle{rm}
+\isabellestyle{it}
+
+% for uniform font size
+\renewcommand{\isastyle}{\isastyleminor}
+
+% Nota: Definiciones
+\input definiciones
+\input castellano
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Documento
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{document}
+
+\title{Logica Proposicional en Isabelle/HOL}
+\author{Sofía Santiago Fernández}
+\date{actualizado el 18 de octubre de 2019}
+\maketitle
+
+\begin{abstract}
+  Añadir introducción
+\end{abstract}
+
+\tableofcontents
+
+% sane default for proof documents
+% \parindent 0pt\parskip 0.5ex
+\parindent 2em\parskip 1ex
+
+% generated text of all theories
+\input{session}
+
+% optional bibliography
+\nocite{LMF, tutorial,fitting1996first}
+\bibliographystyle{plain}
+\bibliography{root}
+
+\end{document}
+
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: t
+%%% End:
