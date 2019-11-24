@@ -230,6 +230,8 @@ primrec subformulae_s :: "'a formula_simp \<Rightarrow> 'a formula_simp list" wh
 "subformulae_s (Mon F) = Mon F # subformulae_s F" |
 "subformulae_s (Bi F G) = Bi F G # subformulae_s F @ subformulae_s G" 
 
+thm subformulae_s.simps(2)
+ 
 text\<open>Siguiendo con los ejemplos, observemos cómo actúa @{term subformulae} en las distintas fórmulas. 
 En primer lugar, veamos los casos base de fórmulas atómicas y con conectiva de negación.\<close>
 
@@ -296,6 +298,7 @@ con frecuencia. Su demostración será la automática.\<close>
 
 lemma subContUnion1: "A = B \<union> C \<Longrightarrow> B \<subseteq> A"
   by auto
+find_theorems "_\<subseteq>_" name:mono -name:List name:Set
 
 lemma subContUnion2: "A = B \<union> C \<Longrightarrow> C \<subseteq> A"
   by auto
@@ -352,8 +355,12 @@ que seguirá el esquema inductivo señalado con anterioridad.\<close>
 
 lemma atoms_are_subformulae_detallada_s: "Atom_s ` atoms_s F \<subseteq> setSubformulae_s F"
 proof (induction F)
-case (Atom_s x)
-  then show ?case by simp
+  case (Atom_s x)
+  have "Atom_s ` atoms_s (Atom_s x) = Atom_s ` {x}" by simp
+  also have "\<dots> = {Atom_s x}" by simp
+  also have "\<dots> \<subseteq> {Atom_s x}" by simp
+  also have "\<dots> = setSubformulae_s (Atom_s x)" by simp
+  finally show ?case by simp  
 next
   case Bot_s
   then show ?case by simp
