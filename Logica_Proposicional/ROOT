@@ -4,6 +4,7 @@ session Ejercicios_de_LMF = HOL +
     "HOL-Library"    
   theories
     Sintaxis
+    Glosario	
   document_files
     "root.tex"
     "root.bib"
