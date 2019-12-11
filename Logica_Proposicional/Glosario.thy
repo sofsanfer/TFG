@@ -12,6 +12,11 @@ section \<open>Glosario de reglas\<close>
 
 subsection \<open>Teoría de conjuntos finitos\<close>
 
+text \<open>\comentario{Explicar la siguiente notación y recolocarla donde se
+  use por primera vez.}\<close> 
+
+text \<open>\comentario{Falta Corregir.}\<close> 
+
 text \<open>A continuación se muestran resultamos relativos a la teoría 
   \href{https://n9.cl/x86r}{FiniteSet.thy}. Dicha teoría se basa en la definición recursiva de
   @{term "finite"}, que aparece retratada en la sección de \<open>Sintaxis\<close>. Además, hemos empleado los
