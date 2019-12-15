@@ -8,12 +8,15 @@ theory Sintaxis
 begin
 (*>*) 
 
-section \<open>Sintaxis\<close>
+(* chapter \<open>Sintaxis\<close> *)
 
-subsection \<open>Fórmulas\<close>
+section \<open>Fórmulas\<close>
 
 text \<open>\comentario{Explicar la siguiente notación y recolocarla donde se
-  use por primera vez.}\<close> 
+  use por primera vez.}
+
+  \comentario{He quitado la palabra "continuación" del fichero 
+  castellano.tex ya que no dejaba cargar el documento}\<close>
 
 notation insert ("_ \<triangleright> _" [56,55] 55)
 
@@ -58,13 +61,19 @@ text \<open>En esta sección presentaremos una formalización en Isabelle de la
       \item Dadas dos fórmulas \<open>F\<close> y \<open>G\<close>, la implicación \<open>F \<longrightarrow> G\<close> es 
         una fórmula.
     \end{itemize}
+  La demostración estructurada se hace de manera sencilla con el 
+  resultado introducido anteriormente. 
+
+  La demostración estructurada se hace de manera sencilla con el 
+  resultado introducido anteriormente. 
+
   \end{definicion}
 
- Intuitivamente, las fórmulas proposicionales son entendidas como un 
- tipo de árbol sintáctico cuyos nodos son las conectivas y sus hojas las 
-  fórmulas atómicas.
+  Intuitivamente, las fórmulas proposicionales son entendidas como un 
+  tipo de árbol sintáctico cuyos nodos son las conectivas y sus hojas
+  las fórmulas atómicas.
 
- \comentario{Incluir el árbol de formación.}
+  \comentario{Incluir el árbol de formación.}
 
   A continuación, veamos su representación en Isabelle\<close>
 
@@ -81,12 +90,12 @@ text \<open>Como podemos observar representamos las fórmulas proposicionales
   siguientes constructures sobre un tipo \<open>'a\<close> cualquiera:
 
   \begin{description}
-    \item[Fórmulas básicas]:  
+    \item[Fórmulas básicas:]  
       \begin{itemize}
         \item @{const_typ Atom}
         \item @{const_typ Bot}
       \end{itemize}
-    \item [Fórmulas compuestas]:
+    \item [Fórmulas compuestas:]
       \begin{itemize}
         \item @{const_typ Not}
         \item @{const_typ And}
@@ -108,7 +117,7 @@ text \<open>Como podemos observar representamos las fórmulas proposicionales
   @{term "atoms"} en Isabelle.
   
   \begin{itemize}
-    \item[] @{thm formula.set[no_vars]}
+    \item[] @{thm formula.set}
   \end{itemize} 
 
   A continuación veremos varios ejemplos de fórmulas y el conjunto de 
@@ -131,7 +140,6 @@ begin
 
   have "atoms ((Atom p \<^bold>\<rightarrow> Atom p) \<^bold>\<or> Atom r) = {p,r}"
     by auto  
-
 end
 
 text \<open>En particular, el conjunto de símbolos proposicionales de la 
@@ -192,10 +200,10 @@ text \<open>Una vez definida la estructura de las fórmulas, vamos a introducir
   las pruebas formalizadas utilizaremos la táctica @{term "induction"}, 
   que corresponde al siguiente esquema.
 
-\comentario{Poner bien cada regla.}
+  \comentario{Poner bien cada regla.}
 
   \begin{itemize}
-    \item[] @{thm formula.induct[no_vars]}
+    \item[] @{thm[mode=Rule] formula.induct}
   \end{itemize} 
 
   Como hemos señalado, el esquema inductivo se aplicará en cada uno de 
@@ -226,13 +234,12 @@ text \<open>Una vez definida la estructura de las fórmulas, vamos a introducir
       \end{itemize}
   \end{definicion}
 
-
   En Isabelle, podemos formalizar el lema como sigue.\<close>
 
 lemma "finite (atoms F)"
   oops
 
-text \<open>Análogamente, el enunciado formalizado contiene la defición 
+text \<open>Análogamente, el enunciado formalizado contiene la definición 
   @{term "finite S"}, perteneciente a la teoría 
   \href{https://n9.cl/x86r}{FiniteSet.thy}.\<close>
 
@@ -270,17 +277,16 @@ text \<open>Observemos que la definición anterior corresponde a
   Consideremos las fórmulas \<open>F\<close> y \<open>G\<close> cuyos conjuntos de átomos son 
   finitos. Por construcción, el conjunto de variables de \<open>F*G\<close> es la 
   unión de sus respectivos conjuntos de átomos para cualquier \<open>*\<close> 
-  conectiva binaria. Por lo tanto, por hipótesis de inducción, 
+  conectiva binaria. Por lo tanto, usando la hipótesis de inducción, 
   dicho conjunto es finito. 
   \end{demostracion} 
 
-  Veamos ahora la prueba detallada en Isabelle. Mostraré con detalle 
+  Veamos ahora la prueba detallada en Isabelle. Mostraremos con detalle 
   todos los casos de conectivas binarias, aunque se puede observar que 
-  son completamente equivalentes. Para facilitar la lectura, primero 
+  son completamente análogos. Para facilitar la lectura, primero 
   demostraremos por separado cada uno de los casos según el esquema 
   inductivo de fórmulas, y finalmente añadiremos la prueba para una 
   fórmula cualquiera a partir de los anteriores.\<close>
-
 
 lemma atoms_finite_atom:
   "finite (atoms (Atom x))"
@@ -370,7 +376,7 @@ text \<open>Su demostración automática es la siguiente.\<close>
 lemma "finite (atoms F)" 
   by (induction F) simp_all 
 
-subsection \<open>Subfórmulas\<close>
+section \<open>Subfórmulas\<close>
 
 text \<open>Veamos la noción de subfórmulas.
 
@@ -378,8 +384,8 @@ text \<open>Veamos la noción de subfórmulas.
   El conjunto de subfórmulas de una fórmula \<open>F\<close>, notada \<open>Subf(F)\<close>, se 
   define recursivamente como:
     \begin{itemize}
-      \item \<open>{\<bottom>}\<close> si \<open>F\<close> es \<open>\<bottom>\<close>.
       \item \<open>{F}\<close> si \<open>F\<close> es una fórmula atómica.
+      \item \<open>{\<bottom>}\<close> si \<open>F\<close> es \<open>\<bottom>\<close>.
       \item \<open>{F} \<union> Subf(G)\<close> si \<open>F\<close> es \<open>\<not>G\<close>.
       \item \<open>{F} \<union> Subf(G) \<union> Subf(H)\<close> si \<open>F\<close> es \<open>G*H\<close> donde \<open>*\<close> es 
         cualquier conectiva binaria.
@@ -416,8 +422,8 @@ begin
     by simp
 
   have "subformulae ((Atom p \<^bold>\<rightarrow> Atom q) \<^bold>\<or> Atom r) = 
-       [(Atom p \<^bold>\<rightarrow> Atom q) \<^bold>\<or> Atom r, Atom p \<^bold>\<rightarrow> Atom q, Atom p, Atom q, 
-        Atom r]"
+       [(Atom p \<^bold>\<rightarrow> Atom q) \<^bold>\<or> Atom r, Atom p \<^bold>\<rightarrow> Atom q, Atom p, 
+        Atom q, Atom r]"
     by simp
 
   have "subformulae (Atom p \<^bold>\<and> \<bottom>) = [Atom p \<^bold>\<and> \<bottom>, Atom p, \<bottom>]"
@@ -452,8 +458,8 @@ begin
     by simp
   
   have "setSubformulae ((Atom p \<^bold>\<rightarrow> Atom q) \<^bold>\<or> Atom r) =
-        {(Atom p \<^bold>\<rightarrow> Atom q) \<^bold>\<or> Atom r, Atom p \<^bold>\<rightarrow> Atom q, Atom p, Atom q, 
-          Atom r}"
+        {(Atom p \<^bold>\<rightarrow> Atom q) \<^bold>\<or> Atom r, Atom p \<^bold>\<rightarrow> Atom q, Atom p, 
+         Atom q, Atom r}"
   by auto   
 end
 
@@ -478,11 +484,11 @@ text \<open>Por tanto, obtenemos la equivalencia como resultado de los
 
 lemma setSubformulae_atom:
   "setSubformulae (Atom p) = {Atom p}"
-    by (simp only: subformulae.simps(1), simp only: list.set)
+    by (simp only: subformulae.simps(1) list.set)
 
 lemma setSubformulae_bot:
   "setSubformulae (\<bottom>) = {\<bottom>}"
-    by (simp only: subformulae.simps(2), simp only: list.set)
+    by (simp only: subformulae.simps(2) list.set)
 
 lemma setSubformulae_not:
   shows "setSubformulae (\<^bold>\<not> F) = {\<^bold>\<not> F} \<union> setSubformulae F"
@@ -545,6 +551,8 @@ text \<open>Una vez probada la equivalencia, comencemos con los resultados
   siguiente propiedad como consecuencia directa de la equivalencia de 
   funciones anterior.
 
+  \comentario{Reescribir el siguiente enunciado y demostración.}
+
   \begin{lema}
     \<open>F \<in> Subf(F)\<close>.
   \end{lema}
@@ -570,8 +578,6 @@ text \<open>Una vez probada la equivalencia, comencemos con los resultados
 
   Formalicemos ahora el lema con su correspondiente demostración 
   detallada.\<close>
-
- (*<*)find_theorems "_\<in>_" -name:List name:Set(*>*)
 
 lemma subformulae_self: "F \<in> setSubformulae F"
 proof (induction F) 
@@ -614,8 +620,6 @@ text \<open>Procedamos con los demás resultados de la sección. Como hemos
   Además, definiremos dos reglas adicionales que utilizaremos con 
   frecuencia.\<close>
 
- (*<*)find_theorems "_\<subseteq>_" -name:List name:Set(*>*)
-
 lemma subContUnionRev1: 
   assumes "A \<union> B \<subseteq> C" 
   shows   "A \<subseteq> C"
@@ -648,6 +652,8 @@ lemma "A \<union> B \<subseteq> C \<Longrightarrow> B \<subseteq> C"
   by simp
 
 text \<open>Veamos ahora los distintos resultados sobre subfórmulas.
+
+  \comentario{Reescribir el siguiente enunciado y su demostración.}
 
   \begin{lema}
     Sean \<open>F\<close> una fórmula proposicional y \<open>A\<^sub>F\<close> el conjunto de las 
@@ -703,7 +709,7 @@ text \<open>Debemos observar que \<open>Atom ` atoms F\<close> construye las fó
   imagen de un conjunto en la teoría \href{https://n9.cl/qatp}{Set.thy}.
 
   \begin{itemize}
-    \item[] @{thm[mode=Def] image_def[no_vars]} 
+    \item[] @{thm[mode=Def] image_def} 
       \hfill (@{text image_def})
   \end{itemize}
 
@@ -721,7 +727,8 @@ begin
        {Atom p, Atom q, Atom r}"
     by auto 
 
-  have "Atom `atoms ((Atom p \<^bold>\<rightarrow> Atom p) \<^bold>\<or> Atom r) = {Atom p, Atom r}"
+  have "Atom `atoms ((Atom p \<^bold>\<rightarrow> Atom p) \<^bold>\<or> Atom r) = 
+       {Atom p, Atom r}"
     by auto
 end
 
@@ -1151,189 +1158,323 @@ next
   then show ?case by (simp only: subformulas_atoms_imp)
 qed
 
-text\<open>Por último, su demostración aplicativa automática.\<close>
+text \<open>Por último, su demostración aplicativa automática.\<close>
 
 lemma "G \<in> setSubformulae F \<Longrightarrow> atoms G \<subseteq> atoms F"
   by (induction F) auto
-
-text \<open>\comentario{Corregido hasta aquí.}\<close> 
 
 text \<open>A continuación voy a introducir un lema que no pertenece a la 
   teoría original de Isabelle pero facilita las siguientes 
   demostraciones detalladas mediante contenciones en cadena.
 
   \begin{lema}
-    Sea \<open>G \<in> Subf(F)\<close>, entonces el conjunto de átomos de \<open>G\<close> está 
-  contenido en el de \<open>F\<close>.
+    Sea \<open>G\<close> subfórmula de \<open>F\<close>, entonces el conjunto de subfórmulas de 
+    \<open>G\<close> está contenido en el de \<open>F\<close>.
   \end{lema} 
 
   \begin{demostracion}
   La prueba es por inducción en la estructura de fórmula.
   
   Sea \<open>p\<close> una fórmula atómica cualquiera. Entonces, bajo las
-  condiciones del lema se tiene que \<open>G = p\<close>. Por lo tanto, tiene igual
-  conjunto de átomos.
+  condiciones del lema se tiene que \<open>G = p\<close>. Por lo tanto, tienen igual
+  conjunto de subfórmulas.
 
   Sea la fórmula \<open>\<bottom>\<close>. Entonces, \<open>G = \<bottom>\<close> y tienen igual conjunto de
-  átomos vacío.
+  subfórmulas.
 
   Sea una fórmula \<open>F\<close> tal que para toda subfórmula \<open>G\<close>, se tiene que el
-  conjunto de átomos de \<open>G\<close> está contenido en el de \<open>F\<close>. Veamos la
+  conjunto de subfórmulas de \<open>G\<close> está contenido en el de \<open>F\<close>. Veamos la
   propiedad para \<open>\<not> F\<close>. Sea \<open>G' \<in> Subf(\<not> F) = {\<not> F} \<union> Subf(F)\<close>. 
   Entonces \<open>G' \<in> {\<not> F}\<close> o \<open>G' \<in> Subf(F)\<close>. 
   Del primer caso se obtiene que \<open>G' = \<not> F\<close> y, por tanto, tienen igual 
-  conjunto de átomos. Del segundo caso se tiene \<open>G' \<in> Subf(F)\<close> y, por 
-  hipótesis de inducción, el conjunto de átomos de \<open>G'\<close> está contenido 
-  en el de \<open>F\<close>. Además, como el conjunto de átomos de \<open>F\<close> y \<open>\<not> F\<close> es el 
-  mismo, se tiene la propiedad.
+  conjunto de subfórmulas. Del segundo caso se tiene \<open>G' \<in> Subf(F)\<close> y, 
+  por hipótesis de inducción, el conjunto de subfórmulas de \<open>G'\<close> está 
+  contenido en el de \<open>F\<close>. Como, a su vez, el conjunto de subfórmulas 
+  de \<open>F\<close> está contenido en el de \<open>\<not> F\<close> por definición, se verifica la
+  propiedad como consecuencia de la transitividad de la contención.
 
   Sean las fórmulas \<open>F1\<close> y \<open>F2\<close> tales que para cualquier subfórmula \<open>G1\<close>
-  de \<open>F1\<close> el conjunto de átomos de \<open>G1\<close> está contenido en el de \<open>F1\<close>, y
-  para cualquier subfórmula \<open>G2\<close> de \<open>F2\<close> el conjunto de átomos de \<open>G2\<close>
-  está contenido en el de \<open>F2\<close>. Veamos que se verifica la propiedad
-  para \<open>F1*F2\<close> donde \<open>*\<close> es cualquier conectiva binaria. 
+  de \<open>F1\<close> el conjunto de subfórmulas de \<open>G1\<close> está contenido en el de 
+  \<open>F1\<close>, y para cualquier subfórmula \<open>G2\<close> de \<open>F2\<close> el conjunto de 
+  subfórmulas de \<open>G2\<close> está contenido en el de \<open>F2\<close>. Veamos que se 
+  verifica la propiedad para \<open>F1*F2\<close> donde \<open>*\<close> es cualquier conectiva 
+  binaria. 
   Sea \<open>G' \<in> Subf(F1*F2) = {F1*F2} \<union> Subf(F1) \<union> Subf(F2)\<close>. De este modo,
   tenemos tres casos: \<open>G' \<in> {F1*F2}\<close> o \<open>G' \<in> Subf(F1)\<close> o 
   \<open>G' \<in> Subf(F2)\<close>. De la primera opción se deduce \<open>G' = F1*F2\<close> y, por
-  tanto, tienen igual conjunto de átomos. Por otro lado, si 
+  tanto, tienen igual conjunto de subfórmulas. Por otro lado, si 
   \<open>G' \<in> Subf(F1)\<close>, por hipótesis de inducción se tiene que el conjunto
-  de átomos de \<open>G'\<close> está contenido en el de \<open>F1\<close>. Por tanto, como el
-  conjunto de átomos de \<open>F1*F2\<close> es la unión del conjunto de átomos de 
-  \<open>F1\<close> y el de \<open>F2\<close>, se verifica la propiedad. El caso \<open>G' \<in> Subf(F2)\<close>
-  es análogo cambiando el índice de la fórmula.   
-  \end{demostracion}
+  de subfórmulas de \<open>G'\<close> está contenido en el de \<open>F1\<close>. Por tanto, 
+  como el conjunto de subfórmulas de \<open>F1\<close> está a su vez contenido en el 
+  de \<open>F1*F2\<close>, se verifica la propiedad por la transitividad de la 
+  contención en cadena. El caso \<open>G' \<in> Subf(F2)\<close> es análogo cambiando el 
+  índice de la fórmula.   
+  \end{demostracion}\<close>
 
-  Veamos su formalización en Isabelle junto con su demostración 
-  estructurada.
+text \<open>Veamos su formalización en Isabelle junto con su demostración 
+  estructurada.\<close>
 
-  \comentario{Detallar más}\<close>
+lemma subContsubformulae_atom: 
+  assumes "G \<in> setSubformulae (Atom x)" 
+  shows "setSubformulae G \<subseteq> setSubformulae (Atom x)"
+proof - 
+  have "G \<in> {Atom x}" using assms 
+    by (simp only: setSubformulae_atom)
+  then have "G = Atom x"
+    by (simp only: singletonD)
+  then show ?thesis
+    by (simp only: subset_refl)
+qed
 
-lemma subsubformulae_estructurada: 
-  "G \<in> setSubformulae F \<Longrightarrow> setSubformulae G \<subseteq> setSubformulae F"
-proof (induction F)
-  case (Atom x)
-  then show ?case by simp
-next
-  case Bot
-  then show ?case by simp
-next
-  case (Not F)
-  assume H1: "G \<in> setSubformulae F \<Longrightarrow> 
-              setSubformulae G \<subseteq> setSubformulae F"
-  assume H2: "G \<in> setSubformulae (Not F)"
-  then show "setSubformulae G \<subseteq> setSubformulae (Not F)"
-  proof (cases "G = Not F")
-    case True
-    then show ?thesis by simp
+lemma subContsubformulae_bot:
+  assumes "G \<in> setSubformulae \<bottom>" 
+  shows   "setSubformulae G \<subseteq> setSubformulae \<bottom>"
+proof -
+  have "G \<in> {\<bottom>}"
+    using assms
+    by (simp only: setSubformulae_bot)
+  then have "G = \<bottom>"
+    by (simp only: singletonD)
+  then show ?thesis
+    by (simp only: subset_refl)
+qed
+
+lemma subContsubformulae_not:
+  assumes "G \<in> setSubformulae F \<Longrightarrow> setSubformulae G \<subseteq> setSubformulae F"
+          "G \<in> setSubformulae (\<^bold>\<not> F)"
+  shows   "setSubformulae G \<subseteq> setSubformulae (\<^bold>\<not> F)"
+proof -
+  have "G \<in> {\<^bold>\<not> F} \<union> setSubformulae F"
+    using assms(2)
+    by (simp only: setSubformulae_not) 
+  then have "G \<in> {\<^bold>\<not> F} \<or> G \<in> setSubformulae F"
+    by (simp only: Un_iff)
+  then show "setSubformulae G \<subseteq> setSubformulae (\<^bold>\<not> F)"
+  proof
+    assume "G \<in> {\<^bold>\<not> F}"
+    then have "G = \<^bold>\<not> F"
+      by (simp only: singletonD)
+    then show ?thesis
+      by (simp only: subset_refl)
   next
-    case False
-    then have "G \<noteq> Not F" 
-      by simp
-    then have "G \<in> setSubformulae F" 
-      using H2 
-      by simp
-    then have 1:"setSubformulae G \<subseteq> setSubformulae F" 
-      using H1 
-      by simp
-    have "setSubformulae (Not F) = {Not F} \<union> setSubformulae F" 
-      by simp
-    have "setSubformulae F \<subseteq> {Not F} \<union> setSubformulae F" 
-      by (rule Un_upper2)
-    then have 2:"setSubformulae F \<subseteq> setSubformulae (Not F)" 
-      by simp
-    show "setSubformulae G \<subseteq> setSubformulae (Not F)" 
-      using 1 2 by (rule subset_trans)
+    assume "G \<in> setSubformulae F"
+    then have 1:"setSubformulae G \<subseteq> setSubformulae F"
+      by (simp only: assms(1))
+    also have 2:"setSubformulae F \<subseteq> setSubformulae (\<^bold>\<not> F)"
+      by (simp only: setSubformulae_not Un_upper2)
+    finally show ?thesis
+      using 1 2 by (simp only: subset_trans)
   qed
-next
-  case (And F1 F2)
-  then show ?case by auto
-next
-  case (Or F1 F2)
-  then show ?case by auto
-next
-  case (Imp F1 F2)
-  assume H3: "G \<in> setSubformulae F1 \<Longrightarrow> 
-              setSubformulae G \<subseteq> setSubformulae F1"
-  assume H4: "G \<in> setSubformulae F2 \<Longrightarrow> 
-              setSubformulae G \<subseteq> setSubformulae F2"
-  assume H5: "G \<in> setSubformulae (Imp F1 F2)"
-  have 4: "setSubformulae (Imp F1 F2) = 
-           {Imp F1 F2} \<union> (setSubformulae F1 \<union> setSubformulae F2)" 
-    by simp
-  then show "setSubformulae G \<subseteq> setSubformulae (Imp F1 F2)"
-  proof (cases "G = Imp F1 F2")
-    case True
-    then show ?thesis by simp
+qed
+
+lemma subContsubformulae_and:
+  assumes "G \<in> setSubformulae F1 
+            \<Longrightarrow> setSubformulae G \<subseteq> setSubformulae F1"
+          "G \<in> setSubformulae F2 
+            \<Longrightarrow> setSubformulae G \<subseteq> setSubformulae F2"
+          "G \<in> setSubformulae (F1 \<^bold>\<and> F2)"
+  shows   "setSubformulae G \<subseteq> setSubformulae (F1 \<^bold>\<and> F2)"
+proof -
+  have "G \<in> {F1 \<^bold>\<and> F2} \<union> (setSubformulae F1 \<union> setSubformulae F2)"
+    using assms(3) 
+    by (simp only: setSubformulae_and)
+  then have "G \<in> {F1 \<^bold>\<and> F2} \<or> G \<in> setSubformulae F1 \<union> setSubformulae F2"
+    by (simp only: Un_iff)
+  then show ?thesis
+  proof 
+    assume "G \<in> {F1 \<^bold>\<and> F2}"
+    then have "G = F1 \<^bold>\<and> F2"
+      by (simp only: singletonD)
+    then show ?thesis
+      by (simp only: subset_refl)
   next
-    case False
-    then have 5: "G \<noteq> Imp F1 F2" 
-      by simp
-    have "setSubformulae F1 \<union> setSubformulae F2 \<subseteq> 
-          {Imp F1 F2} \<union> (setSubformulae F1 \<union> setSubformulae F2)" 
-      by (rule Un_upper2)
-    then have 6: "setSubformulae F1 \<union> setSubformulae F2 \<subseteq> 
-                  setSubformulae (Imp F1 F2)" 
-      by simp
-    then show "setSubformulae G \<subseteq> setSubformulae (Imp F1 F2)"
-    proof (cases "G \<in> setSubformulae F1")
-      case True
-      then have "G \<in> setSubformulae F1" 
-        by simp
-      then have 7:"setSubformulae G \<subseteq> setSubformulae F1" 
-        using H3 by simp
-      have 8:"setSubformulae F1 \<subseteq> setSubformulae (Imp F1 F2)" 
-        using 6 by (rule subContUnionRev1)  
-      show "setSubformulae G \<subseteq> setSubformulae (Imp F1 F2)" 
-        using 7 8 by (rule subset_trans)
+    assume "G \<in> setSubformulae F1 \<union> setSubformulae F2"
+    then have "G \<in> setSubformulae F1 \<or> G \<in> setSubformulae F2"  
+      by (simp only: Un_iff)
+    then show ?thesis
+    proof 
+      assume "G \<in> setSubformulae F1"
+      then have "setSubformulae G \<subseteq> setSubformulae F1"
+        by (simp only: assms(1))
+      also have "\<dots> \<subseteq> setSubformulae F1 \<union> setSubformulae F2"
+        by (simp only: Un_upper1)
+      also have "\<dots> \<subseteq> setSubformulae (F1 \<^bold>\<and> F2)"
+        by (simp only: setSubformulae_and Un_upper2)
+      finally show ?thesis
+        by this
     next
-      case False
-      then have 9:"G \<notin> setSubformulae F1" 
-        by simp
-      have "G \<in> setSubformulae F1 \<union> setSubformulae F2" 
-        using 5 H5 by simp
-      then have "G \<in> setSubformulae F2" 
-        using 9 by simp
-      then have 10:"setSubformulae G \<subseteq> setSubformulae F2" 
-        using H4 by simp
-      have 11:"setSubformulae F2 \<subseteq> setSubformulae (Imp F1 F2)" 
-        using 6 by simp
-      show "setSubformulae G \<subseteq> setSubformulae (Imp F1 F2)" 
-        using 10 11 by (rule subset_trans)
+      assume "G \<in> setSubformulae F2"
+      then have "setSubformulae G \<subseteq> setSubformulae F2"
+        by (rule assms(2))
+      also have "\<dots> \<subseteq> setSubformulae F1 \<union> setSubformulae F2"
+        by (simp only: Un_upper2)
+      also have "\<dots> \<subseteq> setSubformulae (F1 \<^bold>\<and> F2)"
+        by (simp only: setSubformulae_and Un_upper2)
+      finally show ?thesis
+        by this
     qed
   qed
 qed
 
+lemma subContsubformulae_or:
+  assumes "G \<in> setSubformulae F1 
+            \<Longrightarrow> setSubformulae G \<subseteq> setSubformulae F1"
+          "G \<in> setSubformulae F2 
+            \<Longrightarrow> setSubformulae G \<subseteq> setSubformulae F2"
+          "G \<in> setSubformulae (F1 \<^bold>\<or> F2)"
+  shows   "setSubformulae G \<subseteq> setSubformulae (F1 \<^bold>\<or> F2)"
+proof -
+  have "G \<in> {F1 \<^bold>\<or> F2} \<union> (setSubformulae F1 \<union> setSubformulae F2)"
+    using assms(3) 
+    by (simp only: setSubformulae_or)
+  then have "G \<in> {F1 \<^bold>\<or> F2} \<or> G \<in> setSubformulae F1 \<union> setSubformulae F2"
+    by (simp only: Un_iff)
+  then show ?thesis
+  proof 
+    assume "G \<in> {F1 \<^bold>\<or> F2}"
+    then have "G = F1 \<^bold>\<or> F2"
+      by (simp only: singletonD)
+    then show ?thesis
+      by (simp only: subset_refl)
+  next
+    assume "G \<in> setSubformulae F1 \<union> setSubformulae F2"
+    then have "G \<in> setSubformulae F1 \<or> G \<in> setSubformulae F2"  
+      by (simp only: Un_iff)
+    then show ?thesis
+    proof 
+      assume "G \<in> setSubformulae F1"
+      then have "setSubformulae G \<subseteq> setSubformulae F1"
+        by (simp only: assms(1))
+      also have "\<dots> \<subseteq> setSubformulae F1 \<union> setSubformulae F2"
+        by (simp only: Un_upper1)
+      also have "\<dots> \<subseteq> setSubformulae (F1 \<^bold>\<or> F2)"
+        by (simp only: setSubformulae_or Un_upper2)
+      finally show ?thesis
+        by this
+    next
+      assume "G \<in> setSubformulae F2"
+      then have "setSubformulae G \<subseteq> setSubformulae F2"
+        by (rule assms(2))
+      also have "\<dots> \<subseteq> setSubformulae F1 \<union> setSubformulae F2"
+        by (simp only: Un_upper2)
+      also have "\<dots> \<subseteq> setSubformulae (F1 \<^bold>\<or> F2)"
+        by (simp only: setSubformulae_or Un_upper2)
+      finally show ?thesis
+        by this
+    qed
+  qed
+qed
+
+lemma subContsubformulae_imp:
+  assumes "G \<in> setSubformulae F1 
+            \<Longrightarrow> setSubformulae G \<subseteq> setSubformulae F1"
+          "G \<in> setSubformulae F2 
+            \<Longrightarrow> setSubformulae G \<subseteq> setSubformulae F2"
+          "G \<in> setSubformulae (F1 \<^bold>\<rightarrow> F2)"
+  shows   "setSubformulae G \<subseteq> setSubformulae (F1 \<^bold>\<rightarrow> F2)"
+proof -
+  have "G \<in> {F1 \<^bold>\<rightarrow> F2} \<union> (setSubformulae F1 \<union> setSubformulae F2)"
+    using assms(3) 
+    by (simp only: setSubformulae_imp)
+  then have "G \<in> {F1 \<^bold>\<rightarrow> F2} \<or> G \<in> setSubformulae F1 \<union> setSubformulae F2"
+    by (simp only: Un_iff)
+  then show ?thesis
+  proof 
+    assume "G \<in> {F1 \<^bold>\<rightarrow> F2}"
+    then have "G = F1 \<^bold>\<rightarrow> F2"
+      by (simp only: singletonD)
+    then show ?thesis
+      by (simp only: subset_refl)
+  next
+    assume "G \<in> setSubformulae F1 \<union> setSubformulae F2"
+    then have "G \<in> setSubformulae F1 \<or> G \<in> setSubformulae F2"  
+      by (simp only: Un_iff)
+    then show ?thesis
+    proof 
+      assume "G \<in> setSubformulae F1"
+      then have "setSubformulae G \<subseteq> setSubformulae F1"
+        by (simp only: assms(1))
+      also have "\<dots> \<subseteq> setSubformulae F1 \<union> setSubformulae F2"
+        by (simp only: Un_upper1)
+      also have "\<dots> \<subseteq> setSubformulae (F1 \<^bold>\<rightarrow> F2)"
+        by (simp only: setSubformulae_imp Un_upper2)
+      finally show ?thesis
+        by this
+    next
+      assume "G \<in> setSubformulae F2"
+      then have "setSubformulae G \<subseteq> setSubformulae F2"
+        by (rule assms(2))
+      also have "\<dots> \<subseteq> setSubformulae F1 \<union> setSubformulae F2"
+        by (simp only: Un_upper2)
+      also have "\<dots> \<subseteq> setSubformulae (F1 \<^bold>\<rightarrow> F2)"
+        by (simp only: setSubformulae_imp Un_upper2)
+      finally show ?thesis
+        by this
+    qed
+  qed
+qed
+
+lemma
+  "G \<in> setSubformulae F \<Longrightarrow> setSubformulae G \<subseteq> setSubformulae F"
+proof (induction F)
+case (Atom x)
+  then show ?case by (rule subContsubformulae_atom)
+next
+  case Bot
+  then show ?case by (rule subContsubformulae_bot)
+next
+case (Not F)
+  then show ?case by (rule subContsubformulae_not)
+next
+  case (And F1 F2)
+  then show ?case by (rule subContsubformulae_and)
+next
+  case (Or F1 F2)
+  then show ?case by (rule subContsubformulae_or)
+next
+  case (Imp F1 F2)
+  then show ?case by (rule subContsubformulae_imp)
+qed
+
 text \<open>Finalmente, su demostración automática se muestra a continuación.\<close>
 
-lemma subformulae_setSubformulae:
+lemma subContsubformulae:
   "G \<in> setSubformulae F \<Longrightarrow> setSubformulae G \<subseteq> setSubformulae F"
   by (induction F) auto
   
 text \<open>El siguiente lema nos da la noción de transitividad de contención 
   en cadena de las subfórmulas, de modo que la subfórmula de una 
-  subfórmula es del mismo modo subfórmula de la mayor. 
+  subfórmula es del mismo modo subfórmula de la mayor.
 
   \begin{lema}
-    Sea \<open>G \<in> SubfSet(F)\<close> y \<open>H \<in> SubfSet(G)\<close>, entonces \<open>H \<in> SubfSet(F)\<close>.
+    Sean \<open>G\<close> subfórmula de \<open>F\<close> y \<open>H\<close> subfórmula de \<open>G\<close>, entonces 
+    \<open>H\<close> es subfórmula de \<open>F\<close>.
   \end{lema}
 
-\comentario{Añadir prueba clásica y detallar más en Isabelle}
-
   \begin{demostracion}
-  La prueba está basada en el lema anterior. 
+  La prueba está basada en el lema anterior. Hemos demostrado que como 
+  \<open>G\<close> es subfórmula de \<open>F\<close>, entonces el conjunto de átomos de \<open>G\<close> está
+  contenido en el de \<open>F\<close>. Del mismo modo, como \<open>H\<close> es subfórmula de
+  \<open>G\<close>, su conjunto de átomos está contenido en el de \<open>G\<close>. Por la
+  transitividad de la contención, tenemos que el conjunto de átomos de 
+  \<open>H\<close> está contenido en el de \<open>F\<close>. Por otro lema anterior, tenemos que
+  \<open>H\<close> pertenece a su propio conjunto de subfórmulas. Por tanto,
+  \<open>H \<in> Subf(H) \<subseteq> Subf(F) \<Longrightarrow> H \<in> Subf(F)\<close>.
   \end{demostracion}
 
-  Veamos su formalización y prueba estructurada en Isabelle.\<close>
+  Veamos su formalización y prueba estructurada en Isabelle.
 
-lemma subsubformulae_estruct:
+  Veamos su prueba según las distintas tácticas.\<close>
+
+lemma
   assumes "G \<in> setSubformulae F" 
           "H \<in> setSubformulae G"
   shows   "H \<in> setSubformulae F"
 proof -
   have 1:"setSubformulae G \<subseteq> setSubformulae F" using assms(1) 
-    by (rule subformulae_setSubformulae)
+    by (rule subContsubformulae)
   have "setSubformulae H \<subseteq> setSubformulae G" using assms(2) 
-    by (rule subformulae_setSubformulae)
+    by (rule subContsubformulae)
   then have 2:"setSubformulae H \<subseteq> setSubformulae F" using 1 
     by (rule subset_trans)
   have "H \<in> setSubformulae H" 
@@ -1347,7 +1488,9 @@ lemma subsubformulae:
   "G \<in> setSubformulae F 
    \<Longrightarrow> H \<in> setSubformulae G 
    \<Longrightarrow> H \<in> setSubformulae F"
-  by (induction F; force)
+  using subContsubformulae by blast
+
+text \<open>comentario{Explicar el cambio de enunciado}\<close>
 
 text \<open>A continuación presentamos otro resultado que relaciona los 
   conjuntos de subfórmulas según las conectivas que operen.\<close>
@@ -1365,53 +1508,39 @@ lemma subformulas_in_subformulas:
 text \<open>Como podemos observar, el resultado es análogo en todas las 
   conectivas binarias aunque aparezcan definidas por separado, por tanto 
   haré la demostración estructurada para una de ellas pues el resto son 
-  equivalentes. 
+  análogas. 
 
   Nos basaremos en el lema anterior @{term "subsubformulae"}.\<close>
 
-lemma subformulas_in_subformulas_conjuncion_estructurada:
-  assumes "And G H \<in> setSubformulae F" 
-  shows "G \<in> setSubformulae F \<and> H \<in> setSubformulae F"
-proof (rule conjI)
-  have 1: "setSubformulae (And G H) = 
-          {And G H} \<union> setSubformulae G \<union> setSubformulae H" 
-    by simp
-  then have 2: "G \<in> setSubformulae (And G H)" 
-    by (simp add: subformulae_self) 
-  have 3: "H \<in> setSubformulae (And G H)" 
-    using 1 
-    by (simp add: subformulae_self) 
-  show "G \<in> setSubformulae F" using assms 2 by (rule subsubformulae)
-  show "H \<in> setSubformulae F" using assms 3 by (rule subsubformulae)
-qed
-
-lemma subformulas_in_subformulas_negacion_estructurada:
+lemma subformulas_in_subformulas_not:
   assumes "Not G \<in> setSubformulae F"
   shows "G \<in> setSubformulae F"
 proof -
   have "setSubformulae (Not G) = {Not G} \<union> setSubformulae G" 
-    by simp 
+    by simp \<comment> \<open>Pendiente\<close>
   then have 1:"G \<in> setSubformulae (Not G)" 
-    by (simp add: subformulae_self)
+    by (simp add: subformulae_self) \<comment> \<open>Pendiente\<close>
   show "G \<in> setSubformulae F" using assms 1 
     by (rule subsubformulae)
 qed
 
-text \<open>Mostremos ahora la demostración aplicativa y automática para el 
-  lema completo.\<close>
+lemma subformulas_in_subformulas_and:
+  assumes "G \<^bold>\<and> H \<in> setSubformulae F" 
+  shows "G \<in> setSubformulae F \<and> H \<in> setSubformulae F"
+proof (rule conjI)
+  have 1: "setSubformulae (G \<^bold>\<and> H) = 
+          {G \<^bold>\<and> H} \<union> (setSubformulae G \<union> setSubformulae H)" 
+    by (simp only: setSubformulae_and)
+  then have 2: "G \<in> setSubformulae (G \<^bold>\<and> H)" 
+    by (simp add: subformulae_self) \<comment> \<open>Pendiente\<close> 
+  have 3: "H \<in> setSubformulae (G \<^bold>\<and> H)" 
+    using 1 
+    by (simp add: subformulae_self) \<comment> \<open>Pendiente\<close> 
+  show "G \<in> setSubformulae F" using assms 2 by (rule subsubformulae)
+  show "H \<in> setSubformulae F" using assms 3 by (rule subsubformulae)
+qed
 
-lemma subformulas_in_subformulas_aplicativa_s:
-  "And G H \<in> setSubformulae F 
-   \<Longrightarrow> G \<in> setSubformulae F \<and> H \<in> setSubformulae F"
-  "Or G H \<in> setSubformulae F 
-   \<Longrightarrow> G \<in> setSubformulae F \<and> H \<in> setSubformulae F"
-  "Imp G H \<in> setSubformulae F 
-   \<Longrightarrow> G \<in> setSubformulae F \<and> H \<in> setSubformulae F"
-  "Not G \<in> setSubformulae F \<Longrightarrow> G \<in> setSubformulae F"
-  apply ((rule conjI)+, (erule subsubformulae,simp)+)+
-  oops
-
-text \<open>\comentario{Completar la demostración anterior.}\<close>
+text \<open>Mostremos ahora la demostración automática.\<close>
 
 lemma subformulas_in_subformulas:
   "G \<^bold>\<and> H \<in> setSubformulae F 
@@ -1421,7 +1550,7 @@ lemma subformulas_in_subformulas:
   "G \<^bold>\<rightarrow> H \<in> setSubformulae F 
    \<Longrightarrow> G \<in> setSubformulae F \<and> H \<in> setSubformulae F"
   "\<^bold>\<not> G \<in> setSubformulae F \<Longrightarrow> G \<in> setSubformulae F"
-  using subformulae_self subsubformulae_estructurada apply force
+  using subformulae_self subsubformulae apply force
   oops
 
 text \<open>\comentario{Completar la prueba anterior.}\<close>
@@ -1494,7 +1623,7 @@ lemma length_subformulae: "length (subformulae F) = size F"
 text \<open>\comentario{Hacer la prueba detallada para mostrar los teoremas 
   utilizados.}\<close>
 
-subsection \<open>Conectivas derivadas\<close>
+section \<open>Conectivas derivadas\<close>
 
 text \<open>En esta sección definiremos nuevas conectivas y elementos a partir 
   de los ya definidos en el apartado anterior. Además veremos varios 
@@ -1510,7 +1639,7 @@ text \<open>En primer lugar, vamos a definir \<open>Top:: 'a formula \<Rightarro
 definition Top ("\<top>") where
   "\<top> \<equiv> \<bottom> \<^bold>\<rightarrow> \<bottom>"
  
-text \<open>\comentario{Añadir la doble implicación com conectiva derivada.}\<close>
+text \<open>\comentario{Añadir la doble implicación como conectiva derivada.}\<close>
 
 text \<open>Por la propia definición y naturaleza de \<open>Top\<close>, verifica que no 
   contiene ninguna variable del alfabeto, como ya sabíamos análogamente 
@@ -1550,7 +1679,7 @@ text \<open>Ambas nuevas conectivas se caracterizarán por ser del tipo
   La conjunción plural nos da el siguiente resultado.\<close>
 
 lemma atoms_BigAnd[simp]: "atoms (\<^bold>\<And>Fs) = \<Union>(atoms ` set Fs)"
-  by(induction Fs; simp)
+  by (induction Fs; simp)
 
 
 (*<*)

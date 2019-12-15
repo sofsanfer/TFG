@@ -1,4 +1,4 @@
-\documentclass[12pt,a4paper]{article}
+\documentclass[12pt,a4paper,fleqn]{book}
 \usepackage{isabelle,isabellesym}
 \usepackage{ifthen,mathpartir}
 
@@ -23,6 +23,8 @@
            , shadow
            , spanish]{todonotes}
 
+\setcounter{secnumdepth}{3}
+           
 \usepackage{amssymb}
   %for \<leadsto>, \<box>, \<diamond>, \<sqsupset>, \<mho>, \<Join>,
   %\<lhd>, \<lesssim>, \<greatersim>, \<lessapprox>, \<greaterapprox>,
@@ -68,10 +70,7 @@
 
 \comentario{Falta la introducción.}
 
-\begin{abstract}
-  Añadir introducción
-\end{abstract}
-
+% \setcounter{tocdepth}{1}
 \tableofcontents
 
 % sane default for proof documents
@@ -79,10 +78,18 @@
 \parindent 2em\parskip 1ex
 
 % generated text of all theories
-\input{session}
+% \input{session}
+
+\chapter{Sintaxis}
+\input{Sintaxis}
+
+
+\appendix
+\chapter{Lemas de HOL usados}
+\input{Glosario}
 
 % optional bibliography
-\nocite{LMF, tutorial,fitting1996first,CC}
+\nocite{LMF, tutorial,fitting1996first}
 \bibliographystyle{plain}
 \bibliography{root}
 
