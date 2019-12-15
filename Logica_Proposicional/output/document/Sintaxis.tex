@@ -80,6 +80,12 @@ En esta sección presentaremos una formalización en Isabelle de la
       \item Dadas dos fórmulas \isa{F} y \isa{G}, la implicación \isa{F\ {\isasymlongrightarrow}\ G} es 
         una fórmula.
     \end{itemize}
+  La demostración estructurada se hace de manera sencilla con el 
+  resultado introducido anteriormente. 
+
+  La demostración estructurada se hace de manera sencilla con el 
+  resultado introducido anteriormente. 
+
   \end{definicion}
 
   Intuitivamente, las fórmulas proposicionales son entendidas como un 
@@ -735,8 +741,8 @@ Observemos que, en la definición anterior, \isa{{\isacharhash}} es el operador 
 \isanewline
 \ \ \isacommand{have}\isamarkupfalse%
 \ {\isachardoublequoteopen}subformulae\ {\isacharparenleft}{\isacharparenleft}Atom\ p\ \isactrlbold {\isasymrightarrow}\ Atom\ q{\isacharparenright}\ \isactrlbold {\isasymor}\ Atom\ r{\isacharparenright}\ {\isacharequal}\ \isanewline
-\ \ \ \ \ \ \ {\isacharbrackleft}{\isacharparenleft}Atom\ p\ \isactrlbold {\isasymrightarrow}\ Atom\ q{\isacharparenright}\ \isactrlbold {\isasymor}\ Atom\ r{\isacharcomma}\ Atom\ p\ \isactrlbold {\isasymrightarrow}\ Atom\ q{\isacharcomma}\ Atom\ p{\isacharcomma}\ Atom\ q{\isacharcomma}\ \isanewline
-\ \ \ \ \ \ \ \ Atom\ r{\isacharbrackright}{\isachardoublequoteclose}\isanewline
+\ \ \ \ \ \ \ {\isacharbrackleft}{\isacharparenleft}Atom\ p\ \isactrlbold {\isasymrightarrow}\ Atom\ q{\isacharparenright}\ \isactrlbold {\isasymor}\ Atom\ r{\isacharcomma}\ Atom\ p\ \isactrlbold {\isasymrightarrow}\ Atom\ q{\isacharcomma}\ Atom\ p{\isacharcomma}\ \isanewline
+\ \ \ \ \ \ \ \ Atom\ q{\isacharcomma}\ Atom\ r{\isacharbrackright}{\isachardoublequoteclose}\isanewline
 \ \ \ \ \isacommand{by}\isamarkupfalse%
 \ simp\isanewline
 \isanewline
@@ -796,8 +802,8 @@ De este modo, la función \isa{setSubformulae} es la formalización
 \ \ \isanewline
 \ \ \isacommand{have}\isamarkupfalse%
 \ {\isachardoublequoteopen}setSubformulae\ {\isacharparenleft}{\isacharparenleft}Atom\ p\ \isactrlbold {\isasymrightarrow}\ Atom\ q{\isacharparenright}\ \isactrlbold {\isasymor}\ Atom\ r{\isacharparenright}\ {\isacharequal}\isanewline
-\ \ \ \ \ \ \ \ {\isacharbraceleft}{\isacharparenleft}Atom\ p\ \isactrlbold {\isasymrightarrow}\ Atom\ q{\isacharparenright}\ \isactrlbold {\isasymor}\ Atom\ r{\isacharcomma}\ Atom\ p\ \isactrlbold {\isasymrightarrow}\ Atom\ q{\isacharcomma}\ Atom\ p{\isacharcomma}\ Atom\ q{\isacharcomma}\ \isanewline
-\ \ \ \ \ \ \ \ \ \ Atom\ r{\isacharbraceright}{\isachardoublequoteclose}\isanewline
+\ \ \ \ \ \ \ \ {\isacharbraceleft}{\isacharparenleft}Atom\ p\ \isactrlbold {\isasymrightarrow}\ Atom\ q{\isacharparenright}\ \isactrlbold {\isasymor}\ Atom\ r{\isacharcomma}\ Atom\ p\ \isactrlbold {\isasymrightarrow}\ Atom\ q{\isacharcomma}\ Atom\ p{\isacharcomma}\ \isanewline
+\ \ \ \ \ \ \ \ \ Atom\ q{\isacharcomma}\ Atom\ r{\isacharbraceright}{\isachardoublequoteclose}\isanewline
 \ \ \isacommand{by}\isamarkupfalse%
 \ auto%
 \endisatagproof
@@ -859,10 +865,12 @@ Por tanto, obtenemos la equivalencia como resultado de los
 {\isafoldproof}%
 %
 \isadelimproof
-\isanewline
 %
 \endisadelimproof
-\isanewline
+%
+\begin{isamarkuptext}%
+\comentario{La demostración anterior se puede simplificar.}%
+\end{isamarkuptext}\isamarkuptrue%
 \isacommand{lemma}\isamarkupfalse%
 \ setSubformulae{\isacharunderscore}bot{\isacharcolon}\isanewline
 \ \ {\isachardoublequoteopen}setSubformulae\ {\isacharparenleft}{\isasymbottom}{\isacharparenright}\ {\isacharequal}\ {\isacharbraceleft}{\isasymbottom}{\isacharbraceright}{\isachardoublequoteclose}\isanewline
@@ -878,10 +886,12 @@ Por tanto, obtenemos la equivalencia como resultado de los
 {\isafoldproof}%
 %
 \isadelimproof
-\isanewline
 %
 \endisadelimproof
-\isanewline
+%
+\begin{isamarkuptext}%
+\comentario{La demostración anterior se puede simplificar.}%
+\end{isamarkuptext}\isamarkuptrue%
 \isacommand{lemma}\isamarkupfalse%
 \ setSubformulae{\isacharunderscore}not{\isacharcolon}\isanewline
 \ \ \isakeyword{shows}\ {\isachardoublequoteopen}setSubformulae\ {\isacharparenleft}\isactrlbold {\isasymnot}\ F{\isacharparenright}\ {\isacharequal}\ {\isacharbraceleft}\isactrlbold {\isasymnot}\ F{\isacharbraceright}\ {\isasymunion}\ setSubformulae\ F{\isachardoublequoteclose}\isanewline
@@ -1048,6 +1058,8 @@ Una vez probada la equivalencia, comencemos con los resultados
   siguiente propiedad como consecuencia directa de la equivalencia de 
   funciones anterior.
 
+  \comentario{Reescribir el siguiente enunciado y demostración.}
+
   \begin{lema}
     \isa{F\ {\isasymin}\ Subf{\isacharparenleft}F{\isacharparenright}}.
   \end{lema}
@@ -1074,7 +1086,6 @@ Una vez probada la equivalencia, comencemos con los resultados
   Formalicemos ahora el lema con su correspondiente demostración 
   detallada.%
 \end{isamarkuptext}\isamarkuptrue%
-\ \isanewline
 \isacommand{lemma}\isamarkupfalse%
 \ subformulae{\isacharunderscore}self{\isacharcolon}\ {\isachardoublequoteopen}F\ {\isasymin}\ setSubformulae\ F{\isachardoublequoteclose}\isanewline
 %
@@ -1176,7 +1187,6 @@ Procedamos con los demás resultados de la sección. Como hemos
   Además, definiremos dos reglas adicionales que utilizaremos con 
   frecuencia.%
 \end{isamarkuptext}\isamarkuptrue%
-\ \isanewline
 \isacommand{lemma}\isamarkupfalse%
 \ subContUnionRev{\isadigit{1}}{\isacharcolon}\ \isanewline
 \ \ \isakeyword{assumes}\ {\isachardoublequoteopen}A\ {\isasymunion}\ B\ {\isasymsubseteq}\ C{\isachardoublequoteclose}\ \isanewline
@@ -1284,6 +1294,8 @@ Sus correspondientes demostraciones automáticas se muestran a
 \begin{isamarkuptext}%
 Veamos ahora los distintos resultados sobre subfórmulas.
 
+  \comentario{Reescribir el siguiente enunciado y su demostración.}
+
   \begin{lema}
     Sean \isa{F} una fórmula proposicional y \isa{A\isactrlsub F} el conjunto de las 
     fórmulas atómicas formadas a partir de cada elemento del conjunto 
@@ -1383,7 +1395,8 @@ Debemos observar que \isa{Atom\ {\isacharbackquote}\ atoms\ F} construye las fó
 \ auto\ \isanewline
 \isanewline
 \ \ \isacommand{have}\isamarkupfalse%
-\ {\isachardoublequoteopen}Atom\ {\isacharbackquote}atoms\ {\isacharparenleft}{\isacharparenleft}Atom\ p\ \isactrlbold {\isasymrightarrow}\ Atom\ p{\isacharparenright}\ \isactrlbold {\isasymor}\ Atom\ r{\isacharparenright}\ {\isacharequal}\ {\isacharbraceleft}Atom\ p{\isacharcomma}\ Atom\ r{\isacharbraceright}{\isachardoublequoteclose}\isanewline
+\ {\isachardoublequoteopen}Atom\ {\isacharbackquote}atoms\ {\isacharparenleft}{\isacharparenleft}Atom\ p\ \isactrlbold {\isasymrightarrow}\ Atom\ p{\isacharparenright}\ \isactrlbold {\isasymor}\ Atom\ r{\isacharparenright}\ {\isacharequal}\ \isanewline
+\ \ \ \ \ \ \ {\isacharbraceleft}Atom\ p{\isacharcomma}\ Atom\ r{\isacharbraceright}{\isachardoublequoteclose}\isanewline
 \ \ \ \ \isacommand{by}\isamarkupfalse%
 \ auto%
 \endisatagproof
@@ -2455,8 +2468,879 @@ Por último, su demostración aplicativa automática.%
 \endisadelimproof
 %
 \begin{isamarkuptext}%
-\comentario{Corregido hasta aquí.}%
+A continuación voy a introducir un lema que no pertenece a la 
+  teoría original de Isabelle pero facilita las siguientes 
+  demostraciones detalladas mediante contenciones en cadena.
+
+  \comentario{Reescribir el siguiente enunciado.}
+
+  \begin{lema}
+    Sea \isa{G\ {\isasymin}\ Subf{\isacharparenleft}F{\isacharparenright}}, entonces el conjunto de átomos de \isa{G} está 
+    contenido en el de \isa{F}.
+  \end{lema} 
+
+  \comentario{Reescribir la siguiente demostración.}
+
+  \begin{demostracion}
+  La prueba es por inducción en la estructura de fórmula.
+  
+  Sea \isa{p} una fórmula atómica cualquiera. Entonces, bajo las
+  condiciones del lema se tiene que \isa{G\ {\isacharequal}\ p}. Por lo tanto, tiene igual
+  conjunto de átomos.
+
+  Sea la fórmula \isa{{\isasymbottom}}. Entonces, \isa{G\ {\isacharequal}\ {\isasymbottom}} y tienen igual conjunto de
+  átomos vacío.
+
+  Sea una fórmula \isa{F} tal que para toda subfórmula \isa{G}, se tiene que el
+  conjunto de átomos de \isa{G} está contenido en el de \isa{F}. Veamos la
+  propiedad para \isa{{\isasymnot}\ F}. Sea \isa{G{\isacharprime}\ {\isasymin}\ Subf{\isacharparenleft}{\isasymnot}\ F{\isacharparenright}\ {\isacharequal}\ {\isacharbraceleft}{\isasymnot}\ F{\isacharbraceright}\ {\isasymunion}\ Subf{\isacharparenleft}F{\isacharparenright}}. 
+  Entonces \isa{G{\isacharprime}\ {\isasymin}\ {\isacharbraceleft}{\isasymnot}\ F{\isacharbraceright}} o \isa{G{\isacharprime}\ {\isasymin}\ Subf{\isacharparenleft}F{\isacharparenright}}. 
+  Del primer caso se obtiene que \isa{G{\isacharprime}\ {\isacharequal}\ {\isasymnot}\ F} y, por tanto, tienen igual 
+  conjunto de átomos. Del segundo caso se tiene \isa{G{\isacharprime}\ {\isasymin}\ Subf{\isacharparenleft}F{\isacharparenright}} y, por 
+  hipótesis de inducción, el conjunto de átomos de \isa{G{\isacharprime}} está contenido 
+  en el de \isa{F}. Además, como el conjunto de átomos de \isa{F} y \isa{{\isasymnot}\ F} es el 
+  mismo, se tiene la propiedad.
+
+  Sean las fórmulas \isa{F{\isadigit{1}}} y \isa{F{\isadigit{2}}} tales que para cualquier subfórmula \isa{G{\isadigit{1}}}
+  de \isa{F{\isadigit{1}}} el conjunto de átomos de \isa{G{\isadigit{1}}} está contenido en el de \isa{F{\isadigit{1}}}, y
+  para cualquier subfórmula \isa{G{\isadigit{2}}} de \isa{F{\isadigit{2}}} el conjunto de átomos de \isa{G{\isadigit{2}}}
+  está contenido en el de \isa{F{\isadigit{2}}}. Veamos que se verifica la propiedad
+  para \isa{F{\isadigit{1}}{\isacharasterisk}F{\isadigit{2}}} donde \isa{{\isacharasterisk}} es cualquier conectiva binaria. 
+  Sea \isa{G{\isacharprime}\ {\isasymin}\ Subf{\isacharparenleft}F{\isadigit{1}}{\isacharasterisk}F{\isadigit{2}}{\isacharparenright}\ {\isacharequal}\ {\isacharbraceleft}F{\isadigit{1}}{\isacharasterisk}F{\isadigit{2}}{\isacharbraceright}\ {\isasymunion}\ Subf{\isacharparenleft}F{\isadigit{1}}{\isacharparenright}\ {\isasymunion}\ Subf{\isacharparenleft}F{\isadigit{2}}{\isacharparenright}}. De este modo,
+  tenemos tres casos: \isa{G{\isacharprime}\ {\isasymin}\ {\isacharbraceleft}F{\isadigit{1}}{\isacharasterisk}F{\isadigit{2}}{\isacharbraceright}} o \isa{G{\isacharprime}\ {\isasymin}\ Subf{\isacharparenleft}F{\isadigit{1}}{\isacharparenright}} o 
+  \isa{G{\isacharprime}\ {\isasymin}\ Subf{\isacharparenleft}F{\isadigit{2}}{\isacharparenright}}. De la primera opción se deduce \isa{G{\isacharprime}\ {\isacharequal}\ F{\isadigit{1}}{\isacharasterisk}F{\isadigit{2}}} y, por
+  tanto, tienen igual conjunto de átomos. Por otro lado, si 
+  \isa{G{\isacharprime}\ {\isasymin}\ Subf{\isacharparenleft}F{\isadigit{1}}{\isacharparenright}}, por hipótesis de inducción se tiene que el conjunto
+  de átomos de \isa{G{\isacharprime}} está contenido en el de \isa{F{\isadigit{1}}}. Por tanto, como el
+  conjunto de átomos de \isa{F{\isadigit{1}}{\isacharasterisk}F{\isadigit{2}}} es la unión del conjunto de átomos de 
+  \isa{F{\isadigit{1}}} y el de \isa{F{\isadigit{2}}}, se verifica la propiedad. El caso \isa{G{\isacharprime}\ {\isasymin}\ Subf{\isacharparenleft}F{\isadigit{2}}{\isacharparenright}}
+  es análogo cambiando el índice de la fórmula.   
+  \end{demostracion}%
 \end{isamarkuptext}\isamarkuptrue%
+%
+\begin{isamarkuptext}%
+Veamos su formalización en Isabelle junto con su demostración 
+  estructurada.%
+\end{isamarkuptext}\isamarkuptrue%
+%
+\begin{isamarkuptext}%
+\comentario{Hacer las demostraciones detalladas (es decir, usando 
+  sólo "simp only", rule o this) de todos los lemas siguientes siguiendo 
+  el patrón de los anteriores (es decir, demostrando cada caso de la 
+  inducción de la fórmula como un lema independiente).}%
+\end{isamarkuptext}\isamarkuptrue%
+\isacommand{lemma}\isamarkupfalse%
+\ subsubformulae{\isacharunderscore}estructurada{\isacharcolon}\isanewline
+\ \ {\isachardoublequoteopen}G\ {\isasymin}\ setSubformulae\ F\ {\isasymLongrightarrow}\ setSubformulae\ G\ {\isasymsubseteq}\ setSubformulae\ F{\isachardoublequoteclose}\isanewline
+%
+\isadelimproof
+%
+\endisadelimproof
+%
+\isatagproof
+\isacommand{proof}\isamarkupfalse%
+\ {\isacharparenleft}induction\ F{\isacharparenright}\isanewline
+\ \ \isacommand{case}\isamarkupfalse%
+\ {\isacharparenleft}Atom\ x{\isacharparenright}\isanewline
+\ \ \isacommand{then}\isamarkupfalse%
+\ \isacommand{show}\isamarkupfalse%
+\ {\isacharquery}case\ \isacommand{by}\isamarkupfalse%
+\ simp\ %
+\isamarkupcmt{Pendiente%
+}\isanewline
+\isacommand{next}\isamarkupfalse%
+\isanewline
+\ \ \isacommand{case}\isamarkupfalse%
+\ Bot\isanewline
+\ \ \isacommand{then}\isamarkupfalse%
+\ \isacommand{show}\isamarkupfalse%
+\ {\isacharquery}case\ \isacommand{by}\isamarkupfalse%
+\ simp\ %
+\isamarkupcmt{Pendiente%
+}\isanewline
+\isacommand{next}\isamarkupfalse%
+\isanewline
+\ \ \isacommand{case}\isamarkupfalse%
+\ {\isacharparenleft}Not\ F{\isacharparenright}\isanewline
+\ \ \isacommand{assume}\isamarkupfalse%
+\ H{\isadigit{1}}{\isacharcolon}\ {\isachardoublequoteopen}G\ {\isasymin}\ setSubformulae\ F\ {\isasymLongrightarrow}\ \isanewline
+\ \ \ \ \ \ \ \ \ \ \ \ \ \ setSubformulae\ G\ {\isasymsubseteq}\ setSubformulae\ F{\isachardoublequoteclose}\isanewline
+\ \ \isacommand{assume}\isamarkupfalse%
+\ H{\isadigit{2}}{\isacharcolon}\ {\isachardoublequoteopen}G\ {\isasymin}\ setSubformulae\ {\isacharparenleft}Not\ F{\isacharparenright}{\isachardoublequoteclose}\isanewline
+\ \ \isacommand{then}\isamarkupfalse%
+\ \isacommand{show}\isamarkupfalse%
+\ {\isachardoublequoteopen}setSubformulae\ G\ {\isasymsubseteq}\ setSubformulae\ {\isacharparenleft}Not\ F{\isacharparenright}{\isachardoublequoteclose}\isanewline
+\ \ \isacommand{proof}\isamarkupfalse%
+\ {\isacharparenleft}cases\ {\isachardoublequoteopen}G\ {\isacharequal}\ Not\ F{\isachardoublequoteclose}{\isacharparenright}\isanewline
+\ \ \ \ \isacommand{case}\isamarkupfalse%
+\ True\isanewline
+\ \ \ \ \isacommand{then}\isamarkupfalse%
+\ \isacommand{show}\isamarkupfalse%
+\ {\isacharquery}thesis\ \isacommand{by}\isamarkupfalse%
+\ simp\ %
+\isamarkupcmt{Pendiente%
+}\isanewline
+\ \ \isacommand{next}\isamarkupfalse%
+\isanewline
+\ \ \ \ \isacommand{case}\isamarkupfalse%
+\ False\isanewline
+\ \ \ \ \isacommand{then}\isamarkupfalse%
+\ \isacommand{have}\isamarkupfalse%
+\ {\isachardoublequoteopen}G\ {\isasymnoteq}\ Not\ F{\isachardoublequoteclose}\ \isanewline
+\ \ \ \ \ \ \isacommand{by}\isamarkupfalse%
+\ simp\ %
+\isamarkupcmt{Pendiente%
+}\isanewline
+\ \ \ \ \isacommand{then}\isamarkupfalse%
+\ \isacommand{have}\isamarkupfalse%
+\ {\isachardoublequoteopen}G\ {\isasymin}\ setSubformulae\ F{\isachardoublequoteclose}\ \isanewline
+\ \ \ \ \ \ \isacommand{using}\isamarkupfalse%
+\ H{\isadigit{2}}\ \isanewline
+\ \ \ \ \ \ \isacommand{by}\isamarkupfalse%
+\ simp\ %
+\isamarkupcmt{Pendiente%
+}\isanewline
+\ \ \ \ \isacommand{then}\isamarkupfalse%
+\ \isacommand{have}\isamarkupfalse%
+\ {\isadigit{1}}{\isacharcolon}{\isachardoublequoteopen}setSubformulae\ G\ {\isasymsubseteq}\ setSubformulae\ F{\isachardoublequoteclose}\ \isanewline
+\ \ \ \ \ \ \isacommand{using}\isamarkupfalse%
+\ H{\isadigit{1}}\ \isanewline
+\ \ \ \ \ \ \isacommand{by}\isamarkupfalse%
+\ simp\ %
+\isamarkupcmt{Pendiente%
+}\isanewline
+\ \ \ \ \isacommand{have}\isamarkupfalse%
+\ {\isachardoublequoteopen}setSubformulae\ {\isacharparenleft}Not\ F{\isacharparenright}\ {\isacharequal}\ {\isacharbraceleft}Not\ F{\isacharbraceright}\ {\isasymunion}\ setSubformulae\ F{\isachardoublequoteclose}\ \isanewline
+\ \ \ \ \ \ \isacommand{by}\isamarkupfalse%
+\ simp\ %
+\isamarkupcmt{Pendiente%
+}\isanewline
+\ \ \ \ \isacommand{have}\isamarkupfalse%
+\ {\isachardoublequoteopen}setSubformulae\ F\ {\isasymsubseteq}\ {\isacharbraceleft}Not\ F{\isacharbraceright}\ {\isasymunion}\ setSubformulae\ F{\isachardoublequoteclose}\ \isanewline
+\ \ \ \ \ \ \isacommand{by}\isamarkupfalse%
+\ {\isacharparenleft}rule\ Un{\isacharunderscore}upper{\isadigit{2}}{\isacharparenright}\isanewline
+\ \ \ \ \isacommand{then}\isamarkupfalse%
+\ \isacommand{have}\isamarkupfalse%
+\ {\isadigit{2}}{\isacharcolon}{\isachardoublequoteopen}setSubformulae\ F\ {\isasymsubseteq}\ setSubformulae\ {\isacharparenleft}Not\ F{\isacharparenright}{\isachardoublequoteclose}\ \isanewline
+\ \ \ \ \ \ \isacommand{by}\isamarkupfalse%
+\ simp\ %
+\isamarkupcmt{Pendiente%
+}\isanewline
+\ \ \ \ \isacommand{show}\isamarkupfalse%
+\ {\isachardoublequoteopen}setSubformulae\ G\ {\isasymsubseteq}\ setSubformulae\ {\isacharparenleft}Not\ F{\isacharparenright}{\isachardoublequoteclose}\ \isanewline
+\ \ \ \ \ \ \isacommand{using}\isamarkupfalse%
+\ {\isadigit{1}}\ {\isadigit{2}}\ \isacommand{by}\isamarkupfalse%
+\ {\isacharparenleft}rule\ subset{\isacharunderscore}trans{\isacharparenright}\isanewline
+\ \ \isacommand{qed}\isamarkupfalse%
+\isanewline
+\isacommand{next}\isamarkupfalse%
+\isanewline
+\ \ \isacommand{case}\isamarkupfalse%
+\ {\isacharparenleft}And\ F{\isadigit{1}}\ F{\isadigit{2}}{\isacharparenright}\isanewline
+\ \ \isacommand{then}\isamarkupfalse%
+\ \isacommand{show}\isamarkupfalse%
+\ {\isacharquery}case\ \isacommand{by}\isamarkupfalse%
+\ auto\ %
+\isamarkupcmt{Pendiente%
+}\isanewline
+\isacommand{next}\isamarkupfalse%
+\isanewline
+\ \ \isacommand{case}\isamarkupfalse%
+\ {\isacharparenleft}Or\ F{\isadigit{1}}\ F{\isadigit{2}}{\isacharparenright}\isanewline
+\ \ \isacommand{then}\isamarkupfalse%
+\ \isacommand{show}\isamarkupfalse%
+\ {\isacharquery}case\ \isacommand{by}\isamarkupfalse%
+\ auto\ %
+\isamarkupcmt{Pendiente%
+}\isanewline
+\isacommand{next}\isamarkupfalse%
+\isanewline
+\ \ \isacommand{case}\isamarkupfalse%
+\ {\isacharparenleft}Imp\ F{\isadigit{1}}\ F{\isadigit{2}}{\isacharparenright}\isanewline
+\ \ \isacommand{assume}\isamarkupfalse%
+\ H{\isadigit{3}}{\isacharcolon}\ {\isachardoublequoteopen}G\ {\isasymin}\ setSubformulae\ F{\isadigit{1}}\ {\isasymLongrightarrow}\ \isanewline
+\ \ \ \ \ \ \ \ \ \ \ \ \ \ setSubformulae\ G\ {\isasymsubseteq}\ setSubformulae\ F{\isadigit{1}}{\isachardoublequoteclose}\isanewline
+\ \ \isacommand{assume}\isamarkupfalse%
+\ H{\isadigit{4}}{\isacharcolon}\ {\isachardoublequoteopen}G\ {\isasymin}\ setSubformulae\ F{\isadigit{2}}\ {\isasymLongrightarrow}\ \isanewline
+\ \ \ \ \ \ \ \ \ \ \ \ \ \ setSubformulae\ G\ {\isasymsubseteq}\ setSubformulae\ F{\isadigit{2}}{\isachardoublequoteclose}\isanewline
+\ \ \isacommand{assume}\isamarkupfalse%
+\ H{\isadigit{5}}{\isacharcolon}\ {\isachardoublequoteopen}G\ {\isasymin}\ setSubformulae\ {\isacharparenleft}Imp\ F{\isadigit{1}}\ F{\isadigit{2}}{\isacharparenright}{\isachardoublequoteclose}\isanewline
+\ \ \isacommand{have}\isamarkupfalse%
+\ {\isadigit{4}}{\isacharcolon}\ {\isachardoublequoteopen}setSubformulae\ {\isacharparenleft}Imp\ F{\isadigit{1}}\ F{\isadigit{2}}{\isacharparenright}\ {\isacharequal}\ \isanewline
+\ \ \ \ \ \ \ \ \ \ \ {\isacharbraceleft}Imp\ F{\isadigit{1}}\ F{\isadigit{2}}{\isacharbraceright}\ {\isasymunion}\ {\isacharparenleft}setSubformulae\ F{\isadigit{1}}\ {\isasymunion}\ setSubformulae\ F{\isadigit{2}}{\isacharparenright}{\isachardoublequoteclose}\ \isanewline
+\ \ \ \ \isacommand{by}\isamarkupfalse%
+\ simp\ %
+\isamarkupcmt{Pendiente%
+}\isanewline
+\ \ \isacommand{then}\isamarkupfalse%
+\ \isacommand{show}\isamarkupfalse%
+\ {\isachardoublequoteopen}setSubformulae\ G\ {\isasymsubseteq}\ setSubformulae\ {\isacharparenleft}Imp\ F{\isadigit{1}}\ F{\isadigit{2}}{\isacharparenright}{\isachardoublequoteclose}\isanewline
+\ \ \isacommand{proof}\isamarkupfalse%
+\ {\isacharparenleft}cases\ {\isachardoublequoteopen}G\ {\isacharequal}\ Imp\ F{\isadigit{1}}\ F{\isadigit{2}}{\isachardoublequoteclose}{\isacharparenright}\isanewline
+\ \ \ \ \isacommand{case}\isamarkupfalse%
+\ True\isanewline
+\ \ \ \ \isacommand{then}\isamarkupfalse%
+\ \isacommand{show}\isamarkupfalse%
+\ {\isacharquery}thesis\ \isacommand{by}\isamarkupfalse%
+\ simp\ %
+\isamarkupcmt{Pendiente%
+}\isanewline
+\ \ \isacommand{next}\isamarkupfalse%
+\isanewline
+\ \ \ \ \isacommand{case}\isamarkupfalse%
+\ False\isanewline
+\ \ \ \ \isacommand{then}\isamarkupfalse%
+\ \isacommand{have}\isamarkupfalse%
+\ {\isadigit{5}}{\isacharcolon}\ {\isachardoublequoteopen}G\ {\isasymnoteq}\ Imp\ F{\isadigit{1}}\ F{\isadigit{2}}{\isachardoublequoteclose}\ \isanewline
+\ \ \ \ \ \ \isacommand{by}\isamarkupfalse%
+\ simp\ %
+\isamarkupcmt{Pendiente%
+}\isanewline
+\ \ \ \ \isacommand{have}\isamarkupfalse%
+\ {\isachardoublequoteopen}setSubformulae\ F{\isadigit{1}}\ {\isasymunion}\ setSubformulae\ F{\isadigit{2}}\ {\isasymsubseteq}\ \isanewline
+\ \ \ \ \ \ \ \ \ \ {\isacharbraceleft}Imp\ F{\isadigit{1}}\ F{\isadigit{2}}{\isacharbraceright}\ {\isasymunion}\ {\isacharparenleft}setSubformulae\ F{\isadigit{1}}\ {\isasymunion}\ setSubformulae\ F{\isadigit{2}}{\isacharparenright}{\isachardoublequoteclose}\ \isanewline
+\ \ \ \ \ \ \isacommand{by}\isamarkupfalse%
+\ {\isacharparenleft}rule\ Un{\isacharunderscore}upper{\isadigit{2}}{\isacharparenright}\isanewline
+\ \ \ \ \isacommand{then}\isamarkupfalse%
+\ \isacommand{have}\isamarkupfalse%
+\ {\isadigit{6}}{\isacharcolon}\ {\isachardoublequoteopen}setSubformulae\ F{\isadigit{1}}\ {\isasymunion}\ setSubformulae\ F{\isadigit{2}}\ {\isasymsubseteq}\ \isanewline
+\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ setSubformulae\ {\isacharparenleft}Imp\ F{\isadigit{1}}\ F{\isadigit{2}}{\isacharparenright}{\isachardoublequoteclose}\ \isanewline
+\ \ \ \ \ \ \isacommand{by}\isamarkupfalse%
+\ simp\ %
+\isamarkupcmt{Pendiente%
+}\isanewline
+\ \ \ \ \isacommand{then}\isamarkupfalse%
+\ \isacommand{show}\isamarkupfalse%
+\ {\isachardoublequoteopen}setSubformulae\ G\ {\isasymsubseteq}\ setSubformulae\ {\isacharparenleft}Imp\ F{\isadigit{1}}\ F{\isadigit{2}}{\isacharparenright}{\isachardoublequoteclose}\isanewline
+\ \ \ \ \isacommand{proof}\isamarkupfalse%
+\ {\isacharparenleft}cases\ {\isachardoublequoteopen}G\ {\isasymin}\ setSubformulae\ F{\isadigit{1}}{\isachardoublequoteclose}{\isacharparenright}\isanewline
+\ \ \ \ \ \ \isacommand{case}\isamarkupfalse%
+\ True\isanewline
+\ \ \ \ \ \ \isacommand{then}\isamarkupfalse%
+\ \isacommand{have}\isamarkupfalse%
+\ {\isachardoublequoteopen}G\ {\isasymin}\ setSubformulae\ F{\isadigit{1}}{\isachardoublequoteclose}\ \isanewline
+\ \ \ \ \ \ \ \ \isacommand{by}\isamarkupfalse%
+\ simp\ %
+\isamarkupcmt{Pendiente%
+}\isanewline
+\ \ \ \ \ \ \isacommand{then}\isamarkupfalse%
+\ \isacommand{have}\isamarkupfalse%
+\ {\isadigit{7}}{\isacharcolon}{\isachardoublequoteopen}setSubformulae\ G\ {\isasymsubseteq}\ setSubformulae\ F{\isadigit{1}}{\isachardoublequoteclose}\ \isanewline
+\ \ \ \ \ \ \ \ \isacommand{using}\isamarkupfalse%
+\ H{\isadigit{3}}\ \isacommand{by}\isamarkupfalse%
+\ simp\ %
+\isamarkupcmt{Pendiente%
+}\isanewline
+\ \ \ \ \ \ \isacommand{have}\isamarkupfalse%
+\ {\isadigit{8}}{\isacharcolon}{\isachardoublequoteopen}setSubformulae\ F{\isadigit{1}}\ {\isasymsubseteq}\ setSubformulae\ {\isacharparenleft}Imp\ F{\isadigit{1}}\ F{\isadigit{2}}{\isacharparenright}{\isachardoublequoteclose}\ \isanewline
+\ \ \ \ \ \ \ \ \isacommand{using}\isamarkupfalse%
+\ {\isadigit{6}}\ \isacommand{by}\isamarkupfalse%
+\ {\isacharparenleft}rule\ subContUnionRev{\isadigit{1}}{\isacharparenright}\ \ \isanewline
+\ \ \ \ \ \ \isacommand{show}\isamarkupfalse%
+\ {\isachardoublequoteopen}setSubformulae\ G\ {\isasymsubseteq}\ setSubformulae\ {\isacharparenleft}Imp\ F{\isadigit{1}}\ F{\isadigit{2}}{\isacharparenright}{\isachardoublequoteclose}\ \isanewline
+\ \ \ \ \ \ \ \ \isacommand{using}\isamarkupfalse%
+\ {\isadigit{7}}\ {\isadigit{8}}\ \isacommand{by}\isamarkupfalse%
+\ {\isacharparenleft}rule\ subset{\isacharunderscore}trans{\isacharparenright}\isanewline
+\ \ \ \ \isacommand{next}\isamarkupfalse%
+\isanewline
+\ \ \ \ \ \ \isacommand{case}\isamarkupfalse%
+\ False\isanewline
+\ \ \ \ \ \ \isacommand{then}\isamarkupfalse%
+\ \isacommand{have}\isamarkupfalse%
+\ {\isadigit{9}}{\isacharcolon}{\isachardoublequoteopen}G\ {\isasymnotin}\ setSubformulae\ F{\isadigit{1}}{\isachardoublequoteclose}\ \isanewline
+\ \ \ \ \ \ \ \ \isacommand{by}\isamarkupfalse%
+\ simp\ %
+\isamarkupcmt{Pendiente%
+}\isanewline
+\ \ \ \ \ \ \isacommand{have}\isamarkupfalse%
+\ {\isachardoublequoteopen}G\ {\isasymin}\ setSubformulae\ F{\isadigit{1}}\ {\isasymunion}\ setSubformulae\ F{\isadigit{2}}{\isachardoublequoteclose}\ \isanewline
+\ \ \ \ \ \ \ \ \isacommand{using}\isamarkupfalse%
+\ {\isadigit{5}}\ H{\isadigit{5}}\ \isacommand{by}\isamarkupfalse%
+\ simp\ %
+\isamarkupcmt{Pendiente%
+}\isanewline
+\ \ \ \ \ \ \isacommand{then}\isamarkupfalse%
+\ \isacommand{have}\isamarkupfalse%
+\ {\isachardoublequoteopen}G\ {\isasymin}\ setSubformulae\ F{\isadigit{2}}{\isachardoublequoteclose}\ \isanewline
+\ \ \ \ \ \ \ \ \isacommand{using}\isamarkupfalse%
+\ {\isadigit{9}}\ \isacommand{by}\isamarkupfalse%
+\ simp\ %
+\isamarkupcmt{Pendiente%
+}\isanewline
+\ \ \ \ \ \ \isacommand{then}\isamarkupfalse%
+\ \isacommand{have}\isamarkupfalse%
+\ {\isadigit{1}}{\isadigit{0}}{\isacharcolon}{\isachardoublequoteopen}setSubformulae\ G\ {\isasymsubseteq}\ setSubformulae\ F{\isadigit{2}}{\isachardoublequoteclose}\ \isanewline
+\ \ \ \ \ \ \ \ \isacommand{using}\isamarkupfalse%
+\ H{\isadigit{4}}\ \isacommand{by}\isamarkupfalse%
+\ simp\ %
+\isamarkupcmt{Pendiente%
+}\isanewline
+\ \ \ \ \ \ \isacommand{have}\isamarkupfalse%
+\ {\isadigit{1}}{\isadigit{1}}{\isacharcolon}{\isachardoublequoteopen}setSubformulae\ F{\isadigit{2}}\ {\isasymsubseteq}\ setSubformulae\ {\isacharparenleft}Imp\ F{\isadigit{1}}\ F{\isadigit{2}}{\isacharparenright}{\isachardoublequoteclose}\ \isanewline
+\ \ \ \ \ \ \ \ \isacommand{using}\isamarkupfalse%
+\ {\isadigit{6}}\ \isacommand{by}\isamarkupfalse%
+\ simp\ %
+\isamarkupcmt{Pendiente%
+}\isanewline
+\ \ \ \ \ \ \isacommand{show}\isamarkupfalse%
+\ {\isachardoublequoteopen}setSubformulae\ G\ {\isasymsubseteq}\ setSubformulae\ {\isacharparenleft}Imp\ F{\isadigit{1}}\ F{\isadigit{2}}{\isacharparenright}{\isachardoublequoteclose}\ \isanewline
+\ \ \ \ \ \ \ \ \isacommand{using}\isamarkupfalse%
+\ {\isadigit{1}}{\isadigit{0}}\ {\isadigit{1}}{\isadigit{1}}\ \isacommand{by}\isamarkupfalse%
+\ {\isacharparenleft}rule\ subset{\isacharunderscore}trans{\isacharparenright}\isanewline
+\ \ \ \ \isacommand{qed}\isamarkupfalse%
+\isanewline
+\ \ \isacommand{qed}\isamarkupfalse%
+\isanewline
+\isacommand{qed}\isamarkupfalse%
+%
+\endisatagproof
+{\isafoldproof}%
+%
+\isadelimproof
+%
+\endisadelimproof
+%
+\begin{isamarkuptext}%
+Finalmente, su demostración automática se muestra a continuación.%
+\end{isamarkuptext}\isamarkuptrue%
+\isacommand{lemma}\isamarkupfalse%
+\ subformulae{\isacharunderscore}setSubformulae{\isacharcolon}\isanewline
+\ \ {\isachardoublequoteopen}G\ {\isasymin}\ setSubformulae\ F\ {\isasymLongrightarrow}\ setSubformulae\ G\ {\isasymsubseteq}\ setSubformulae\ F{\isachardoublequoteclose}\isanewline
+%
+\isadelimproof
+\ \ %
+\endisadelimproof
+%
+\isatagproof
+\isacommand{by}\isamarkupfalse%
+\ {\isacharparenleft}induction\ F{\isacharparenright}\ auto%
+\endisatagproof
+{\isafoldproof}%
+%
+\isadelimproof
+%
+\endisadelimproof
+%
+\begin{isamarkuptext}%
+El siguiente lema nos da la noción de transitividad de contención 
+  en cadena de las subfórmulas, de modo que la subfórmula de una 
+  subfórmula es del mismo modo subfórmula de la mayor. 
+ 
+  \comentario{Reescribir el siguiente enunciado.}
+
+  \begin{lema}
+    Sea \isa{G\ {\isasymin}\ SubfSet{\isacharparenleft}F{\isacharparenright}} y \isa{H\ {\isasymin}\ SubfSet{\isacharparenleft}G{\isacharparenright}}, entonces \isa{H\ {\isasymin}\ SubfSet{\isacharparenleft}F{\isacharparenright}}.
+  \end{lema}
+
+  \comentario{Añadir prueba clásica y detallar más en Isabelle}
+
+  \begin{demostracion}
+  La prueba está basada en el lema anterior. 
+  \end{demostracion}
+
+  Veamos su formalización y prueba estructurada en Isabelle.
+
+  Veamos su prueba según las distintas tácticas.%
+\end{isamarkuptext}\isamarkuptrue%
+\isacommand{lemma}\isamarkupfalse%
+\isanewline
+\ \ \isakeyword{assumes}\ {\isachardoublequoteopen}G\ {\isasymin}\ setSubformulae\ F{\isachardoublequoteclose}\ \isanewline
+\ \ \ \ \ \ \ \ \ \ {\isachardoublequoteopen}H\ {\isasymin}\ setSubformulae\ G{\isachardoublequoteclose}\isanewline
+\ \ \isakeyword{shows}\ \ \ {\isachardoublequoteopen}H\ {\isasymin}\ setSubformulae\ F{\isachardoublequoteclose}\isanewline
+%
+\isadelimproof
+%
+\endisadelimproof
+%
+\isatagproof
+\isacommand{proof}\isamarkupfalse%
+\ {\isacharminus}\isanewline
+\ \ \isacommand{have}\isamarkupfalse%
+\ {\isadigit{1}}{\isacharcolon}{\isachardoublequoteopen}setSubformulae\ G\ {\isasymsubseteq}\ setSubformulae\ F{\isachardoublequoteclose}\ \isacommand{using}\isamarkupfalse%
+\ assms{\isacharparenleft}{\isadigit{1}}{\isacharparenright}\ \isanewline
+\ \ \ \ \isacommand{by}\isamarkupfalse%
+\ {\isacharparenleft}rule\ subformulae{\isacharunderscore}setSubformulae{\isacharparenright}\isanewline
+\ \ \isacommand{have}\isamarkupfalse%
+\ {\isachardoublequoteopen}setSubformulae\ H\ {\isasymsubseteq}\ setSubformulae\ G{\isachardoublequoteclose}\ \isacommand{using}\isamarkupfalse%
+\ assms{\isacharparenleft}{\isadigit{2}}{\isacharparenright}\ \isanewline
+\ \ \ \ \isacommand{by}\isamarkupfalse%
+\ {\isacharparenleft}rule\ subformulae{\isacharunderscore}setSubformulae{\isacharparenright}\isanewline
+\ \ \isacommand{then}\isamarkupfalse%
+\ \isacommand{have}\isamarkupfalse%
+\ {\isadigit{2}}{\isacharcolon}{\isachardoublequoteopen}setSubformulae\ H\ {\isasymsubseteq}\ setSubformulae\ F{\isachardoublequoteclose}\ \isacommand{using}\isamarkupfalse%
+\ {\isadigit{1}}\ \isanewline
+\ \ \ \ \isacommand{by}\isamarkupfalse%
+\ {\isacharparenleft}rule\ subset{\isacharunderscore}trans{\isacharparenright}\isanewline
+\ \ \isacommand{have}\isamarkupfalse%
+\ {\isachardoublequoteopen}H\ {\isasymin}\ setSubformulae\ H{\isachardoublequoteclose}\ \isanewline
+\ \ \ \ \isacommand{by}\isamarkupfalse%
+\ {\isacharparenleft}simp\ only{\isacharcolon}\ subformulae{\isacharunderscore}self{\isacharparenright}\isanewline
+\ \ \isacommand{then}\isamarkupfalse%
+\ \isacommand{show}\isamarkupfalse%
+\ {\isachardoublequoteopen}H\ {\isasymin}\ setSubformulae\ F{\isachardoublequoteclose}\ \isanewline
+\ \ \ \ \isacommand{using}\isamarkupfalse%
+\ {\isadigit{2}}\ \isanewline
+\ \ \ \ \isacommand{by}\isamarkupfalse%
+\ {\isacharparenleft}rule\ rev{\isacharunderscore}subsetD{\isacharparenright}\isanewline
+\isacommand{qed}\isamarkupfalse%
+%
+\endisatagproof
+{\isafoldproof}%
+%
+\isadelimproof
+\isanewline
+%
+\endisadelimproof
+\isanewline
+\isacommand{lemma}\isamarkupfalse%
+\ subsubformulae{\isacharcolon}\ \isanewline
+\ \ {\isachardoublequoteopen}G\ {\isasymin}\ setSubformulae\ F\ \isanewline
+\ \ \ {\isasymLongrightarrow}\ H\ {\isasymin}\ setSubformulae\ G\ \isanewline
+\ \ \ {\isasymLongrightarrow}\ H\ {\isasymin}\ setSubformulae\ F{\isachardoublequoteclose}\isanewline
+%
+\isadelimproof
+\ \ %
+\endisadelimproof
+%
+\isatagproof
+\isacommand{by}\isamarkupfalse%
+\ {\isacharparenleft}induction\ F{\isacharsemicolon}\ force{\isacharparenright}%
+\endisatagproof
+{\isafoldproof}%
+%
+\isadelimproof
+%
+\endisadelimproof
+%
+\begin{isamarkuptext}%
+comentario{Explicar el cambio de enunciado y el uso de la táctica 
+  force}%
+\end{isamarkuptext}\isamarkuptrue%
+%
+\begin{isamarkuptext}%
+A continuación presentamos otro resultado que relaciona los 
+  conjuntos de subfórmulas según las conectivas que operen.%
+\end{isamarkuptext}\isamarkuptrue%
+\isacommand{lemma}\isamarkupfalse%
+\ subformulas{\isacharunderscore}in{\isacharunderscore}subformulas{\isacharcolon}\isanewline
+\ \ {\isachardoublequoteopen}G\ \isactrlbold {\isasymand}\ H\ {\isasymin}\ setSubformulae\ F\ \isanewline
+\ \ {\isasymLongrightarrow}\ G\ {\isasymin}\ setSubformulae\ F\ {\isasymand}\ H\ {\isasymin}\ setSubformulae\ F{\isachardoublequoteclose}\isanewline
+\ \ {\isachardoublequoteopen}G\ \isactrlbold {\isasymor}\ H\ {\isasymin}\ setSubformulae\ F\ \isanewline
+\ \ {\isasymLongrightarrow}\ G\ {\isasymin}\ setSubformulae\ F\ {\isasymand}\ H\ {\isasymin}\ setSubformulae\ F{\isachardoublequoteclose}\isanewline
+\ \ {\isachardoublequoteopen}G\ \isactrlbold {\isasymrightarrow}\ H\ {\isasymin}\ setSubformulae\ F\ \isanewline
+\ \ {\isasymLongrightarrow}\ G\ {\isasymin}\ setSubformulae\ F\ {\isasymand}\ H\ {\isasymin}\ setSubformulae\ F{\isachardoublequoteclose}\isanewline
+\ \ {\isachardoublequoteopen}\isactrlbold {\isasymnot}\ G\ {\isasymin}\ setSubformulae\ F\ {\isasymLongrightarrow}\ G\ {\isasymin}\ setSubformulae\ F{\isachardoublequoteclose}\isanewline
+%
+\isadelimproof
+\ \ %
+\endisadelimproof
+%
+\isatagproof
+\isacommand{oops}\isamarkupfalse%
+%
+\endisatagproof
+{\isafoldproof}%
+%
+\isadelimproof
+%
+\endisadelimproof
+%
+\begin{isamarkuptext}%
+Como podemos observar, el resultado es análogo en todas las 
+  conectivas binarias aunque aparezcan definidas por separado, por tanto 
+  haré la demostración estructurada para una de ellas pues el resto son 
+  análogas. 
+
+  Nos basaremos en el lema anterior \isa{subsubformulae}.%
+\end{isamarkuptext}\isamarkuptrue%
+\isacommand{lemma}\isamarkupfalse%
+\ subformulas{\isacharunderscore}in{\isacharunderscore}subformulas{\isacharunderscore}conjuncion{\isacharunderscore}estructurada{\isacharcolon}\isanewline
+\ \ \isakeyword{assumes}\ {\isachardoublequoteopen}And\ G\ H\ {\isasymin}\ setSubformulae\ F{\isachardoublequoteclose}\ \isanewline
+\ \ \isakeyword{shows}\ {\isachardoublequoteopen}G\ {\isasymin}\ setSubformulae\ F\ {\isasymand}\ H\ {\isasymin}\ setSubformulae\ F{\isachardoublequoteclose}\isanewline
+%
+\isadelimproof
+%
+\endisadelimproof
+%
+\isatagproof
+\isacommand{proof}\isamarkupfalse%
+\ {\isacharparenleft}rule\ conjI{\isacharparenright}\isanewline
+\ \ \isacommand{have}\isamarkupfalse%
+\ {\isadigit{1}}{\isacharcolon}\ {\isachardoublequoteopen}setSubformulae\ {\isacharparenleft}And\ G\ H{\isacharparenright}\ {\isacharequal}\ \isanewline
+\ \ \ \ \ \ \ \ \ \ {\isacharbraceleft}And\ G\ H{\isacharbraceright}\ {\isasymunion}\ setSubformulae\ G\ {\isasymunion}\ setSubformulae\ H{\isachardoublequoteclose}\ \isanewline
+\ \ \ \ \isacommand{by}\isamarkupfalse%
+\ simp\ %
+\isamarkupcmt{Pendiente%
+}\isanewline
+\ \ \isacommand{then}\isamarkupfalse%
+\ \isacommand{have}\isamarkupfalse%
+\ {\isadigit{2}}{\isacharcolon}\ {\isachardoublequoteopen}G\ {\isasymin}\ setSubformulae\ {\isacharparenleft}And\ G\ H{\isacharparenright}{\isachardoublequoteclose}\ \isanewline
+\ \ \ \ \isacommand{by}\isamarkupfalse%
+\ {\isacharparenleft}simp\ add{\isacharcolon}\ subformulae{\isacharunderscore}self{\isacharparenright}\ \isanewline
+\ \ \isacommand{have}\isamarkupfalse%
+\ {\isadigit{3}}{\isacharcolon}\ {\isachardoublequoteopen}H\ {\isasymin}\ setSubformulae\ {\isacharparenleft}And\ G\ H{\isacharparenright}{\isachardoublequoteclose}\ \isanewline
+\ \ \ \ \isacommand{using}\isamarkupfalse%
+\ {\isadigit{1}}\ \isanewline
+\ \ \ \ \isacommand{by}\isamarkupfalse%
+\ {\isacharparenleft}simp\ add{\isacharcolon}\ subformulae{\isacharunderscore}self{\isacharparenright}\ %
+\isamarkupcmt{Pendiente%
+}\ \isanewline
+\ \ \isacommand{show}\isamarkupfalse%
+\ {\isachardoublequoteopen}G\ {\isasymin}\ setSubformulae\ F{\isachardoublequoteclose}\ \isacommand{using}\isamarkupfalse%
+\ assms\ {\isadigit{2}}\ \isacommand{by}\isamarkupfalse%
+\ {\isacharparenleft}rule\ subsubformulae{\isacharparenright}\isanewline
+\ \ \isacommand{show}\isamarkupfalse%
+\ {\isachardoublequoteopen}H\ {\isasymin}\ setSubformulae\ F{\isachardoublequoteclose}\ \isacommand{using}\isamarkupfalse%
+\ assms\ {\isadigit{3}}\ \isacommand{by}\isamarkupfalse%
+\ {\isacharparenleft}rule\ subsubformulae{\isacharparenright}\isanewline
+\isacommand{qed}\isamarkupfalse%
+%
+\endisatagproof
+{\isafoldproof}%
+%
+\isadelimproof
+\isanewline
+%
+\endisadelimproof
+\isanewline
+\isacommand{lemma}\isamarkupfalse%
+\ subformulas{\isacharunderscore}in{\isacharunderscore}subformulas{\isacharunderscore}negacion{\isacharunderscore}estructurada{\isacharcolon}\isanewline
+\ \ \isakeyword{assumes}\ {\isachardoublequoteopen}Not\ G\ {\isasymin}\ setSubformulae\ F{\isachardoublequoteclose}\isanewline
+\ \ \isakeyword{shows}\ {\isachardoublequoteopen}G\ {\isasymin}\ setSubformulae\ F{\isachardoublequoteclose}\isanewline
+%
+\isadelimproof
+%
+\endisadelimproof
+%
+\isatagproof
+\isacommand{proof}\isamarkupfalse%
+\ {\isacharminus}\isanewline
+\ \ \isacommand{have}\isamarkupfalse%
+\ {\isachardoublequoteopen}setSubformulae\ {\isacharparenleft}Not\ G{\isacharparenright}\ {\isacharequal}\ {\isacharbraceleft}Not\ G{\isacharbraceright}\ {\isasymunion}\ setSubformulae\ G{\isachardoublequoteclose}\ \isanewline
+\ \ \ \ \isacommand{by}\isamarkupfalse%
+\ simp\ %
+\isamarkupcmt{Pendiente%
+}\isanewline
+\ \ \isacommand{then}\isamarkupfalse%
+\ \isacommand{have}\isamarkupfalse%
+\ {\isadigit{1}}{\isacharcolon}{\isachardoublequoteopen}G\ {\isasymin}\ setSubformulae\ {\isacharparenleft}Not\ G{\isacharparenright}{\isachardoublequoteclose}\ \isanewline
+\ \ \ \ \isacommand{by}\isamarkupfalse%
+\ {\isacharparenleft}simp\ add{\isacharcolon}\ subformulae{\isacharunderscore}self{\isacharparenright}\ %
+\isamarkupcmt{Pendiente%
+}\isanewline
+\ \ \isacommand{show}\isamarkupfalse%
+\ {\isachardoublequoteopen}G\ {\isasymin}\ setSubformulae\ F{\isachardoublequoteclose}\ \isacommand{using}\isamarkupfalse%
+\ assms\ {\isadigit{1}}\ \isanewline
+\ \ \ \ \isacommand{by}\isamarkupfalse%
+\ {\isacharparenleft}rule\ subsubformulae{\isacharparenright}\isanewline
+\isacommand{qed}\isamarkupfalse%
+%
+\endisatagproof
+{\isafoldproof}%
+%
+\isadelimproof
+%
+\endisadelimproof
+%
+\begin{isamarkuptext}%
+Mostremos ahora la demostración aplicativa y automática para el 
+  lema completo.%
+\end{isamarkuptext}\isamarkuptrue%
+\isacommand{lemma}\isamarkupfalse%
+\ subformulas{\isacharunderscore}in{\isacharunderscore}subformulas{\isacharunderscore}aplicativa{\isacharunderscore}s{\isacharcolon}\isanewline
+\ \ {\isachardoublequoteopen}And\ G\ H\ {\isasymin}\ setSubformulae\ F\ \isanewline
+\ \ \ {\isasymLongrightarrow}\ G\ {\isasymin}\ setSubformulae\ F\ {\isasymand}\ H\ {\isasymin}\ setSubformulae\ F{\isachardoublequoteclose}\isanewline
+\ \ {\isachardoublequoteopen}Or\ G\ H\ {\isasymin}\ setSubformulae\ F\ \isanewline
+\ \ \ {\isasymLongrightarrow}\ G\ {\isasymin}\ setSubformulae\ F\ {\isasymand}\ H\ {\isasymin}\ setSubformulae\ F{\isachardoublequoteclose}\isanewline
+\ \ {\isachardoublequoteopen}Imp\ G\ H\ {\isasymin}\ setSubformulae\ F\ \isanewline
+\ \ \ {\isasymLongrightarrow}\ G\ {\isasymin}\ setSubformulae\ F\ {\isasymand}\ H\ {\isasymin}\ setSubformulae\ F{\isachardoublequoteclose}\isanewline
+\ \ {\isachardoublequoteopen}Not\ G\ {\isasymin}\ setSubformulae\ F\ {\isasymLongrightarrow}\ G\ {\isasymin}\ setSubformulae\ F{\isachardoublequoteclose}\isanewline
+%
+\isadelimproof
+\ \ %
+\endisadelimproof
+%
+\isatagproof
+\isacommand{apply}\isamarkupfalse%
+\ {\isacharparenleft}{\isacharparenleft}rule\ conjI{\isacharparenright}{\isacharplus}{\isacharcomma}\ {\isacharparenleft}erule\ subsubformulae{\isacharcomma}simp{\isacharparenright}{\isacharplus}{\isacharparenright}{\isacharplus}\isanewline
+\ \ \isacommand{oops}\isamarkupfalse%
+%
+\endisatagproof
+{\isafoldproof}%
+%
+\isadelimproof
+%
+\endisadelimproof
+%
+\begin{isamarkuptext}%
+\comentario{Completar la demostración anterior.}%
+\end{isamarkuptext}\isamarkuptrue%
+\isacommand{lemma}\isamarkupfalse%
+\ subformulas{\isacharunderscore}in{\isacharunderscore}subformulas{\isacharcolon}\isanewline
+\ \ {\isachardoublequoteopen}G\ \isactrlbold {\isasymand}\ H\ {\isasymin}\ setSubformulae\ F\ \isanewline
+\ \ \ {\isasymLongrightarrow}\ G\ {\isasymin}\ setSubformulae\ F\ {\isasymand}\ H\ {\isasymin}\ setSubformulae\ F{\isachardoublequoteclose}\isanewline
+\ \ {\isachardoublequoteopen}G\ \isactrlbold {\isasymor}\ H\ {\isasymin}\ setSubformulae\ F\ \isanewline
+\ \ \ {\isasymLongrightarrow}\ G\ {\isasymin}\ setSubformulae\ F\ {\isasymand}\ H\ {\isasymin}\ setSubformulae\ F{\isachardoublequoteclose}\isanewline
+\ \ {\isachardoublequoteopen}G\ \isactrlbold {\isasymrightarrow}\ H\ {\isasymin}\ setSubformulae\ F\ \isanewline
+\ \ \ {\isasymLongrightarrow}\ G\ {\isasymin}\ setSubformulae\ F\ {\isasymand}\ H\ {\isasymin}\ setSubformulae\ F{\isachardoublequoteclose}\isanewline
+\ \ {\isachardoublequoteopen}\isactrlbold {\isasymnot}\ G\ {\isasymin}\ setSubformulae\ F\ {\isasymLongrightarrow}\ G\ {\isasymin}\ setSubformulae\ F{\isachardoublequoteclose}\isanewline
+%
+\isadelimproof
+\ \ %
+\endisadelimproof
+%
+\isatagproof
+\isacommand{using}\isamarkupfalse%
+\ subformulae{\isacharunderscore}self\ subsubformulae{\isacharunderscore}estructurada\ \isacommand{apply}\isamarkupfalse%
+\ force\isanewline
+\ \ \isacommand{oops}\isamarkupfalse%
+%
+\endisatagproof
+{\isafoldproof}%
+%
+\isadelimproof
+%
+\endisadelimproof
+%
+\begin{isamarkuptext}%
+\comentario{Completar la prueba anterior.}%
+\end{isamarkuptext}\isamarkuptrue%
+%
+\begin{isamarkuptext}%
+HASTA AQUÍ HE TRABAJADO: 24/11/19%
+\end{isamarkuptext}\isamarkuptrue%
+%
+\begin{isamarkuptext}%
+Concluimos la sección de subfórmulas con un resultado que 
+  relaciona varias funciones sobre la longitud de la lista 
+  \isa{subformulae\ F} de una fórmula \isa{F} cualquiera.%
+\end{isamarkuptext}\isamarkuptrue%
+\isacommand{lemma}\isamarkupfalse%
+\ length{\isacharunderscore}subformulae{\isacharcolon}\ {\isachardoublequoteopen}length\ {\isacharparenleft}subformulae\ F{\isacharparenright}\ {\isacharequal}\ size\ F{\isachardoublequoteclose}\ \isanewline
+%
+\isadelimproof
+\ \ %
+\endisadelimproof
+%
+\isatagproof
+\isacommand{oops}\isamarkupfalse%
+%
+\endisatagproof
+{\isafoldproof}%
+%
+\isadelimproof
+%
+\endisadelimproof
+%
+\begin{isamarkuptext}%
+En primer lugar aparece la clase \isa{size} de la teoría de 
+  números naturales ....
+
+  Vamos a definir \isa{size{\isadigit{1}}} de manera idéntica a como aparece 
+  \isa{size} en la teoría.%
+\end{isamarkuptext}\isamarkuptrue%
+\isacommand{class}\isamarkupfalse%
+\ size{\isadigit{1}}\ {\isacharequal}\isanewline
+\ \ \isakeyword{fixes}\ size{\isadigit{1}}\ {\isacharcolon}{\isacharcolon}\ {\isachardoublequoteopen}{\isacharprime}a\ {\isasymRightarrow}\ nat{\isachardoublequoteclose}\ \isanewline
+\isanewline
+\isacommand{instantiation}\isamarkupfalse%
+\ nat\ {\isacharcolon}{\isacharcolon}\ size{\isadigit{1}}\isanewline
+\isakeyword{begin}\isanewline
+\isanewline
+\isacommand{definition}\isamarkupfalse%
+\ size{\isadigit{1}}{\isacharunderscore}nat\ \isakeyword{where}\ {\isacharbrackleft}simp{\isacharcomma}\ code{\isacharbrackright}{\isacharcolon}\ {\isachardoublequoteopen}size{\isadigit{1}}\ {\isacharparenleft}n{\isacharcolon}{\isacharcolon}nat{\isacharparenright}\ {\isacharequal}\ n{\isachardoublequoteclose}\isanewline
+\isanewline
+\isacommand{instance}\isamarkupfalse%
+%
+\isadelimproof
+\ %
+\endisadelimproof
+%
+\isatagproof
+\isacommand{{\isachardot}{\isachardot}}\isamarkupfalse%
+%
+\endisatagproof
+{\isafoldproof}%
+%
+\isadelimproof
+%
+\endisadelimproof
+\isanewline
+\isanewline
+\isacommand{end}\isamarkupfalse%
+%
+\begin{isamarkuptext}%
+Como podemos observar, se trata de una clase que actúa sobre un 
+  parámetro global de tipo \isa{{\isacharprime}a} cualquiera. Por otro lado, 
+  \isa{instantation} define una clase de parámetros, en este caso los 
+  números naturales \isa{nat} que devuelve como resultado. Incluye una 
+  definición concreta del operador \isa{size{\isadigit{1}}} sobre dichos parámetros. 
+  Además, el último \isa{instance} abre una prueba que afirma que los 
+  parámetros dados conforman la clase especificada en la definición. 
+  Esta prueba que nos afirma que está bien definida la clase aparece
+  omitida utilizando \isa{{\isachardot}{\isachardot}} .
+
+  En particular, sobre una fórmula nos devuelve el número de elementos 
+  de la lista cuyos elementos son los nodos y las hojas de su árbol de 
+  formación.%
+\end{isamarkuptext}\isamarkuptrue%
+\isacommand{value}\isamarkupfalse%
+\ {\isachardoublequoteopen}size\ {\isacharparenleft}n{\isacharcolon}{\isacharcolon}nat{\isacharparenright}\ {\isacharequal}\ n{\isachardoublequoteclose}\isanewline
+\isacommand{value}\isamarkupfalse%
+\ {\isachardoublequoteopen}size\ {\isacharparenleft}{\isadigit{5}}{\isacharcolon}{\isacharcolon}nat{\isacharparenright}\ {\isacharequal}\ {\isadigit{5}}{\isachardoublequoteclose}%
+\begin{isamarkuptext}%
+Por otro lado, la función \isa{length} de la teoría 
+  \href{http://cort.as/-Stfm}{List.thy} nos indica la longitud de una 
+  lista cualquiera de elementos, definiéndose utilizando el comando
+  \isa{size} visto anteriormente.%
+\end{isamarkuptext}\isamarkuptrue%
+\isacommand{abbreviation}\isamarkupfalse%
+\ length{\isacharprime}\ {\isacharcolon}{\isacharcolon}\ {\isachardoublequoteopen}{\isacharprime}a\ list\ {\isasymRightarrow}\ nat{\isachardoublequoteclose}\ \isakeyword{where}\isanewline
+\ \ {\isachardoublequoteopen}length{\isacharprime}\ {\isasymequiv}\ size{\isachardoublequoteclose}%
+\begin{isamarkuptext}%
+Las demostración del resultado se vuelve a basar en la inducción 
+  que nos despliega seis casos. 
+
+  La prueba estructurada no resulta interesante, pues todos los casos 
+  son inmediatos por simplificación como en el primer lema de esta 
+  sección. 
+
+  Incluimos a continuación la prueba automática.%
+\end{isamarkuptext}\isamarkuptrue%
+\isacommand{lemma}\isamarkupfalse%
+\ length{\isacharunderscore}subformulae{\isacharcolon}\ {\isachardoublequoteopen}length\ {\isacharparenleft}subformulae\ F{\isacharparenright}\ {\isacharequal}\ size\ F{\isachardoublequoteclose}\ \isanewline
+%
+\isadelimproof
+\ \ %
+\endisadelimproof
+%
+\isatagproof
+\isacommand{by}\isamarkupfalse%
+\ {\isacharparenleft}induction\ F{\isacharsemicolon}\ simp{\isacharparenright}%
+\endisatagproof
+{\isafoldproof}%
+%
+\isadelimproof
+%
+\endisadelimproof
+%
+\begin{isamarkuptext}%
+\comentario{Hacer la prueba detallada para mostrar los teoremas 
+  utilizados.}%
+\end{isamarkuptext}\isamarkuptrue%
+%
+\isadelimdocument
+%
+\endisadelimdocument
+%
+\isatagdocument
+%
+\isamarkupsection{Conectivas derivadas%
+}
+\isamarkuptrue%
+%
+\endisatagdocument
+{\isafolddocument}%
+%
+\isadelimdocument
+%
+\endisadelimdocument
+%
+\begin{isamarkuptext}%
+En esta sección definiremos nuevas conectivas y elementos a partir 
+  de los ya definidos en el apartado anterior. Además veremos varios 
+  resultados sobre los mismos.%
+\end{isamarkuptext}\isamarkuptrue%
+%
+\begin{isamarkuptext}%
+En primer lugar, vamos a definir \isa{Top{\isacharcolon}{\isacharcolon}\ {\isacharprime}a\ formula\ {\isasymRightarrow}\ bool} como 
+  la constante  que devuelve el booleano contrario a \isa{Bot}. Se trata, 
+  por tanto, de una constante de la misma naturaleza que la ya definida 
+  para \isa{Bot}. De este modo, \isa{Top} será equivalente a \isa{Verdadero}, y 
+  \isa{Bot} a \isa{Falso}, según se muestra en la siguiente ecuación. Su símbolo 
+  queda igualmente retratado a continuación.%
+\end{isamarkuptext}\isamarkuptrue%
+\isacommand{definition}\isamarkupfalse%
+\ Top\ {\isacharparenleft}{\isachardoublequoteopen}{\isasymtop}{\isachardoublequoteclose}{\isacharparenright}\ \isakeyword{where}\isanewline
+\ \ {\isachardoublequoteopen}{\isasymtop}\ {\isasymequiv}\ {\isasymbottom}\ \isactrlbold {\isasymrightarrow}\ {\isasymbottom}{\isachardoublequoteclose}%
+\begin{isamarkuptext}%
+\comentario{Añadir la doble implicación com conectiva derivada.}%
+\end{isamarkuptext}\isamarkuptrue%
+%
+\begin{isamarkuptext}%
+Por la propia definición y naturaleza de \isa{Top}, verifica que no 
+  contiene ninguna variable del alfabeto, como ya sabíamos análogamente 
+  para \isa{Bot}. Tenemos así la siguiente propiedad.%
+\end{isamarkuptext}\isamarkuptrue%
+\isacommand{lemma}\isamarkupfalse%
+\ top{\isacharunderscore}atoms{\isacharunderscore}simp{\isacharcolon}\ {\isachardoublequoteopen}atoms\ {\isasymtop}\ {\isacharequal}\ {\isacharbraceleft}{\isacharbraceright}{\isachardoublequoteclose}\ \isanewline
+%
+\isadelimproof
+\ \ %
+\endisadelimproof
+%
+\isatagproof
+\isacommand{unfolding}\isamarkupfalse%
+\ Top{\isacharunderscore}def\ \isacommand{by}\isamarkupfalse%
+\ simp%
+\endisatagproof
+{\isafoldproof}%
+%
+\isadelimproof
+%
+\endisadelimproof
+%
+\begin{isamarkuptext}%
+A continuación vamos a definir dos conectivas que generalizarán la 
+  conjunción y la disyunción para una lista finita de fórmulas.%
+\end{isamarkuptext}\isamarkuptrue%
+\isacommand{primrec}\isamarkupfalse%
+\ BigAnd\ {\isacharcolon}{\isacharcolon}\ {\isachardoublequoteopen}{\isacharprime}a\ formula\ list\ {\isasymRightarrow}\ {\isacharprime}a\ formula{\isachardoublequoteclose}\ {\isacharparenleft}{\isachardoublequoteopen}\isactrlbold {\isasymAnd}{\isacharunderscore}{\isachardoublequoteclose}{\isacharparenright}\ \isakeyword{where}\isanewline
+\ \ {\isachardoublequoteopen}\isactrlbold {\isasymAnd}Nil\ {\isacharequal}\ {\isacharparenleft}\isactrlbold {\isasymnot}{\isasymbottom}{\isacharparenright}{\isachardoublequoteclose}\ \isanewline
+{\isacharbar}\ {\isachardoublequoteopen}\isactrlbold {\isasymAnd}{\isacharparenleft}F{\isacharhash}Fs{\isacharparenright}\ {\isacharequal}\ F\ \isactrlbold {\isasymand}\ \isactrlbold {\isasymAnd}Fs{\isachardoublequoteclose}\isanewline
+\isanewline
+\isacommand{primrec}\isamarkupfalse%
+\ BigOr\ {\isacharcolon}{\isacharcolon}\ {\isachardoublequoteopen}{\isacharprime}a\ formula\ list\ {\isasymRightarrow}\ {\isacharprime}a\ formula{\isachardoublequoteclose}\ {\isacharparenleft}{\isachardoublequoteopen}\isactrlbold {\isasymOr}{\isacharunderscore}{\isachardoublequoteclose}{\isacharparenright}\ \isakeyword{where}\isanewline
+\ \ {\isachardoublequoteopen}\isactrlbold {\isasymOr}Nil\ {\isacharequal}\ {\isasymbottom}{\isachardoublequoteclose}\ \isanewline
+{\isacharbar}\ {\isachardoublequoteopen}\isactrlbold {\isasymOr}{\isacharparenleft}F{\isacharhash}Fs{\isacharparenright}\ {\isacharequal}\ F\ \isactrlbold {\isasymor}\ \isactrlbold {\isasymOr}Fs{\isachardoublequoteclose}%
+\begin{isamarkuptext}%
+Ambas nuevas conectivas se caracterizarán por ser del tipo 
+  funciones primitivas recursivas. Por tanto, sus definiciones se basan 
+  en dos casos:
+  \begin{description}
+    \item[Lista vacía:] Representada como \isa{Nil}. En este caso, la 
+      conjunción plural aplicada a la lista vacía nos devuelve la 
+      negación de \isa{Bot}, es decir, \isa{Verdadero}, y la disyunción plural 
+      sobre la lista vacía nos da simplemente \isa{Bot}, luego \isa{Falso}. 
+    \item[Lista recursiva:] En este caso actúa sobre \isa{F{\isacharhash}Fs} donde \isa{F} 
+      es una fórmula concatenada a la lista de fórmulas \isa{Fs}. Como es 
+      lógico, \isa{BigAnd} nos devuelve la conjunción de todas las 
+      fórmulas de la lista y \isa{BigOr} nos devuelve su disyunción.
+  \end{description}
+
+  Además, se observa en cada función el símbolo de notación que aparece 
+  entre paréntesis.
+
+  La conjunción plural nos da el siguiente resultado.%
+\end{isamarkuptext}\isamarkuptrue%
+\isacommand{lemma}\isamarkupfalse%
+\ atoms{\isacharunderscore}BigAnd{\isacharbrackleft}simp{\isacharbrackright}{\isacharcolon}\ {\isachardoublequoteopen}atoms\ {\isacharparenleft}\isactrlbold {\isasymAnd}Fs{\isacharparenright}\ {\isacharequal}\ {\isasymUnion}{\isacharparenleft}atoms\ {\isacharbackquote}\ set\ Fs{\isacharparenright}{\isachardoublequoteclose}\isanewline
+%
+\isadelimproof
+\ \ %
+\endisadelimproof
+%
+\isatagproof
+\isacommand{by}\isamarkupfalse%
+\ {\isacharparenleft}induction\ Fs{\isacharsemicolon}\ simp{\isacharparenright}\isanewline
+\isanewline
+%
+\endisatagproof
+{\isafoldproof}%
+%
+\isadelimproof
+%
+\endisadelimproof
 %
 \isadelimtheory
 %
@@ -2529,20 +3413,20 @@ Por último, su demostración aplicativa automática.%
 %:%89=67%:%
 %:%90=68%:%
 %:%91=69%:%
+%:%92=70%:%
 %:%93=71%:%
-%:%94=71%:%
-%:%95=72%:%
-%:%96=73%:%
-%:%97=74%:%
-%:%98=75%:%
-%:%99=76%:%
+%:%94=72%:%
+%:%95=73%:%
+%:%96=74%:%
+%:%97=75%:%
+%:%99=77%:%
 %:%100=77%:%
+%:%101=78%:%
 %:%102=79%:%
 %:%103=80%:%
 %:%104=81%:%
 %:%105=82%:%
 %:%106=83%:%
-%:%107=84%:%
 %:%108=85%:%
 %:%109=86%:%
 %:%110=87%:%
@@ -2570,103 +3454,103 @@ Por último, su demostración aplicativa automática.%
 %:%132=109%:%
 %:%133=110%:%
 %:%134=111%:%
-%:%139=111%:%
-%:%140=112%:%
-%:%141=113%:%
-%:%142=114%:%
-%:%143=115%:%
-%:%144=116%:%
+%:%135=112%:%
+%:%136=113%:%
+%:%137=114%:%
+%:%138=115%:%
+%:%139=116%:%
+%:%140=117%:%
 %:%145=117%:%
+%:%146=118%:%
 %:%147=119%:%
-%:%148=119%:%
-%:%149=120%:%
-%:%152=121%:%
-%:%156=121%:%
-%:%157=121%:%
-%:%158=122%:%
-%:%159=123%:%
-%:%160=123%:%
-%:%161=124%:%
-%:%162=124%:%
-%:%163=125%:%
-%:%164=126%:%
-%:%165=126%:%
-%:%166=127%:%
-%:%167=127%:%
-%:%168=128%:%
-%:%169=129%:%
-%:%170=129%:%
-%:%171=130%:%
-%:%172=130%:%
-%:%173=131%:%
-%:%174=132%:%
-%:%175=132%:%
-%:%176=133%:%
-%:%177=133%:%
-%:%182=133%:%
-%:%185=134%:%
-%:%188=136%:%
-%:%189=137%:%
-%:%190=138%:%
-%:%192=140%:%
-%:%193=140%:%
-%:%194=141%:%
-%:%197=142%:%
-%:%201=142%:%
-%:%202=142%:%
-%:%203=143%:%
-%:%204=144%:%
-%:%205=144%:%
-%:%206=145%:%
-%:%207=145%:%
-%:%208=146%:%
-%:%209=147%:%
-%:%210=147%:%
-%:%211=148%:%
-%:%212=148%:%
-%:%213=149%:%
-%:%214=149%:%
-%:%215=150%:%
-%:%216=150%:%
-%:%217=151%:%
-%:%218=151%:%
-%:%219=151%:%
-%:%220=152%:%
-%:%221=152%:%
-%:%222=153%:%
-%:%223=153%:%
-%:%224=153%:%
-%:%225=154%:%
-%:%226=154%:%
-%:%227=155%:%
-%:%228=155%:%
-%:%229=155%:%
-%:%230=156%:%
-%:%231=156%:%
-%:%232=157%:%
-%:%233=157%:%
-%:%234=157%:%
-%:%235=158%:%
-%:%236=158%:%
-%:%237=159%:%
-%:%238=159%:%
-%:%239=160%:%
-%:%240=161%:%
-%:%241=161%:%
-%:%242=162%:%
-%:%243=162%:%
-%:%248=162%:%
-%:%251=163%:%
-%:%252=163%:%
-%:%253=164%:%
-%:%254=165%:%
-%:%255=165%:%
-%:%257=167%:%
-%:%258=168%:%
-%:%259=169%:%
-%:%260=170%:%
+%:%148=120%:%
+%:%149=121%:%
+%:%150=122%:%
+%:%151=123%:%
+%:%153=125%:%
+%:%154=125%:%
+%:%155=126%:%
+%:%158=127%:%
+%:%162=127%:%
+%:%163=127%:%
+%:%164=128%:%
+%:%165=129%:%
+%:%166=129%:%
+%:%167=130%:%
+%:%168=130%:%
+%:%169=131%:%
+%:%170=132%:%
+%:%171=132%:%
+%:%172=133%:%
+%:%173=133%:%
+%:%174=134%:%
+%:%175=135%:%
+%:%176=135%:%
+%:%177=136%:%
+%:%178=136%:%
+%:%179=137%:%
+%:%180=138%:%
+%:%181=138%:%
+%:%182=139%:%
+%:%183=139%:%
+%:%188=139%:%
+%:%191=140%:%
+%:%194=142%:%
+%:%195=143%:%
+%:%196=144%:%
+%:%198=146%:%
+%:%199=146%:%
+%:%200=147%:%
+%:%203=148%:%
+%:%207=148%:%
+%:%208=148%:%
+%:%209=149%:%
+%:%210=150%:%
+%:%211=150%:%
+%:%212=151%:%
+%:%213=151%:%
+%:%214=152%:%
+%:%215=153%:%
+%:%216=153%:%
+%:%217=154%:%
+%:%218=154%:%
+%:%219=155%:%
+%:%220=155%:%
+%:%221=156%:%
+%:%222=156%:%
+%:%223=157%:%
+%:%224=157%:%
+%:%225=157%:%
+%:%226=158%:%
+%:%227=158%:%
+%:%228=159%:%
+%:%229=159%:%
+%:%230=159%:%
+%:%231=160%:%
+%:%232=160%:%
+%:%233=161%:%
+%:%234=161%:%
+%:%235=161%:%
+%:%236=162%:%
+%:%237=162%:%
+%:%238=163%:%
+%:%239=163%:%
+%:%240=163%:%
+%:%241=164%:%
+%:%242=164%:%
+%:%243=165%:%
+%:%244=165%:%
+%:%245=166%:%
+%:%246=167%:%
+%:%247=167%:%
+%:%248=168%:%
+%:%249=168%:%
+%:%254=168%:%
+%:%257=169%:%
+%:%258=169%:%
+%:%259=170%:%
+%:%260=171%:%
 %:%261=171%:%
-%:%262=172%:%
 %:%263=173%:%
 %:%264=174%:%
 %:%265=175%:%
@@ -2723,23 +3607,23 @@ Por último, su demostración aplicativa automática.%
 %:%316=226%:%
 %:%317=227%:%
 %:%318=228%:%
+%:%319=229%:%
 %:%320=230%:%
-%:%321=230%:%
-%:%324=231%:%
-%:%328=231%:%
-%:%338=233%:%
-%:%339=234%:%
-%:%340=235%:%
-%:%342=237%:%
-%:%343=237%:%
-%:%344=238%:%
-%:%345=239%:%
-%:%347=241%:%
-%:%348=242%:%
+%:%321=231%:%
+%:%322=232%:%
+%:%323=233%:%
+%:%324=234%:%
+%:%326=236%:%
+%:%327=236%:%
+%:%330=237%:%
+%:%334=237%:%
+%:%344=239%:%
+%:%345=240%:%
+%:%346=241%:%
+%:%348=243%:%
 %:%349=243%:%
 %:%350=244%:%
 %:%351=245%:%
-%:%352=246%:%
 %:%353=247%:%
 %:%354=248%:%
 %:%355=249%:%
@@ -2774,183 +3658,183 @@ Por último, su demostración aplicativa automática.%
 %:%384=278%:%
 %:%385=279%:%
 %:%386=280%:%
+%:%387=281%:%
 %:%388=282%:%
-%:%389=282%:%
-%:%390=283%:%
-%:%397=284%:%
-%:%398=284%:%
-%:%399=285%:%
-%:%400=285%:%
-%:%401=286%:%
-%:%402=286%:%
-%:%403=287%:%
-%:%404=287%:%
-%:%405=287%:%
-%:%406=288%:%
-%:%407=288%:%
-%:%408=289%:%
-%:%409=289%:%
-%:%410=289%:%
-%:%411=290%:%
-%:%412=290%:%
-%:%413=291%:%
-%:%419=291%:%
-%:%422=292%:%
-%:%423=293%:%
-%:%424=293%:%
-%:%425=294%:%
-%:%432=295%:%
-%:%433=295%:%
-%:%434=296%:%
-%:%435=296%:%
-%:%436=297%:%
-%:%437=297%:%
-%:%438=298%:%
-%:%439=298%:%
-%:%440=298%:%
-%:%441=299%:%
-%:%442=299%:%
-%:%443=300%:%
-%:%449=300%:%
-%:%452=301%:%
-%:%453=302%:%
-%:%454=302%:%
-%:%455=303%:%
-%:%456=304%:%
-%:%459=305%:%
-%:%463=305%:%
-%:%464=305%:%
-%:%465=306%:%
-%:%466=306%:%
-%:%471=306%:%
-%:%474=307%:%
-%:%475=308%:%
-%:%476=308%:%
-%:%477=309%:%
-%:%478=310%:%
-%:%479=311%:%
-%:%486=312%:%
-%:%487=312%:%
-%:%488=313%:%
-%:%489=313%:%
-%:%490=314%:%
-%:%491=314%:%
-%:%492=315%:%
-%:%493=315%:%
-%:%494=316%:%
-%:%495=316%:%
-%:%496=316%:%
-%:%497=317%:%
-%:%498=317%:%
-%:%499=318%:%
-%:%505=318%:%
-%:%508=319%:%
-%:%509=320%:%
-%:%510=320%:%
-%:%511=321%:%
-%:%512=322%:%
-%:%513=323%:%
-%:%520=324%:%
-%:%521=324%:%
-%:%522=325%:%
-%:%523=325%:%
-%:%524=326%:%
-%:%525=326%:%
-%:%526=327%:%
-%:%527=327%:%
-%:%528=328%:%
-%:%529=328%:%
-%:%530=328%:%
-%:%531=329%:%
-%:%532=329%:%
-%:%533=330%:%
-%:%539=330%:%
-%:%542=331%:%
-%:%543=332%:%
-%:%544=332%:%
-%:%545=333%:%
-%:%546=334%:%
-%:%547=335%:%
-%:%554=336%:%
-%:%555=336%:%
-%:%556=337%:%
-%:%557=337%:%
-%:%558=338%:%
-%:%559=338%:%
-%:%560=339%:%
-%:%561=339%:%
-%:%562=340%:%
-%:%563=340%:%
-%:%564=340%:%
-%:%565=341%:%
-%:%566=341%:%
-%:%567=342%:%
-%:%573=342%:%
-%:%576=343%:%
-%:%577=344%:%
-%:%578=344%:%
-%:%585=345%:%
-%:%586=345%:%
-%:%587=346%:%
-%:%588=346%:%
-%:%589=347%:%
-%:%590=347%:%
-%:%591=347%:%
-%:%592=347%:%
-%:%593=348%:%
-%:%594=348%:%
-%:%595=349%:%
-%:%596=349%:%
-%:%597=350%:%
-%:%598=350%:%
-%:%599=350%:%
-%:%600=350%:%
-%:%601=351%:%
-%:%602=351%:%
-%:%603=352%:%
-%:%604=352%:%
-%:%605=353%:%
-%:%606=353%:%
-%:%607=353%:%
-%:%608=353%:%
-%:%609=354%:%
-%:%610=354%:%
-%:%611=355%:%
-%:%612=355%:%
-%:%613=356%:%
-%:%614=356%:%
-%:%615=356%:%
-%:%616=356%:%
-%:%617=357%:%
-%:%618=357%:%
-%:%619=358%:%
-%:%620=358%:%
-%:%621=359%:%
-%:%622=359%:%
-%:%623=359%:%
-%:%624=359%:%
-%:%625=360%:%
-%:%626=360%:%
-%:%627=361%:%
-%:%628=361%:%
-%:%629=362%:%
-%:%630=362%:%
-%:%631=362%:%
-%:%632=362%:%
-%:%633=363%:%
-%:%643=365%:%
-%:%645=367%:%
-%:%646=367%:%
-%:%649=368%:%
-%:%653=368%:%
-%:%654=368%:%
-%:%668=370%:%
-%:%680=372%:%
-%:%681=373%:%
-%:%682=374%:%
-%:%683=375%:%
-%:%684=376%:%
-%:%685=377%:%
+%:%389=283%:%
+%:%390=284%:%
+%:%391=285%:%
+%:%392=286%:%
+%:%394=288%:%
+%:%395=288%:%
+%:%396=289%:%
+%:%403=290%:%
+%:%404=290%:%
+%:%405=291%:%
+%:%406=291%:%
+%:%407=292%:%
+%:%408=292%:%
+%:%409=293%:%
+%:%410=293%:%
+%:%411=293%:%
+%:%412=294%:%
+%:%413=294%:%
+%:%414=295%:%
+%:%415=295%:%
+%:%416=295%:%
+%:%417=296%:%
+%:%418=296%:%
+%:%419=297%:%
+%:%425=297%:%
+%:%428=298%:%
+%:%429=299%:%
+%:%430=299%:%
+%:%431=300%:%
+%:%438=301%:%
+%:%439=301%:%
+%:%440=302%:%
+%:%441=302%:%
+%:%442=303%:%
+%:%443=303%:%
+%:%444=304%:%
+%:%445=304%:%
+%:%446=304%:%
+%:%447=305%:%
+%:%448=305%:%
+%:%449=306%:%
+%:%455=306%:%
+%:%458=307%:%
+%:%459=308%:%
+%:%460=308%:%
+%:%461=309%:%
+%:%462=310%:%
+%:%465=311%:%
+%:%469=311%:%
+%:%470=311%:%
+%:%471=312%:%
+%:%472=312%:%
+%:%477=312%:%
+%:%480=313%:%
+%:%481=314%:%
+%:%482=314%:%
+%:%483=315%:%
+%:%484=316%:%
+%:%485=317%:%
+%:%492=318%:%
+%:%493=318%:%
+%:%494=319%:%
+%:%495=319%:%
+%:%496=320%:%
+%:%497=320%:%
+%:%498=321%:%
+%:%499=321%:%
+%:%500=322%:%
+%:%501=322%:%
+%:%502=322%:%
+%:%503=323%:%
+%:%504=323%:%
+%:%505=324%:%
+%:%511=324%:%
+%:%514=325%:%
+%:%515=326%:%
+%:%516=326%:%
+%:%517=327%:%
+%:%518=328%:%
+%:%519=329%:%
+%:%526=330%:%
+%:%527=330%:%
+%:%528=331%:%
+%:%529=331%:%
+%:%530=332%:%
+%:%531=332%:%
+%:%532=333%:%
+%:%533=333%:%
+%:%534=334%:%
+%:%535=334%:%
+%:%536=334%:%
+%:%537=335%:%
+%:%538=335%:%
+%:%539=336%:%
+%:%545=336%:%
+%:%548=337%:%
+%:%549=338%:%
+%:%550=338%:%
+%:%551=339%:%
+%:%552=340%:%
+%:%553=341%:%
+%:%560=342%:%
+%:%561=342%:%
+%:%562=343%:%
+%:%563=343%:%
+%:%564=344%:%
+%:%565=344%:%
+%:%566=345%:%
+%:%567=345%:%
+%:%568=346%:%
+%:%569=346%:%
+%:%570=346%:%
+%:%571=347%:%
+%:%572=347%:%
+%:%573=348%:%
+%:%579=348%:%
+%:%582=349%:%
+%:%583=350%:%
+%:%584=350%:%
+%:%591=351%:%
+%:%592=351%:%
+%:%593=352%:%
+%:%594=352%:%
+%:%595=353%:%
+%:%596=353%:%
+%:%597=353%:%
+%:%598=353%:%
+%:%599=354%:%
+%:%600=354%:%
+%:%601=355%:%
+%:%602=355%:%
+%:%603=356%:%
+%:%604=356%:%
+%:%605=356%:%
+%:%606=356%:%
+%:%607=357%:%
+%:%608=357%:%
+%:%609=358%:%
+%:%610=358%:%
+%:%611=359%:%
+%:%612=359%:%
+%:%613=359%:%
+%:%614=359%:%
+%:%615=360%:%
+%:%616=360%:%
+%:%617=361%:%
+%:%618=361%:%
+%:%619=362%:%
+%:%620=362%:%
+%:%621=362%:%
+%:%622=362%:%
+%:%623=363%:%
+%:%624=363%:%
+%:%625=364%:%
+%:%626=364%:%
+%:%627=365%:%
+%:%628=365%:%
+%:%629=365%:%
+%:%630=365%:%
+%:%631=366%:%
+%:%632=366%:%
+%:%633=367%:%
+%:%634=367%:%
+%:%635=368%:%
+%:%636=368%:%
+%:%637=368%:%
+%:%638=368%:%
+%:%639=369%:%
+%:%649=371%:%
+%:%651=373%:%
+%:%652=373%:%
+%:%655=374%:%
+%:%659=374%:%
+%:%660=374%:%
+%:%674=376%:%
 %:%686=378%:%
 %:%687=379%:%
 %:%688=380%:%
@@ -2963,239 +3847,233 @@ Por último, su demostración aplicativa automática.%
 %:%695=387%:%
 %:%696=388%:%
 %:%697=389%:%
+%:%698=390%:%
 %:%699=391%:%
-%:%700=391%:%
-%:%701=392%:%
-%:%702=393%:%
-%:%703=394%:%
-%:%704=395%:%
-%:%705=396%:%
+%:%700=392%:%
+%:%701=393%:%
+%:%702=394%:%
+%:%703=395%:%
+%:%705=397%:%
 %:%706=397%:%
+%:%707=398%:%
 %:%708=399%:%
 %:%709=400%:%
 %:%710=401%:%
 %:%711=402%:%
 %:%712=403%:%
 %:%714=405%:%
-%:%715=405%:%
-%:%716=406%:%
-%:%719=407%:%
-%:%723=407%:%
-%:%724=407%:%
-%:%725=408%:%
-%:%726=409%:%
-%:%727=409%:%
-%:%728=410%:%
-%:%729=410%:%
-%:%730=411%:%
-%:%731=412%:%
-%:%732=412%:%
-%:%733=413%:%
-%:%734=413%:%
-%:%735=414%:%
-%:%736=415%:%
-%:%737=415%:%
-%:%739=417%:%
-%:%740=418%:%
-%:%741=418%:%
-%:%742=419%:%
-%:%743=420%:%
-%:%744=420%:%
-%:%745=421%:%
-%:%746=421%:%
-%:%747=422%:%
-%:%748=423%:%
-%:%749=423%:%
-%:%750=424%:%
-%:%751=425%:%
-%:%752=425%:%
-%:%757=425%:%
-%:%760=426%:%
-%:%763=428%:%
-%:%764=429%:%
-%:%765=430%:%
-%:%767=432%:%
-%:%768=432%:%
-%:%769=433%:%
-%:%771=435%:%
-%:%772=436%:%
-%:%773=437%:%
+%:%715=406%:%
+%:%716=407%:%
+%:%717=408%:%
+%:%718=409%:%
+%:%720=411%:%
+%:%721=411%:%
+%:%722=412%:%
+%:%725=413%:%
+%:%729=413%:%
+%:%730=413%:%
+%:%731=414%:%
+%:%732=415%:%
+%:%733=415%:%
+%:%734=416%:%
+%:%735=416%:%
+%:%736=417%:%
+%:%737=418%:%
+%:%738=418%:%
+%:%739=419%:%
+%:%740=419%:%
+%:%741=420%:%
+%:%742=421%:%
+%:%743=421%:%
+%:%745=423%:%
+%:%746=424%:%
+%:%747=424%:%
+%:%748=425%:%
+%:%749=426%:%
+%:%750=426%:%
+%:%751=427%:%
+%:%752=427%:%
+%:%753=428%:%
+%:%754=429%:%
+%:%755=429%:%
+%:%756=430%:%
+%:%757=431%:%
+%:%758=431%:%
+%:%763=431%:%
+%:%766=432%:%
+%:%769=434%:%
+%:%770=435%:%
+%:%771=436%:%
+%:%773=438%:%
 %:%774=438%:%
 %:%775=439%:%
-%:%776=440%:%
 %:%777=441%:%
 %:%778=442%:%
+%:%779=443%:%
 %:%780=444%:%
-%:%781=444%:%
-%:%782=445%:%
-%:%785=446%:%
-%:%789=446%:%
-%:%790=446%:%
-%:%791=447%:%
-%:%792=448%:%
-%:%793=448%:%
-%:%794=449%:%
-%:%795=449%:%
-%:%796=450%:%
-%:%797=451%:%
-%:%798=451%:%
-%:%800=453%:%
-%:%801=454%:%
-%:%802=454%:%
-%:%807=454%:%
-%:%810=455%:%
-%:%813=457%:%
-%:%814=458%:%
-%:%815=459%:%
-%:%816=460%:%
-%:%817=461%:%
-%:%818=462%:%
+%:%781=445%:%
+%:%782=446%:%
+%:%783=447%:%
+%:%784=448%:%
+%:%786=450%:%
+%:%787=450%:%
+%:%788=451%:%
+%:%791=452%:%
+%:%795=452%:%
+%:%796=452%:%
+%:%797=453%:%
+%:%798=454%:%
+%:%799=454%:%
+%:%800=455%:%
+%:%801=455%:%
+%:%802=456%:%
+%:%803=457%:%
+%:%804=457%:%
+%:%806=459%:%
+%:%807=460%:%
+%:%808=460%:%
+%:%813=460%:%
+%:%816=461%:%
 %:%819=463%:%
 %:%820=464%:%
 %:%821=465%:%
 %:%822=466%:%
 %:%823=467%:%
 %:%824=468%:%
+%:%825=469%:%
 %:%826=470%:%
-%:%827=470%:%
-%:%830=471%:%
-%:%834=471%:%
-%:%835=471%:%
-%:%844=473%:%
-%:%845=474%:%
-%:%847=476%:%
-%:%848=476%:%
-%:%849=477%:%
-%:%852=478%:%
-%:%856=478%:%
-%:%857=478%:%
-%:%862=478%:%
-%:%865=479%:%
-%:%866=480%:%
-%:%867=480%:%
-%:%868=481%:%
-%:%871=482%:%
-%:%875=482%:%
-%:%876=482%:%
-%:%881=482%:%
-%:%884=483%:%
-%:%885=484%:%
-%:%886=484%:%
-%:%887=485%:%
-%:%894=486%:%
-%:%895=486%:%
-%:%896=487%:%
-%:%897=487%:%
-%:%898=488%:%
-%:%899=488%:%
-%:%900=489%:%
-%:%901=489%:%
-%:%902=489%:%
-%:%903=490%:%
-%:%904=490%:%
-%:%905=491%:%
-%:%906=491%:%
-%:%907=491%:%
-%:%908=492%:%
-%:%909=492%:%
-%:%910=493%:%
-%:%916=493%:%
-%:%919=494%:%
-%:%920=495%:%
-%:%921=495%:%
-%:%922=496%:%
-%:%923=497%:%
-%:%930=498%:%
-%:%931=498%:%
-%:%932=499%:%
-%:%933=499%:%
-%:%934=500%:%
-%:%935=501%:%
-%:%936=501%:%
-%:%937=502%:%
-%:%938=502%:%
-%:%939=502%:%
-%:%940=503%:%
-%:%941=503%:%
-%:%942=504%:%
-%:%943=504%:%
-%:%944=504%:%
-%:%945=505%:%
-%:%946=505%:%
-%:%947=506%:%
-%:%948=506%:%
-%:%949=506%:%
-%:%950=507%:%
-%:%951=507%:%
-%:%952=508%:%
-%:%958=508%:%
-%:%961=509%:%
-%:%962=510%:%
-%:%963=510%:%
-%:%964=511%:%
-%:%965=512%:%
-%:%972=513%:%
-%:%973=513%:%
-%:%974=514%:%
-%:%975=514%:%
-%:%976=515%:%
-%:%977=516%:%
-%:%978=516%:%
-%:%979=517%:%
-%:%980=517%:%
-%:%981=517%:%
-%:%982=518%:%
-%:%983=518%:%
-%:%984=519%:%
-%:%985=519%:%
-%:%986=519%:%
-%:%987=520%:%
-%:%988=520%:%
-%:%989=521%:%
-%:%990=521%:%
-%:%991=521%:%
-%:%992=522%:%
-%:%993=522%:%
-%:%994=523%:%
-%:%1000=523%:%
-%:%1003=524%:%
-%:%1004=525%:%
-%:%1005=525%:%
-%:%1006=526%:%
-%:%1007=527%:%
-%:%1014=528%:%
-%:%1015=528%:%
-%:%1016=529%:%
-%:%1017=529%:%
-%:%1018=530%:%
-%:%1019=531%:%
-%:%1020=531%:%
-%:%1021=532%:%
-%:%1022=532%:%
-%:%1023=532%:%
-%:%1024=533%:%
-%:%1025=533%:%
-%:%1026=534%:%
-%:%1027=534%:%
-%:%1028=534%:%
-%:%1029=535%:%
-%:%1030=535%:%
-%:%1031=536%:%
-%:%1032=536%:%
-%:%1033=536%:%
-%:%1034=537%:%
-%:%1035=537%:%
-%:%1036=538%:%
-%:%1046=540%:%
-%:%1047=541%:%
-%:%1048=542%:%
-%:%1049=543%:%
-%:%1050=544%:%
-%:%1051=545%:%
-%:%1052=546%:%
-%:%1053=547%:%
-%:%1054=548%:%
-%:%1055=549%:%
+%:%827=471%:%
+%:%828=472%:%
+%:%829=473%:%
+%:%830=474%:%
+%:%832=476%:%
+%:%833=476%:%
+%:%836=477%:%
+%:%840=477%:%
+%:%841=477%:%
+%:%850=479%:%
+%:%851=480%:%
+%:%853=482%:%
+%:%854=482%:%
+%:%855=483%:%
+%:%858=484%:%
+%:%862=484%:%
+%:%863=484%:%
+%:%872=486%:%
+%:%874=488%:%
+%:%875=488%:%
+%:%876=489%:%
+%:%879=490%:%
+%:%883=490%:%
+%:%884=490%:%
+%:%893=492%:%
+%:%895=494%:%
+%:%896=494%:%
+%:%897=495%:%
+%:%904=496%:%
+%:%905=496%:%
+%:%906=497%:%
+%:%907=497%:%
+%:%908=498%:%
+%:%909=498%:%
+%:%910=499%:%
+%:%911=499%:%
+%:%912=499%:%
+%:%913=500%:%
+%:%914=500%:%
+%:%915=501%:%
+%:%916=501%:%
+%:%917=501%:%
+%:%918=502%:%
+%:%919=502%:%
+%:%920=503%:%
+%:%926=503%:%
+%:%929=504%:%
+%:%930=505%:%
+%:%931=505%:%
+%:%932=506%:%
+%:%933=507%:%
+%:%940=508%:%
+%:%941=508%:%
+%:%942=509%:%
+%:%943=509%:%
+%:%944=510%:%
+%:%945=511%:%
+%:%946=511%:%
+%:%947=512%:%
+%:%948=512%:%
+%:%949=512%:%
+%:%950=513%:%
+%:%951=513%:%
+%:%952=514%:%
+%:%953=514%:%
+%:%954=514%:%
+%:%955=515%:%
+%:%956=515%:%
+%:%957=516%:%
+%:%958=516%:%
+%:%959=516%:%
+%:%960=517%:%
+%:%961=517%:%
+%:%962=518%:%
+%:%968=518%:%
+%:%971=519%:%
+%:%972=520%:%
+%:%973=520%:%
+%:%974=521%:%
+%:%975=522%:%
+%:%982=523%:%
+%:%983=523%:%
+%:%984=524%:%
+%:%985=524%:%
+%:%986=525%:%
+%:%987=526%:%
+%:%988=526%:%
+%:%989=527%:%
+%:%990=527%:%
+%:%991=527%:%
+%:%992=528%:%
+%:%993=528%:%
+%:%994=529%:%
+%:%995=529%:%
+%:%996=529%:%
+%:%997=530%:%
+%:%998=530%:%
+%:%999=531%:%
+%:%1000=531%:%
+%:%1001=531%:%
+%:%1002=532%:%
+%:%1003=532%:%
+%:%1004=533%:%
+%:%1010=533%:%
+%:%1013=534%:%
+%:%1014=535%:%
+%:%1015=535%:%
+%:%1016=536%:%
+%:%1017=537%:%
+%:%1024=538%:%
+%:%1025=538%:%
+%:%1026=539%:%
+%:%1027=539%:%
+%:%1028=540%:%
+%:%1029=541%:%
+%:%1030=541%:%
+%:%1031=542%:%
+%:%1032=542%:%
+%:%1033=542%:%
+%:%1034=543%:%
+%:%1035=543%:%
+%:%1036=544%:%
+%:%1037=544%:%
+%:%1038=544%:%
+%:%1039=545%:%
+%:%1040=545%:%
+%:%1041=546%:%
+%:%1042=546%:%
+%:%1043=546%:%
+%:%1044=547%:%
+%:%1045=547%:%
+%:%1046=548%:%
 %:%1056=550%:%
 %:%1057=551%:%
 %:%1058=552%:%
@@ -3216,1045 +4094,1677 @@ Por último, su demostración aplicativa automática.%
 %:%1073=567%:%
 %:%1074=568%:%
 %:%1075=569%:%
+%:%1076=570%:%
 %:%1077=571%:%
-%:%1077=572%:%
-%:%1078=573%:%
+%:%1078=572%:%
 %:%1079=573%:%
-%:%1086=574%:%
-%:%1087=574%:%
-%:%1088=575%:%
-%:%1089=575%:%
-%:%1090=576%:%
-%:%1091=576%:%
-%:%1092=576%:%
-%:%1093=577%:%
-%:%1094=577%:%
-%:%1095=578%:%
-%:%1096=578%:%
-%:%1097=579%:%
-%:%1098=579%:%
-%:%1099=580%:%
-%:%1100=580%:%
-%:%1101=580%:%
-%:%1102=581%:%
-%:%1103=581%:%
-%:%1104=582%:%
-%:%1105=582%:%
-%:%1106=583%:%
-%:%1107=583%:%
-%:%1108=584%:%
-%:%1109=584%:%
-%:%1110=584%:%
-%:%1111=585%:%
-%:%1112=585%:%
-%:%1113=586%:%
-%:%1114=586%:%
-%:%1115=587%:%
-%:%1116=587%:%
-%:%1117=588%:%
-%:%1118=588%:%
-%:%1119=588%:%
-%:%1120=589%:%
-%:%1121=589%:%
-%:%1122=590%:%
-%:%1123=590%:%
-%:%1124=591%:%
-%:%1125=591%:%
-%:%1126=592%:%
-%:%1127=592%:%
-%:%1128=592%:%
-%:%1129=593%:%
-%:%1130=593%:%
-%:%1131=594%:%
-%:%1132=594%:%
-%:%1133=595%:%
-%:%1134=595%:%
-%:%1135=596%:%
-%:%1136=596%:%
-%:%1137=596%:%
-%:%1138=597%:%
-%:%1139=597%:%
-%:%1140=598%:%
-%:%1150=600%:%
-%:%1152=602%:%
-%:%1153=602%:%
-%:%1156=603%:%
-%:%1160=603%:%
-%:%1161=603%:%
-%:%1170=605%:%
-%:%1171=606%:%
-%:%1172=607%:%
-%:%1173=608%:%
-%:%1174=609%:%
-%:%1175=610%:%
-%:%1176=611%:%
-%:%1177=612%:%
-%:%1179=614%:%
-%:%1179=615%:%
-%:%1180=616%:%
-%:%1181=616%:%
-%:%1182=617%:%
-%:%1183=618%:%
-%:%1190=619%:%
-%:%1191=619%:%
-%:%1192=620%:%
-%:%1193=620%:%
-%:%1194=621%:%
-%:%1195=621%:%
-%:%1196=622%:%
-%:%1197=622%:%
-%:%1198=623%:%
-%:%1199=623%:%
-%:%1200=623%:%
-%:%1201=624%:%
-%:%1202=624%:%
-%:%1203=625%:%
-%:%1209=625%:%
-%:%1212=626%:%
-%:%1213=627%:%
-%:%1214=627%:%
-%:%1215=628%:%
-%:%1216=629%:%
-%:%1223=630%:%
-%:%1224=630%:%
-%:%1225=631%:%
-%:%1226=631%:%
-%:%1227=632%:%
-%:%1228=632%:%
-%:%1229=633%:%
-%:%1230=633%:%
-%:%1231=634%:%
-%:%1232=634%:%
-%:%1233=634%:%
-%:%1234=635%:%
-%:%1235=635%:%
-%:%1236=636%:%
-%:%1246=638%:%
-%:%1247=639%:%
-%:%1249=641%:%
-%:%1250=641%:%
-%:%1253=642%:%
-%:%1257=642%:%
-%:%1258=642%:%
-%:%1263=642%:%
-%:%1266=643%:%
-%:%1267=644%:%
-%:%1268=644%:%
-%:%1271=645%:%
-%:%1275=645%:%
-%:%1276=645%:%
-%:%1285=647%:%
-%:%1286=648%:%
-%:%1287=649%:%
-%:%1288=650%:%
-%:%1289=651%:%
-%:%1290=652%:%
-%:%1291=653%:%
-%:%1292=654%:%
-%:%1293=655%:%
-%:%1294=656%:%
-%:%1295=657%:%
-%:%1296=658%:%
-%:%1297=659%:%
-%:%1298=660%:%
-%:%1299=661%:%
-%:%1300=662%:%
-%:%1301=663%:%
-%:%1302=664%:%
-%:%1303=665%:%
-%:%1304=666%:%
-%:%1305=667%:%
-%:%1306=668%:%
-%:%1307=669%:%
-%:%1308=670%:%
-%:%1309=671%:%
-%:%1310=672%:%
-%:%1311=673%:%
-%:%1312=674%:%
-%:%1313=675%:%
-%:%1314=676%:%
-%:%1315=677%:%
-%:%1316=678%:%
-%:%1317=679%:%
-%:%1318=680%:%
-%:%1319=681%:%
-%:%1320=682%:%
-%:%1321=683%:%
-%:%1322=684%:%
-%:%1323=685%:%
-%:%1323=686%:%
-%:%1324=687%:%
-%:%1325=688%:%
-%:%1326=689%:%
-%:%1327=690%:%
-%:%1329=692%:%
-%:%1330=692%:%
+%:%1080=574%:%
+%:%1081=575%:%
+%:%1082=576%:%
+%:%1083=577%:%
+%:%1084=578%:%
+%:%1085=579%:%
+%:%1086=580%:%
+%:%1087=581%:%
+%:%1089=583%:%
+%:%1090=583%:%
+%:%1097=584%:%
+%:%1098=584%:%
+%:%1099=585%:%
+%:%1100=585%:%
+%:%1101=586%:%
+%:%1102=586%:%
+%:%1103=586%:%
+%:%1104=587%:%
+%:%1105=587%:%
+%:%1106=588%:%
+%:%1107=588%:%
+%:%1108=589%:%
+%:%1109=589%:%
+%:%1110=590%:%
+%:%1111=590%:%
+%:%1112=590%:%
+%:%1113=591%:%
+%:%1114=591%:%
+%:%1115=592%:%
+%:%1116=592%:%
+%:%1117=593%:%
+%:%1118=593%:%
+%:%1119=594%:%
+%:%1120=594%:%
+%:%1121=594%:%
+%:%1122=595%:%
+%:%1123=595%:%
+%:%1124=596%:%
+%:%1125=596%:%
+%:%1126=597%:%
+%:%1127=597%:%
+%:%1128=598%:%
+%:%1129=598%:%
+%:%1130=598%:%
+%:%1131=599%:%
+%:%1132=599%:%
+%:%1133=600%:%
+%:%1134=600%:%
+%:%1135=601%:%
+%:%1136=601%:%
+%:%1137=602%:%
+%:%1138=602%:%
+%:%1139=602%:%
+%:%1140=603%:%
+%:%1141=603%:%
+%:%1142=604%:%
+%:%1143=604%:%
+%:%1144=605%:%
+%:%1145=605%:%
+%:%1146=606%:%
+%:%1147=606%:%
+%:%1148=606%:%
+%:%1149=607%:%
+%:%1150=607%:%
+%:%1151=608%:%
+%:%1161=610%:%
+%:%1163=612%:%
+%:%1164=612%:%
+%:%1167=613%:%
+%:%1171=613%:%
+%:%1172=613%:%
+%:%1181=615%:%
+%:%1182=616%:%
+%:%1183=617%:%
+%:%1184=618%:%
+%:%1185=619%:%
+%:%1186=620%:%
+%:%1187=621%:%
+%:%1188=622%:%
+%:%1190=624%:%
+%:%1191=624%:%
+%:%1192=625%:%
+%:%1193=626%:%
+%:%1200=627%:%
+%:%1201=627%:%
+%:%1202=628%:%
+%:%1203=628%:%
+%:%1204=629%:%
+%:%1205=629%:%
+%:%1206=630%:%
+%:%1207=630%:%
+%:%1208=631%:%
+%:%1209=631%:%
+%:%1210=631%:%
+%:%1211=632%:%
+%:%1212=632%:%
+%:%1213=633%:%
+%:%1219=633%:%
+%:%1222=634%:%
+%:%1223=635%:%
+%:%1224=635%:%
+%:%1225=636%:%
+%:%1226=637%:%
+%:%1233=638%:%
+%:%1234=638%:%
+%:%1235=639%:%
+%:%1236=639%:%
+%:%1237=640%:%
+%:%1238=640%:%
+%:%1239=641%:%
+%:%1240=641%:%
+%:%1241=642%:%
+%:%1242=642%:%
+%:%1243=642%:%
+%:%1244=643%:%
+%:%1245=643%:%
+%:%1246=644%:%
+%:%1256=646%:%
+%:%1257=647%:%
+%:%1259=649%:%
+%:%1260=649%:%
+%:%1263=650%:%
+%:%1267=650%:%
+%:%1268=650%:%
+%:%1273=650%:%
+%:%1276=651%:%
+%:%1277=652%:%
+%:%1278=652%:%
+%:%1281=653%:%
+%:%1285=653%:%
+%:%1286=653%:%
+%:%1295=655%:%
+%:%1296=656%:%
+%:%1297=657%:%
+%:%1298=658%:%
+%:%1299=659%:%
+%:%1300=660%:%
+%:%1301=661%:%
+%:%1302=662%:%
+%:%1303=663%:%
+%:%1304=664%:%
+%:%1305=665%:%
+%:%1306=666%:%
+%:%1307=667%:%
+%:%1308=668%:%
+%:%1309=669%:%
+%:%1310=670%:%
+%:%1311=671%:%
+%:%1312=672%:%
+%:%1313=673%:%
+%:%1314=674%:%
+%:%1315=675%:%
+%:%1316=676%:%
+%:%1317=677%:%
+%:%1318=678%:%
+%:%1319=679%:%
+%:%1320=680%:%
+%:%1321=681%:%
+%:%1322=682%:%
+%:%1323=683%:%
+%:%1324=684%:%
+%:%1325=685%:%
+%:%1326=686%:%
+%:%1327=687%:%
+%:%1328=688%:%
+%:%1329=689%:%
+%:%1330=690%:%
+%:%1331=691%:%
+%:%1332=692%:%
 %:%1333=693%:%
-%:%1337=693%:%
-%:%1347=695%:%
-%:%1348=696%:%
-%:%1349=697%:%
-%:%1350=698%:%
-%:%1351=699%:%
-%:%1352=700%:%
-%:%1353=701%:%
-%:%1354=702%:%
-%:%1355=703%:%
-%:%1356=704%:%
-%:%1357=705%:%
-%:%1358=706%:%
-%:%1359=707%:%
-%:%1360=708%:%
-%:%1362=710%:%
-%:%1363=710%:%
-%:%1364=711%:%
-%:%1367=712%:%
-%:%1371=712%:%
-%:%1372=712%:%
-%:%1373=713%:%
-%:%1374=714%:%
-%:%1375=714%:%
-%:%1376=715%:%
-%:%1377=715%:%
-%:%1378=716%:%
-%:%1379=717%:%
-%:%1380=717%:%
-%:%1381=718%:%
-%:%1382=719%:%
-%:%1383=719%:%
-%:%1384=720%:%
-%:%1385=721%:%
-%:%1386=721%:%
-%:%1387=722%:%
-%:%1388=722%:%
-%:%1393=722%:%
-%:%1396=723%:%
-%:%1399=725%:%
-%:%1400=726%:%
-%:%1401=727%:%
-%:%1402=728%:%
-%:%1403=729%:%
-%:%1404=730%:%
-%:%1405=731%:%
-%:%1406=732%:%
-%:%1407=733%:%
-%:%1408=734%:%
-%:%1409=735%:%
-%:%1410=736%:%
-%:%1411=737%:%
-%:%1412=738%:%
-%:%1413=739%:%
-%:%1415=741%:%
-%:%1416=741%:%
-%:%1417=742%:%
-%:%1424=743%:%
-%:%1425=743%:%
-%:%1426=744%:%
-%:%1427=744%:%
-%:%1428=745%:%
-%:%1429=745%:%
-%:%1430=746%:%
-%:%1431=746%:%
-%:%1432=746%:%
-%:%1433=747%:%
-%:%1434=747%:%
-%:%1435=748%:%
-%:%1436=748%:%
-%:%1437=748%:%
-%:%1438=749%:%
-%:%1439=749%:%
-%:%1440=750%:%
-%:%1441=750%:%
-%:%1442=750%:%
-%:%1443=751%:%
-%:%1444=751%:%
-%:%1445=752%:%
-%:%1446=752%:%
-%:%1447=752%:%
-%:%1448=753%:%
-%:%1449=753%:%
-%:%1450=754%:%
-%:%1451=754%:%
-%:%1452=754%:%
-%:%1453=755%:%
-%:%1454=755%:%
-%:%1455=756%:%
-%:%1461=756%:%
-%:%1464=757%:%
-%:%1465=758%:%
-%:%1466=758%:%
-%:%1467=759%:%
-%:%1474=760%:%
-%:%1475=760%:%
-%:%1476=761%:%
-%:%1477=761%:%
-%:%1478=762%:%
-%:%1479=762%:%
-%:%1480=763%:%
-%:%1481=763%:%
-%:%1482=763%:%
-%:%1483=764%:%
-%:%1484=764%:%
-%:%1485=765%:%
-%:%1486=765%:%
-%:%1487=765%:%
-%:%1488=766%:%
-%:%1489=766%:%
-%:%1490=767%:%
-%:%1491=767%:%
-%:%1492=767%:%
-%:%1493=768%:%
-%:%1494=768%:%
-%:%1495=769%:%
-%:%1501=769%:%
-%:%1504=770%:%
-%:%1505=771%:%
-%:%1506=771%:%
-%:%1507=772%:%
-%:%1508=773%:%
-%:%1515=774%:%
-%:%1516=774%:%
-%:%1517=775%:%
-%:%1518=775%:%
-%:%1519=776%:%
-%:%1520=776%:%
-%:%1521=777%:%
-%:%1522=777%:%
-%:%1523=777%:%
-%:%1524=778%:%
-%:%1525=778%:%
-%:%1526=779%:%
-%:%1527=779%:%
-%:%1528=779%:%
-%:%1529=780%:%
-%:%1530=780%:%
-%:%1531=781%:%
-%:%1532=781%:%
-%:%1533=781%:%
-%:%1534=782%:%
-%:%1535=782%:%
-%:%1536=783%:%
-%:%1537=783%:%
-%:%1538=783%:%
-%:%1539=784%:%
-%:%1540=784%:%
-%:%1541=785%:%
-%:%1547=785%:%
-%:%1550=786%:%
-%:%1551=787%:%
-%:%1552=787%:%
-%:%1553=788%:%
-%:%1554=789%:%
-%:%1555=790%:%
-%:%1562=791%:%
-%:%1563=791%:%
-%:%1564=792%:%
-%:%1565=792%:%
-%:%1566=793%:%
-%:%1567=793%:%
-%:%1568=794%:%
-%:%1569=794%:%
-%:%1570=794%:%
-%:%1571=795%:%
-%:%1572=795%:%
-%:%1573=796%:%
-%:%1574=796%:%
-%:%1575=796%:%
-%:%1576=797%:%
-%:%1577=797%:%
-%:%1578=798%:%
-%:%1579=798%:%
-%:%1580=799%:%
-%:%1581=799%:%
-%:%1582=799%:%
-%:%1583=800%:%
-%:%1584=800%:%
-%:%1585=801%:%
-%:%1586=801%:%
-%:%1587=801%:%
-%:%1588=802%:%
-%:%1589=802%:%
-%:%1590=803%:%
-%:%1591=803%:%
-%:%1592=803%:%
-%:%1593=804%:%
-%:%1594=804%:%
-%:%1595=805%:%
-%:%1601=805%:%
-%:%1604=806%:%
-%:%1605=807%:%
-%:%1606=807%:%
-%:%1607=808%:%
-%:%1608=809%:%
-%:%1609=810%:%
-%:%1616=811%:%
-%:%1617=811%:%
-%:%1618=812%:%
-%:%1619=812%:%
-%:%1620=813%:%
-%:%1621=813%:%
-%:%1622=814%:%
-%:%1623=814%:%
-%:%1624=814%:%
-%:%1625=815%:%
-%:%1626=815%:%
-%:%1627=816%:%
-%:%1628=816%:%
-%:%1629=816%:%
-%:%1630=817%:%
-%:%1631=817%:%
-%:%1632=818%:%
-%:%1633=818%:%
-%:%1634=819%:%
-%:%1635=819%:%
-%:%1636=819%:%
-%:%1637=820%:%
-%:%1638=820%:%
-%:%1639=821%:%
-%:%1640=821%:%
-%:%1641=821%:%
-%:%1642=822%:%
-%:%1643=822%:%
-%:%1644=823%:%
-%:%1645=823%:%
-%:%1646=823%:%
-%:%1647=824%:%
-%:%1648=824%:%
-%:%1649=825%:%
-%:%1655=825%:%
-%:%1658=826%:%
-%:%1659=827%:%
-%:%1660=827%:%
-%:%1661=828%:%
-%:%1662=829%:%
-%:%1663=830%:%
-%:%1670=831%:%
-%:%1671=831%:%
-%:%1672=832%:%
-%:%1673=832%:%
-%:%1674=833%:%
-%:%1675=833%:%
-%:%1676=834%:%
-%:%1677=834%:%
-%:%1678=834%:%
-%:%1679=835%:%
-%:%1680=835%:%
-%:%1681=836%:%
-%:%1682=836%:%
-%:%1683=836%:%
-%:%1684=837%:%
-%:%1685=837%:%
-%:%1686=838%:%
-%:%1687=838%:%
-%:%1688=839%:%
-%:%1689=839%:%
-%:%1690=839%:%
-%:%1691=840%:%
-%:%1692=840%:%
-%:%1693=841%:%
-%:%1694=841%:%
-%:%1695=841%:%
-%:%1696=842%:%
-%:%1697=842%:%
-%:%1698=843%:%
-%:%1699=843%:%
-%:%1700=843%:%
-%:%1701=844%:%
-%:%1702=844%:%
-%:%1703=845%:%
-%:%1709=845%:%
-%:%1712=846%:%
-%:%1713=847%:%
-%:%1714=847%:%
-%:%1715=848%:%
-%:%1722=849%:%
-%:%1723=849%:%
-%:%1724=850%:%
-%:%1725=850%:%
-%:%1726=851%:%
-%:%1727=851%:%
-%:%1728=851%:%
-%:%1729=851%:%
-%:%1730=852%:%
-%:%1731=852%:%
-%:%1732=853%:%
-%:%1733=853%:%
-%:%1734=854%:%
-%:%1735=854%:%
-%:%1736=854%:%
-%:%1737=854%:%
-%:%1738=855%:%
-%:%1739=855%:%
-%:%1740=856%:%
-%:%1741=856%:%
-%:%1742=857%:%
-%:%1743=857%:%
-%:%1744=857%:%
-%:%1745=857%:%
-%:%1746=858%:%
-%:%1747=858%:%
-%:%1748=859%:%
-%:%1749=859%:%
-%:%1750=860%:%
-%:%1751=860%:%
-%:%1752=860%:%
-%:%1753=860%:%
-%:%1754=861%:%
-%:%1755=861%:%
-%:%1756=862%:%
-%:%1757=862%:%
-%:%1758=863%:%
-%:%1759=863%:%
-%:%1760=863%:%
-%:%1761=863%:%
-%:%1762=864%:%
-%:%1763=864%:%
-%:%1764=865%:%
-%:%1765=865%:%
-%:%1766=866%:%
-%:%1767=866%:%
-%:%1768=866%:%
-%:%1769=866%:%
-%:%1770=867%:%
-%:%1780=869%:%
-%:%1781=870%:%
-%:%1783=872%:%
-%:%1784=872%:%
-%:%1787=873%:%
-%:%1791=873%:%
-%:%1792=873%:%
-%:%1801=875%:%
-%:%1802=876%:%
-%:%1803=877%:%
-%:%1804=878%:%
-%:%1805=879%:%
-%:%1806=880%:%
-%:%1807=881%:%
-%:%1808=882%:%
-%:%1809=883%:%
-%:%1810=884%:%
-%:%1811=885%:%
-%:%1812=886%:%
-%:%1813=887%:%
-%:%1814=888%:%
-%:%1815=889%:%
-%:%1816=890%:%
-%:%1817=891%:%
-%:%1818=892%:%
-%:%1819=893%:%
-%:%1820=894%:%
-%:%1821=895%:%
-%:%1822=896%:%
-%:%1823=897%:%
-%:%1824=898%:%
-%:%1825=899%:%
-%:%1826=900%:%
-%:%1827=901%:%
-%:%1828=902%:%
-%:%1829=903%:%
-%:%1830=904%:%
-%:%1831=905%:%
-%:%1832=906%:%
-%:%1833=907%:%
-%:%1834=908%:%
-%:%1835=909%:%
-%:%1836=910%:%
-%:%1837=911%:%
-%:%1838=912%:%
-%:%1839=913%:%
-%:%1840=914%:%
-%:%1841=915%:%
-%:%1842=916%:%
-%:%1843=917%:%
-%:%1844=918%:%
-%:%1845=919%:%
-%:%1846=920%:%
-%:%1847=921%:%
-%:%1848=922%:%
-%:%1849=923%:%
-%:%1850=924%:%
-%:%1851=925%:%
-%:%1852=926%:%
-%:%1853=927%:%
-%:%1854=928%:%
-%:%1856=930%:%
-%:%1857=930%:%
-%:%1860=931%:%
-%:%1864=931%:%
-%:%1874=933%:%
-%:%1876=935%:%
-%:%1877=935%:%
-%:%1878=936%:%
-%:%1879=937%:%
-%:%1886=938%:%
-%:%1887=938%:%
-%:%1888=939%:%
-%:%1889=939%:%
-%:%1890=940%:%
-%:%1891=940%:%
-%:%1892=941%:%
-%:%1893=941%:%
-%:%1894=942%:%
-%:%1895=942%:%
-%:%1896=942%:%
-%:%1897=943%:%
-%:%1898=943%:%
-%:%1899=944%:%
-%:%1900=944%:%
-%:%1901=944%:%
-%:%1902=945%:%
-%:%1903=945%:%
-%:%1904=946%:%
-%:%1910=946%:%
-%:%1913=947%:%
-%:%1914=948%:%
-%:%1915=948%:%
-%:%1916=949%:%
-%:%1917=950%:%
-%:%1924=951%:%
-%:%1925=951%:%
-%:%1926=952%:%
-%:%1927=952%:%
-%:%1928=953%:%
-%:%1929=953%:%
-%:%1930=954%:%
-%:%1931=954%:%
-%:%1932=955%:%
-%:%1933=955%:%
-%:%1934=955%:%
-%:%1935=956%:%
-%:%1936=956%:%
-%:%1937=957%:%
-%:%1938=957%:%
-%:%1939=957%:%
-%:%1940=958%:%
-%:%1941=958%:%
-%:%1942=959%:%
-%:%1948=959%:%
-%:%1951=960%:%
-%:%1952=961%:%
-%:%1953=961%:%
-%:%1954=962%:%
-%:%1955=963%:%
-%:%1956=964%:%
-%:%1963=965%:%
-%:%1964=965%:%
-%:%1965=966%:%
-%:%1966=966%:%
-%:%1967=967%:%
-%:%1968=967%:%
-%:%1969=968%:%
-%:%1970=968%:%
-%:%1971=969%:%
-%:%1972=969%:%
-%:%1973=969%:%
-%:%1974=970%:%
-%:%1975=970%:%
-%:%1976=971%:%
-%:%1977=971%:%
-%:%1978=971%:%
-%:%1979=972%:%
-%:%1980=972%:%
-%:%1981=973%:%
-%:%1982=973%:%
-%:%1983=974%:%
-%:%1984=974%:%
-%:%1985=974%:%
-%:%1986=975%:%
-%:%1987=975%:%
-%:%1988=976%:%
-%:%1989=976%:%
-%:%1990=976%:%
-%:%1991=977%:%
-%:%1992=977%:%
-%:%1993=978%:%
-%:%1994=978%:%
-%:%1995=979%:%
-%:%1996=979%:%
-%:%1997=980%:%
-%:%1998=980%:%
-%:%1999=980%:%
-%:%2000=981%:%
-%:%2001=981%:%
-%:%2002=982%:%
-%:%2003=982%:%
-%:%2004=982%:%
-%:%2005=983%:%
-%:%2006=983%:%
-%:%2007=984%:%
-%:%2008=984%:%
-%:%2009=984%:%
-%:%2010=985%:%
-%:%2011=985%:%
-%:%2012=986%:%
-%:%2013=986%:%
-%:%2014=987%:%
-%:%2020=987%:%
-%:%2023=988%:%
-%:%2024=989%:%
-%:%2025=989%:%
-%:%2026=990%:%
-%:%2027=991%:%
-%:%2028=992%:%
-%:%2029=993%:%
-%:%2036=994%:%
-%:%2037=994%:%
-%:%2038=995%:%
-%:%2039=995%:%
-%:%2040=996%:%
-%:%2041=996%:%
-%:%2042=997%:%
-%:%2043=997%:%
-%:%2044=998%:%
-%:%2045=998%:%
-%:%2046=998%:%
-%:%2047=999%:%
-%:%2048=999%:%
-%:%2049=1000%:%
-%:%2050=1000%:%
-%:%2051=1000%:%
-%:%2052=1001%:%
-%:%2053=1001%:%
-%:%2054=1002%:%
-%:%2055=1002%:%
-%:%2056=1003%:%
-%:%2057=1003%:%
-%:%2058=1003%:%
-%:%2059=1004%:%
-%:%2060=1004%:%
-%:%2061=1005%:%
-%:%2062=1005%:%
-%:%2063=1005%:%
-%:%2064=1006%:%
-%:%2065=1006%:%
-%:%2066=1007%:%
-%:%2067=1007%:%
-%:%2068=1008%:%
-%:%2069=1008%:%
-%:%2070=1009%:%
-%:%2071=1009%:%
-%:%2072=1009%:%
-%:%2073=1010%:%
-%:%2074=1010%:%
-%:%2075=1011%:%
-%:%2076=1011%:%
-%:%2077=1011%:%
-%:%2078=1012%:%
-%:%2079=1012%:%
-%:%2080=1013%:%
-%:%2081=1013%:%
-%:%2082=1014%:%
-%:%2083=1014%:%
-%:%2084=1014%:%
-%:%2085=1015%:%
-%:%2086=1015%:%
-%:%2087=1016%:%
-%:%2088=1016%:%
-%:%2089=1016%:%
-%:%2090=1017%:%
-%:%2091=1017%:%
-%:%2092=1018%:%
-%:%2093=1018%:%
-%:%2094=1018%:%
-%:%2095=1019%:%
-%:%2096=1019%:%
-%:%2097=1020%:%
-%:%2098=1020%:%
-%:%2099=1020%:%
-%:%2100=1021%:%
-%:%2101=1021%:%
-%:%2102=1022%:%
-%:%2103=1022%:%
-%:%2104=1023%:%
-%:%2105=1023%:%
-%:%2106=1024%:%
-%:%2107=1024%:%
-%:%2108=1024%:%
-%:%2109=1025%:%
-%:%2110=1025%:%
-%:%2111=1026%:%
-%:%2112=1026%:%
-%:%2113=1026%:%
-%:%2114=1027%:%
-%:%2115=1027%:%
-%:%2116=1028%:%
-%:%2117=1028%:%
-%:%2118=1028%:%
-%:%2119=1029%:%
-%:%2120=1029%:%
-%:%2121=1030%:%
-%:%2122=1030%:%
-%:%2123=1030%:%
-%:%2124=1031%:%
-%:%2125=1031%:%
-%:%2126=1032%:%
-%:%2127=1032%:%
-%:%2128=1033%:%
-%:%2129=1033%:%
-%:%2130=1034%:%
-%:%2136=1034%:%
-%:%2139=1035%:%
-%:%2140=1036%:%
-%:%2141=1036%:%
-%:%2142=1037%:%
-%:%2143=1038%:%
-%:%2144=1039%:%
-%:%2145=1040%:%
-%:%2152=1041%:%
-%:%2153=1041%:%
-%:%2154=1042%:%
-%:%2155=1042%:%
-%:%2156=1043%:%
-%:%2157=1043%:%
-%:%2158=1044%:%
-%:%2159=1044%:%
-%:%2160=1045%:%
-%:%2161=1045%:%
-%:%2162=1045%:%
-%:%2163=1046%:%
-%:%2164=1046%:%
-%:%2165=1047%:%
-%:%2166=1047%:%
-%:%2167=1047%:%
-%:%2168=1048%:%
-%:%2169=1048%:%
-%:%2170=1049%:%
-%:%2171=1049%:%
-%:%2172=1050%:%
-%:%2173=1050%:%
-%:%2174=1050%:%
-%:%2175=1051%:%
-%:%2176=1051%:%
-%:%2177=1052%:%
-%:%2178=1052%:%
-%:%2179=1052%:%
-%:%2180=1053%:%
-%:%2181=1053%:%
-%:%2182=1054%:%
-%:%2183=1054%:%
-%:%2184=1055%:%
-%:%2185=1055%:%
-%:%2186=1056%:%
-%:%2187=1056%:%
-%:%2188=1056%:%
-%:%2189=1057%:%
-%:%2190=1057%:%
-%:%2191=1058%:%
-%:%2192=1058%:%
-%:%2193=1058%:%
-%:%2194=1059%:%
-%:%2195=1059%:%
-%:%2196=1060%:%
-%:%2197=1060%:%
-%:%2198=1061%:%
-%:%2199=1061%:%
-%:%2200=1061%:%
-%:%2201=1062%:%
-%:%2202=1062%:%
-%:%2203=1063%:%
-%:%2204=1063%:%
-%:%2205=1063%:%
-%:%2206=1064%:%
-%:%2207=1064%:%
-%:%2208=1065%:%
-%:%2209=1065%:%
-%:%2210=1065%:%
-%:%2211=1066%:%
-%:%2212=1066%:%
-%:%2213=1067%:%
-%:%2214=1067%:%
-%:%2215=1067%:%
-%:%2216=1068%:%
-%:%2217=1068%:%
-%:%2218=1069%:%
-%:%2219=1069%:%
-%:%2220=1070%:%
-%:%2221=1070%:%
-%:%2222=1071%:%
-%:%2223=1071%:%
-%:%2224=1071%:%
-%:%2225=1072%:%
-%:%2226=1072%:%
-%:%2227=1073%:%
-%:%2228=1073%:%
-%:%2229=1073%:%
-%:%2230=1074%:%
-%:%2231=1074%:%
-%:%2232=1075%:%
-%:%2233=1075%:%
-%:%2234=1075%:%
-%:%2235=1076%:%
-%:%2236=1076%:%
-%:%2237=1077%:%
-%:%2238=1077%:%
-%:%2239=1077%:%
-%:%2240=1078%:%
-%:%2241=1078%:%
-%:%2242=1079%:%
-%:%2243=1079%:%
-%:%2244=1080%:%
-%:%2245=1080%:%
-%:%2246=1081%:%
-%:%2252=1081%:%
-%:%2255=1082%:%
-%:%2256=1083%:%
-%:%2257=1083%:%
-%:%2258=1084%:%
-%:%2259=1085%:%
-%:%2260=1086%:%
-%:%2261=1087%:%
-%:%2268=1088%:%
-%:%2269=1088%:%
-%:%2270=1089%:%
-%:%2271=1089%:%
-%:%2272=1090%:%
-%:%2273=1090%:%
-%:%2274=1091%:%
-%:%2275=1091%:%
-%:%2276=1092%:%
-%:%2277=1092%:%
-%:%2278=1092%:%
-%:%2279=1093%:%
-%:%2280=1093%:%
-%:%2281=1094%:%
-%:%2282=1094%:%
-%:%2283=1094%:%
-%:%2284=1095%:%
-%:%2285=1095%:%
-%:%2286=1096%:%
-%:%2287=1096%:%
-%:%2288=1097%:%
-%:%2289=1097%:%
-%:%2290=1097%:%
-%:%2291=1098%:%
-%:%2292=1098%:%
-%:%2293=1099%:%
-%:%2294=1099%:%
-%:%2295=1099%:%
-%:%2296=1100%:%
-%:%2297=1100%:%
-%:%2298=1101%:%
-%:%2299=1101%:%
-%:%2300=1102%:%
-%:%2301=1102%:%
-%:%2302=1103%:%
-%:%2303=1103%:%
-%:%2304=1103%:%
-%:%2305=1104%:%
-%:%2306=1104%:%
-%:%2307=1105%:%
-%:%2308=1105%:%
-%:%2309=1105%:%
-%:%2310=1106%:%
-%:%2311=1106%:%
-%:%2312=1107%:%
-%:%2313=1107%:%
-%:%2314=1108%:%
-%:%2315=1108%:%
-%:%2316=1108%:%
-%:%2317=1109%:%
-%:%2318=1109%:%
-%:%2319=1110%:%
-%:%2320=1110%:%
-%:%2321=1110%:%
-%:%2322=1111%:%
-%:%2323=1111%:%
-%:%2324=1112%:%
-%:%2325=1112%:%
-%:%2326=1112%:%
-%:%2327=1113%:%
-%:%2328=1113%:%
-%:%2329=1114%:%
-%:%2330=1114%:%
-%:%2331=1114%:%
-%:%2332=1115%:%
-%:%2333=1115%:%
-%:%2334=1116%:%
-%:%2335=1116%:%
-%:%2336=1117%:%
-%:%2337=1117%:%
-%:%2338=1118%:%
-%:%2339=1118%:%
-%:%2340=1118%:%
-%:%2341=1119%:%
-%:%2342=1119%:%
-%:%2343=1120%:%
-%:%2344=1120%:%
-%:%2345=1120%:%
-%:%2346=1121%:%
-%:%2347=1121%:%
-%:%2348=1122%:%
-%:%2349=1122%:%
-%:%2350=1122%:%
-%:%2351=1123%:%
-%:%2352=1123%:%
-%:%2353=1124%:%
-%:%2354=1124%:%
-%:%2355=1124%:%
-%:%2356=1125%:%
-%:%2357=1125%:%
-%:%2358=1126%:%
-%:%2359=1126%:%
-%:%2360=1127%:%
-%:%2361=1127%:%
-%:%2362=1128%:%
-%:%2368=1128%:%
-%:%2371=1129%:%
-%:%2372=1130%:%
-%:%2373=1130%:%
-%:%2380=1131%:%
-%:%2381=1131%:%
-%:%2382=1132%:%
-%:%2383=1132%:%
-%:%2384=1133%:%
-%:%2385=1133%:%
-%:%2386=1133%:%
-%:%2387=1133%:%
-%:%2388=1134%:%
-%:%2389=1134%:%
-%:%2390=1135%:%
-%:%2391=1135%:%
-%:%2392=1136%:%
-%:%2393=1136%:%
-%:%2394=1136%:%
-%:%2395=1136%:%
-%:%2396=1137%:%
-%:%2397=1137%:%
-%:%2398=1138%:%
-%:%2399=1138%:%
-%:%2400=1139%:%
-%:%2401=1139%:%
-%:%2402=1139%:%
-%:%2403=1139%:%
-%:%2404=1140%:%
-%:%2405=1140%:%
-%:%2406=1141%:%
-%:%2407=1141%:%
-%:%2408=1142%:%
-%:%2409=1142%:%
-%:%2410=1142%:%
-%:%2411=1142%:%
-%:%2412=1143%:%
-%:%2413=1143%:%
-%:%2414=1144%:%
-%:%2415=1144%:%
-%:%2416=1145%:%
-%:%2417=1145%:%
-%:%2418=1145%:%
-%:%2419=1145%:%
-%:%2420=1146%:%
-%:%2421=1146%:%
-%:%2422=1147%:%
-%:%2423=1147%:%
-%:%2424=1148%:%
-%:%2425=1148%:%
-%:%2426=1148%:%
-%:%2427=1148%:%
-%:%2428=1149%:%
-%:%2438=1151%:%
-%:%2440=1153%:%
-%:%2441=1153%:%
-%:%2444=1154%:%
-%:%2448=1154%:%
-%:%2449=1154%:%
-%:%2458=1156%:%
+%:%1334=694%:%
+%:%1335=695%:%
+%:%1335=696%:%
+%:%1336=697%:%
+%:%1337=698%:%
+%:%1338=699%:%
+%:%1339=700%:%
+%:%1341=702%:%
+%:%1342=702%:%
+%:%1345=703%:%
+%:%1349=703%:%
+%:%1359=705%:%
+%:%1360=706%:%
+%:%1361=707%:%
+%:%1362=708%:%
+%:%1363=709%:%
+%:%1364=710%:%
+%:%1365=711%:%
+%:%1366=712%:%
+%:%1367=713%:%
+%:%1368=714%:%
+%:%1369=715%:%
+%:%1370=716%:%
+%:%1371=717%:%
+%:%1372=718%:%
+%:%1374=720%:%
+%:%1375=720%:%
+%:%1376=721%:%
+%:%1379=722%:%
+%:%1383=722%:%
+%:%1384=722%:%
+%:%1385=723%:%
+%:%1386=724%:%
+%:%1387=724%:%
+%:%1388=725%:%
+%:%1389=725%:%
+%:%1390=726%:%
+%:%1391=727%:%
+%:%1392=727%:%
+%:%1393=728%:%
+%:%1394=729%:%
+%:%1395=729%:%
+%:%1396=730%:%
+%:%1397=731%:%
+%:%1398=731%:%
+%:%1399=732%:%
+%:%1400=733%:%
+%:%1401=733%:%
+%:%1406=733%:%
+%:%1409=734%:%
+%:%1412=736%:%
+%:%1413=737%:%
+%:%1414=738%:%
+%:%1415=739%:%
+%:%1416=740%:%
+%:%1417=741%:%
+%:%1418=742%:%
+%:%1419=743%:%
+%:%1420=744%:%
+%:%1421=745%:%
+%:%1422=746%:%
+%:%1423=747%:%
+%:%1424=748%:%
+%:%1425=749%:%
+%:%1426=750%:%
+%:%1428=752%:%
+%:%1429=752%:%
+%:%1430=753%:%
+%:%1437=754%:%
+%:%1438=754%:%
+%:%1439=755%:%
+%:%1440=755%:%
+%:%1441=756%:%
+%:%1442=756%:%
+%:%1443=757%:%
+%:%1444=757%:%
+%:%1445=757%:%
+%:%1446=758%:%
+%:%1447=758%:%
+%:%1448=759%:%
+%:%1449=759%:%
+%:%1450=759%:%
+%:%1451=760%:%
+%:%1452=760%:%
+%:%1453=761%:%
+%:%1454=761%:%
+%:%1455=761%:%
+%:%1456=762%:%
+%:%1457=762%:%
+%:%1458=763%:%
+%:%1459=763%:%
+%:%1460=763%:%
+%:%1461=764%:%
+%:%1462=764%:%
+%:%1463=765%:%
+%:%1464=765%:%
+%:%1465=765%:%
+%:%1466=766%:%
+%:%1467=766%:%
+%:%1468=767%:%
+%:%1474=767%:%
+%:%1477=768%:%
+%:%1478=769%:%
+%:%1479=769%:%
+%:%1480=770%:%
+%:%1487=771%:%
+%:%1488=771%:%
+%:%1489=772%:%
+%:%1490=772%:%
+%:%1491=773%:%
+%:%1492=773%:%
+%:%1493=774%:%
+%:%1494=774%:%
+%:%1495=774%:%
+%:%1496=775%:%
+%:%1497=775%:%
+%:%1498=776%:%
+%:%1499=776%:%
+%:%1500=776%:%
+%:%1501=777%:%
+%:%1502=777%:%
+%:%1503=778%:%
+%:%1504=778%:%
+%:%1505=778%:%
+%:%1506=779%:%
+%:%1507=779%:%
+%:%1508=780%:%
+%:%1514=780%:%
+%:%1517=781%:%
+%:%1518=782%:%
+%:%1519=782%:%
+%:%1520=783%:%
+%:%1521=784%:%
+%:%1528=785%:%
+%:%1529=785%:%
+%:%1530=786%:%
+%:%1531=786%:%
+%:%1532=787%:%
+%:%1533=787%:%
+%:%1534=788%:%
+%:%1535=788%:%
+%:%1536=788%:%
+%:%1537=789%:%
+%:%1538=789%:%
+%:%1539=790%:%
+%:%1540=790%:%
+%:%1541=790%:%
+%:%1542=791%:%
+%:%1543=791%:%
+%:%1544=792%:%
+%:%1545=792%:%
+%:%1546=792%:%
+%:%1547=793%:%
+%:%1548=793%:%
+%:%1549=794%:%
+%:%1550=794%:%
+%:%1551=794%:%
+%:%1552=795%:%
+%:%1553=795%:%
+%:%1554=796%:%
+%:%1560=796%:%
+%:%1563=797%:%
+%:%1564=798%:%
+%:%1565=798%:%
+%:%1566=799%:%
+%:%1567=800%:%
+%:%1568=801%:%
+%:%1575=802%:%
+%:%1576=802%:%
+%:%1577=803%:%
+%:%1578=803%:%
+%:%1579=804%:%
+%:%1580=804%:%
+%:%1581=805%:%
+%:%1582=805%:%
+%:%1583=805%:%
+%:%1584=806%:%
+%:%1585=806%:%
+%:%1586=807%:%
+%:%1587=807%:%
+%:%1588=807%:%
+%:%1589=808%:%
+%:%1590=808%:%
+%:%1591=809%:%
+%:%1592=809%:%
+%:%1593=810%:%
+%:%1594=810%:%
+%:%1595=810%:%
+%:%1596=811%:%
+%:%1597=811%:%
+%:%1598=812%:%
+%:%1599=812%:%
+%:%1600=812%:%
+%:%1601=813%:%
+%:%1602=813%:%
+%:%1603=814%:%
+%:%1604=814%:%
+%:%1605=814%:%
+%:%1606=815%:%
+%:%1607=815%:%
+%:%1608=816%:%
+%:%1614=816%:%
+%:%1617=817%:%
+%:%1618=818%:%
+%:%1619=818%:%
+%:%1620=819%:%
+%:%1621=820%:%
+%:%1622=821%:%
+%:%1629=822%:%
+%:%1630=822%:%
+%:%1631=823%:%
+%:%1632=823%:%
+%:%1633=824%:%
+%:%1634=824%:%
+%:%1635=825%:%
+%:%1636=825%:%
+%:%1637=825%:%
+%:%1638=826%:%
+%:%1639=826%:%
+%:%1640=827%:%
+%:%1641=827%:%
+%:%1642=827%:%
+%:%1643=828%:%
+%:%1644=828%:%
+%:%1645=829%:%
+%:%1646=829%:%
+%:%1647=830%:%
+%:%1648=830%:%
+%:%1649=830%:%
+%:%1650=831%:%
+%:%1651=831%:%
+%:%1652=832%:%
+%:%1653=832%:%
+%:%1654=832%:%
+%:%1655=833%:%
+%:%1656=833%:%
+%:%1657=834%:%
+%:%1658=834%:%
+%:%1659=834%:%
+%:%1660=835%:%
+%:%1661=835%:%
+%:%1662=836%:%
+%:%1668=836%:%
+%:%1671=837%:%
+%:%1672=838%:%
+%:%1673=838%:%
+%:%1674=839%:%
+%:%1675=840%:%
+%:%1676=841%:%
+%:%1683=842%:%
+%:%1684=842%:%
+%:%1685=843%:%
+%:%1686=843%:%
+%:%1687=844%:%
+%:%1688=844%:%
+%:%1689=845%:%
+%:%1690=845%:%
+%:%1691=845%:%
+%:%1692=846%:%
+%:%1693=846%:%
+%:%1694=847%:%
+%:%1695=847%:%
+%:%1696=847%:%
+%:%1697=848%:%
+%:%1698=848%:%
+%:%1699=849%:%
+%:%1700=849%:%
+%:%1701=850%:%
+%:%1702=850%:%
+%:%1703=850%:%
+%:%1704=851%:%
+%:%1705=851%:%
+%:%1706=852%:%
+%:%1707=852%:%
+%:%1708=852%:%
+%:%1709=853%:%
+%:%1710=853%:%
+%:%1711=854%:%
+%:%1712=854%:%
+%:%1713=854%:%
+%:%1714=855%:%
+%:%1715=855%:%
+%:%1716=856%:%
+%:%1722=856%:%
+%:%1725=857%:%
+%:%1726=858%:%
+%:%1727=858%:%
+%:%1728=859%:%
+%:%1735=860%:%
+%:%1736=860%:%
+%:%1737=861%:%
+%:%1738=861%:%
+%:%1739=862%:%
+%:%1740=862%:%
+%:%1741=862%:%
+%:%1742=862%:%
+%:%1743=863%:%
+%:%1744=863%:%
+%:%1745=864%:%
+%:%1746=864%:%
+%:%1747=865%:%
+%:%1748=865%:%
+%:%1749=865%:%
+%:%1750=865%:%
+%:%1751=866%:%
+%:%1752=866%:%
+%:%1753=867%:%
+%:%1754=867%:%
+%:%1755=868%:%
+%:%1756=868%:%
+%:%1757=868%:%
+%:%1758=868%:%
+%:%1759=869%:%
+%:%1760=869%:%
+%:%1761=870%:%
+%:%1762=870%:%
+%:%1763=871%:%
+%:%1764=871%:%
+%:%1765=871%:%
+%:%1766=871%:%
+%:%1767=872%:%
+%:%1768=872%:%
+%:%1769=873%:%
+%:%1770=873%:%
+%:%1771=874%:%
+%:%1772=874%:%
+%:%1773=874%:%
+%:%1774=874%:%
+%:%1775=875%:%
+%:%1776=875%:%
+%:%1777=876%:%
+%:%1778=876%:%
+%:%1779=877%:%
+%:%1780=877%:%
+%:%1781=877%:%
+%:%1782=877%:%
+%:%1783=878%:%
+%:%1793=880%:%
+%:%1794=881%:%
+%:%1796=883%:%
+%:%1797=883%:%
+%:%1800=884%:%
+%:%1804=884%:%
+%:%1805=884%:%
+%:%1814=886%:%
+%:%1815=887%:%
+%:%1816=888%:%
+%:%1817=889%:%
+%:%1818=890%:%
+%:%1819=891%:%
+%:%1820=892%:%
+%:%1821=893%:%
+%:%1822=894%:%
+%:%1823=895%:%
+%:%1824=896%:%
+%:%1825=897%:%
+%:%1826=898%:%
+%:%1827=899%:%
+%:%1828=900%:%
+%:%1829=901%:%
+%:%1830=902%:%
+%:%1831=903%:%
+%:%1832=904%:%
+%:%1833=905%:%
+%:%1834=906%:%
+%:%1835=907%:%
+%:%1836=908%:%
+%:%1837=909%:%
+%:%1838=910%:%
+%:%1839=911%:%
+%:%1840=912%:%
+%:%1841=913%:%
+%:%1842=914%:%
+%:%1843=915%:%
+%:%1844=916%:%
+%:%1845=917%:%
+%:%1846=918%:%
+%:%1847=919%:%
+%:%1848=920%:%
+%:%1849=921%:%
+%:%1850=922%:%
+%:%1851=923%:%
+%:%1852=924%:%
+%:%1853=925%:%
+%:%1854=926%:%
+%:%1855=927%:%
+%:%1856=928%:%
+%:%1857=929%:%
+%:%1858=930%:%
+%:%1859=931%:%
+%:%1860=932%:%
+%:%1861=933%:%
+%:%1862=934%:%
+%:%1863=935%:%
+%:%1864=936%:%
+%:%1865=937%:%
+%:%1866=938%:%
+%:%1867=939%:%
+%:%1869=941%:%
+%:%1870=941%:%
+%:%1873=942%:%
+%:%1877=942%:%
+%:%1887=944%:%
+%:%1889=946%:%
+%:%1890=946%:%
+%:%1891=947%:%
+%:%1892=948%:%
+%:%1899=949%:%
+%:%1900=949%:%
+%:%1901=950%:%
+%:%1902=950%:%
+%:%1903=951%:%
+%:%1904=951%:%
+%:%1905=952%:%
+%:%1906=952%:%
+%:%1907=953%:%
+%:%1908=953%:%
+%:%1909=953%:%
+%:%1910=954%:%
+%:%1911=954%:%
+%:%1912=955%:%
+%:%1913=955%:%
+%:%1914=955%:%
+%:%1915=956%:%
+%:%1916=956%:%
+%:%1917=957%:%
+%:%1923=957%:%
+%:%1926=958%:%
+%:%1927=959%:%
+%:%1928=959%:%
+%:%1929=960%:%
+%:%1930=961%:%
+%:%1937=962%:%
+%:%1938=962%:%
+%:%1939=963%:%
+%:%1940=963%:%
+%:%1941=964%:%
+%:%1942=964%:%
+%:%1943=965%:%
+%:%1944=965%:%
+%:%1945=966%:%
+%:%1946=966%:%
+%:%1947=966%:%
+%:%1948=967%:%
+%:%1949=967%:%
+%:%1950=968%:%
+%:%1951=968%:%
+%:%1952=968%:%
+%:%1953=969%:%
+%:%1954=969%:%
+%:%1955=970%:%
+%:%1961=970%:%
+%:%1964=971%:%
+%:%1965=972%:%
+%:%1966=972%:%
+%:%1967=973%:%
+%:%1968=974%:%
+%:%1969=975%:%
+%:%1976=976%:%
+%:%1977=976%:%
+%:%1978=977%:%
+%:%1979=977%:%
+%:%1980=978%:%
+%:%1981=978%:%
+%:%1982=979%:%
+%:%1983=979%:%
+%:%1984=980%:%
+%:%1985=980%:%
+%:%1986=980%:%
+%:%1987=981%:%
+%:%1988=981%:%
+%:%1989=982%:%
+%:%1990=982%:%
+%:%1991=982%:%
+%:%1992=983%:%
+%:%1993=983%:%
+%:%1994=984%:%
+%:%1995=984%:%
+%:%1996=985%:%
+%:%1997=985%:%
+%:%1998=985%:%
+%:%1999=986%:%
+%:%2000=986%:%
+%:%2001=987%:%
+%:%2002=987%:%
+%:%2003=987%:%
+%:%2004=988%:%
+%:%2005=988%:%
+%:%2006=989%:%
+%:%2007=989%:%
+%:%2008=990%:%
+%:%2009=990%:%
+%:%2010=991%:%
+%:%2011=991%:%
+%:%2012=991%:%
+%:%2013=992%:%
+%:%2014=992%:%
+%:%2015=993%:%
+%:%2016=993%:%
+%:%2017=993%:%
+%:%2018=994%:%
+%:%2019=994%:%
+%:%2020=995%:%
+%:%2021=995%:%
+%:%2022=995%:%
+%:%2023=996%:%
+%:%2024=996%:%
+%:%2025=997%:%
+%:%2026=997%:%
+%:%2027=998%:%
+%:%2033=998%:%
+%:%2036=999%:%
+%:%2037=1000%:%
+%:%2038=1000%:%
+%:%2039=1001%:%
+%:%2040=1002%:%
+%:%2041=1003%:%
+%:%2042=1004%:%
+%:%2049=1005%:%
+%:%2050=1005%:%
+%:%2051=1006%:%
+%:%2052=1006%:%
+%:%2053=1007%:%
+%:%2054=1007%:%
+%:%2055=1008%:%
+%:%2056=1008%:%
+%:%2057=1009%:%
+%:%2058=1009%:%
+%:%2059=1009%:%
+%:%2060=1010%:%
+%:%2061=1010%:%
+%:%2062=1011%:%
+%:%2063=1011%:%
+%:%2064=1011%:%
+%:%2065=1012%:%
+%:%2066=1012%:%
+%:%2067=1013%:%
+%:%2068=1013%:%
+%:%2069=1014%:%
+%:%2070=1014%:%
+%:%2071=1014%:%
+%:%2072=1015%:%
+%:%2073=1015%:%
+%:%2074=1016%:%
+%:%2075=1016%:%
+%:%2076=1016%:%
+%:%2077=1017%:%
+%:%2078=1017%:%
+%:%2079=1018%:%
+%:%2080=1018%:%
+%:%2081=1019%:%
+%:%2082=1019%:%
+%:%2083=1020%:%
+%:%2084=1020%:%
+%:%2085=1020%:%
+%:%2086=1021%:%
+%:%2087=1021%:%
+%:%2088=1022%:%
+%:%2089=1022%:%
+%:%2090=1022%:%
+%:%2091=1023%:%
+%:%2092=1023%:%
+%:%2093=1024%:%
+%:%2094=1024%:%
+%:%2095=1025%:%
+%:%2096=1025%:%
+%:%2097=1025%:%
+%:%2098=1026%:%
+%:%2099=1026%:%
+%:%2100=1027%:%
+%:%2101=1027%:%
+%:%2102=1027%:%
+%:%2103=1028%:%
+%:%2104=1028%:%
+%:%2105=1029%:%
+%:%2106=1029%:%
+%:%2107=1029%:%
+%:%2108=1030%:%
+%:%2109=1030%:%
+%:%2110=1031%:%
+%:%2111=1031%:%
+%:%2112=1031%:%
+%:%2113=1032%:%
+%:%2114=1032%:%
+%:%2115=1033%:%
+%:%2116=1033%:%
+%:%2117=1034%:%
+%:%2118=1034%:%
+%:%2119=1035%:%
+%:%2120=1035%:%
+%:%2121=1035%:%
+%:%2122=1036%:%
+%:%2123=1036%:%
+%:%2124=1037%:%
+%:%2125=1037%:%
+%:%2126=1037%:%
+%:%2127=1038%:%
+%:%2128=1038%:%
+%:%2129=1039%:%
+%:%2130=1039%:%
+%:%2131=1039%:%
+%:%2132=1040%:%
+%:%2133=1040%:%
+%:%2134=1041%:%
+%:%2135=1041%:%
+%:%2136=1041%:%
+%:%2137=1042%:%
+%:%2138=1042%:%
+%:%2139=1043%:%
+%:%2140=1043%:%
+%:%2141=1044%:%
+%:%2142=1044%:%
+%:%2143=1045%:%
+%:%2149=1045%:%
+%:%2152=1046%:%
+%:%2153=1047%:%
+%:%2154=1047%:%
+%:%2155=1048%:%
+%:%2156=1049%:%
+%:%2157=1050%:%
+%:%2158=1051%:%
+%:%2165=1052%:%
+%:%2166=1052%:%
+%:%2167=1053%:%
+%:%2168=1053%:%
+%:%2169=1054%:%
+%:%2170=1054%:%
+%:%2171=1055%:%
+%:%2172=1055%:%
+%:%2173=1056%:%
+%:%2174=1056%:%
+%:%2175=1056%:%
+%:%2176=1057%:%
+%:%2177=1057%:%
+%:%2178=1058%:%
+%:%2179=1058%:%
+%:%2180=1058%:%
+%:%2181=1059%:%
+%:%2182=1059%:%
+%:%2183=1060%:%
+%:%2184=1060%:%
+%:%2185=1061%:%
+%:%2186=1061%:%
+%:%2187=1061%:%
+%:%2188=1062%:%
+%:%2189=1062%:%
+%:%2190=1063%:%
+%:%2191=1063%:%
+%:%2192=1063%:%
+%:%2193=1064%:%
+%:%2194=1064%:%
+%:%2195=1065%:%
+%:%2196=1065%:%
+%:%2197=1066%:%
+%:%2198=1066%:%
+%:%2199=1067%:%
+%:%2200=1067%:%
+%:%2201=1067%:%
+%:%2202=1068%:%
+%:%2203=1068%:%
+%:%2204=1069%:%
+%:%2205=1069%:%
+%:%2206=1069%:%
+%:%2207=1070%:%
+%:%2208=1070%:%
+%:%2209=1071%:%
+%:%2210=1071%:%
+%:%2211=1072%:%
+%:%2212=1072%:%
+%:%2213=1072%:%
+%:%2214=1073%:%
+%:%2215=1073%:%
+%:%2216=1074%:%
+%:%2217=1074%:%
+%:%2218=1074%:%
+%:%2219=1075%:%
+%:%2220=1075%:%
+%:%2221=1076%:%
+%:%2222=1076%:%
+%:%2223=1076%:%
+%:%2224=1077%:%
+%:%2225=1077%:%
+%:%2226=1078%:%
+%:%2227=1078%:%
+%:%2228=1078%:%
+%:%2229=1079%:%
+%:%2230=1079%:%
+%:%2231=1080%:%
+%:%2232=1080%:%
+%:%2233=1081%:%
+%:%2234=1081%:%
+%:%2235=1082%:%
+%:%2236=1082%:%
+%:%2237=1082%:%
+%:%2238=1083%:%
+%:%2239=1083%:%
+%:%2240=1084%:%
+%:%2241=1084%:%
+%:%2242=1084%:%
+%:%2243=1085%:%
+%:%2244=1085%:%
+%:%2245=1086%:%
+%:%2246=1086%:%
+%:%2247=1086%:%
+%:%2248=1087%:%
+%:%2249=1087%:%
+%:%2250=1088%:%
+%:%2251=1088%:%
+%:%2252=1088%:%
+%:%2253=1089%:%
+%:%2254=1089%:%
+%:%2255=1090%:%
+%:%2256=1090%:%
+%:%2257=1091%:%
+%:%2258=1091%:%
+%:%2259=1092%:%
+%:%2265=1092%:%
+%:%2268=1093%:%
+%:%2269=1094%:%
+%:%2270=1094%:%
+%:%2271=1095%:%
+%:%2272=1096%:%
+%:%2273=1097%:%
+%:%2274=1098%:%
+%:%2281=1099%:%
+%:%2282=1099%:%
+%:%2283=1100%:%
+%:%2284=1100%:%
+%:%2285=1101%:%
+%:%2286=1101%:%
+%:%2287=1102%:%
+%:%2288=1102%:%
+%:%2289=1103%:%
+%:%2290=1103%:%
+%:%2291=1103%:%
+%:%2292=1104%:%
+%:%2293=1104%:%
+%:%2294=1105%:%
+%:%2295=1105%:%
+%:%2296=1105%:%
+%:%2297=1106%:%
+%:%2298=1106%:%
+%:%2299=1107%:%
+%:%2300=1107%:%
+%:%2301=1108%:%
+%:%2302=1108%:%
+%:%2303=1108%:%
+%:%2304=1109%:%
+%:%2305=1109%:%
+%:%2306=1110%:%
+%:%2307=1110%:%
+%:%2308=1110%:%
+%:%2309=1111%:%
+%:%2310=1111%:%
+%:%2311=1112%:%
+%:%2312=1112%:%
+%:%2313=1113%:%
+%:%2314=1113%:%
+%:%2315=1114%:%
+%:%2316=1114%:%
+%:%2317=1114%:%
+%:%2318=1115%:%
+%:%2319=1115%:%
+%:%2320=1116%:%
+%:%2321=1116%:%
+%:%2322=1116%:%
+%:%2323=1117%:%
+%:%2324=1117%:%
+%:%2325=1118%:%
+%:%2326=1118%:%
+%:%2327=1119%:%
+%:%2328=1119%:%
+%:%2329=1119%:%
+%:%2330=1120%:%
+%:%2331=1120%:%
+%:%2332=1121%:%
+%:%2333=1121%:%
+%:%2334=1121%:%
+%:%2335=1122%:%
+%:%2336=1122%:%
+%:%2337=1123%:%
+%:%2338=1123%:%
+%:%2339=1123%:%
+%:%2340=1124%:%
+%:%2341=1124%:%
+%:%2342=1125%:%
+%:%2343=1125%:%
+%:%2344=1125%:%
+%:%2345=1126%:%
+%:%2346=1126%:%
+%:%2347=1127%:%
+%:%2348=1127%:%
+%:%2349=1128%:%
+%:%2350=1128%:%
+%:%2351=1129%:%
+%:%2352=1129%:%
+%:%2353=1129%:%
+%:%2354=1130%:%
+%:%2355=1130%:%
+%:%2356=1131%:%
+%:%2357=1131%:%
+%:%2358=1131%:%
+%:%2359=1132%:%
+%:%2360=1132%:%
+%:%2361=1133%:%
+%:%2362=1133%:%
+%:%2363=1133%:%
+%:%2364=1134%:%
+%:%2365=1134%:%
+%:%2366=1135%:%
+%:%2367=1135%:%
+%:%2368=1135%:%
+%:%2369=1136%:%
+%:%2370=1136%:%
+%:%2371=1137%:%
+%:%2372=1137%:%
+%:%2373=1138%:%
+%:%2374=1138%:%
+%:%2375=1139%:%
+%:%2381=1139%:%
+%:%2384=1140%:%
+%:%2385=1141%:%
+%:%2386=1141%:%
+%:%2393=1142%:%
+%:%2394=1142%:%
+%:%2395=1143%:%
+%:%2396=1143%:%
+%:%2397=1144%:%
+%:%2398=1144%:%
+%:%2399=1144%:%
+%:%2400=1144%:%
+%:%2401=1145%:%
+%:%2402=1145%:%
+%:%2403=1146%:%
+%:%2404=1146%:%
+%:%2405=1147%:%
+%:%2406=1147%:%
+%:%2407=1147%:%
+%:%2408=1147%:%
+%:%2409=1148%:%
+%:%2410=1148%:%
+%:%2411=1149%:%
+%:%2412=1149%:%
+%:%2413=1150%:%
+%:%2414=1150%:%
+%:%2415=1150%:%
+%:%2416=1150%:%
+%:%2417=1151%:%
+%:%2418=1151%:%
+%:%2419=1152%:%
+%:%2420=1152%:%
+%:%2421=1153%:%
+%:%2422=1153%:%
+%:%2423=1153%:%
+%:%2424=1153%:%
+%:%2425=1154%:%
+%:%2426=1154%:%
+%:%2427=1155%:%
+%:%2428=1155%:%
+%:%2429=1156%:%
+%:%2430=1156%:%
+%:%2431=1156%:%
+%:%2432=1156%:%
+%:%2433=1157%:%
+%:%2434=1157%:%
+%:%2435=1158%:%
+%:%2436=1158%:%
+%:%2437=1159%:%
+%:%2438=1159%:%
+%:%2439=1159%:%
+%:%2440=1159%:%
+%:%2441=1160%:%
+%:%2451=1162%:%
+%:%2453=1164%:%
+%:%2454=1164%:%
+%:%2457=1165%:%
+%:%2461=1165%:%
+%:%2462=1165%:%
+%:%2471=1167%:%
+%:%2472=1168%:%
+%:%2473=1169%:%
+%:%2474=1170%:%
+%:%2475=1171%:%
+%:%2476=1172%:%
+%:%2477=1173%:%
+%:%2478=1174%:%
+%:%2479=1175%:%
+%:%2480=1176%:%
+%:%2481=1177%:%
+%:%2482=1178%:%
+%:%2483=1179%:%
+%:%2484=1180%:%
+%:%2485=1181%:%
+%:%2486=1182%:%
+%:%2487=1183%:%
+%:%2488=1184%:%
+%:%2489=1185%:%
+%:%2490=1186%:%
+%:%2491=1187%:%
+%:%2492=1188%:%
+%:%2493=1189%:%
+%:%2494=1190%:%
+%:%2495=1191%:%
+%:%2496=1192%:%
+%:%2497=1193%:%
+%:%2498=1194%:%
+%:%2499=1195%:%
+%:%2500=1196%:%
+%:%2501=1197%:%
+%:%2502=1198%:%
+%:%2503=1199%:%
+%:%2504=1200%:%
+%:%2505=1201%:%
+%:%2506=1202%:%
+%:%2507=1203%:%
+%:%2508=1204%:%
+%:%2509=1205%:%
+%:%2510=1206%:%
+%:%2511=1207%:%
+%:%2512=1208%:%
+%:%2513=1209%:%
+%:%2514=1210%:%
+%:%2515=1211%:%
+%:%2516=1212%:%
+%:%2517=1213%:%
+%:%2518=1214%:%
+%:%2522=1216%:%
+%:%2523=1217%:%
+%:%2527=1219%:%
+%:%2528=1220%:%
+%:%2529=1221%:%
+%:%2530=1222%:%
+%:%2532=1224%:%
+%:%2533=1224%:%
+%:%2534=1225%:%
+%:%2541=1226%:%
+%:%2542=1226%:%
+%:%2543=1227%:%
+%:%2544=1227%:%
+%:%2545=1228%:%
+%:%2546=1228%:%
+%:%2547=1228%:%
+%:%2548=1228%:%
+%:%2549=1228%:%
+%:%2550=1228%:%
+%:%2551=1229%:%
+%:%2552=1229%:%
+%:%2553=1230%:%
+%:%2554=1230%:%
+%:%2555=1231%:%
+%:%2556=1231%:%
+%:%2557=1231%:%
+%:%2558=1231%:%
+%:%2559=1231%:%
+%:%2560=1231%:%
+%:%2561=1232%:%
+%:%2562=1232%:%
+%:%2563=1233%:%
+%:%2564=1233%:%
+%:%2565=1234%:%
+%:%2566=1234%:%
+%:%2567=1235%:%
+%:%2568=1236%:%
+%:%2569=1236%:%
+%:%2570=1237%:%
+%:%2571=1237%:%
+%:%2572=1237%:%
+%:%2573=1238%:%
+%:%2574=1238%:%
+%:%2575=1239%:%
+%:%2576=1239%:%
+%:%2577=1240%:%
+%:%2578=1240%:%
+%:%2579=1240%:%
+%:%2580=1240%:%
+%:%2581=1240%:%
+%:%2582=1240%:%
+%:%2583=1241%:%
+%:%2584=1241%:%
+%:%2585=1242%:%
+%:%2586=1242%:%
+%:%2587=1243%:%
+%:%2588=1243%:%
+%:%2589=1243%:%
+%:%2590=1244%:%
+%:%2591=1244%:%
+%:%2592=1244%:%
+%:%2593=1244%:%
+%:%2594=1245%:%
+%:%2595=1245%:%
+%:%2596=1245%:%
+%:%2597=1246%:%
+%:%2598=1246%:%
+%:%2599=1247%:%
+%:%2600=1247%:%
+%:%2601=1247%:%
+%:%2602=1247%:%
+%:%2603=1248%:%
+%:%2604=1248%:%
+%:%2605=1248%:%
+%:%2606=1249%:%
+%:%2607=1249%:%
+%:%2608=1250%:%
+%:%2609=1250%:%
+%:%2610=1250%:%
+%:%2611=1250%:%
+%:%2612=1251%:%
+%:%2613=1251%:%
+%:%2614=1252%:%
+%:%2615=1252%:%
+%:%2616=1252%:%
+%:%2617=1252%:%
+%:%2618=1253%:%
+%:%2619=1253%:%
+%:%2620=1254%:%
+%:%2621=1254%:%
+%:%2622=1255%:%
+%:%2623=1255%:%
+%:%2624=1255%:%
+%:%2625=1256%:%
+%:%2626=1256%:%
+%:%2627=1256%:%
+%:%2628=1256%:%
+%:%2629=1257%:%
+%:%2630=1257%:%
+%:%2631=1258%:%
+%:%2632=1258%:%
+%:%2633=1258%:%
+%:%2634=1259%:%
+%:%2635=1259%:%
+%:%2636=1260%:%
+%:%2637=1260%:%
+%:%2638=1261%:%
+%:%2639=1261%:%
+%:%2640=1262%:%
+%:%2641=1262%:%
+%:%2642=1262%:%
+%:%2643=1262%:%
+%:%2644=1262%:%
+%:%2645=1262%:%
+%:%2646=1263%:%
+%:%2647=1263%:%
+%:%2648=1264%:%
+%:%2649=1264%:%
+%:%2650=1265%:%
+%:%2651=1265%:%
+%:%2652=1265%:%
+%:%2653=1265%:%
+%:%2654=1265%:%
+%:%2655=1265%:%
+%:%2656=1266%:%
+%:%2657=1266%:%
+%:%2658=1267%:%
+%:%2659=1267%:%
+%:%2660=1268%:%
+%:%2661=1268%:%
+%:%2662=1269%:%
+%:%2663=1270%:%
+%:%2664=1270%:%
+%:%2665=1271%:%
+%:%2666=1272%:%
+%:%2667=1272%:%
+%:%2668=1273%:%
+%:%2669=1273%:%
+%:%2670=1274%:%
+%:%2671=1275%:%
+%:%2672=1275%:%
+%:%2673=1275%:%
+%:%2674=1275%:%
+%:%2675=1276%:%
+%:%2676=1276%:%
+%:%2677=1276%:%
+%:%2678=1277%:%
+%:%2679=1277%:%
+%:%2680=1278%:%
+%:%2681=1278%:%
+%:%2682=1279%:%
+%:%2683=1279%:%
+%:%2684=1279%:%
+%:%2685=1279%:%
+%:%2686=1279%:%
+%:%2687=1279%:%
+%:%2688=1280%:%
+%:%2689=1280%:%
+%:%2690=1281%:%
+%:%2691=1281%:%
+%:%2692=1282%:%
+%:%2693=1282%:%
+%:%2694=1282%:%
+%:%2695=1283%:%
+%:%2696=1283%:%
+%:%2697=1283%:%
+%:%2698=1283%:%
+%:%2699=1284%:%
+%:%2700=1284%:%
+%:%2701=1285%:%
+%:%2702=1286%:%
+%:%2703=1286%:%
+%:%2704=1287%:%
+%:%2705=1287%:%
+%:%2706=1287%:%
+%:%2707=1288%:%
+%:%2708=1289%:%
+%:%2709=1289%:%
+%:%2710=1289%:%
+%:%2711=1289%:%
+%:%2712=1290%:%
+%:%2713=1290%:%
+%:%2714=1290%:%
+%:%2715=1291%:%
+%:%2716=1291%:%
+%:%2717=1292%:%
+%:%2718=1292%:%
+%:%2719=1293%:%
+%:%2720=1293%:%
+%:%2721=1293%:%
+%:%2722=1294%:%
+%:%2723=1294%:%
+%:%2724=1294%:%
+%:%2725=1294%:%
+%:%2726=1295%:%
+%:%2727=1295%:%
+%:%2728=1295%:%
+%:%2729=1296%:%
+%:%2730=1296%:%
+%:%2731=1296%:%
+%:%2732=1296%:%
+%:%2733=1296%:%
+%:%2734=1297%:%
+%:%2735=1297%:%
+%:%2736=1298%:%
+%:%2737=1298%:%
+%:%2738=1298%:%
+%:%2739=1299%:%
+%:%2740=1299%:%
+%:%2741=1300%:%
+%:%2742=1300%:%
+%:%2743=1300%:%
+%:%2744=1301%:%
+%:%2745=1301%:%
+%:%2746=1302%:%
+%:%2747=1302%:%
+%:%2748=1303%:%
+%:%2749=1303%:%
+%:%2750=1303%:%
+%:%2751=1304%:%
+%:%2752=1304%:%
+%:%2753=1304%:%
+%:%2754=1304%:%
+%:%2755=1305%:%
+%:%2756=1305%:%
+%:%2757=1306%:%
+%:%2758=1306%:%
+%:%2759=1306%:%
+%:%2760=1306%:%
+%:%2761=1306%:%
+%:%2762=1307%:%
+%:%2763=1307%:%
+%:%2764=1307%:%
+%:%2765=1308%:%
+%:%2766=1308%:%
+%:%2767=1308%:%
+%:%2768=1308%:%
+%:%2769=1308%:%
+%:%2770=1309%:%
+%:%2771=1309%:%
+%:%2772=1309%:%
+%:%2773=1310%:%
+%:%2774=1310%:%
+%:%2775=1310%:%
+%:%2776=1310%:%
+%:%2777=1310%:%
+%:%2778=1311%:%
+%:%2779=1311%:%
+%:%2780=1312%:%
+%:%2781=1312%:%
+%:%2782=1312%:%
+%:%2783=1312%:%
+%:%2784=1312%:%
+%:%2785=1313%:%
+%:%2786=1313%:%
+%:%2787=1314%:%
+%:%2788=1314%:%
+%:%2789=1314%:%
+%:%2790=1315%:%
+%:%2791=1315%:%
+%:%2792=1316%:%
+%:%2793=1316%:%
+%:%2794=1317%:%
+%:%2804=1319%:%
+%:%2806=1321%:%
+%:%2807=1321%:%
+%:%2808=1322%:%
+%:%2811=1323%:%
+%:%2815=1323%:%
+%:%2816=1323%:%
+%:%2825=1325%:%
+%:%2826=1326%:%
+%:%2827=1327%:%
+%:%2828=1328%:%
+%:%2829=1329%:%
+%:%2830=1330%:%
+%:%2831=1331%:%
+%:%2832=1332%:%
+%:%2833=1333%:%
+%:%2834=1334%:%
+%:%2835=1335%:%
+%:%2836=1336%:%
+%:%2837=1337%:%
+%:%2838=1338%:%
+%:%2839=1339%:%
+%:%2840=1340%:%
+%:%2841=1341%:%
+%:%2842=1342%:%
+%:%2843=1343%:%
+%:%2845=1345%:%
+%:%2846=1345%:%
+%:%2847=1346%:%
+%:%2848=1347%:%
+%:%2849=1348%:%
+%:%2856=1349%:%
+%:%2857=1349%:%
+%:%2858=1350%:%
+%:%2859=1350%:%
+%:%2860=1350%:%
+%:%2861=1351%:%
+%:%2862=1351%:%
+%:%2863=1352%:%
+%:%2864=1352%:%
+%:%2865=1352%:%
+%:%2866=1353%:%
+%:%2867=1353%:%
+%:%2868=1354%:%
+%:%2869=1354%:%
+%:%2870=1354%:%
+%:%2871=1354%:%
+%:%2872=1355%:%
+%:%2873=1355%:%
+%:%2874=1356%:%
+%:%2875=1356%:%
+%:%2876=1357%:%
+%:%2877=1357%:%
+%:%2878=1358%:%
+%:%2879=1358%:%
+%:%2880=1358%:%
+%:%2881=1359%:%
+%:%2882=1359%:%
+%:%2883=1360%:%
+%:%2884=1360%:%
+%:%2885=1361%:%
+%:%2891=1361%:%
+%:%2894=1362%:%
+%:%2895=1363%:%
+%:%2896=1363%:%
+%:%2897=1364%:%
+%:%2899=1366%:%
+%:%2902=1367%:%
+%:%2906=1367%:%
+%:%2907=1367%:%
+%:%2916=1369%:%
+%:%2917=1370%:%
+%:%2921=1372%:%
+%:%2922=1373%:%
+%:%2924=1375%:%
+%:%2925=1375%:%
+%:%2926=1376%:%
+%:%2927=1377%:%
+%:%2928=1378%:%
+%:%2929=1379%:%
+%:%2930=1380%:%
+%:%2931=1381%:%
+%:%2932=1382%:%
+%:%2935=1383%:%
+%:%2939=1383%:%
+%:%2949=1385%:%
+%:%2950=1386%:%
+%:%2951=1387%:%
+%:%2952=1388%:%
+%:%2953=1389%:%
+%:%2954=1390%:%
+%:%2956=1392%:%
+%:%2957=1392%:%
+%:%2958=1393%:%
+%:%2959=1394%:%
+%:%2966=1395%:%
+%:%2967=1395%:%
+%:%2968=1396%:%
+%:%2969=1396%:%
+%:%2970=1397%:%
+%:%2971=1398%:%
+%:%2972=1398%:%
+%:%2973=1398%:%
+%:%2974=1398%:%
+%:%2975=1399%:%
+%:%2976=1399%:%
+%:%2977=1399%:%
+%:%2978=1400%:%
+%:%2979=1400%:%
+%:%2980=1401%:%
+%:%2981=1401%:%
+%:%2982=1402%:%
+%:%2983=1402%:%
+%:%2984=1403%:%
+%:%2985=1403%:%
+%:%2986=1403%:%
+%:%2987=1403%:%
+%:%2988=1404%:%
+%:%2989=1404%:%
+%:%2990=1404%:%
+%:%2991=1404%:%
+%:%2992=1405%:%
+%:%2993=1405%:%
+%:%2994=1405%:%
+%:%2995=1405%:%
+%:%2996=1406%:%
+%:%3002=1406%:%
+%:%3005=1407%:%
+%:%3006=1408%:%
+%:%3007=1408%:%
+%:%3008=1409%:%
+%:%3009=1410%:%
+%:%3016=1411%:%
+%:%3017=1411%:%
+%:%3018=1412%:%
+%:%3019=1412%:%
+%:%3020=1413%:%
+%:%3021=1413%:%
+%:%3022=1413%:%
+%:%3023=1413%:%
+%:%3024=1414%:%
+%:%3025=1414%:%
+%:%3026=1414%:%
+%:%3027=1415%:%
+%:%3028=1415%:%
+%:%3029=1415%:%
+%:%3030=1415%:%
+%:%3031=1416%:%
+%:%3032=1416%:%
+%:%3033=1416%:%
+%:%3034=1417%:%
+%:%3035=1417%:%
+%:%3036=1418%:%
+%:%3046=1420%:%
+%:%3047=1421%:%
+%:%3049=1423%:%
+%:%3050=1423%:%
+%:%3051=1424%:%
+%:%3052=1425%:%
+%:%3053=1426%:%
+%:%3054=1427%:%
+%:%3055=1428%:%
+%:%3056=1429%:%
+%:%3057=1430%:%
+%:%3060=1431%:%
+%:%3064=1431%:%
+%:%3065=1431%:%
+%:%3066=1432%:%
+%:%3076=1434%:%
+%:%3078=1436%:%
+%:%3079=1436%:%
+%:%3080=1437%:%
+%:%3081=1438%:%
+%:%3082=1439%:%
+%:%3083=1440%:%
+%:%3084=1441%:%
+%:%3085=1442%:%
+%:%3086=1443%:%
+%:%3089=1444%:%
+%:%3093=1444%:%
+%:%3094=1444%:%
+%:%3095=1444%:%
+%:%3096=1445%:%
+%:%3106=1447%:%
+%:%3110=1449%:%
+%:%3114=1451%:%
+%:%3115=1452%:%
+%:%3116=1453%:%
+%:%3118=1455%:%
+%:%3119=1455%:%
+%:%3122=1456%:%
+%:%3126=1456%:%
+%:%3136=1458%:%
+%:%3137=1459%:%
+%:%3138=1460%:%
+%:%3139=1461%:%
+%:%3140=1462%:%
+%:%3142=1464%:%
+%:%3143=1464%:%
+%:%3144=1465%:%
+%:%3145=1466%:%
+%:%3146=1467%:%
+%:%3147=1467%:%
+%:%3148=1468%:%
+%:%3149=1469%:%
+%:%3150=1470%:%
+%:%3151=1470%:%
+%:%3152=1471%:%
+%:%3153=1472%:%
+%:%3156=1472%:%
+%:%3160=1472%:%
+%:%3168=1472%:%
+%:%3169=1473%:%
+%:%3170=1474%:%
+%:%3173=1476%:%
+%:%3174=1477%:%
+%:%3175=1478%:%
+%:%3176=1479%:%
+%:%3177=1480%:%
+%:%3178=1481%:%
+%:%3179=1482%:%
+%:%3180=1483%:%
+%:%3181=1484%:%
+%:%3182=1485%:%
+%:%3183=1486%:%
+%:%3184=1487%:%
+%:%3185=1488%:%
+%:%3187=1490%:%
+%:%3188=1490%:%
+%:%3189=1491%:%
+%:%3190=1491%:%
+%:%3192=1494%:%
+%:%3193=1495%:%
+%:%3194=1496%:%
+%:%3195=1497%:%
+%:%3197=1499%:%
+%:%3198=1499%:%
+%:%3199=1500%:%
+%:%3201=1502%:%
+%:%3202=1503%:%
+%:%3203=1504%:%
+%:%3204=1505%:%
+%:%3205=1506%:%
+%:%3206=1507%:%
+%:%3207=1508%:%
+%:%3208=1509%:%
+%:%3210=1511%:%
+%:%3211=1511%:%
+%:%3214=1512%:%
+%:%3218=1512%:%
+%:%3219=1512%:%
+%:%3228=1514%:%
+%:%3229=1515%:%
+%:%3238=1517%:%
+%:%3250=1519%:%
+%:%3251=1520%:%
+%:%3252=1521%:%
+%:%3256=1523%:%
+%:%3257=1524%:%
+%:%3258=1525%:%
+%:%3259=1526%:%
+%:%3260=1527%:%
+%:%3261=1528%:%
+%:%3263=1530%:%
+%:%3264=1530%:%
+%:%3265=1531%:%
+%:%3267=1533%:%
+%:%3271=1535%:%
+%:%3272=1536%:%
+%:%3273=1537%:%
+%:%3275=1539%:%
+%:%3276=1539%:%
+%:%3279=1540%:%
+%:%3283=1540%:%
+%:%3284=1540%:%
+%:%3285=1540%:%
+%:%3294=1542%:%
+%:%3295=1543%:%
+%:%3297=1545%:%
+%:%3298=1545%:%
+%:%3299=1546%:%
+%:%3300=1547%:%
+%:%3301=1548%:%
+%:%3302=1549%:%
+%:%3303=1549%:%
+%:%3304=1550%:%
+%:%3305=1551%:%
+%:%3307=1553%:%
+%:%3308=1554%:%
+%:%3309=1555%:%
+%:%3310=1556%:%
+%:%3311=1557%:%
+%:%3312=1558%:%
+%:%3313=1559%:%
+%:%3314=1560%:%
+%:%3315=1561%:%
+%:%3316=1562%:%
+%:%3317=1563%:%
+%:%3318=1564%:%
+%:%3319=1565%:%
+%:%3320=1566%:%
+%:%3321=1567%:%
+%:%3322=1568%:%
+%:%3323=1569%:%
+%:%3324=1570%:%
+%:%3326=1572%:%
+%:%3327=1572%:%
+%:%3330=1573%:%
+%:%3334=1573%:%
+%:%3335=1573%:%
+%:%3336=1574%:%
