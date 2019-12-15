@@ -1158,22 +1158,55 @@ lemma "G \<in> setSubformulae F \<Longrightarrow> atoms G \<subseteq> atoms F"
 
 text \<open>\comentario{Corregido hasta aquí.}\<close> 
 
-(*text \<open>A continuación voy a introducir un lema que no pertenece a la 
+text \<open>A continuación voy a introducir un lema que no pertenece a la 
   teoría original de Isabelle pero facilita las siguientes 
   demostraciones detalladas mediante contenciones en cadena.
 
   \begin{lema}
-    Sea \<open>G \<in> SubfSet(F)\<close>, entonces \<open>SubfSet(G) \<subseteq> SubSet(F)\<close>.
+    Sea \<open>G \<in> Subf(F)\<close>, entonces el conjunto de átomos de \<open>G\<close> está 
+  contenido en el de \<open>F\<close>.
   \end{lema} 
 
-  Veamos sus demostraciones según las distintas tácticas.\<close>
+  \begin{demostracion}
+  La prueba es por inducción en la estructura de fórmula.
+  
+  Sea \<open>p\<close> una fórmula atómica cualquiera. Entonces, bajo las
+  condiciones del lema se tiene que \<open>G = p\<close>. Por lo tanto, tiene igual
+  conjunto de átomos.
 
-text \<open>\comentario{Hacer las demostraciones detalladas (es decir, usando 
-  sólo "simp only", rule o this) de todos los lemas siguientes siguiendo 
-  el patrón de los anteriores (es decir, demostrando cada caso de la 
-  inducción de la fórmula como un lema independiente).}
+  Sea la fórmula \<open>\<bottom>\<close>. Entonces, \<open>G = \<bottom>\<close> y tienen igual conjunto de
+  átomos vacío.
 
-  \comentario{Continuar las revisiones a partir de aquí.}\<close>
+  Sea una fórmula \<open>F\<close> tal que para toda subfórmula \<open>G\<close>, se tiene que el
+  conjunto de átomos de \<open>G\<close> está contenido en el de \<open>F\<close>. Veamos la
+  propiedad para \<open>\<not> F\<close>. Sea \<open>G' \<in> Subf(\<not> F) = {\<not> F} \<union> Subf(F)\<close>. 
+  Entonces \<open>G' \<in> {\<not> F}\<close> o \<open>G' \<in> Subf(F)\<close>. 
+  Del primer caso se obtiene que \<open>G' = \<not> F\<close> y, por tanto, tienen igual 
+  conjunto de átomos. Del segundo caso se tiene \<open>G' \<in> Subf(F)\<close> y, por 
+  hipótesis de inducción, el conjunto de átomos de \<open>G'\<close> está contenido 
+  en el de \<open>F\<close>. Además, como el conjunto de átomos de \<open>F\<close> y \<open>\<not> F\<close> es el 
+  mismo, se tiene la propiedad.
+
+  Sean las fórmulas \<open>F1\<close> y \<open>F2\<close> tales que para cualquier subfórmula \<open>G1\<close>
+  de \<open>F1\<close> el conjunto de átomos de \<open>G1\<close> está contenido en el de \<open>F1\<close>, y
+  para cualquier subfórmula \<open>G2\<close> de \<open>F2\<close> el conjunto de átomos de \<open>G2\<close>
+  está contenido en el de \<open>F2\<close>. Veamos que se verifica la propiedad
+  para \<open>F1*F2\<close> donde \<open>*\<close> es cualquier conectiva binaria. 
+  Sea \<open>G' \<in> Subf(F1*F2) = {F1*F2} \<union> Subf(F1) \<union> Subf(F2)\<close>. De este modo,
+  tenemos tres casos: \<open>G' \<in> {F1*F2}\<close> o \<open>G' \<in> Subf(F1)\<close> o 
+  \<open>G' \<in> Subf(F2)\<close>. De la primera opción se deduce \<open>G' = F1*F2\<close> y, por
+  tanto, tienen igual conjunto de átomos. Por otro lado, si 
+  \<open>G' \<in> Subf(F1)\<close>, por hipótesis de inducción se tiene que el conjunto
+  de átomos de \<open>G'\<close> está contenido en el de \<open>F1\<close>. Por tanto, como el
+  conjunto de átomos de \<open>F1*F2\<close> es la unión del conjunto de átomos de 
+  \<open>F1\<close> y el de \<open>F2\<close>, se verifica la propiedad. El caso \<open>G' \<in> Subf(F2)\<close>
+  es análogo cambiando el índice de la fórmula.   
+  \end{demostracion}
+
+  Veamos su formalización en Isabelle junto con su demostración 
+  estructurada.
+
+  \comentario{Detallar más}\<close>
 
 lemma subsubformulae_estructurada: 
   "G \<in> setSubformulae F \<Longrightarrow> setSubformulae G \<subseteq> setSubformulae F"
@@ -1270,6 +1303,8 @@ next
   qed
 qed
 
+text \<open>Finalmente, su demostración automática se muestra a continuación.\<close>
+
 lemma subformulae_setSubformulae:
   "G \<in> setSubformulae F \<Longrightarrow> setSubformulae G \<subseteq> setSubformulae F"
   by (induction F) auto
@@ -1277,18 +1312,18 @@ lemma subformulae_setSubformulae:
 text \<open>El siguiente lema nos da la noción de transitividad de contención 
   en cadena de las subfórmulas, de modo que la subfórmula de una 
   subfórmula es del mismo modo subfórmula de la mayor. 
- 
-  Es un resultado sencillo derivado de la estructura de árbol de 
-  formación que siguen las fórmulas según las hemos definido.
 
   \begin{lema}
     Sea \<open>G \<in> SubfSet(F)\<close> y \<open>H \<in> SubfSet(G)\<close>, entonces \<open>H \<in> SubfSet(F)\<close>.
   \end{lema}
 
-  La demostración estructurada se hace de manera sencilla con el 
-  resultado introducido anteriormente. 
+\comentario{Añadir prueba clásica y detallar más en Isabelle}
 
-  Veamos su prueba según las distintas tácticas.\<close>
+  \begin{demostracion}
+  La prueba está basada en el lema anterior. 
+  \end{demostracion}
+
+  Veamos su formalización y prueba estructurada en Isabelle.\<close>
 
 lemma subsubformulae_estruct:
   assumes "G \<in> setSubformulae F" 
@@ -1515,7 +1550,7 @@ text \<open>Ambas nuevas conectivas se caracterizarán por ser del tipo
   La conjunción plural nos da el siguiente resultado.\<close>
 
 lemma atoms_BigAnd[simp]: "atoms (\<^bold>\<And>Fs) = \<Union>(atoms ` set Fs)"
-  by(induction Fs; simp)*)
+  by(induction Fs; simp)
 
 
 (*<*)
