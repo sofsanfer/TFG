@@ -8,9 +8,9 @@ theory Glosario
 begin
 (*>*)
 
-section \<open>Glosario de reglas\<close>
+(* chapter \<open>Glosario de reglas\<close> *)
 
-subsection \<open>Teoría de conjuntos finitos\<close>
+section \<open>Teoría de conjuntos finitos\<close>
 
 text \<open>\comentario{Explicar la siguiente notación y recolocarla donde se
   use por primera vez.}\<close> 
@@ -27,7 +27,7 @@ text \<open>A continuación se muestran resultamos relativos a la teoría
       \hfill (@{text finite_UnI})
   \end{itemize}\<close>
 
-subsection \<open>Teoría de listas\<close>
+section \<open>Teoría de listas\<close>
 
 text\<open>La teoría de listas en Isabelle corresponde a \href{http://bit.ly/2se9Oy0}{List.thy}. 
   Esta se fundamenta en la definición recursiva de @{term "list"}.\\
@@ -60,7 +60,7 @@ Como es habitual, hemos cambiado la notación de la definición a @{term "list'"
     \hfill (@{text Un_insert_left})
   \end{itemize}\<close>
 
-subsection \<open>Teoría de conjuntos\<close>
+section \<open>Teoría de conjuntos\<close>
 
 text \<open>Los siguientes resultados empleados en el análisis hecho sobre la lógica proposicional 
   corresponden a la teoría de conjuntos de Isabelle: \href{https://n9.cl/qatp}{Set.thy}.
@@ -95,7 +95,7 @@ text \<open>Los siguientes resultados empleados en el análisis hecho sobre la l
   \end{itemize}
 \<close>
 
-subsection \<open>Lógica de primer orden\<close>
+section \<open>Lógica de primer orden\<close>
 
 text \<open>En Isabelle corresponde a la teoría \href{http://bit.ly/38iFKlA}{HOL.thy}
   Los resultados empleados son los siguientes.
