@@ -61,12 +61,6 @@ text \<open>En esta sección presentaremos una formalización en Isabelle de la
       \item Dadas dos fórmulas \<open>F\<close> y \<open>G\<close>, la implicación \<open>F \<longrightarrow> G\<close> es 
         una fórmula.
     \end{itemize}
-  La demostración estructurada se hace de manera sencilla con el 
-  resultado introducido anteriormente. 
-
-  La demostración estructurada se hace de manera sencilla con el 
-  resultado introducido anteriormente. 
-
   \end{definicion}
 
   Intuitivamente, las fórmulas proposicionales son entendidas como un 
