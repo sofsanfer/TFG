@@ -175,7 +175,7 @@ text \<open>Una vez definida la estructura de las fórmulas, vamos a introducir
   esquema de inducción sobre las mismas:
 
   \begin{definicion}
-    Sea \<open>\<phi>\<close> una propiedad sobre fórmulas que verifica las siguientes 
+    Sea \<open>\<P>\<close> una propiedad sobre fórmulas que verifica las siguientes 
     condiciones:
     \begin{itemize}
       \item Las fórmulas atómicas la cumplen.
@@ -185,7 +185,7 @@ text \<open>Una vez definida la estructura de las fórmulas, vamos a introducir
         cumple, donde \<open>*\<close> simboliza cualquier conectiva binaria.
     \end{itemize}
     Entonces, todas las fórmulas proposicionales tienen la propiedad 
-    \<open>\<phi>\<close>.
+    \<open>\<P>\<close>.
   \end{definicion}
 
   Análogamente, como las fórmulas proposicionales están definidas 
@@ -1549,7 +1549,7 @@ lemma subformulas_in_subformulas:
 
 text \<open>\comentario{Completar la prueba anterior.}\<close>
 
-text \<open>HASTA AQUÍ HE TRABAJADO: 24/11/19\<close>
+text\<open>\comentario{Completar lo que falta de sección}\<close>
 
 text \<open>Concluimos la sección de subfórmulas con un resultado que 
   relaciona varias funciones sobre la longitud de la lista 
@@ -1619,62 +1619,140 @@ text \<open>\comentario{Hacer la prueba detallada para mostrar los teoremas
 
 section \<open>Conectivas derivadas\<close>
 
-text \<open>En esta sección definiremos nuevas conectivas y elementos a partir 
-  de los ya definidos en el apartado anterior. Además veremos varios 
-  resultados sobre los mismos.\<close>
+text \<open>En esta sección definiremos nuevas conectivas y fórmulas a partir 
+  de los ya definidos en el apartado anterior, junto con varios 
+  resultados sobre los mismos. Veamos el primero.
 
-text \<open>En primer lugar, vamos a definir \<open>Top:: 'a formula \<Rightarrow> bool\<close> como 
-  la constante  que devuelve el booleano contrario a \<open>Bot\<close>. Se trata, 
-  por tanto, de una constante de la misma naturaleza que la ya definida 
-  para \<open>Bot\<close>. De este modo, \<open>Top\<close> será equivalente a \<open>Verdadero\<close>, y 
-  \<open>Bot\<close> a \<open>Falso\<close>, según se muestra en la siguiente ecuación. Su símbolo 
-  queda igualmente retratado a continuación.\<close>
+  \begin{definicion}
+    Se define la fórmula \<open>\<top>\<close> como la implicación \<open>\<bottom> \<longrightarrow> \<bottom>\<close>.
+  \end{definicion}
+
+  Se formaliza del siguiente modo.\<close>
 
 definition Top ("\<top>") where
   "\<top> \<equiv> \<bottom> \<^bold>\<rightarrow> \<bottom>"
- 
+
+text \<open>Como podemos observar, se define mediante una relación de 
+  equivalencia con otra fórmula ya conocida. El uso de dicha 
+  equivalencia justifica el tipo @{term "definition"} empleado en este 
+  caso. 
+
+  Por la propia definición, es claro que \<open>\<top>\<close> no contiene ninguna
+  variable proposicional, como se verifica a continuación en Isabelle.\<close>
+
+lemma "atoms \<top> = \<emptyset>"
+   by (simp only: Top_def formula.set Un_absorb)
+
+text \<open>\comentario{Añadir regla al glosario.}\<close>
+
 text \<open>\comentario{Añadir la doble implicación como conectiva derivada.}\<close>
 
-text \<open>Por la propia definición y naturaleza de \<open>Top\<close>, verifica que no 
-  contiene ninguna variable del alfabeto, como ya sabíamos análogamente 
-  para \<open>Bot\<close>. Tenemos así la siguiente propiedad.\<close>
+text \<open>A continuación vamos a definir dos conectivas que generalizan la 
+  conjunción y la disyunción para una lista finita de fórmulas. En
+  particular, al ser aplicadas a listas, se definen conforme a la 
+  estructura recursiva de las mismas que se muestra a continuación. 
+  
+  \begin{definicion}
+    Las listas de fórmulas se definen recursivamente como sigue.
+    \begin{itemize}
+      \item La lista vacía es una lista.
+      \item Sea \<open>F\<close> una fórmula y \<open>Fs\<close> una lista de fórmulas. Entonces,
+        \<open>F#Fs\<close> es una lista de fórmulas.
+    \end{itemize}
+  \end{definicion} 
 
-lemma top_atoms_simp: "atoms \<top> = {}" 
-  unfolding Top_def by simp
+\comentario{Esta definición es un caso particular de listas. 
+  No se si incluir la definicion de estructura e inducción general}
 
-text \<open>A continuación vamos a definir dos conectivas que generalizarán la 
-  conjunción y la disyunción para una lista finita de fórmulas.\<close>
+  De este modo, se definen las conectivas plurales de acuerdo a la 
+  estructura recursiva anterior. Notemos que al referirnos simplemente 
+  a disyunción o conjunción nos referiremos a la de dos elementos.
 
-primrec BigAnd :: "'a formula list \<Rightarrow> 'a formula" ("\<^bold>\<And>_") where
+  \begin{definicion}
+  La conjunción plural de una lista de fórmulas se define recursivamente
+  como:
+    \begin{itemize}
+      \item La conjunción plural de la lista vacía es \<open>\<not>\<bottom>\<close>.
+      \item Sea \<open>F\<close> una fórmula y \<open>Fs\<close> una lista de fórmulas. Entonces,
+  la conjunción plural de \<open>F#Fs\<close> es la conjunción de \<open>F\<close> con la 
+  conjunción plural de \<open>Fs\<close>.
+    \end{itemize}
+  \end{definicion}
+
+  \begin{definicion}
+  La disyunción plural de una lista de fórmulas se define recursivamente
+  como:
+    \begin{itemize}
+      \item La disyunción plural de la lista vacía es \<open>\<not>\<bottom>\<close>.
+      \item Sea \<open>F\<close> una fórmula y \<open>Fs\<close> una lista de fórmulas. Entonces,
+  la disyunción plural de \<open>F#Fs\<close> es la disyunción de \<open>F\<close> con la 
+  disyunción plural de \<open>Fs\<close>.
+    \end{itemize}
+  \end{definicion}
+
+  Su formalización en Isabelle es la siguiente.
+
+  \comentario{Da error que no localizo}\<close>
+
+(*primrec BigAnd :: "'a formula list \<Rightarrow> 'a formula" ("\<^bold>\<And>_") where
   "\<^bold>\<And>Nil = (\<^bold>\<not>\<bottom>)" 
 | "\<^bold>\<And>(F#Fs) = F \<^bold>\<and> \<^bold>\<And>Fs"
 
 primrec BigOr :: "'a formula list \<Rightarrow> 'a formula" ("\<^bold>\<Or>_") where
   "\<^bold>\<Or>Nil = \<bottom>" 
-| "\<^bold>\<Or>(F#Fs) = F \<^bold>\<or> \<^bold>\<Or>Fs"
+| "\<^bold>\<Or>(F#Fs) = F \<^bold>\<or> \<^bold>\<Or>Fs"*)
 
-text \<open>Ambas nuevas conectivas se caracterizarán por ser del tipo 
-  funciones primitivas recursivas. Por tanto, sus definiciones se basan 
-  en dos casos:
-  \begin{description}
-    \item[Lista vacía:] Representada como \<open>Nil\<close>. En este caso, la 
-      conjunción plural aplicada a la lista vacía nos devuelve la 
-      negación de \<open>Bot\<close>, es decir, \<open>Verdadero\<close>, y la disyunción plural 
-      sobre la lista vacía nos da simplemente \<open>Bot\<close>, luego \<open>Falso\<close>. 
-    \item[Lista recursiva:] En este caso actúa sobre \<open>F#Fs\<close> donde \<open>F\<close> 
-      es una fórmula concatenada a la lista de fórmulas \<open>Fs\<close>. Como es 
-      lógico, @{term BigAnd} nos devuelve la conjunción de todas las 
-      fórmulas de la lista y @{term BigOr} nos devuelve su disyunción.
-  \end{description}
+text \<open>Ambas nuevas conectivas se definen con el tipo funciones 
+  primitivas recursivas. Estas se basan en los dos casos descritos
+  anteriormente: la lista vacía representada como \<open>Nil\<close> y la lista
+  construida añadiendo una fórmula a una lista de fórmulas. 
+  Además, se observa en cada conectiva plural el nuevo símbolo de 
+  notación que aparece entre paréntesis.
 
-  Además, se observa en cada función el símbolo de notación que aparece 
-  entre paréntesis.
+  Por otro lado, como es habitual, estas definiciones recursivas llevan
+  asociado el correspondiente esquema inductivo de demostración. En
+  este caso, se trata de la inducción para la estructura de lista de 
+  fórmulas.
 
-  La conjunción plural nos da el siguiente resultado.\<close>
+  \begin{definicion}
+    Sea \<open>\<P>\<close> una propiedad sobre lista de fórmulas proposicionales que 
+    verifica las siguientes condiciones:
+    \begin{itemize}
+     \item La lista vacía la verifica.
+     \item Dada una fórmula \<open>F\<close> y una lista de fórmulas \<open>Fs\<close> que la
+      verifican, entonces \<open>F#Fs\<close> la verifica.
+    \end{itemize}
+    Entonces, todas las listas de fórmulas proposicionales tienen la 
+    propiedad \<open>\<P>\<close>. 
+  \end{definicion}
 
-lemma atoms_BigAnd[simp]: "atoms (\<^bold>\<And>Fs) = \<Union>(atoms ` set Fs)"
-  by (induction Fs; simp)
+  La conjunción plural nos da el siguiente resultado.
 
+\comentario{Añadir lema a mano y demostración. Falta demostración en Isabelle.}\<close>
+
+(*lemma "atoms (\<^bold>\<And>Fs) = \<Union>(atoms ` set Fs)"
+proof (induction Fs)
+  case Nil
+    have "atoms (\<^bold>\<And>Nil) = atoms (\<^bold>\<not>\<bottom>)" 
+      by (simp only: BigAnd.simps(1))
+    also have "\<dots> = atoms \<bottom>" 
+      by (simp only: formula.set(3))
+    also have "\<dots> = \<emptyset>" 
+      by (simp only: formula.set)
+    also have "\<dots> =  \<Union> atoms ` \<emptyset>" 
+      by (simp only: list.set) 
+  then show ?case 
+next
+case (Cons a Fs)
+  assume H:"atoms (\<^bold>\<And>Fs) = \<Union>(atoms ` set Fs)" 
+  show "atoms
+  then show ?case sorry
+qed*)
+
+(*text \<open>Su demostración automática es la siguiente.\<close>
+
+lemma atoms_BigAnd: "atoms (\<^bold>\<And>Fs) = \<Union>(atoms ` set Fs)"
+  by (induction Fs; simp)*)
 
 (*<*)
 end

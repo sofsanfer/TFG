@@ -265,7 +265,7 @@ Una vez definida la estructura de las fórmulas, vamos a introducir
   esquema de inducción sobre las mismas:
 
   \begin{definicion}
-    Sea \isa{{\isasymphi}} una propiedad sobre fórmulas que verifica las siguientes 
+    Sea \isa{{\isasymP}} una propiedad sobre fórmulas que verifica las siguientes 
     condiciones:
     \begin{itemize}
       \item Las fórmulas atómicas la cumplen.
@@ -275,7 +275,7 @@ Una vez definida la estructura de las fórmulas, vamos a introducir
         cumple, donde \isa{{\isacharasterisk}} simboliza cualquier conectiva binaria.
     \end{itemize}
     Entonces, todas las fórmulas proposicionales tienen la propiedad 
-    \isa{{\isasymphi}}.
+    \isa{{\isasymP}}.
   \end{definicion}
 
   Análogamente, como las fórmulas proposicionales están definidas 
@@ -3363,7 +3363,7 @@ Mostremos ahora la demostración automática.%
 \end{isamarkuptext}\isamarkuptrue%
 %
 \begin{isamarkuptext}%
-HASTA AQUÍ HE TRABAJADO: 24/11/19%
+\comentario{Completar lo que falta de sección}%
 \end{isamarkuptext}\isamarkuptrue%
 %
 \begin{isamarkuptext}%
@@ -3503,100 +3503,131 @@ Las demostración del resultado se vuelve a basar en la inducción
 \endisadelimdocument
 %
 \begin{isamarkuptext}%
-En esta sección definiremos nuevas conectivas y elementos a partir 
-  de los ya definidos en el apartado anterior. Además veremos varios 
-  resultados sobre los mismos.%
-\end{isamarkuptext}\isamarkuptrue%
-%
-\begin{isamarkuptext}%
-En primer lugar, vamos a definir \isa{Top{\isacharcolon}{\isacharcolon}\ {\isacharprime}a\ formula\ {\isasymRightarrow}\ bool} como 
-  la constante  que devuelve el booleano contrario a \isa{Bot}. Se trata, 
-  por tanto, de una constante de la misma naturaleza que la ya definida 
-  para \isa{Bot}. De este modo, \isa{Top} será equivalente a \isa{Verdadero}, y 
-  \isa{Bot} a \isa{Falso}, según se muestra en la siguiente ecuación. Su símbolo 
-  queda igualmente retratado a continuación.%
+En esta sección definiremos nuevas conectivas y fórmulas a partir 
+  de los ya definidos en el apartado anterior, junto con varios 
+  resultados sobre los mismos. Veamos el primero.
+
+  \begin{definicion}
+    Se define la fórmula \isa{{\isasymtop}} como la implicación \isa{{\isasymbottom}\ {\isasymlongrightarrow}\ {\isasymbottom}}.
+  \end{definicion}
+
+  Se formaliza del siguiente modo.%
 \end{isamarkuptext}\isamarkuptrue%
 \isacommand{definition}\isamarkupfalse%
 \ Top\ {\isacharparenleft}{\isachardoublequoteopen}{\isasymtop}{\isachardoublequoteclose}{\isacharparenright}\ \isakeyword{where}\isanewline
 \ \ {\isachardoublequoteopen}{\isasymtop}\ {\isasymequiv}\ {\isasymbottom}\ \isactrlbold {\isasymrightarrow}\ {\isasymbottom}{\isachardoublequoteclose}%
 \begin{isamarkuptext}%
-\comentario{Añadir la doble implicación como conectiva derivada.}%
-\end{isamarkuptext}\isamarkuptrue%
-%
-\begin{isamarkuptext}%
-Por la propia definición y naturaleza de \isa{Top}, verifica que no 
-  contiene ninguna variable del alfabeto, como ya sabíamos análogamente 
-  para \isa{Bot}. Tenemos así la siguiente propiedad.%
+Como podemos observar, se define mediante una relación de 
+  equivalencia con otra fórmula ya conocida. El uso de dicha 
+  equivalencia justifica el tipo \isa{definition} empleado en este 
+  caso. 
+
+  Por la propia definición, es claro que \isa{{\isasymtop}} no contiene ninguna
+  variable proposicional, como se verifica a continuación en Isabelle.%
 \end{isamarkuptext}\isamarkuptrue%
 \isacommand{lemma}\isamarkupfalse%
-\ top{\isacharunderscore}atoms{\isacharunderscore}simp{\isacharcolon}\ {\isachardoublequoteopen}atoms\ {\isasymtop}\ {\isacharequal}\ {\isacharbraceleft}{\isacharbraceright}{\isachardoublequoteclose}\ \isanewline
+\ {\isachardoublequoteopen}atoms\ {\isasymtop}\ {\isacharequal}\ {\isasymemptyset}{\isachardoublequoteclose}\isanewline
 %
 \isadelimproof
-\ \ %
-\endisadelimproof
-%
-\isatagproof
-\isacommand{unfolding}\isamarkupfalse%
-\ Top{\isacharunderscore}def\ \isacommand{by}\isamarkupfalse%
-\ simp%
-\endisatagproof
-{\isafoldproof}%
-%
-\isadelimproof
-%
-\endisadelimproof
-%
-\begin{isamarkuptext}%
-A continuación vamos a definir dos conectivas que generalizarán la 
-  conjunción y la disyunción para una lista finita de fórmulas.%
-\end{isamarkuptext}\isamarkuptrue%
-\isacommand{primrec}\isamarkupfalse%
-\ BigAnd\ {\isacharcolon}{\isacharcolon}\ {\isachardoublequoteopen}{\isacharprime}a\ formula\ list\ {\isasymRightarrow}\ {\isacharprime}a\ formula{\isachardoublequoteclose}\ {\isacharparenleft}{\isachardoublequoteopen}\isactrlbold {\isasymAnd}{\isacharunderscore}{\isachardoublequoteclose}{\isacharparenright}\ \isakeyword{where}\isanewline
-\ \ {\isachardoublequoteopen}\isactrlbold {\isasymAnd}Nil\ {\isacharequal}\ {\isacharparenleft}\isactrlbold {\isasymnot}{\isasymbottom}{\isacharparenright}{\isachardoublequoteclose}\ \isanewline
-{\isacharbar}\ {\isachardoublequoteopen}\isactrlbold {\isasymAnd}{\isacharparenleft}F{\isacharhash}Fs{\isacharparenright}\ {\isacharequal}\ F\ \isactrlbold {\isasymand}\ \isactrlbold {\isasymAnd}Fs{\isachardoublequoteclose}\isanewline
-\isanewline
-\isacommand{primrec}\isamarkupfalse%
-\ BigOr\ {\isacharcolon}{\isacharcolon}\ {\isachardoublequoteopen}{\isacharprime}a\ formula\ list\ {\isasymRightarrow}\ {\isacharprime}a\ formula{\isachardoublequoteclose}\ {\isacharparenleft}{\isachardoublequoteopen}\isactrlbold {\isasymOr}{\isacharunderscore}{\isachardoublequoteclose}{\isacharparenright}\ \isakeyword{where}\isanewline
-\ \ {\isachardoublequoteopen}\isactrlbold {\isasymOr}Nil\ {\isacharequal}\ {\isasymbottom}{\isachardoublequoteclose}\ \isanewline
-{\isacharbar}\ {\isachardoublequoteopen}\isactrlbold {\isasymOr}{\isacharparenleft}F{\isacharhash}Fs{\isacharparenright}\ {\isacharequal}\ F\ \isactrlbold {\isasymor}\ \isactrlbold {\isasymOr}Fs{\isachardoublequoteclose}%
-\begin{isamarkuptext}%
-Ambas nuevas conectivas se caracterizarán por ser del tipo 
-  funciones primitivas recursivas. Por tanto, sus definiciones se basan 
-  en dos casos:
-  \begin{description}
-    \item[Lista vacía:] Representada como \isa{Nil}. En este caso, la 
-      conjunción plural aplicada a la lista vacía nos devuelve la 
-      negación de \isa{Bot}, es decir, \isa{Verdadero}, y la disyunción plural 
-      sobre la lista vacía nos da simplemente \isa{Bot}, luego \isa{Falso}. 
-    \item[Lista recursiva:] En este caso actúa sobre \isa{F{\isacharhash}Fs} donde \isa{F} 
-      es una fórmula concatenada a la lista de fórmulas \isa{Fs}. Como es 
-      lógico, \isa{BigAnd} nos devuelve la conjunción de todas las 
-      fórmulas de la lista y \isa{BigOr} nos devuelve su disyunción.
-  \end{description}
-
-  Además, se observa en cada función el símbolo de notación que aparece 
-  entre paréntesis.
-
-  La conjunción plural nos da el siguiente resultado.%
-\end{isamarkuptext}\isamarkuptrue%
-\isacommand{lemma}\isamarkupfalse%
-\ atoms{\isacharunderscore}BigAnd{\isacharbrackleft}simp{\isacharbrackright}{\isacharcolon}\ {\isachardoublequoteopen}atoms\ {\isacharparenleft}\isactrlbold {\isasymAnd}Fs{\isacharparenright}\ {\isacharequal}\ {\isasymUnion}{\isacharparenleft}atoms\ {\isacharbackquote}\ set\ Fs{\isacharparenright}{\isachardoublequoteclose}\isanewline
-%
-\isadelimproof
-\ \ %
+\ \ \ %
 \endisadelimproof
 %
 \isatagproof
 \isacommand{by}\isamarkupfalse%
-\ {\isacharparenleft}induction\ Fs{\isacharsemicolon}\ simp{\isacharparenright}\isanewline
-\isanewline
-%
+\ {\isacharparenleft}simp\ only{\isacharcolon}\ Top{\isacharunderscore}def\ formula{\isachardot}set\ Un{\isacharunderscore}absorb{\isacharparenright}%
 \endisatagproof
 {\isafoldproof}%
 %
 \isadelimproof
 %
 \endisadelimproof
+%
+\begin{isamarkuptext}%
+\comentario{Añadir regla al glosario.}%
+\end{isamarkuptext}\isamarkuptrue%
+%
+\begin{isamarkuptext}%
+\comentario{Añadir la doble implicación como conectiva derivada.}%
+\end{isamarkuptext}\isamarkuptrue%
+%
+\begin{isamarkuptext}%
+A continuación vamos a definir dos conectivas que generalizan la 
+  conjunción y la disyunción para una lista finita de fórmulas. En
+  particular, al ser aplicadas a listas, se definen conforme a la 
+  estructura recursiva de las mismas que se muestra a continuación. 
+  
+  \begin{definicion}
+    Las listas de fórmulas se definen recursivamente como sigue.
+    \begin{itemize}
+      \item La lista vacía es una lista.
+      \item Sea \isa{F} una fórmula y \isa{Fs} una lista de fórmulas. Entonces,
+        \isa{F{\isacharhash}Fs} es una lista de fórmulas.
+    \end{itemize}
+  \end{definicion} 
+
+\comentario{Esta definición es un caso particular de listas. 
+  No se si incluir la definicion de estructura e inducción general}
+
+  De este modo, se definen las conectivas plurales de acuerdo a la 
+  estructura recursiva anterior. Notemos que al referirnos simplemente 
+  a disyunción o conjunción nos referiremos a la de dos elementos.
+
+  \begin{definicion}
+  La conjunción plural de una lista de fórmulas se define recursivamente
+  como:
+    \begin{itemize}
+      \item La conjunción plural de la lista vacía es \isa{{\isasymnot}{\isasymbottom}}.
+      \item Sea \isa{F} una fórmula y \isa{Fs} una lista de fórmulas. Entonces,
+  la conjunción plural de \isa{F{\isacharhash}Fs} es la conjunción de \isa{F} con la 
+  conjunción plural de \isa{Fs}.
+    \end{itemize}
+  \end{definicion}
+
+  \begin{definicion}
+  La disyunción plural de una lista de fórmulas se define recursivamente
+  como:
+    \begin{itemize}
+      \item La disyunción plural de la lista vacía es \isa{{\isasymnot}{\isasymbottom}}.
+      \item Sea \isa{F} una fórmula y \isa{Fs} una lista de fórmulas. Entonces,
+  la disyunción plural de \isa{F{\isacharhash}Fs} es la disyunción de \isa{F} con la 
+  disyunción plural de \isa{Fs}.
+    \end{itemize}
+  \end{definicion}
+
+  Su formalización en Isabelle es la siguiente.
+
+  \comentario{Da error que no localizo}%
+\end{isamarkuptext}\isamarkuptrue%
+%
+\begin{isamarkuptext}%
+Ambas nuevas conectivas se definen con el tipo funciones 
+  primitivas recursivas. Estas se basan en los dos casos descritos
+  anteriormente: la lista vacía representada como \isa{Nil} y la lista
+  construida añadiendo una fórmula a una lista de fórmulas. 
+  Además, se observa en cada conectiva plural el nuevo símbolo de 
+  notación que aparece entre paréntesis.
+
+  Por otro lado, como es habitual, estas definiciones recursivas llevan
+  asociado el correspondiente esquema inductivo de demostración. En
+  este caso, se trata de la inducción para la estructura de lista de 
+  fórmulas.
+
+  \begin{definicion}
+    Sea \isa{{\isasymP}} una propiedad sobre lista de fórmulas proposicionales que 
+    verifica las siguientes condiciones:
+    \begin{itemize}
+     \item La lista vacía la verifica.
+     \item Dada una fórmula \isa{F} y una lista de fórmulas \isa{Fs} que la
+      verifican, entonces \isa{F{\isacharhash}Fs} la verifica.
+    \end{itemize}
+    Entonces, todas las listas de fórmulas proposicionales tienen la 
+    propiedad \isa{{\isasymP}}. 
+  \end{definicion}
+
+  La conjunción plural nos da el siguiente resultado.
+
+\comentario{Añadir lema a mano y demostración. Falta demostración en Isabelle.}%
+\end{isamarkuptext}\isamarkuptrue%
 %
 \isadelimtheory
 %
@@ -6172,57 +6203,99 @@ Ambas nuevas conectivas se caracterizarán por ser del tipo
 %:%3506=1622%:%
 %:%3507=1623%:%
 %:%3508=1624%:%
-%:%3512=1626%:%
-%:%3513=1627%:%
-%:%3514=1628%:%
-%:%3515=1629%:%
-%:%3516=1630%:%
-%:%3517=1631%:%
-%:%3519=1633%:%
-%:%3520=1633%:%
-%:%3521=1634%:%
-%:%3523=1636%:%
-%:%3527=1638%:%
-%:%3528=1639%:%
-%:%3529=1640%:%
-%:%3531=1642%:%
-%:%3532=1642%:%
-%:%3535=1643%:%
-%:%3539=1643%:%
-%:%3540=1643%:%
-%:%3541=1643%:%
-%:%3550=1645%:%
-%:%3551=1646%:%
-%:%3553=1648%:%
-%:%3554=1648%:%
-%:%3555=1649%:%
-%:%3556=1650%:%
-%:%3557=1651%:%
-%:%3558=1652%:%
-%:%3559=1652%:%
-%:%3560=1653%:%
-%:%3561=1654%:%
-%:%3563=1656%:%
-%:%3564=1657%:%
-%:%3565=1658%:%
-%:%3566=1659%:%
-%:%3567=1660%:%
-%:%3568=1661%:%
-%:%3569=1662%:%
-%:%3570=1663%:%
-%:%3571=1664%:%
-%:%3572=1665%:%
-%:%3573=1666%:%
-%:%3574=1667%:%
-%:%3575=1668%:%
-%:%3576=1669%:%
-%:%3577=1670%:%
-%:%3578=1671%:%
-%:%3579=1672%:%
-%:%3580=1673%:%
-%:%3582=1675%:%
-%:%3583=1675%:%
-%:%3586=1676%:%
-%:%3590=1676%:%
-%:%3591=1676%:%
-%:%3592=1677%:%
+%:%3509=1625%:%
+%:%3510=1626%:%
+%:%3511=1627%:%
+%:%3512=1628%:%
+%:%3513=1629%:%
+%:%3514=1630%:%
+%:%3516=1632%:%
+%:%3517=1632%:%
+%:%3518=1633%:%
+%:%3520=1635%:%
+%:%3521=1636%:%
+%:%3522=1637%:%
+%:%3523=1638%:%
+%:%3524=1639%:%
+%:%3525=1640%:%
+%:%3526=1641%:%
+%:%3528=1643%:%
+%:%3529=1643%:%
+%:%3532=1644%:%
+%:%3536=1644%:%
+%:%3537=1644%:%
+%:%3546=1646%:%
+%:%3550=1648%:%
+%:%3554=1650%:%
+%:%3555=1651%:%
+%:%3556=1652%:%
+%:%3557=1653%:%
+%:%3558=1654%:%
+%:%3559=1655%:%
+%:%3560=1656%:%
+%:%3561=1657%:%
+%:%3562=1658%:%
+%:%3563=1659%:%
+%:%3564=1660%:%
+%:%3565=1661%:%
+%:%3566=1662%:%
+%:%3567=1663%:%
+%:%3568=1664%:%
+%:%3569=1665%:%
+%:%3570=1666%:%
+%:%3571=1667%:%
+%:%3572=1668%:%
+%:%3573=1669%:%
+%:%3574=1670%:%
+%:%3575=1671%:%
+%:%3576=1672%:%
+%:%3577=1673%:%
+%:%3578=1674%:%
+%:%3579=1675%:%
+%:%3580=1676%:%
+%:%3581=1677%:%
+%:%3582=1678%:%
+%:%3583=1679%:%
+%:%3584=1680%:%
+%:%3585=1681%:%
+%:%3586=1682%:%
+%:%3587=1683%:%
+%:%3588=1684%:%
+%:%3589=1685%:%
+%:%3590=1686%:%
+%:%3591=1687%:%
+%:%3592=1688%:%
+%:%3593=1689%:%
+%:%3594=1690%:%
+%:%3595=1691%:%
+%:%3596=1692%:%
+%:%3597=1693%:%
+%:%3598=1694%:%
+%:%3599=1695%:%
+%:%3603=1705%:%
+%:%3604=1706%:%
+%:%3605=1707%:%
+%:%3606=1708%:%
+%:%3607=1709%:%
+%:%3608=1710%:%
+%:%3609=1711%:%
+%:%3610=1712%:%
+%:%3611=1713%:%
+%:%3612=1714%:%
+%:%3613=1715%:%
+%:%3614=1716%:%
+%:%3615=1717%:%
+%:%3616=1718%:%
+%:%3617=1719%:%
+%:%3618=1720%:%
+%:%3619=1721%:%
+%:%3620=1722%:%
+%:%3621=1723%:%
+%:%3622=1724%:%
+%:%3623=1725%:%
+%:%3624=1726%:%
+%:%3625=1727%:%
+%:%3626=1728%:%
+%:%3627=1729%:%
+%:%3628=1730%:%
+%:%3629=1731%:%
