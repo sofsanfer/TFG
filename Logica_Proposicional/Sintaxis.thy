@@ -61,6 +61,12 @@ text \<open>En esta sección presentaremos una formalización en Isabelle de la
       \item Dadas dos fórmulas \<open>F\<close> y \<open>G\<close>, la implicación \<open>F \<longrightarrow> G\<close> es 
         una fórmula.
     \end{itemize}
+  La demostración estructurada se hace de manera sencilla con el 
+  resultado introducido anteriormente. 
+
+  La demostración estructurada se hace de manera sencilla con el 
+  resultado introducido anteriormente. 
+
   \end{definicion}
 
   Intuitivamente, las fórmulas proposicionales son entendidas como un 
@@ -480,9 +486,13 @@ lemma setSubformulae_atom:
   "setSubformulae (Atom p) = {Atom p}"
     by (simp only: subformulae.simps(1) list.set)
 
+text\<open>\comentario{La demostración anterior se puede simplificar.}\<close>
+
 lemma setSubformulae_bot:
   "setSubformulae (\<bottom>) = {\<bottom>}"
     by (simp only: subformulae.simps(2) list.set)
+
+text\<open>\comentario{La demostración anterior se puede simplificar.}\<close>
 
 lemma setSubformulae_not:
   shows "setSubformulae (\<^bold>\<not> F) = {\<^bold>\<not> F} \<union> setSubformulae F"
@@ -1161,15 +1171,58 @@ text \<open>A continuación voy a introducir un lema que no pertenece a la
   teoría original de Isabelle pero facilita las siguientes 
   demostraciones detalladas mediante contenciones en cadena.
 
+  \comentario{Reescribir el siguiente enunciado.}
+
   \begin{lema}
+<<<<<<< HEAD
+    Sea \<open>G \<in> Subf(F)\<close>, entonces el conjunto de átomos de \<open>G\<close> está 
+    contenido en el de \<open>F\<close>.
+  \end{lema} 
+
+  \comentario{Reescribir la siguiente demostración.}
+
+=======
     Sea \<open>G\<close> subfórmula de \<open>F\<close>, entonces el conjunto de subfórmulas de 
     \<open>G\<close> está contenido en el de \<open>F\<close>.
   \end{lema} 
 
+>>>>>>> upstream/master
   \begin{demostracion}
   La prueba es por inducción en la estructura de fórmula.
   
   Sea \<open>p\<close> una fórmula atómica cualquiera. Entonces, bajo las
+<<<<<<< HEAD
+  condiciones del lema se tiene que \<open>G = p\<close>. Por lo tanto, tiene igual
+  conjunto de átomos.
+
+  Sea la fórmula \<open>\<bottom>\<close>. Entonces, \<open>G = \<bottom>\<close> y tienen igual conjunto de
+  átomos vacío.
+
+  Sea una fórmula \<open>F\<close> tal que para toda subfórmula \<open>G\<close>, se tiene que el
+  conjunto de átomos de \<open>G\<close> está contenido en el de \<open>F\<close>. Veamos la
+  propiedad para \<open>\<not> F\<close>. Sea \<open>G' \<in> Subf(\<not> F) = {\<not> F} \<union> Subf(F)\<close>. 
+  Entonces \<open>G' \<in> {\<not> F}\<close> o \<open>G' \<in> Subf(F)\<close>. 
+  Del primer caso se obtiene que \<open>G' = \<not> F\<close> y, por tanto, tienen igual 
+  conjunto de átomos. Del segundo caso se tiene \<open>G' \<in> Subf(F)\<close> y, por 
+  hipótesis de inducción, el conjunto de átomos de \<open>G'\<close> está contenido 
+  en el de \<open>F\<close>. Además, como el conjunto de átomos de \<open>F\<close> y \<open>\<not> F\<close> es el 
+  mismo, se tiene la propiedad.
+
+  Sean las fórmulas \<open>F1\<close> y \<open>F2\<close> tales que para cualquier subfórmula \<open>G1\<close>
+  de \<open>F1\<close> el conjunto de átomos de \<open>G1\<close> está contenido en el de \<open>F1\<close>, y
+  para cualquier subfórmula \<open>G2\<close> de \<open>F2\<close> el conjunto de átomos de \<open>G2\<close>
+  está contenido en el de \<open>F2\<close>. Veamos que se verifica la propiedad
+  para \<open>F1*F2\<close> donde \<open>*\<close> es cualquier conectiva binaria. 
+  Sea \<open>G' \<in> Subf(F1*F2) = {F1*F2} \<union> Subf(F1) \<union> Subf(F2)\<close>. De este modo,
+  tenemos tres casos: \<open>G' \<in> {F1*F2}\<close> o \<open>G' \<in> Subf(F1)\<close> o 
+  \<open>G' \<in> Subf(F2)\<close>. De la primera opción se deduce \<open>G' = F1*F2\<close> y, por
+  tanto, tienen igual conjunto de átomos. Por otro lado, si 
+  \<open>G' \<in> Subf(F1)\<close>, por hipótesis de inducción se tiene que el conjunto
+  de átomos de \<open>G'\<close> está contenido en el de \<open>F1\<close>. Por tanto, como el
+  conjunto de átomos de \<open>F1*F2\<close> es la unión del conjunto de átomos de 
+  \<open>F1\<close> y el de \<open>F2\<close>, se verifica la propiedad. El caso \<open>G' \<in> Subf(F2)\<close>
+  es análogo cambiando el índice de la fórmula.   
+=======
   condiciones del lema se tiene que \<open>G = p\<close>. Por lo tanto, tienen igual
   conjunto de subfórmulas.
 
@@ -1203,10 +1256,112 @@ text \<open>A continuación voy a introducir un lema que no pertenece a la
   de \<open>F1*F2\<close>, se verifica la propiedad por la transitividad de la 
   contención en cadena. El caso \<open>G' \<in> Subf(F2)\<close> es análogo cambiando el 
   índice de la fórmula.   
+>>>>>>> upstream/master
   \end{demostracion}\<close>
 
 text \<open>Veamos su formalización en Isabelle junto con su demostración 
   estructurada.\<close>
+<<<<<<< HEAD
+
+text \<open>\comentario{Hacer las demostraciones detalladas (es decir, usando 
+  sólo "simp only", rule o this) de todos los lemas siguientes siguiendo 
+  el patrón de los anteriores (es decir, demostrando cada caso de la 
+  inducción de la fórmula como un lema independiente).}\<close>
+
+lemma subsubformulae_estructurada:
+  "G \<in> setSubformulae F \<Longrightarrow> setSubformulae G \<subseteq> setSubformulae F"
+proof (induction F)
+  case (Atom x)
+  then show ?case by simp \<comment> \<open>Pendiente\<close>
+next
+  case Bot
+  then show ?case by simp \<comment> \<open>Pendiente\<close>
+next
+  case (Not F)
+  assume H1: "G \<in> setSubformulae F \<Longrightarrow> 
+              setSubformulae G \<subseteq> setSubformulae F"
+  assume H2: "G \<in> setSubformulae (Not F)"
+  then show "setSubformulae G \<subseteq> setSubformulae (Not F)"
+  proof (cases "G = Not F")
+    case True
+    then show ?thesis by simp \<comment> \<open>Pendiente\<close>
+  next
+    case False
+    then have "G \<noteq> Not F" 
+      by simp \<comment> \<open>Pendiente\<close>
+    then have "G \<in> setSubformulae F" 
+      using H2 
+      by simp \<comment> \<open>Pendiente\<close>
+    then have 1:"setSubformulae G \<subseteq> setSubformulae F" 
+      using H1 
+      by simp \<comment> \<open>Pendiente\<close>
+    have "setSubformulae (Not F) = {Not F} \<union> setSubformulae F" 
+      by simp \<comment> \<open>Pendiente\<close>
+    have "setSubformulae F \<subseteq> {Not F} \<union> setSubformulae F" 
+      by (rule Un_upper2)
+    then have 2:"setSubformulae F \<subseteq> setSubformulae (Not F)" 
+      by simp \<comment> \<open>Pendiente\<close>
+    show "setSubformulae G \<subseteq> setSubformulae (Not F)" 
+      using 1 2 by (rule subset_trans)
+  qed
+next
+  case (And F1 F2)
+  then show ?case by auto \<comment> \<open>Pendiente\<close>
+next
+  case (Or F1 F2)
+  then show ?case by auto \<comment> \<open>Pendiente\<close>
+next
+  case (Imp F1 F2)
+  assume H3: "G \<in> setSubformulae F1 \<Longrightarrow> 
+              setSubformulae G \<subseteq> setSubformulae F1"
+  assume H4: "G \<in> setSubformulae F2 \<Longrightarrow> 
+              setSubformulae G \<subseteq> setSubformulae F2"
+  assume H5: "G \<in> setSubformulae (Imp F1 F2)"
+  have 4: "setSubformulae (Imp F1 F2) = 
+           {Imp F1 F2} \<union> (setSubformulae F1 \<union> setSubformulae F2)" 
+    by simp \<comment> \<open>Pendiente\<close>
+  then show "setSubformulae G \<subseteq> setSubformulae (Imp F1 F2)"
+  proof (cases "G = Imp F1 F2")
+    case True
+    then show ?thesis by simp \<comment> \<open>Pendiente\<close>
+  next
+    case False
+    then have 5: "G \<noteq> Imp F1 F2" 
+      by simp \<comment> \<open>Pendiente\<close>
+    have "setSubformulae F1 \<union> setSubformulae F2 \<subseteq> 
+          {Imp F1 F2} \<union> (setSubformulae F1 \<union> setSubformulae F2)" 
+      by (rule Un_upper2)
+    then have 6: "setSubformulae F1 \<union> setSubformulae F2 \<subseteq> 
+                  setSubformulae (Imp F1 F2)" 
+      by simp \<comment> \<open>Pendiente\<close>
+    then show "setSubformulae G \<subseteq> setSubformulae (Imp F1 F2)"
+    proof (cases "G \<in> setSubformulae F1")
+      case True
+      then have "G \<in> setSubformulae F1" 
+        by simp \<comment> \<open>Pendiente\<close>
+      then have 7:"setSubformulae G \<subseteq> setSubformulae F1" 
+        using H3 by simp \<comment> \<open>Pendiente\<close>
+      have 8:"setSubformulae F1 \<subseteq> setSubformulae (Imp F1 F2)" 
+        using 6 by (rule subContUnionRev1)  
+      show "setSubformulae G \<subseteq> setSubformulae (Imp F1 F2)" 
+        using 7 8 by (rule subset_trans)
+    next
+      case False
+      then have 9:"G \<notin> setSubformulae F1" 
+        by simp \<comment> \<open>Pendiente\<close>
+      have "G \<in> setSubformulae F1 \<union> setSubformulae F2" 
+        using 5 H5 by simp \<comment> \<open>Pendiente\<close>
+      then have "G \<in> setSubformulae F2" 
+        using 9 by simp \<comment> \<open>Pendiente\<close>
+      then have 10:"setSubformulae G \<subseteq> setSubformulae F2" 
+        using H4 by simp \<comment> \<open>Pendiente\<close>
+      have 11:"setSubformulae F2 \<subseteq> setSubformulae (Imp F1 F2)" 
+        using 6 by simp \<comment> \<open>Pendiente\<close>
+      show "setSubformulae G \<subseteq> setSubformulae (Imp F1 F2)" 
+        using 10 11 by (rule subset_trans)
+    qed
+  qed
+=======
 
 lemma subContsubformulae_atom: 
   assumes "G \<in> setSubformulae (Atom x)" 
@@ -1428,23 +1583,40 @@ next
 next
   case (Imp F1 F2)
   then show ?case by (rule subContsubformulae_imp)
+>>>>>>> upstream/master
 qed
 
 text \<open>Finalmente, su demostración automática se muestra a continuación.\<close>
 
+<<<<<<< HEAD
+lemma subformulae_setSubformulae:
+=======
 lemma subContsubformulae:
+>>>>>>> upstream/master
   "G \<in> setSubformulae F \<Longrightarrow> setSubformulae G \<subseteq> setSubformulae F"
   by (induction F) auto
   
 text \<open>El siguiente lema nos da la noción de transitividad de contención 
   en cadena de las subfórmulas, de modo que la subfórmula de una 
+<<<<<<< HEAD
+  subfórmula es del mismo modo subfórmula de la mayor. 
+ 
+  \comentario{Reescribir el siguiente enunciado.}
+=======
   subfórmula es del mismo modo subfórmula de la mayor.
+>>>>>>> upstream/master
 
   \begin{lema}
     Sean \<open>G\<close> subfórmula de \<open>F\<close> y \<open>H\<close> subfórmula de \<open>G\<close>, entonces 
     \<open>H\<close> es subfórmula de \<open>F\<close>.
   \end{lema}
 
+<<<<<<< HEAD
+  \comentario{Añadir prueba clásica y detallar más en Isabelle}
+
+  \begin{demostracion}
+  La prueba está basada en el lema anterior. 
+=======
   \begin{demostracion}
   La prueba está basada en el lema anterior. Hemos demostrado que como 
   \<open>G\<close> es subfórmula de \<open>F\<close>, entonces el conjunto de átomos de \<open>G\<close> está
@@ -1454,6 +1626,7 @@ text \<open>El siguiente lema nos da la noción de transitividad de contención
   \<open>H\<close> está contenido en el de \<open>F\<close>. Por otro lema anterior, tenemos que
   \<open>H\<close> pertenece a su propio conjunto de subfórmulas. Por tanto,
   \<open>H \<in> Subf(H) \<subseteq> Subf(F) \<Longrightarrow> H \<in> Subf(F)\<close>.
+>>>>>>> upstream/master
   \end{demostracion}
 
   Veamos su formalización y prueba estructurada en Isabelle.
@@ -1486,6 +1659,9 @@ lemma subsubformulae:
 
 text \<open>comentario{Explicar el cambio de enunciado}\<close>
 
+text \<open>comentario{Explicar el cambio de enunciado y el uso de la táctica 
+  force}\<close>
+
 text \<open>A continuación presentamos otro resultado que relaciona los 
   conjuntos de subfórmulas según las conectivas que operen.\<close>
 
@@ -1506,7 +1682,27 @@ text \<open>Como podemos observar, el resultado es análogo en todas las
 
   Nos basaremos en el lema anterior @{term "subsubformulae"}.\<close>
 
+<<<<<<< HEAD
+lemma subformulas_in_subformulas_conjuncion_estructurada:
+  assumes "And G H \<in> setSubformulae F" 
+  shows "G \<in> setSubformulae F \<and> H \<in> setSubformulae F"
+proof (rule conjI)
+  have 1: "setSubformulae (And G H) = 
+          {And G H} \<union> setSubformulae G \<union> setSubformulae H" 
+    by simp \<comment> \<open>Pendiente\<close>
+  then have 2: "G \<in> setSubformulae (And G H)" 
+    by (simp add: subformulae_self) 
+  have 3: "H \<in> setSubformulae (And G H)" 
+    using 1 
+    by (simp add: subformulae_self) \<comment> \<open>Pendiente\<close> 
+  show "G \<in> setSubformulae F" using assms 2 by (rule subsubformulae)
+  show "H \<in> setSubformulae F" using assms 3 by (rule subsubformulae)
+qed
+
+lemma subformulas_in_subformulas_negacion_estructurada:
+=======
 lemma subformulas_in_subformulas_not:
+>>>>>>> upstream/master
   assumes "Not G \<in> setSubformulae F"
   shows "G \<in> setSubformulae F"
 proof -
@@ -1730,6 +1926,10 @@ text \<open>Ambas nuevas conectivas se definen con el tipo funciones
 
 \comentario{Añadir lema a mano y demostración. Falta demostración en Isabelle.}\<close>
 
+<<<<<<< HEAD
+lemma atoms_BigAnd[simp]: "atoms (\<^bold>\<And>Fs) = \<Union>(atoms ` set Fs)"
+  by (induction Fs; simp)
+=======
 (*lemma "atoms (\<^bold>\<And>Fs) = \<Union>(atoms ` set Fs)"
 proof (induction Fs)
   case Nil
@@ -1750,6 +1950,7 @@ case (Cons a Fs)
 qed*)
 
 (*text \<open>Su demostración automática es la siguiente.\<close>
+>>>>>>> upstream/master
 
 lemma atoms_BigAnd: "atoms (\<^bold>\<And>Fs) = \<Union>(atoms ` set Fs)"
   by (induction Fs; simp)*)
