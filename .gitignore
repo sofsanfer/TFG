@@ -240,4 +240,8 @@ TSWLatexianTemp*
 
 # generated if using elsarticle.cls
 *.spl
-/Logica_Proposicional/lemas.txt
+
+# Salida de Isabelle
+*.thy~
+output/
+
