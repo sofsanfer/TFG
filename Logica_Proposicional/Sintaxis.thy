@@ -13,10 +13,7 @@ begin
 section \<open>Fórmulas\<close>
 
 text \<open>\comentario{Explicar la siguiente notación y recolocarla donde se
-  use por primera vez.}
-
-  \comentario{He quitado la palabra "continuación" del fichero 
-  castellano.tex ya que no dejaba cargar el documento}\<close>
+  use por primera vez.}\<close>
 
 notation insert ("_ \<triangleright> _" [56,55] 55)
 
@@ -81,15 +78,15 @@ datatype (atoms: 'a) formula =
 
 text \<open>Como podemos observar representamos las fórmulas proposicionales
   mediante un tipo de dato recursivo, @{term "formula"}, con los 
-  siguientes constructures sobre un tipo \<open>'a\<close> cualquiera:
+  siguientes constructores sobre un tipo cualquiera:
 
   \begin{description}
-    \item[Fórmulas básicas:]  
+    \item[Fórmulas básicas]:
       \begin{itemize}
         \item @{const_typ Atom}
         \item @{const_typ Bot}
       \end{itemize}
-    \item [Fórmulas compuestas:]
+    \item [Fórmulas compuestas]:
       \begin{itemize}
         \item @{const_typ Not}
         \item @{const_typ And}
@@ -187,6 +184,8 @@ text \<open>Una vez definida la estructura de las fórmulas, vamos a introducir
     Entonces, todas las fórmulas proposicionales tienen la propiedad 
     \<open>\<P>\<close>.
   \end{definicion}
+
+  \comentario{Lo anterior no es una definición.}
 
   Análogamente, como las fórmulas proposicionales están definidas 
   mediante un tipo de datos recursivo, Isabelle genera de forma 
@@ -364,6 +363,8 @@ next
   case (Imp F1 F2)
   then show ?case by (simp only: atoms_finite_imp)
 qed
+
+text \<open>\comentario{Usar símbolos lógicos en la demostración anterior.}\<close>
 
 text \<open>Su demostración automática es la siguiente.\<close>
 
@@ -545,7 +546,7 @@ text \<open>Una vez probada la equivalencia, comencemos con los resultados
   siguiente propiedad como consecuencia directa de la equivalencia de 
   funciones anterior.
 
-  \comentario{Reescribir el siguiente enunciado y demostración.}
+  \comentario{Reescribir el siguiente enunciado y su demostración.}
 
   \begin{lema}
     \<open>F \<in> Subf(F)\<close>.
@@ -585,20 +586,22 @@ next
 next
   case (Not F)
   then show ?case 
-    by (simp add: insertI1 setSubformulae_not)
+    by (simp add: insertI1 setSubformulae_not) \<comment> \<open>Pendiente\<close>
 next
 case (And F1 F2)
   then show ?case 
-    by (simp add: insertI1 setSubformulae_and)
+    by (simp add: insertI1 setSubformulae_and) \<comment> \<open>Pendiente\<close>
 next
 case (Or F1 F2)
   then show ?case 
-    by (simp add: insertI1 setSubformulae_or)
+    by (simp add: insertI1 setSubformulae_or) \<comment> \<open>Pendiente\<close>
 next
 case (Imp F1 F2)
   then show ?case 
-    by (simp add: insertI1 setSubformulae_imp)
+    by (simp add: insertI1 setSubformulae_imp) \<comment> \<open>Pendiente\<close>
 qed
+
+text \<open>\comentario{Completar la demostración anterior.}\<close>
 
 text \<open>La demostración automática es la siguiente.\<close>
 
@@ -870,6 +873,8 @@ next
   then show ?case by (simp only: atoms_are_subformulae_imp)
 qed
 
+text \<open>\comentario{Usar símbolos lógicos en la demostración anterior.}\<close>
+
 text \<open>La demostración automática queda igualmente expuesta a 
   continuación.\<close>
 
@@ -879,10 +884,13 @@ lemma "Atom ` atoms F \<subseteq> setSubformulae F"
 text \<open>La siguiente propiedad declara que el conjunto de átomos de una 
   subfórmula está contenido en el conjunto de átomos de la propia 
   fórmula.
+
   \begin{lema}
     Sea \<open>G \<in> Subf(F)\<close>, entonces el conjunto de átomos de \<open>G\<close> está
     contenido en el de \<open>F\<close>.
   \end{lema}
+
+  \comentario{Reescribir el enunciado anterior.}
 
   \begin{demostracion}
   Procedemos mediante inducción en la estructura de las fórmulas según 
@@ -928,6 +936,8 @@ text \<open>La siguiente propiedad declara que el conjunto de átomos de una
   contención para conjuntos. El caso \<open>G' \<in> Subf(F2)\<close> se demuestra de la 
   misma forma.      
   \end{demostracion}
+
+  \comentario{Reescribir la demostración anterior.}
 
   Formalizado en Isabelle:\<close>
 
@@ -1131,7 +1141,8 @@ proof -
   qed
 qed
 
-lemma subformulae_atoms: "G \<in> setSubformulae F \<Longrightarrow> atoms G \<subseteq> atoms F"
+lemma subformulae_atoms: 
+  "G \<in> setSubformulae F \<Longrightarrow> atoms G \<subseteq> atoms F"
 proof (induction F)
   case (Atom x)
   then show ?case by (simp only: subformulas_atoms_atom) 
@@ -1152,6 +1163,8 @@ next
   then show ?case by (simp only: subformulas_atoms_imp)
 qed
 
+text \<open>\comentario{Usar símbolos lógicos en la demostración anterior.}\<close>
+
 text \<open>Por último, su demostración aplicativa automática.\<close>
 
 lemma "G \<in> setSubformulae F \<Longrightarrow> atoms G \<subseteq> atoms F"
@@ -1162,8 +1175,8 @@ text \<open>A continuación voy a introducir un lema que no pertenece a la
   demostraciones detalladas mediante contenciones en cadena.
 
   \begin{lema}
-    Sea \<open>G\<close> subfórmula de \<open>F\<close>, entonces el conjunto de subfórmulas de 
-    \<open>G\<close> está contenido en el de \<open>F\<close>.
+    Sea \<open>G\<close> una subfórmula de \<open>F\<close>, entonces el conjunto de subfórmulas 
+    de \<open>G\<close> está contenido en el de \<open>F\<close>.
   \end{lema} 
 
   \begin{demostracion}
@@ -1203,7 +1216,9 @@ text \<open>A continuación voy a introducir un lema que no pertenece a la
   de \<open>F1*F2\<close>, se verifica la propiedad por la transitividad de la 
   contención en cadena. El caso \<open>G' \<in> Subf(F2)\<close> es análogo cambiando el 
   índice de la fórmula.   
-  \end{demostracion}\<close>
+  \end{demostracion}
+
+  \comentario{Reescribir la demostración anterior.}\<close>
 
 text \<open>Veamos su formalización en Isabelle junto con su demostración 
   estructurada.\<close>
@@ -1252,12 +1267,12 @@ proof -
       by (simp only: subset_refl)
   next
     assume "G \<in> setSubformulae F"
-    then have 1:"setSubformulae G \<subseteq> setSubformulae F"
+    then have "setSubformulae G \<subseteq> setSubformulae F"
       by (simp only: assms(1))
-    also have 2:"setSubformulae F \<subseteq> setSubformulae (\<^bold>\<not> F)"
+    also have "setSubformulae F \<subseteq> setSubformulae (\<^bold>\<not> F)"
       by (simp only: setSubformulae_not Un_upper2)
-    finally show ?thesis
-      using 1 2 by (simp only: subset_trans)
+    finally show ?thesis 
+      by this
   qed
 qed
 
@@ -1411,13 +1426,13 @@ qed
 lemma
   "G \<in> setSubformulae F \<Longrightarrow> setSubformulae G \<subseteq> setSubformulae F"
 proof (induction F)
-case (Atom x)
+  case (Atom x)
   then show ?case by (rule subContsubformulae_atom)
 next
   case Bot
   then show ?case by (rule subContsubformulae_bot)
 next
-case (Not F)
+  case (Not F)
   then show ?case by (rule subContsubformulae_not)
 next
   case (And F1 F2)
@@ -1430,6 +1445,8 @@ next
   then show ?case by (rule subContsubformulae_imp)
 qed
 
+text \<open>\comentario{Usar símbolos lógicos en la demostración anterior.}\<close>
+
 text \<open>Finalmente, su demostración automática se muestra a continuación.\<close>
 
 lemma subContsubformulae:
@@ -1441,7 +1458,7 @@ text \<open>El siguiente lema nos da la noción de transitividad de contención
   subfórmula es del mismo modo subfórmula de la mayor.
 
   \begin{lema}
-    Sean \<open>G\<close> subfórmula de \<open>F\<close> y \<open>H\<close> subfórmula de \<open>G\<close>, entonces 
+    Sean \<open>G\<close> una subfórmula de \<open>F\<close> y \<open>H\<close> una subfórmula de \<open>G\<close>, entonces 
     \<open>H\<close> es subfórmula de \<open>F\<close>.
   \end{lema}
 
@@ -1456,6 +1473,8 @@ text \<open>El siguiente lema nos da la noción de transitividad de contención
   \<open>H \<in> Subf(H) \<subseteq> Subf(F) \<Longrightarrow> H \<in> Subf(F)\<close>.
   \end{demostracion}
 
+  \comentario{Reescribir la demostración anterior.}
+
   Veamos su formalización y prueba estructurada en Isabelle.
 
   Veamos su prueba según las distintas tácticas.\<close>
@@ -1465,11 +1484,14 @@ lemma
           "H \<in> setSubformulae G"
   shows   "H \<in> setSubformulae F"
 proof -
-  have 1:"setSubformulae G \<subseteq> setSubformulae F" using assms(1) 
+  have 1: "setSubformulae G \<subseteq> setSubformulae F" 
+    using assms(1) 
     by (rule subContsubformulae)
-  have "setSubformulae H \<subseteq> setSubformulae G" using assms(2) 
+  have "setSubformulae H \<subseteq> setSubformulae G" 
+    using assms(2) 
     by (rule subContsubformulae)
-  then have 2:"setSubformulae H \<subseteq> setSubformulae F" using 1 
+  then have 2: "setSubformulae H \<subseteq> setSubformulae F" 
+    using 1 
     by (rule subset_trans)
   have "H \<in> setSubformulae H" 
     by (simp only: subformulae_self)
@@ -1484,7 +1506,7 @@ lemma subsubformulae:
    \<Longrightarrow> H \<in> setSubformulae F"
   using subContsubformulae by blast
 
-text \<open>comentario{Explicar el cambio de enunciado}\<close>
+text \<open>\comentario{Explicar el cambio de enunciado}\<close>
 
 text \<open>A continuación presentamos otro resultado que relaciona los 
   conjuntos de subfórmulas según las conectivas que operen.\<close>
@@ -1518,6 +1540,8 @@ proof -
     by (rule subsubformulae)
 qed
 
+text \<open>\comentario{Completar la demostración anterior.}\<close>
+
 lemma subformulas_in_subformulas_and:
   assumes "G \<^bold>\<and> H \<in> setSubformulae F" 
   shows "G \<in> setSubformulae F \<and> H \<in> setSubformulae F"
@@ -1534,6 +1558,8 @@ proof (rule conjI)
   show "H \<in> setSubformulae F" using assms 3 by (rule subsubformulae)
 qed
 
+text \<open>\comentario{Completar la demostración anterior.}\<close>
+
 text \<open>Mostremos ahora la demostración automática.\<close>
 
 lemma subformulas_in_subformulas:
@@ -1549,9 +1575,11 @@ lemma subformulas_in_subformulas:
 
 text \<open>\comentario{Completar la prueba anterior.}\<close>
 
-text\<open>\comentario{Completar lo que falta de sección}\<close>
+text \<open>\comentario{Pendiente de revisar a partir de aquí.}\<close>
 
-text \<open>Concluimos la sección de subfórmulas con un resultado que 
+text \<open>\comentario{Completar la demostración anterior.}\<close>
+
+text \<open>Concluimos la sección de subfórmulas con un resultado que
   relaciona varias funciones sobre la longitud de la lista 
   \<open>subformulae F\<close> de una fórmula \<open>F\<close> cualquiera.\<close>
 
