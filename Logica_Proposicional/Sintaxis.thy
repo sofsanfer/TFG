@@ -107,6 +107,11 @@ text \<open>Como podemos observar representamos las fórmulas proposicionales
   automáticamente los siguientes lemas sobre la función de conjuntos 
   @{term "atoms"} en Isabelle.
   
+text\<open> \comentario {Por otro lado, la definición de @{term "formula"} 
+genera automáticamente los siguientes lemas sobre la función 
+@{term "atoms"}, que obtiene el conjunto de átomos de una fórmula.}
+\<close>
+
   \begin{itemize}
     \item[] @{thm formula.set}
   \end{itemize} 
@@ -116,6 +121,9 @@ text \<open>Como podemos observar representamos las fórmulas proposicionales
   observa que, por definición de conjunto, no contiene 
   elementos repetidos.\<close>
 
+text\<open> \comentario { Se observa que, por ser conjuntos, no contienen 
+  elementos repetidos.}
+\<close>
 notepad 
 begin
   fix p q r :: 'a
@@ -186,6 +194,7 @@ text \<open>Una vez definida la estructura de las fórmulas, vamos a introducir
   \end{definicion}
 
   \comentario{Lo anterior no es una definición.}
+  \comentario{Principio de inducción sobre fórmulas.}
 
   Análogamente, como las fórmulas proposicionales están definidas 
   mediante un tipo de datos recursivo, Isabelle genera de forma 
@@ -208,6 +217,7 @@ text \<open>Una vez definida la estructura de las fórmulas, vamos a introducir
   adelante.
 
   Llegamos así al primer resultado de este apartado:
+  \comentario {Suprimir la frase: Llegamos...}
 
   \begin{lema}
     El conjunto de los átomos de una fórmula proposicional es finito.
@@ -218,6 +228,9 @@ text \<open>Una vez definida la estructura de las fórmulas, vamos a introducir
   inductivo relativo a la estructura de fórmula, y no el que induce esta
   última definición.
 
+  \comentario{Para proceder a la demostración, consideremos la siguiente
+   definición inductiva de conjunto finito.}
+
   \begin{definicion}
     Los conjuntos finitos son:
       \begin{itemize}
@@ -226,6 +239,11 @@ text \<open>Una vez definida la estructura de las fórmulas, vamos a introducir
           entonces \<open>{a} \<union> A\<close> es finito.
       \end{itemize}
   \end{definicion}
+
+  \comentario{Comentar que esa es precísamente la definición en
+ Isabelle de conjunto finito y mostrarla, pero no finite' pues no se
+ usa en los lemas.}
+
 
   En Isabelle, podemos formalizar el lema como sigue.\<close>
 
@@ -249,6 +267,8 @@ text \<open>Observemos que la definición anterior corresponde a
   añadido como tácticas de \<open>simp\<close> e \<open>intro!\<close>. Sin embargo, conforme al 
   objetivo de este análisis, detallaremos dónde es usada cada una de las 
   reglas en la prueba detallada. 
+
+ \comentario{No son necesarios los comentarios a finite'.}
 
   A continuación, veamos en primer lugar la demostración clásica del 
   lema. 
@@ -404,7 +424,10 @@ text \<open>Observemos que, en la definición anterior, \<open>#\<close> es el o
   añade un elemento al comienzo de una lista y \<open>@\<close> concatena varias 
   listas. Siguiendo con los ejemplos, apliquemos @{term subformulae} en 
   las distintas fórmulas. En particular, al tratarse de una lista pueden 
-  aparecer elementos repetidos como se muestra a continuación.\<close>
+  aparecer elementos repetidos como se muestra a continuación.
+
+  \comentario{Corte de línea de la palabra siguiendo.}
+\<close>
 
 notepad
 begin
@@ -443,7 +466,12 @@ text \<open>De este modo, la función \<open>setSubformulae\<close> es la formal
   las pruebas de los resultados de esta sección. Algunas de las
   ventajas del tipo conjuntos son la eliminación de elementos repetidos 
   o las operaciones propias de teoría de conjuntos. Observemos los 
-  siguientes ejemplos con el tipo de conjuntos.\<close>
+  siguientes ejemplos con el tipo de conjuntos.
+
+  \comentario{Borrar "Sin embargo..." pues se contradice con la frase
+ anterior.}
+
+\<close>
 
 notepad
 begin
@@ -466,6 +494,8 @@ text \<open>Por otro lado, debemos señalar que el uso de
   @{term "subformulae"}). No es una definición propiamente dicha, sino 
   una forma de nombrar la composición de las funciones @{term "set"} y 
   @{term "subformulae"}.
+
+  \comentario{Borrar la frase "Esta elección...".}
 
   En primer lugar, veamos que @{term "setSubformulae"} es una
   formalización de @{term "Subf"} en Isabelle. Para ello 
@@ -570,6 +600,12 @@ text \<open>Una vez probada la equivalencia, comencemos con los resultados
     \<open>G\<close> se cumple \<open>Subf(F*G) = {F*G} \<union> Subf(F) \<union> Subf(G)\<close>, luego se 
     cumple la propiedad.
   \end{demostracion}
+  
+  \comentario{La redacción de la demostración debe ser como la
+ demostración de que el conjunto de átomos de una fórmula es finito, en
+ la que en cada caso se expresa claramente las hipótesis de inducción y
+ dónde se usan.}
+
 
   Formalicemos ahora el lema con su correspondiente demostración 
   detallada.\<close>
@@ -601,7 +637,8 @@ case (Imp F1 F2)
     by (simp add: insertI1 setSubformulae_imp) \<comment> \<open>Pendiente\<close>
 qed
 
-text \<open>\comentario{Completar la demostración anterior.}\<close>
+text \<open>\comentario{Completar la demostración anterior y usar los símbolos 
+lógicos.}\<close>
 
 text \<open>La demostración automática es la siguiente.\<close>
 
@@ -692,6 +729,11 @@ text \<open>Veamos ahora los distintos resultados sobre subfórmulas.
     {F*G} \<union> Subf(F) \<union> Subf(G) = Subf(F*G)\<close>
     Luego, \<open>A\<^sub>F\<^sub>*\<^sub>G \<subseteq> Subf(F*G)\<close> como queríamos demostrar.  
   \end{demostracion}
+
+  \comentario{En la redacción de la demostración: seguir el esquema de
+ la demostración de que el conjunto de átomos es finito y, en cada caso,
+ seguir el esquema de la prueba en Isabelle en la que se especifican
+ claramente las hipótesis de inducción y cómo se usan.}
 
   En Isabelle, se especifica como sigue.\<close>
 
@@ -937,7 +979,8 @@ text \<open>La siguiente propiedad declara que el conjunto de átomos de una
   misma forma.      
   \end{demostracion}
 
-  \comentario{Reescribir la demostración anterior.}
+  \comentario{Reescribir la demostración anterior. Cuidado con los 
+cortes de línea.}
 
   Formalizado en Isabelle:\<close>
 
@@ -1173,6 +1216,8 @@ lemma "G \<in> setSubformulae F \<Longrightarrow> atoms G \<subseteq> atoms F"
 text \<open>A continuación voy a introducir un lema que no pertenece a la 
   teoría original de Isabelle pero facilita las siguientes 
   demostraciones detalladas mediante contenciones en cadena.
+
+ \comentario{cambiar voy por vamos.}
 
   \begin{lema}
     Sea \<open>G\<close> una subfórmula de \<open>F\<close>, entonces el conjunto de subfórmulas 
@@ -1462,6 +1507,11 @@ text \<open>El siguiente lema nos da la noción de transitividad de contención
     \<open>H\<close> es subfórmula de \<open>F\<close>.
   \end{lema}
 
+  \comentario{La transitividad de lee mejor si se escribe en este
+ orden: Sean \<open>H\<close> una subfórmula de \<open>G\<close> y \<open>G\<close> una subfórmula de \<open>F\<close>, 
+ entonces \<open>H\<close> es subfórmula de \<open>F\<close>.}
+
+
   \begin{demostracion}
   La prueba está basada en el lema anterior. Hemos demostrado que como 
   \<open>G\<close> es subfórmula de \<open>F\<close>, entonces el conjunto de átomos de \<open>G\<close> está
@@ -1504,7 +1554,12 @@ lemma subsubformulae:
   "G \<in> setSubformulae F 
    \<Longrightarrow> H \<in> setSubformulae G 
    \<Longrightarrow> H \<in> setSubformulae F"
-  using subContsubformulae by blast
+  apply (drule  subContsubformulae)
+  apply (erule subsetD, assumption)
+  done
+(*  using subContsubformulae by blast *)
+
+text \<open>\comentario{Ver la demostración sin blast.}\<close>
 
 text \<open>\comentario{Explicar el cambio de enunciado}\<close>
 
@@ -1570,8 +1625,19 @@ lemma subformulas_in_subformulas:
   "G \<^bold>\<rightarrow> H \<in> setSubformulae F 
    \<Longrightarrow> G \<in> setSubformulae F \<and> H \<in> setSubformulae F"
   "\<^bold>\<not> G \<in> setSubformulae F \<Longrightarrow> G \<in> setSubformulae F"
-  using subformulae_self subsubformulae apply force
-  oops
+     apply (rule conjI)
+      apply (drule subformulas_in_subformulas_and)
+      apply (erule conjunct1)
+       apply (drule subformulas_in_subformulas_and)
+     apply (erule conjunct2)
+    prefer 3
+     apply (drule subformulas_in_subformulas_not, assumption)  
+  oops 
+
+  text\<open>
+ \comentario{Probar cada uno de los casos (faltan 2) por separado para 
+usarlos en la prueba del lema.} 
+\<close>
 
 text \<open>\comentario{Completar la prueba anterior.}\<close>
 
