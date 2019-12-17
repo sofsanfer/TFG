@@ -1026,7 +1026,7 @@ proof -
   then have "G \<in> {\<^bold>\<not> F} \<or> G \<in> setSubformulae F"
     by (simp only: Un_iff)
   then show "atoms G \<subseteq> atoms (\<^bold>\<not> F)"
-  proof
+  proof (rule disjE)
     assume "G \<in> {\<^bold>\<not> F}"
     then have "G = \<^bold>\<not> F"
       by (simp only: singletonD)
@@ -1043,6 +1043,8 @@ proof -
   qed
 qed
 
+text \<open>\comentario{Añadir disjE al glosario.}\<close>
+
 lemma subformulas_atoms_and:
   assumes "G \<in> setSubformulae F1 \<Longrightarrow> atoms G \<subseteq> atoms F1"
           "G \<in> setSubformulae F2 \<Longrightarrow> atoms G \<subseteq> atoms F2"
@@ -1055,7 +1057,7 @@ proof -
   then have "G \<in> {F1 \<^bold>\<and> F2} \<or> G \<in> setSubformulae F1 \<union> setSubformulae F2"
     by (simp only: Un_iff)
   then show ?thesis
-  proof 
+  proof (rule disjE)
     assume "G \<in> {F1 \<^bold>\<and> F2}"
     then have "G = F1 \<^bold>\<and> F2"
       by (simp only: singletonD)
@@ -1066,7 +1068,7 @@ proof -
     then have "G \<in> setSubformulae F1 \<or> G \<in> setSubformulae F2"  
       by (simp only: Un_iff)
     then show ?thesis
-    proof 
+    proof (rule disjE)
       assume "G \<in> setSubformulae F1"
       then have "atoms G \<subseteq> atoms F1"
         by (rule assms(1))
@@ -1102,7 +1104,7 @@ proof -
   then have "G \<in> {F1 \<^bold>\<or> F2} \<or> G \<in> setSubformulae F1 \<union> setSubformulae F2"
     by (simp only: Un_iff)
   then show ?thesis
-  proof 
+  proof (rule disjE)
     assume "G \<in> {F1 \<^bold>\<or> F2}"
     then have "G = F1 \<^bold>\<or> F2"
       by (simp only: singletonD)
@@ -1113,7 +1115,7 @@ proof -
     then have "G \<in> setSubformulae F1 \<or> G \<in> setSubformulae F2"  
       by (simp only: Un_iff)
     then show ?thesis
-    proof 
+    proof (rule disjE)
       assume "G \<in> setSubformulae F1"
       then have "atoms G \<subseteq> atoms F1"
         by (rule assms(1))
@@ -1149,7 +1151,7 @@ proof -
   then have "G \<in> {F1 \<^bold>\<rightarrow> F2} \<or> G \<in> setSubformulae F1 \<union> setSubformulae F2"
     by (simp only: Un_iff)
   then show ?thesis
-  proof 
+  proof (rule disjE)
     assume "G \<in> {F1 \<^bold>\<rightarrow> F2}"
     then have "G = F1 \<^bold>\<rightarrow> F2"
       by (simp only: singletonD)
@@ -1160,7 +1162,7 @@ proof -
     then have "G \<in> setSubformulae F1 \<or> G \<in> setSubformulae F2"  
       by (simp only: Un_iff)
     then show ?thesis
-    proof 
+    proof (rule disjE)
       assume "G \<in> setSubformulae F1"
       then have "atoms G \<subseteq> atoms F1"
         by (rule assms(1))
@@ -1335,7 +1337,7 @@ proof -
   then have "G \<in> {F1 \<^bold>\<and> F2} \<or> G \<in> setSubformulae F1 \<union> setSubformulae F2"
     by (simp only: Un_iff)
   then show ?thesis
-  proof 
+  proof (rule disjE)
     assume "G \<in> {F1 \<^bold>\<and> F2}"
     then have "G = F1 \<^bold>\<and> F2"
       by (simp only: singletonD)
@@ -1384,7 +1386,7 @@ proof -
   then have "G \<in> {F1 \<^bold>\<or> F2} \<or> G \<in> setSubformulae F1 \<union> setSubformulae F2"
     by (simp only: Un_iff)
   then show ?thesis
-  proof 
+  proof (rule disjE)
     assume "G \<in> {F1 \<^bold>\<or> F2}"
     then have "G = F1 \<^bold>\<or> F2"
       by (simp only: singletonD)
@@ -1395,7 +1397,7 @@ proof -
     then have "G \<in> setSubformulae F1 \<or> G \<in> setSubformulae F2"  
       by (simp only: Un_iff)
     then show ?thesis
-    proof 
+    proof (rule disjE)
       assume "G \<in> setSubformulae F1"
       then have "setSubformulae G \<subseteq> setSubformulae F1"
         by (simp only: assms(1))
@@ -1433,7 +1435,7 @@ proof -
   then have "G \<in> {F1 \<^bold>\<rightarrow> F2} \<or> G \<in> setSubformulae F1 \<union> setSubformulae F2"
     by (simp only: Un_iff)
   then show ?thesis
-  proof 
+  proof (rule disjE)
     assume "G \<in> {F1 \<^bold>\<rightarrow> F2}"
     then have "G = F1 \<^bold>\<rightarrow> F2"
       by (simp only: singletonD)
@@ -1444,7 +1446,7 @@ proof -
     then have "G \<in> setSubformulae F1 \<or> G \<in> setSubformulae F2"  
       by (simp only: Un_iff)
     then show ?thesis
-    proof 
+    proof (rule disjE)
       assume "G \<in> setSubformulae F1"
       then have "setSubformulae G \<subseteq> setSubformulae F1"
         by (simp only: assms(1))
