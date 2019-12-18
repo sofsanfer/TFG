@@ -243,4 +243,4 @@ TSWLatexianTemp*
 
 # Eliminar los ficheros generados por Isabelle
 *.thy~
-./Logica_Proposicional/output/
+/Logica_Proposicional/output/*
