@@ -1751,6 +1751,19 @@ proof -
   finally show ?thesis
     by this
 qed
+find_theorems "_ \<union> \<Union> _"
+(*lemma atoms_list:
+  assumes "atoms (\<^bold>\<And>Fs) = \<Union>(atoms ` set Fs)"
+  shows "atoms (\<^bold>\<And>(F#Fs)) = \<Union>(atoms ` set (F#Fs))"
+proof -
+  have "atoms (\<^bold>\<And>(F#Fs)) = atoms (F \<^bold>\<and> \<^bold>\<And>Fs)"
+    by (simp only: BigAnd.simps(2))
+  also have "\<dots> = atoms F \<union> atoms (\<^bold>\<And>Fs)"
+    by (simp only: formula.set(4))
+  also have "\<dots> = atoms F \<union> \<Union>(atoms ` set Fs)"
+    by (simp only: assms)
+  also have "\<dots> = \<Union>(atoms ` ({F} \<union> set Fs))"
+    by (simp only: Union_image_insert)*)
 
 (*lemma atoms_list:
   assumes "atoms (\<^bold>\<And>Fs) = \<Union>(atoms ` set Fs)"
@@ -1760,9 +1773,19 @@ proof -
     by (simp only: BigAnd.simps(2))
   also have "\<dots> = atoms F \<union> atoms (\<^bold>\<And>Fs)"
     by (simp only: formula.set(4))
-  also have "\<dots> = atoms F \<union>  \<Union>(atoms ` set Fs)"
+  also have "\<dots> = atoms F \<union> \<Union>(atoms ` set Fs)"
     by (simp only: assms)
-  also have "\<dots> = \<Union>(atoms ` set Fs)"*)
+  also have "\<dots> = \<Union>(atoms ` ({F} \<union> set Fs))"
+    by (simp only: Union_image_insert)*)
+
+(*lemma atoms_list:
+  assumes "atoms (\<^bold>\<And>Fs) = \<Union>(atoms ` set Fs)"
+  shows "atoms (\<^bold>\<And>(F#Fs)) = \<Union>(atoms ` set (F#Fs))"
+proof -
+  have "\<Union>(atoms ` set (F#Fs)) = \<Union>(atoms ` ({F} \<union> set Fs))"
+    by simp (*Pendiente*)
+  also have "\<dots> = atoms F \<union> \<Union> (atoms ` set Fs)"
+    by (simp only: Union_image_insert)*)
 
 
 (*lemma "atoms (\<^bold>\<And>Fs) = \<Union>(atoms ` set Fs)"
@@ -1787,7 +1810,7 @@ qed*)
 text \<open>Su demostración automática es la siguiente.\<close>
 
 lemma atoms_BigAnd: "atoms (\<^bold>\<And>Fs) = \<Union>(atoms ` set Fs)"
-  by (induction Fs; simp)
+  by (induction Fs) simp_all
 
 (*<*)
 end
