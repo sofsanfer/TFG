@@ -583,24 +583,21 @@ next
     by (simp only: singletonI setSubformulae_bot)
 next
   case (Not F)
-  then show ?thesis (*singletonI Un_Upper1*)
-    by (simp add: insertI1 setSubformulae_not) \<comment> \<open>Pendiente\<close>
+  then show ?thesis
+    by (simp only: singletonI UnI1 setSubformulae_not)
 next
   case (And F1 F2)
   then show ?thesis
-    by (simp add: insertI1 setSubformulae_and) \<comment> \<open>Pendiente\<close>
+   by (simp only: singletonI UnI1 setSubformulae_and)
 next
   case (Or F1 F2)
   then show ?thesis
-    by (simp add: insertI1 setSubformulae_or) \<comment> \<open>Pendiente\<close>
+   by (simp only: singletonI UnI1 setSubformulae_or)
 next
   case (Imp F1 F2)
   then show ?thesis
-    by (simp add: insertI1 setSubformulae_imp) \<comment> \<open>Pendiente\<close>
+   by (simp only: singletonI UnI1 setSubformulae_imp)
 qed 
-
-text \<open>\comentario{Completar demostración. Usar los símbolos 
-lógicos: No es posible en las demostraciones completas ??.}\<close>
 
 text \<open>La demostración automática es la siguiente.\<close>
 
@@ -1020,7 +1017,7 @@ proof -
   qed
 qed
 
-text \<open>\comentario{Añadir disjE al glosario.}\<close>
+text \<open>\comentario{Añadir disjE y otras al glosario.}\<close>
 
 lemma subformulas_atoms_and:
   assumes "G \<in> setSubformulae F1 \<Longrightarrow> atoms G \<subseteq> atoms F1"
@@ -1574,36 +1571,30 @@ text \<open>Como podemos observar, el resultado es análogo en todas las
   Nos basaremos en el lema anterior @{term "subsubformulae"}.\<close>
 
 lemma subformulas_in_subformulas_not:
-  assumes "Not G \<in> setSubformulae F"
+  assumes "\<^bold>\<not> G \<in> setSubformulae F"
   shows "G \<in> setSubformulae F"
 proof -
-  have "setSubformulae (Not G) = {Not G} \<union> setSubformulae G" 
-    by simp \<comment> \<open>Pendiente\<close>
-  then have 1:"G \<in> setSubformulae (Not G)" 
-    by (simp add: subformulae_self) \<comment> \<open>Pendiente\<close>
+  have "G \<in> setSubformulae G"
+    by (simp only: subformulae_self)
+  then have "G \<in> {\<^bold>\<not> G} \<union> setSubformulae G"
+    by (simp only: UnI2)
+  then have 1:"G \<in> setSubformulae (\<^bold>\<not> G)" 
+    by (simp only: setSubformulae_not)
   show "G \<in> setSubformulae F" using assms 1 
     by (rule subsubformulae)
 qed
-
-text \<open>\comentario{Completar la demostración anterior.}\<close>
 
 lemma subformulas_in_subformulas_and:
   assumes "G \<^bold>\<and> H \<in> setSubformulae F" 
   shows "G \<in> setSubformulae F \<and> H \<in> setSubformulae F"
 proof (rule conjI)
-  have 1: "setSubformulae (G \<^bold>\<and> H) = 
-          {G \<^bold>\<and> H} \<union> (setSubformulae G \<union> setSubformulae H)" 
-    by (simp only: setSubformulae_and)
-  then have 2: "G \<in> setSubformulae (G \<^bold>\<and> H)" 
-    by (simp add: subformulae_self) \<comment> \<open>Pendiente\<close> 
-  have 3: "H \<in> setSubformulae (G \<^bold>\<and> H)" 
-    using 1 
-    by (simp add: subformulae_self) \<comment> \<open>Pendiente\<close> 
-  show "G \<in> setSubformulae F" using assms 2 by (rule subsubformulae)
-  show "H \<in> setSubformulae F" using assms 3 by (rule subsubformulae)
+  have 1:"G \<in> setSubformulae (G \<^bold>\<and> H)" 
+    by (simp only: subformulae_self UnI2 UnI1 setSubformulae_and)
+  have 2:"H \<in> setSubformulae (G \<^bold>\<and> H)"  
+    by (simp only: subformulae_self UnI2 UnI1 setSubformulae_and)
+  show "G \<in> setSubformulae F" using assms 1 by (rule subsubformulae)
+  show "H \<in> setSubformulae F" using assms 2 by (rule subsubformulae)
 qed
-
-text \<open>\comentario{Completar la demostración anterior.}\<close>
 
 text \<open>Mostremos ahora la demostración automática.\<close>
 
@@ -1657,8 +1648,6 @@ text \<open>Como podemos observar, se define mediante una relación de
 lemma "atoms \<top> = \<emptyset>"
    by (simp only: Top_def formula.set Un_absorb)
 
-text \<open>\comentario{Añadir regla al glosario.}\<close>
-
 text \<open>\comentario{Añadir la doble implicación como conectiva derivada.}\<close>
 
 text \<open>A continuación vamos a definir dos conectivas que generalizan la 
@@ -1708,13 +1697,13 @@ text \<open>A continuación vamos a definir dos conectivas que generalizan la
 
   \comentario{Da error que no localizo}\<close>
 
-(*primrec BigAnd :: "'a formula list \<Rightarrow> 'a formula" ("\<^bold>\<And>_") where
+primrec BigAnd :: "'a formula list \<Rightarrow> 'a formula" ("\<^bold>\<And>_") where
   "\<^bold>\<And>Nil = (\<^bold>\<not>\<bottom>)" 
 | "\<^bold>\<And>(F#Fs) = F \<^bold>\<and> \<^bold>\<And>Fs"
 
 primrec BigOr :: "'a formula list \<Rightarrow> 'a formula" ("\<^bold>\<Or>_") where
   "\<^bold>\<Or>Nil = \<bottom>" 
-| "\<^bold>\<Or>(F#Fs) = F \<^bold>\<or> \<^bold>\<Or>Fs"*)
+| "\<^bold>\<Or>(F#Fs) = F \<^bold>\<or> \<^bold>\<Or>Fs"
 
 text \<open>Ambas nuevas conectivas se definen con el tipo funciones 
   primitivas recursivas. Estas se basan en los dos casos descritos
@@ -1742,31 +1731,63 @@ text \<open>Ambas nuevas conectivas se definen con el tipo funciones
 
   La conjunción plural nos da el siguiente resultado.
 
-\comentario{Añadir lema a mano y demostración. Falta demostración en Isabelle.}\<close>
+\comentario{Añadir lema a mano y demostración. Falta demostración en 
+  Isabelle.}\<close>
+
+lemma atoms_nil: "atoms (\<^bold>\<And>Nil) = \<Union>(atoms ` set Nil)"
+proof -
+  have "atoms (\<^bold>\<And>Nil) = atoms (\<^bold>\<not> \<bottom>)" 
+    by (simp only: BigAnd.simps(1))
+  also have "\<dots> = atoms \<bottom>" 
+    by (simp only: formula.set(3))
+  also have "\<dots> = \<emptyset>" 
+    by (simp only: formula.set(2))
+  also have "\<dots> = \<Union>(\<emptyset>)"
+    by (simp only: Union_empty)
+  also have "\<dots> =  \<Union>(atoms ` \<emptyset>)"
+    by (simp only: image_empty)
+  also have "\<dots> = \<Union>(atoms ` set Nil)"
+    by (simp only: list.set)
+  finally show ?thesis
+    by this
+qed
+
+(*lemma atoms_list:
+  assumes "atoms (\<^bold>\<And>Fs) = \<Union>(atoms ` set Fs)"
+  shows "atoms (\<^bold>\<And>(F#Fs)) = \<Union>(atoms ` set (F#Fs))"
+proof -
+  have "atoms (\<^bold>\<And>(F#Fs)) = atoms (F \<^bold>\<and> \<^bold>\<And>Fs)"
+    by (simp only: BigAnd.simps(2))
+  also have "\<dots> = atoms F \<union> atoms (\<^bold>\<And>Fs)"
+    by (simp only: formula.set(4))
+  also have "\<dots> = atoms F \<union>  \<Union>(atoms ` set Fs)"
+    by (simp only: assms)
+  also have "\<dots> = \<Union>(atoms ` set Fs)"*)
+
 
 (*lemma "atoms (\<^bold>\<And>Fs) = \<Union>(atoms ` set Fs)"
 proof (induction Fs)
   case Nil
-    have "atoms (\<^bold>\<And>Nil) = atoms (\<^bold>\<not>\<bottom>)" 
+    have "atoms (\<^bold>\<And>Nil) = atoms (\<^bold>\<not> \<bottom>)" 
       by (simp only: BigAnd.simps(1))
     also have "\<dots> = atoms \<bottom>" 
       by (simp only: formula.set(3))
     also have "\<dots> = \<emptyset>" 
       by (simp only: formula.set)
-    also have "\<dots> =  \<Union> atoms ` \<emptyset>" 
+    also have "\<dots> =  \<Union>(atoms ` set Nil)" 
       by (simp only: list.set) 
   then show ?case 
 next
 case (Cons a Fs)
   assume H:"atoms (\<^bold>\<And>Fs) = \<Union>(atoms ` set Fs)" 
-  show "atoms
+  show "atoms"
   then show ?case sorry
 qed*)
 
-(*text \<open>Su demostración automática es la siguiente.\<close>
+text \<open>Su demostración automática es la siguiente.\<close>
 
 lemma atoms_BigAnd: "atoms (\<^bold>\<And>Fs) = \<Union>(atoms ` set Fs)"
-  by (induction Fs; simp)*)
+  by (induction Fs; simp)
 
 (*<*)
 end
