@@ -100,17 +100,9 @@ text \<open>Como podemos observar representamos las fórmulas proposicionales
   forma infija. En particular, \<open>infixr\<close> se trata de un infijo asociado a 
   la derecha.
 
-  Además se define simultáneamente la función @{const_typ atoms}, que 
-  obtiene el conjunto de variables proposicionales de una fórmula. 
-
-  Por otro lado, la definición de @{term "formula"} genera 
-  automáticamente los siguientes lemas sobre la función de conjuntos 
-  @{term "atoms"} en Isabelle.
-  
-text\<open> \comentario {Por otro lado, la definición de @{term "formula"} 
-genera automáticamente los siguientes lemas sobre la función 
-@{term "atoms"}, que obtiene el conjunto de átomos de una fórmula.}
-\<close>
+  Por otro lado, la definición de @{term "formula"} 
+  genera automáticamente los siguientes lemas sobre la función 
+  @{const_typ atoms}, que obtiene el conjunto de átomos de una fórmula.
 
   \begin{itemize}
     \item[] @{thm formula.set}
@@ -118,12 +110,8 @@ genera automáticamente los siguientes lemas sobre la función
 
   A continuación veremos varios ejemplos de fórmulas y el conjunto de 
   sus variables proposicionales obtenido mediante @{term "atoms"}. Se 
-  observa que, por definición de conjunto, no contiene 
-  elementos repetidos.\<close>
+  observa que, por ser conjuntos, no contienen elementos repetidos.\<close>
 
-text\<open> \comentario { Se observa que, por ser conjuntos, no contienen 
-  elementos repetidos.}
-\<close>
 notepad 
 begin
   fix p q r :: 'a
@@ -179,7 +167,8 @@ text \<open>Una vez definida la estructura de las fórmulas, vamos a introducir
   Según la definición recursiva de las fórmulas, dispondremos de un 
   esquema de inducción sobre las mismas:
 
-  \begin{definicion}
+  \begin{teorema}[Principio de inducción sobre fórmulas
+  proposicionales]
     Sea \<open>\<P>\<close> una propiedad sobre fórmulas que verifica las siguientes 
     condiciones:
     \begin{itemize}
@@ -191,10 +180,7 @@ text \<open>Una vez definida la estructura de las fórmulas, vamos a introducir
     \end{itemize}
     Entonces, todas las fórmulas proposicionales tienen la propiedad 
     \<open>\<P>\<close>.
-  \end{definicion}
-
-  \comentario{Lo anterior no es una definición.}
-  \comentario{Principio de inducción sobre fórmulas.}
+  \end{teorema}
 
   Análogamente, como las fórmulas proposicionales están definidas 
   mediante un tipo de datos recursivo, Isabelle genera de forma 
@@ -216,20 +202,16 @@ text \<open>Una vez definida la estructura de las fórmulas, vamos a introducir
   diferencian esencialmente en la connotación semántica que veremos más 
   adelante.
 
-  Llegamos así al primer resultado de este apartado:
-  \comentario {Suprimir la frase: Llegamos...}
+  A continuación el primer resultado de este apartado:
 
   \begin{lema}
     El conjunto de los átomos de una fórmula proposicional es finito.
   \end{lema}
 
-  Para proceder a la demostración, vamos a dar una definición inductiva 
-  de conjunto finito. Cabe añadir que la demostración seguirá el esquema 
-  inductivo relativo a la estructura de fórmula, y no el que induce esta
-  última definición.
-
-  \comentario{Para proceder a la demostración, consideremos la siguiente
-   definición inductiva de conjunto finito.}
+  Para proceder a la demostración, consideremos la siguiente
+  definición inductiva de conjunto finito. Cabe añadir que la 
+  demostración seguirá el esquema inductivo relativo a la estructura de 
+  fórmula, y no el que induce esta última definición.
 
   \begin{definicion}
     Los conjuntos finitos son:
@@ -240,38 +222,28 @@ text \<open>Una vez definida la estructura de las fórmulas, vamos a introducir
       \end{itemize}
   \end{definicion}
 
-  \comentario{Comentar que esa es precísamente la definición en
- Isabelle de conjunto finito y mostrarla, pero no finite' pues no se
- usa en los lemas.}
+  La formalización en Isabelle de la definición anterior es precisamente 
+  @{term "finite"} perteneciente a la teoría 
+  \href{https://n9.cl/x86r}{FiniteSet.thy}. Dicha definición inductiva
+  genera dos reglas análogas a las anteriores que definen a los 
+  conjuntos finitos y que emplearemos en la demostración del resultado.
 
+  \begin{itemize}
+    \item[] @{thm[mode=Rule] emptyI[no_vars]} 
+      \hfill (@{text emptyI})
+  \end{itemize}
 
-  En Isabelle, podemos formalizar el lema como sigue.\<close>
+  \begin{itemize}
+    \item[] @{thm[mode=Rule] insertI[no_vars]} 
+      \hfill (@{text insertI})
+  \end{itemize}
+
+  De este modo, en Isabelle podemos especificar el lema como sigue.\<close>
 
 lemma "finite (atoms F)"
   oops
 
-text \<open>Análogamente, el enunciado formalizado contiene la definición 
-  @{term "finite S"}, perteneciente a la teoría 
-  \href{https://n9.cl/x86r}{FiniteSet.thy}.\<close>
-
-inductive finite' :: "'a set \<Rightarrow> bool" where
-  emptyI' [simp, intro!]: "finite' {}"
-| insertI' [simp, intro!]: "finite' A \<Longrightarrow> finite' (insert a A)"
-
-text \<open>Observemos que la definición anterior corresponde a 
-  @{term finite'}. Sin embargo, es análoga a @{term finite} de la 
-  teoría original. Este cambio de notación es necesario para no definir 
-  dos veces de manera idéntica la misma noción en Isabelle. Por otra 
-  parte, esta definición permitiría la demostración del lema por 
-  simplificacion pues, dentro de ella las reglas que especifica se han 
-  añadido como tácticas de \<open>simp\<close> e \<open>intro!\<close>. Sin embargo, conforme al 
-  objetivo de este análisis, detallaremos dónde es usada cada una de las 
-  reglas en la prueba detallada. 
-
- \comentario{No son necesarios los comentarios a finite'.}
-
-  A continuación, veamos en primer lugar la demostración clásica del 
-  lema. 
+text \<open>A continuación, veamos la demostración clásica del lema. 
 
   \begin{demostracion}
   La prueba es por inducción sobre el tipo recursivo de las fórmulas. 
@@ -384,7 +356,10 @@ next
   then show ?case by (simp only: atoms_finite_imp)
 qed
 
-text \<open>\comentario{Usar símbolos lógicos en la demostración anterior.}\<close>
+
+text \<open>\comentario{Usar símbolos lógicos en la demostración anterior.
+ No permite usar símbolos lógicos en la demostracion inductiva en cada
+ caso porque dice que no están definidos}\<close>
 
 text \<open>Su demostración automática es la siguiente.\<close>
 
@@ -422,11 +397,11 @@ primrec subformulae :: "'a formula \<Rightarrow> 'a formula list" where
  
 text \<open>Observemos que, en la definición anterior, \<open>#\<close> es el operador que 
   añade un elemento al comienzo de una lista y \<open>@\<close> concatena varias 
-  listas. Siguiendo con los ejemplos, apliquemos @{term subformulae} en 
+  listas. 
+
+  Siguiendo con los ejemplos, apliquemos @{term subformulae} en
   las distintas fórmulas. En particular, al tratarse de una lista pueden 
   aparecer elementos repetidos como se muestra a continuación.
-
-  \comentario{Corte de línea de la palabra siguiendo.}
 \<close>
 
 notepad
@@ -462,15 +437,10 @@ abbreviation setSubformulae :: "'a formula \<Rightarrow> 'a formula set" where
 text \<open>De este modo, la función \<open>setSubformulae\<close> es la formalización
   en Isabelle de \<open>Subf(·)\<close>. En Isabelle, primero hemos definido la lista 
   de subfórmulas pues, en algunos casos, es más sencilla la prueba de 
-  resultados sobre este tipo. Sin embargo, el tipo de conjuntos facilita
-  las pruebas de los resultados de esta sección. Algunas de las
-  ventajas del tipo conjuntos son la eliminación de elementos repetidos 
-  o las operaciones propias de teoría de conjuntos. Observemos los 
-  siguientes ejemplos con el tipo de conjuntos.
-
-  \comentario{Borrar "Sin embargo..." pues se contradice con la frase
- anterior.}
-
+  resultados sobre este tipo. 
+  Algunas de las ventajas del tipo conjuntos son la eliminación de 
+  elementos repetidos o las operaciones propias de teoría de conjuntos. 
+  Observemos los siguientes ejemplos con el tipo de conjuntos.
 \<close>
 
 notepad
@@ -488,14 +458,10 @@ end
 
 text \<open>Por otro lado, debemos señalar que el uso de 
   @{term "abbreviation"} para definir @{term "setSubformulae"} no es 
-  arbitrario. Esta elección se debe a que el tipo @{term "abbreviation"} 
-  se trata de un sinónimo para una expresión cuyo tipo ya existe (en 
-  nuestro caso, convertir en conjunto la lista obtenida con 
-  @{term "subformulae"}). No es una definición propiamente dicha, sino 
+  arbitrario. No es una definición propiamente dicha, sino 
   una forma de nombrar la composición de las funciones @{term "set"} y 
   @{term "subformulae"}.
 
-  \comentario{Borrar la frase "Esta elección...".}
 
   En primer lugar, veamos que @{term "setSubformulae"} es una
   formalización de @{term "Subf"} en Isabelle. Para ello 
@@ -576,74 +542,67 @@ text \<open>Una vez probada la equivalencia, comencemos con los resultados
   siguiente propiedad como consecuencia directa de la equivalencia de 
   funciones anterior.
 
-  \comentario{Reescribir el siguiente enunciado y su demostración.}
-
   \begin{lema}
-    \<open>F \<in> Subf(F)\<close>.
+    Toda fórmula es subfórmula de ella misma.
   \end{lema}
 
   \begin{demostracion}
-    Por inducción en la estructura de las fórmulas. Se tienen los
-    siguientes casos:
+    La demostración se hace en cada caso de la estructura de las 
+    fórmulas.
   
-    Sea \<open>p\<close> fórmula atómica cualquiera. Por definición de \<open>Subf\<close> tenemos 
-    que \<open>Subf(p) = {p}\<close>, luego se tiene la propiedad.
+    Sea \<open>p\<close> fórmula atómica cualquiera. Por definición, tenemos que su
+    conjunto de subfórmulas es \<open>{p}\<close>, luego se tiene la propiedad.
   
-    Sea la fórmula \<open>\<bottom>\<close>. Como \<open>Subf(\<bottom>) = {\<bottom>}\<close>, se verifica el resultado.
+    Sea la fórmula \<open>\<bottom>\<close>. Por definición, su conjunto de subfórmulas es
+    \<open>{\<bottom>}\<close>, luego se verifica el resultado.
 
-    Por definición del conjunto de subfórmulas de \<open>Subf(\<not> F)\<close> se tiene 
-    la propiedad para este caso, pues 
-    \<open>Subf(\<not> F) = {\<not> F} \<union> Subf(F) \<Longrightarrow> \<not> F \<in> Subf(\<not> F)\<close> como queríamos 
-    ver.
+    Sea la fórmula \<open>\<not> F\<close>. Veamos que pertenece a su conjunto de
+    subfórmulas.
+    Por definición, tenemos que el conjunto de subfórmulas de \<open>\<not> F\<close> es
+    \<open>{\<not> F} \<union> Subf(F)\<close>. Por tanto, \<open>\<not> F\<close> pertence a su propio conjunto
+    de subfórmulas como queríamos demostrar.
 
-    Análogamente, para cualquier conectiva binaria \<open>*\<close> y fórmulas \<open>F\<close> y 
-    \<open>G\<close> se cumple \<open>Subf(F*G) = {F*G} \<union> Subf(F) \<union> Subf(G)\<close>, luego se 
-    cumple la propiedad.
+    Sea \<open>*\<close> una conectiva binaria cualquiera y las fórmulas \<open>F\<close> y \<open>G\<close>
+    Veamos que \<open>F*G\<close> pertenece a su conjunto de subfórmulas.
+    Por definición, tenemos que el conjunto de subfórmulas de \<open>F*G\<close> es
+    \<open>{F*G} \<union> Subf(F) \<union> Subf(G)\<close>. Por tanto, \<open>F*G\<close> pertence a su propio 
+    conjunto de subfórmulas como queríamos demostrar.
   \end{demostracion}
-  
-  \comentario{La redacción de la demostración debe ser como la
- demostración de que el conjunto de átomos de una fórmula es finito, en
- la que en cada caso se expresa claramente las hipótesis de inducción y
- dónde se usan.}
-
 
   Formalicemos ahora el lema con su correspondiente demostración 
   detallada.\<close>
 
 lemma subformulae_self: "F \<in> setSubformulae F"
-proof (induction F) 
-  case (Atom x) 
-  then show ?case 
+proof (cases F)
+  case (Atom x1)
+  then show ?thesis 
     by (simp only: singletonI setSubformulae_atom)
 next
   case Bot
-  then show ?case 
+  then show ?thesis
     by (simp only: singletonI setSubformulae_bot)
 next
   case (Not F)
-  then show ?case 
-    by (simp add: insertI1 setSubformulae_not) \<comment> \<open>Pendiente\<close>
+  then show ?thesis
+    by (simp only: singletonI UnI1 setSubformulae_not)
 next
-case (And F1 F2)
-  then show ?case 
-    by (simp add: insertI1 setSubformulae_and) \<comment> \<open>Pendiente\<close>
+  case (And F1 F2)
+  then show ?thesis
+   by (simp only: singletonI UnI1 setSubformulae_and)
 next
-case (Or F1 F2)
-  then show ?case 
-    by (simp add: insertI1 setSubformulae_or) \<comment> \<open>Pendiente\<close>
+  case (Or F1 F2)
+  then show ?thesis
+   by (simp only: singletonI UnI1 setSubformulae_or)
 next
-case (Imp F1 F2)
-  then show ?case 
-    by (simp add: insertI1 setSubformulae_imp) \<comment> \<open>Pendiente\<close>
-qed
-
-text \<open>\comentario{Completar la demostración anterior y usar los símbolos 
-lógicos.}\<close>
+  case (Imp F1 F2)
+  then show ?thesis
+   by (simp only: singletonI UnI1 setSubformulae_imp)
+qed 
 
 text \<open>La demostración automática es la siguiente.\<close>
 
 lemma "F \<in> setSubformulae F"
-  by (induction F) simp_all
+  by (cases F) simp_all
 
 text \<open>Procedamos con los demás resultados de la sección. Como hemos 
   señalado con anterioridad, utilizaremos varias propiedades de 
@@ -687,53 +646,65 @@ lemma "A \<union> B \<subseteq> C \<Longrightarrow> B \<subseteq> C"
 
 text \<open>Veamos ahora los distintos resultados sobre subfórmulas.
 
-  \comentario{Reescribir el siguiente enunciado y su demostración.}
-
   \begin{lema}
-    Sean \<open>F\<close> una fórmula proposicional y \<open>A\<^sub>F\<close> el conjunto de las 
-    fórmulas atómicas formadas a partir de cada elemento del conjunto 
-    de variables proposicionales de \<open>F\<close>. 
-    Entonces, \<open>A\<^sub>F \<subseteq> Subf(F)\<close>.
-
-    Por tanto, las fórmulas atómicas son subfórmulas.
+    Todas las fórmulas atómicas de una fórmula son subfórmulas.
   \end{lema}
 
   \begin{demostracion}
-    La prueba seguirá el esquema inductivo para la estructura de 
-    fórmulas. Veamos cada caso:
+    Aclaremos que el conjunto de las fórmulas atómicas de una fórmula 
+    cualquiera está formado a partir de cada elemento de su conjunto de 
+    variables proposicionales. 
+    Queremos demostrar que este conjunto está contenido en el conjunto 
+    de subfórmulas de dicha fórmula.
+    De este modo, la prueba seguirá el esquema inductivo para la 
+    estructura de fórmulas. Veamos cada caso:
   
-    Consideremos la fórmula atómica \<open>p\<close> cualquiera. Entonces, su
-    conjunto de átomos es \<open>{p}\<close>. De este modo, el conjunto \<open>A\<^sub>p\<close> 
-    correspondiente será \<open>A\<^sub>p = {p} \<subseteq> {p} = Subf(Atom p)\<close> como 
-    queríamos 
+    Consideremos la fórmula atómica \<open>p\<close> cualquiera. Como su
+    conjunto de átomos es \<open>{p}\<close>, el conjunto de sus fórmulas atómicas
+    correspondiente será \<open>{p}\<close>. Por otro lado, su conjunto de
+    subfórmulas es también \<open>{p}\<close>, luego el conjunto de sus fórmulas 
+    atómicas está contenido en el conjunto de sus subfórmulas como 
+    queríamos demostrar.
+
+    Sea la fórmula \<open>\<bottom>\<close>. Como su conjunto de átomos es vacío, es claro 
+    que el conjunto de sus fórmulas atómicas es también el vacío y, por
+    tanto, está contenido en el conjunto de sus subfórmulas.
+
+    Sea la fórmula \<open>F\<close> tal que el conjunto de sus fórmulas atómicas está
+    contenido en el conjunto de sus subfórmulas. Probemos el resultado 
+    para \<open>\<not> F\<close>. 
+    En primer lugar, sabemos que los 
+    conjuntos de variables proposicionales de \<open>F\<close> y \<open>\<not> F\<close> coinciden, 
+    luego tendrán igual conjunto de fórmulas atómicas. Por lo tanto,
+    por hipótesis de inducción tenemos que le conjunto de fórmulas
+    atómicas de \<open>\<not> F\<close> está contenido en el conjunto de subfórmulas de 
+    \<open>F\<close>. Por otro lado, como el conjunto de subfórmulas de \<open>\<not> F\<close> está 
+    definido como \<open>Subf(\<not> F) = {\<not> F} \<union> Subf(F)\<close>, tenemos que el 
+    el conjunto de subfórmulas de \<open>F\<close> está contenido en el de \<open>\<not> F\<close>
+    Por tanto, por propiedades de contención, 
+    tenemos que el conjunto de fórmulas atómicas de \<open>\<not> F\<close> está 
+    contenido en el conjunto de subfórmulas de \<open>\<not> F\<close> como queríamos 
     demostrar.
 
-    Sea la fórmula \<open>\<bottom>\<close>. Como su connjunto de átomos es vacío, es claro 
-    que \<open>A\<^sub>\<bottom> = \<emptyset> \<subseteq> Subf(\<bottom>) = \<emptyset>\<close>.
-
-    Sea la fórmula \<open>F\<close> tal que \<open>A\<^sub>F \<subseteq> Subf(F)\<close>. Probemos el resultado 
-    para \<open>\<not> F\<close>. Por definición tenemos que los conjunto de variables 
-    proposicionales de \<open>F\<close> y \<open>\<not> F\<close> coinciden, luego \<open>A\<^sub>\<not>\<^sub>F = A\<^sub>F\<close>. Además, 
-    \<open>Subf(\<not> F) = {\<not> F} \<union> Subf(F)\<close>. Por tanto, por hipótesis de 
-    inducción tenemos:
-    \<open>A\<^sub>\<not>\<^sub>F = A\<^sub>F \<subseteq> Subf(F) \<subseteq> {\<not> F} \<union> Subf(F) = Subf(\<not> F)\<close>, luego
-    \<open>A\<^sub>\<not>\<^sub>F \<subseteq> Subf(\<not> F)\<close>.
-
-    Sean las fórmulas \<open>F\<close> y \<open>G\<close> tales que \<open>A\<^sub>F \<subseteq> Subf(F)\<close> y 
-    \<open>A\<^sub>G \<subseteq> Subf(G)\<close>. Probemos ahora \<open>A\<^sub>F\<^sub>*\<^sub>G \<subseteq> Subf(F*G)\<close> para cualquier 
-    conectiva binaria \<open>*\<close>. Por un lado, el conjunto de átomos de \<open>F*G\<close>
-    es la unión de sus correspondientes conjuntos de átomos, luego 
-    \<open>A\<^sub>F\<^sub>*\<^sub>G = A\<^sub>F \<union> A\<^sub>G\<close>. Por tanto, por hipótesis de inducción y definición 
-    del conjunto de subfórmulas, se tiene:
-    \<open>A\<^sub>F\<^sub>*\<^sub>G = A\<^sub>F \<union> A\<^sub>G \<subseteq> Subf(F) \<union> Subf(G) \<subseteq> 
-    {F*G} \<union> Subf(F) \<union> Subf(G) = Subf(F*G)\<close>
-    Luego, \<open>A\<^sub>F\<^sub>*\<^sub>G \<subseteq> Subf(F*G)\<close> como queríamos demostrar.  
+    Sean las fórmulas \<open>F\<close> y \<open>G\<close> tales que sus conjuntos de fórmulas 
+    atómicas están contenidos en sus conjuntos de subfórmulas 
+    respectivamente. Probemos ahora el resultado para \<open>F*G\<close>, donde \<open>*\<close>
+    simboliza una conectiva binaria cualquiera.
+    En primer lugar, sabemos que el conjunto de átomos de \<open>F*G\<close>
+    es la unión de sus correspondientes conjuntos de átomos. De este
+    modo, el conjunto de fórmulas atómicas de \<open>F*G\<close> será la unión del 
+    conjunto de fórmulas atómicas de \<open>F\<close> y el correspondiente de \<open>G\<close>. 
+    Por tanto, por hipótesis de inducción tenemos que el conjunto de 
+    fórmulas atómicas de \<open>F*G\<close> está contenido en la unión del conjunto
+    de subfórmulas de \<open>F\<close> y el conjunto de subfórmulas de \<open>G\<close>. Como el
+    conjunto de subfórmulas de \<open>F*G\<close> se define como
+    \<open>Subf(F*G) = {F*G} \<union> Subf(F) \<union> Subf(G)\<close>, tenemos que la unión
+    de los conjuntos de subfórmulas de \<open>F\<close> y \<open>G\<close> está contenida en el
+    conjunto de subfórmulas de \<open>F*G\<close>. Por tanto, por propiedades
+    de la contención, tenemos que le conjunto de fórmulas atómicas de
+    \<open>F*G\<close> está contenido en el conjunto de subfórmulas de \<open>F*G\<close> como 
+    queríamos demostrar.  
   \end{demostracion}
-
-  \comentario{En la redacción de la demostración: seguir el esquema de
- la demostración de que el conjunto de átomos es finito y, en cada caso,
- seguir el esquema de la prueba en Isabelle en la que se especifican
- claramente las hipótesis de inducción y cómo se usan.}
 
   En Isabelle, se especifica como sigue.\<close>
 
@@ -928,59 +899,62 @@ text \<open>La siguiente propiedad declara que el conjunto de átomos de una
   fórmula.
 
   \begin{lema}
-    Sea \<open>G \<in> Subf(F)\<close>, entonces el conjunto de átomos de \<open>G\<close> está
-    contenido en el de \<open>F\<close>.
+  Dada una fórmula, los átomos de sus subfórmulas son átomos de ella
+  misma.
   \end{lema}
-
-  \comentario{Reescribir el enunciado anterior.}
 
   \begin{demostracion}
   Procedemos mediante inducción en la estructura de las fórmulas según 
   los distintos casos:
 
-  Sea \<open>p\<close> una fórmula atómica cualquiera. Si \<open>G \<in> Subf(p)\<close>, 
-  como su conjunto de variables es \<open>{p}\<close>, se tiene \<open>G = p\<close>. 
-  Por tanto, se tiene el resultado.
+  Sea \<open>p\<close> una fórmula atómica cualquiera. Por definición de su conjunto
+  de subfórmulas, su única subfórmula es ella misma. Por tanto, tienen 
+  igual conjunto de átomos.
 
-  Sea la fórmula \<open>\<bottom>\<close>. Si \<open>G \<in> Subf(\<bottom>)\<close>, como  su conjunto de átomos es
-  \<open>{\<bottom>}\<close>, se tiene \<open>G = \<bottom>\<close>. Por tanto, se cumple la propiedad.
+  Sea la fórmula \<open>\<bottom>\<close>. Por definición de su conjunto de subfórmulas, su 
+  única subfórmula es ella misma. Por tanto, tienen 
+  igual conjunto de átomos (en particular, el vacío).
 
-  Sea la fórmula \<open>F\<close> cualquiera tal que para cualquier subfórmula 
-  \<open>G \<in> Subf(F)\<close> se verifica que el conjunto de átomos de \<open>G\<close> está 
-  contenido en el de \<open>F\<close>. Supongamos \<open>G' \<in> Subf(\<not> F)\<close> cualquiera, 
-  probemos que \<open>conjAtoms(G') \<subseteq> conjAtoms(\<not> F)\<close>.
-  Por definición, tenemos que \<open>Subf(\<not> F) = {\<not> F} \<union> Subf(F)\<close>. De este 
-  modo, tenemos dos opciones:
-  \<open>G' \<in> {\<not> F}\<close> o \<open>G' \<in> Subf(F)\<close>. Del primer caso se deduce \<open>G' = \<not> F\<close> 
-  y, por tanto, se verifica el resultado. Observando el segundo caso, 
-  por hipótesis de inducción, se tiene que el conjunto de átomos de \<open>G'\<close>
-  está contenido en el de \<open>F\<close>. Además, como el conjunto de átomos de 
-  \<open>F\<close> y \<open>\<not> F\<close> coinciden, se verifica el resultado.
-
-  Sea \<open>F1\<close> fórmula proposicional tal que para cualquier \<open>G \<in> Subf(F1)\<close> 
-  se tiene que el conjunto de átomos de \<open>G\<close> está contenido en el de 
-  \<open>F1\<close>. Sea también \<open>F2\<close> tal que dada \<open>G \<in> Subf(F2)\<close> cualquiera se 
-  verifica también la hipótesis de inducción en su caso. Supongamos 
-  \<open>G' \<in> Subf(F1*F2)\<close> donde \<open>*\<close> es cualquier conectiva binaria. Vamos a 
+  Sea la fórmula \<open>F\<close> tal que para cualquier subfórmula suya se verifica 
+  que el conjunto de sus átomos está contenido en el conjunto de átomos 
+  de \<open>F\<close>. Supongamos \<open>G\<close> subfórmula cualquiera de \<open>\<not> F\<close>. Vamos a
   probar que el conjunto de átomos de \<open>G\<close> está contenido en el de 
-  \<open>F1*F2\<close>.
+  \<open>\<not> F\<close>.
+  Por definición, tenemos que el conjunto de subfórmulas de \<open>\<not> F\<close> es de
+  la forma \<open>Subf(\<not> F) = {\<not> F} \<union> Subf(F)\<close>. De este modo, tenemos dos 
+  opciones posibles: \<open>G \<in> {\<not> F}\<close> o \<open>G \<in> Subf(F)\<close>. 
+  Del primer caso se deduce \<open>G = \<not> F\<close> 
+  y, por tanto, tienen igual conjunto de átomos.
+  Observando el segundo caso, por hipótesis de inducción, se tiene que 
+  el conjunto de átomos de \<open>G\<close> está contenido en el de \<open>F\<close>. Además, como 
+  el conjunto de átomos de \<open>F\<close> y \<open>\<not> F\<close> coinciden, se verifica el 
+  resultado.
 
-  En primer lugar, como 
-  \<open>Subf(F1*F2) = {F1*F2} \<union> (Subf(F1) \<union> Subf(F2))\<close>, se desglosan tres
-  casos posibles para \<open>G'\<close>:
-  Si \<open>G' \<in> {F1*F2}\<close>, entonces \<open>G' = F1*F2\<close> y se tiene la propiedad.
-  Si \<open>G' \<in> Subf(F1) \<union> Subf(F2)\<close>, entonces por propiedades de 
-  conjuntos:
-  \<open>G' \<in> Subf(F1)\<close> o \<open>G' \<in> Subf(F2)\<close>. Si \<open>G' \<in> Subf(F1)\<close>, por hipótesis 
-  de inducción se tiene el resultado. Como el conjunto de átomos de
-  \<open>F1*F2\<close> es la unión de los conjuntos de átomos de \<open>F1\<close> y \<open>F2\<close>, se 
-  obtiene el resultado como consecuencia de la transitividad de 
-  contención para conjuntos. El caso \<open>G' \<in> Subf(F2)\<close> se demuestra de la 
-  misma forma.      
+  Sea \<open>F1\<close> fórmula proposicional tal que el conjunto de los átomos de
+  cualquier subfórmula suya está contenido en el conjunto de átomos de 
+  \<open>F1\<close>. Sea también \<open>F2\<close> cumpliendo dicha hipótesis de inducción para 
+  sus correspondientes subfórmulas. Supongamos además 
+  \<open>G\<close> subfórmula de \<open>F1*F2\<close>, donde \<open>*\<close> simboliza una conectiva binaria 
+  cualquiera. Vamos a probar que el conjunto de átomos de \<open>G\<close> está 
+  contenido en el conjunto de átomos de \<open>F1*F2\<close>.
+  En primer lugar, por definición tenemos que el conjunto de
+  subfórmulas de \<open>F1*F2\<close> es de la forma
+  \<open>Subf(F1*F2) = {F1*F2} \<union> (Subf(F1) \<union> Subf(F2))\<close>. De este modo, 
+  tenemos dos posibles opciones: \<open>G \<in> {F1*F2}\<close> o 
+  \<open>G \<in> Subf(F1) \<union> Subf(F2)\<close>.
+  Si \<open>G \<in> {F1*F2}\<close>, entonces \<open>G = F1*F2\<close> y tienen igual conjunto de 
+  átomos.
+  Por otro lado, si \<open>G \<in> Subf(F1) \<union> Subf(F2)\<close> tenemos dos nuevas
+  posibilidades: \<open>G\<close> es subfórmula de \<open>F1\<close> o \<open>G\<close> es subfórmula de \<open>F2\<close>.
+  Suponiendo que fuese subfórmula de \<open>F1\<close>, aplicando hipótesis de
+  inducción tendríamos que el conjunto de átomos de \<open>G\<close> está contenido 
+  en el de \<open>F1\<close>. De este modo, como el conjunto de átomos de \<open>F1*F2\<close> se
+  define como la unión de los conjuntos de átomos de \<open>F1\<close> y \<open>F2\<close>, por
+  propiedades de la contención se verifica que el conjunto de átomos de
+  \<open>G\<close> está contenido en el de \<open>F1*F2\<close>. Observemos que si \<open>G\<close> es 
+  subfórmula de \<open>F2\<close>, se demuestra análogamente cambiando los
+  subíndices correspondientes. Por tanto, se tiene el resultado.      
   \end{demostracion}
-
-  \comentario{Reescribir la demostración anterior. Cuidado con los 
-cortes de línea.}
 
   Formalizado en Isabelle:\<close>
 
@@ -1043,7 +1017,7 @@ proof -
   qed
 qed
 
-text \<open>\comentario{Añadir disjE al glosario.}\<close>
+text \<open>\comentario{Añadir disjE y otras al glosario.}\<close>
 
 lemma subformulas_atoms_and:
   assumes "G \<in> setSubformulae F1 \<Longrightarrow> atoms G \<subseteq> atoms F1"
@@ -1208,18 +1182,17 @@ next
   then show ?case by (simp only: subformulas_atoms_imp)
 qed
 
-text \<open>\comentario{Usar símbolos lógicos en la demostración anterior.}\<close>
+text \<open>\comentario{Usar símbolos lógicos en la demostración anterior.
+  No lo permite.}\<close>
 
 text \<open>Por último, su demostración aplicativa automática.\<close>
 
 lemma "G \<in> setSubformulae F \<Longrightarrow> atoms G \<subseteq> atoms F"
   by (induction F) auto
 
-text \<open>A continuación voy a introducir un lema que no pertenece a la 
+text \<open>A continuación vamos a introducir un lema que no pertenece a la 
   teoría original de Isabelle pero facilita las siguientes 
   demostraciones detalladas mediante contenciones en cadena.
-
- \comentario{cambiar voy por vamos.}
 
   \begin{lema}
     Sea \<open>G\<close> una subfórmula de \<open>F\<close>, entonces el conjunto de subfórmulas 
@@ -1229,45 +1202,62 @@ text \<open>A continuación voy a introducir un lema que no pertenece a la
   \begin{demostracion}
   La prueba es por inducción en la estructura de fórmula.
   
-  Sea \<open>p\<close> una fórmula atómica cualquiera. Entonces, bajo las
-  condiciones del lema se tiene que \<open>G = p\<close>. Por lo tanto, tienen igual
-  conjunto de subfórmulas.
+  Sea \<open>p\<close> una fórmula atómica cualquiera. Por definición, el conjunto de
+  sus subfórmulas es \<open>{p}\<close>, luego su única subfórmula es ella misma y,
+  por tanto, tienen igual conjunto de subfórmulas.
 
-  Sea la fórmula \<open>\<bottom>\<close>. Entonces, \<open>G = \<bottom>\<close> y tienen igual conjunto de
-  subfórmulas.
+  Sea la fórmula \<open>\<bottom>\<close>. Por definición, el conjunto de
+  sus subfórmulas es \<open>{\<bottom>}\<close>, luego su única subfórmula es ella misma y,
+  por tanto, tienen igual conjunto de subfórmulas.
 
-  Sea una fórmula \<open>F\<close> tal que para toda subfórmula \<open>G\<close>, se tiene que el
-  conjunto de subfórmulas de \<open>G\<close> está contenido en el de \<open>F\<close>. Veamos la
-  propiedad para \<open>\<not> F\<close>. Sea \<open>G' \<in> Subf(\<not> F) = {\<not> F} \<union> Subf(F)\<close>. 
-  Entonces \<open>G' \<in> {\<not> F}\<close> o \<open>G' \<in> Subf(F)\<close>. 
-  Del primer caso se obtiene que \<open>G' = \<not> F\<close> y, por tanto, tienen igual 
-  conjunto de subfórmulas. Del segundo caso se tiene \<open>G' \<in> Subf(F)\<close> y, 
-  por hipótesis de inducción, el conjunto de subfórmulas de \<open>G'\<close> está 
-  contenido en el de \<open>F\<close>. Como, a su vez, el conjunto de subfórmulas 
-  de \<open>F\<close> está contenido en el de \<open>\<not> F\<close> por definición, se verifica la
-  propiedad como consecuencia de la transitividad de la contención.
+  Sea una fórmula \<open>F\<close> tal que para toda subfórmula suya se tiene que el
+  conjunto de sus subfórmulas está contenido en el conjunto de 
+  subfórmulas de \<open>F\<close>.
+  Supongamos \<open>G\<close> subfórmula de \<open>\<not> F\<close>. Vamos a probar que el conjunto de
+  subfórmulas de \<open>G\<close> está contenido en el de \<open>\<not> F\<close>.
+  En primer lugar, por definición se cumple que el conjunto de
+  subfórmulas de \<open>\<not> F\<close> es de la forma \<open>Subf(\<not> F) = {\<not> F} \<union> Subf(F)\<close>.
+  Como hemos supuesto \<open>G\<close> subfórmula de \<open>\<not> F\<close>, hay dos opciones 
+  posibles:\<open>G \<in> {\<not> F}\<close> o \<open>G \<in> Subf(F)\<close>. 
+  Del primer caso se obtiene que \<open>G = \<not> F\<close> y, por tanto, tienen igual 
+  conjunto de subfórmulas. 
+  Por otro lado si suponemos que \<open>G\<close> es subfórmula de \<open>F\<close>, por hipótesis
+  de inducción tenemos que el conjunto de subfórmulas de \<open>G\<close> está 
+  contenido en el de \<open>F\<close>. Como, a su vez, el conjunto de subfórmulas
+  de \<open>F\<close> está contenido en el de \<open>\<not> F\<close> según la definición anterior, 
+  por propiedades de la contención de verifica que el conjunto de 
+  subfórmulas de \<open>G\<close> está contenido en el de \<open>\<not> F\<close>, como queríamos 
+  demostrar.
 
-  Sean las fórmulas \<open>F1\<close> y \<open>F2\<close> tales que para cualquier subfórmula \<open>G1\<close>
-  de \<open>F1\<close> el conjunto de subfórmulas de \<open>G1\<close> está contenido en el de 
-  \<open>F1\<close>, y para cualquier subfórmula \<open>G2\<close> de \<open>F2\<close> el conjunto de 
-  subfórmulas de \<open>G2\<close> está contenido en el de \<open>F2\<close>. Veamos que se 
-  verifica la propiedad para \<open>F1*F2\<close> donde \<open>*\<close> es cualquier conectiva 
-  binaria. 
-  Sea \<open>G' \<in> Subf(F1*F2) = {F1*F2} \<union> Subf(F1) \<union> Subf(F2)\<close>. De este modo,
-  tenemos tres casos: \<open>G' \<in> {F1*F2}\<close> o \<open>G' \<in> Subf(F1)\<close> o 
-  \<open>G' \<in> Subf(F2)\<close>. De la primera opción se deduce \<open>G' = F1*F2\<close> y, por
-  tanto, tienen igual conjunto de subfórmulas. Por otro lado, si 
-  \<open>G' \<in> Subf(F1)\<close>, por hipótesis de inducción se tiene que el conjunto
-  de subfórmulas de \<open>G'\<close> está contenido en el de \<open>F1\<close>. Por tanto, 
-  como el conjunto de subfórmulas de \<open>F1\<close> está a su vez contenido en el 
-  de \<open>F1*F2\<close>, se verifica la propiedad por la transitividad de la 
-  contención en cadena. El caso \<open>G' \<in> Subf(F2)\<close> es análogo cambiando el 
-  índice de la fórmula.   
+  Sean las fórmulas \<open>F1\<close> y \<open>F2\<close> tales que para cualquier subfórmula
+  de \<open>F1\<close> el conjunto de sus subfórmulas está contenido en el conjunto 
+  de subfórmulas de \<open>F1\<close>, y para cualquier subfórmula de \<open>F2\<close> el 
+  conjunto de sus subfórmulas está contenido en el conjunto de 
+  subfórmulas de \<open>F2\<close>. Supongamos \<open>G\<close> 
+  subfórmula de \<open>F1*F2\<close> donde \<open>*\<close> simboliza una conectiva binaria 
+  cualquiera. Vamos a probar que el conjunto de subfórmulas de \<open>G\<close> está
+  contenido en el de \<open>F1*F2\<close>. 
+  En primer lugar, por definición se cumple que el conjunto de 
+  subfórmulas de \<open>F1*F2\<close> es de la forma 
+  \<open>Subf(F1*F2) = {F1*F2} \<union> (Subf(F1) \<union> Subf(F2))\<close>. De este modo,
+  tenemos dos opciones: \<open>G \<in> {F1*F2}\<close> o \<open>G \<in> Subf(F1) \<union> Subf(F2)\<close>.
+   De la primera opción se deduce \<open>G = F1*F2\<close> y, por
+  tanto, tienen igual conjunto de subfórmulas. 
+  Por otro lado, si \<open>G \<in> Subf(F1) \<union> Subf(F2)\<close>, tenemos a su vez dos 
+  opciones: \<open>G\<close> es subfórmula de \<open>F1\<close> o \<open>G\<close> es subfórmula de \<open>F2\<close>.
+  Supongamos que fuese subfórmula de \<open>F1\<close>. En este caso, por hipótesis 
+  de inducción se tiene que el conjunto de subfórmulas de \<open>G\<close> está 
+  contenido en el de \<open>F1\<close>. Por la definición anterior del conjunto de 
+  subfórmulas de \<open>F1*F2\<close>, se verifica que el conjunto de subfórmulas de 
+  \<open>F1\<close> está contenido en el de \<open>F1*F2\<close>. Por tanto, por propiedades de
+  contención se tiene que el conjunto de subfórmulas de \<open>G\<close> está 
+  contenido en el conjunto de subfórmulas de \<open>F1*F2\<close>. El caso de \<open>G\<close> 
+  subfórmula de \<open>F2\<close> se demuestra análogamente cambiando el 
+  índice de la fórmula correspondiente. Por tanto, se verifica el 
+  resultado en este caso.  
   \end{demostracion}
 
-  \comentario{Reescribir la demostración anterior.}\<close>
-
-text \<open>Veamos su formalización en Isabelle junto con su demostración 
+Veamos su formalización en Isabelle junto con su demostración 
   estructurada.\<close>
 
 lemma subContsubformulae_atom: 
@@ -1492,7 +1482,8 @@ next
   then show ?case by (rule subContsubformulae_imp)
 qed
 
-text \<open>\comentario{Usar símbolos lógicos en la demostración anterior.}\<close>
+text \<open>\comentario{Usar símbolos lógicos en la demostración anterior.
+  No se puede.}\<close>
 
 text \<open>Finalmente, su demostración automática se muestra a continuación.\<close>
 
@@ -1505,27 +1496,22 @@ text \<open>El siguiente lema nos da la noción de transitividad de contención
   subfórmula es del mismo modo subfórmula de la mayor.
 
   \begin{lema}
-    Sean \<open>G\<close> una subfórmula de \<open>F\<close> y \<open>H\<close> una subfórmula de \<open>G\<close>, entonces 
-    \<open>H\<close> es subfórmula de \<open>F\<close>.
+    Sea \<open>H\<close> una subfórmula de \<open>G\<close> que es a su vez subfórmula de \<open>F\<close>, 
+    entonces \<open>H\<close> es subfórmula de \<open>F\<close>.
   \end{lema}
 
-  \comentario{La transitividad de lee mejor si se escribe en este
- orden: Sean \<open>H\<close> una subfórmula de \<open>G\<close> y \<open>G\<close> una subfórmula de \<open>F\<close>, 
- entonces \<open>H\<close> es subfórmula de \<open>F\<close>.}
-
-
   \begin{demostracion}
-  La prueba está basada en el lema anterior. Hemos demostrado que como 
-  \<open>G\<close> es subfórmula de \<open>F\<close>, entonces el conjunto de átomos de \<open>G\<close> está
-  contenido en el de \<open>F\<close>. Del mismo modo, como \<open>H\<close> es subfórmula de
-  \<open>G\<close>, su conjunto de átomos está contenido en el de \<open>G\<close>. Por la
-  transitividad de la contención, tenemos que el conjunto de átomos de 
-  \<open>H\<close> está contenido en el de \<open>F\<close>. Por otro lema anterior, tenemos que
-  \<open>H\<close> pertenece a su propio conjunto de subfórmulas. Por tanto,
-  \<open>H \<in> Subf(H) \<subseteq> Subf(F) \<Longrightarrow> H \<in> Subf(F)\<close>.
+  La prueba está basada en el lema anterior. Hemos demostrado que si 
+  \<open>H\<close> es subfórmula de \<open>G\<close>, entonces el conjunto de subfórmulas de \<open>H\<close> 
+  está contenido en el conjunto de subfórmulas de \<open>G\<close>. Del mismo modo, 
+  como \<open>G\<close> es subfórmula de \<open>F\<close>, su conjunto de subfórmulas está 
+  contenido en el conjunto de subfórmulas de \<open>F\<close>. Por la
+  transitividad de la contención, tenemos que el conjunto de subfórmulas
+  de \<open>H\<close> está contenido en el de \<open>F\<close>. Por otro lema anterior, 
+  como \<open>H\<close> es subfórmula de ella misma, es decir, pertenece a su 
+  conjunto de subfórmulas, por la contención anterior se verifica que
+  pertenece al conjunto de subfórmulas de \<open>F\<close> como queríamos demostrar. 
   \end{demostracion}
-
-  \comentario{Reescribir la demostración anterior.}
 
   Veamos su formalización y prueba estructurada en Isabelle.
 
@@ -1552,16 +1538,15 @@ proof -
     by (rule rev_subsetD)
 qed
 
+text\<open>A continuación su demostración aplicativa.\<close>
+
 lemma subsubformulae: 
   "G \<in> setSubformulae F 
    \<Longrightarrow> H \<in> setSubformulae G 
    \<Longrightarrow> H \<in> setSubformulae F"
-  apply (drule  subContsubformulae)
+  apply (drule subContsubformulae)
   apply (erule subsetD, assumption)
   done
-(*  using subContsubformulae by blast *)
-
-text \<open>\comentario{Ver la demostración sin blast.}\<close>
 
 text \<open>\comentario{Explicar el cambio de enunciado}\<close>
 
@@ -1586,36 +1571,30 @@ text \<open>Como podemos observar, el resultado es análogo en todas las
   Nos basaremos en el lema anterior @{term "subsubformulae"}.\<close>
 
 lemma subformulas_in_subformulas_not:
-  assumes "Not G \<in> setSubformulae F"
+  assumes "\<^bold>\<not> G \<in> setSubformulae F"
   shows "G \<in> setSubformulae F"
 proof -
-  have "setSubformulae (Not G) = {Not G} \<union> setSubformulae G" 
-    by simp \<comment> \<open>Pendiente\<close>
-  then have 1:"G \<in> setSubformulae (Not G)" 
-    by (simp add: subformulae_self) \<comment> \<open>Pendiente\<close>
+  have "G \<in> setSubformulae G"
+    by (simp only: subformulae_self)
+  then have "G \<in> {\<^bold>\<not> G} \<union> setSubformulae G"
+    by (simp only: UnI2)
+  then have 1:"G \<in> setSubformulae (\<^bold>\<not> G)" 
+    by (simp only: setSubformulae_not)
   show "G \<in> setSubformulae F" using assms 1 
     by (rule subsubformulae)
 qed
-
-text \<open>\comentario{Completar la demostración anterior.}\<close>
 
 lemma subformulas_in_subformulas_and:
   assumes "G \<^bold>\<and> H \<in> setSubformulae F" 
   shows "G \<in> setSubformulae F \<and> H \<in> setSubformulae F"
 proof (rule conjI)
-  have 1: "setSubformulae (G \<^bold>\<and> H) = 
-          {G \<^bold>\<and> H} \<union> (setSubformulae G \<union> setSubformulae H)" 
-    by (simp only: setSubformulae_and)
-  then have 2: "G \<in> setSubformulae (G \<^bold>\<and> H)" 
-    by (simp add: subformulae_self) \<comment> \<open>Pendiente\<close> 
-  have 3: "H \<in> setSubformulae (G \<^bold>\<and> H)" 
-    using 1 
-    by (simp add: subformulae_self) \<comment> \<open>Pendiente\<close> 
-  show "G \<in> setSubformulae F" using assms 2 by (rule subsubformulae)
-  show "H \<in> setSubformulae F" using assms 3 by (rule subsubformulae)
+  have 1:"G \<in> setSubformulae (G \<^bold>\<and> H)" 
+    by (simp only: subformulae_self UnI2 UnI1 setSubformulae_and)
+  have 2:"H \<in> setSubformulae (G \<^bold>\<and> H)"  
+    by (simp only: subformulae_self UnI2 UnI1 setSubformulae_and)
+  show "G \<in> setSubformulae F" using assms 1 by (rule subsubformulae)
+  show "H \<in> setSubformulae F" using assms 2 by (rule subsubformulae)
 qed
-
-text \<open>\comentario{Completar la demostración anterior.}\<close>
 
 text \<open>Mostremos ahora la demostración automática.\<close>
 
@@ -1643,76 +1622,6 @@ usarlos en la prueba del lema.}
 
 text \<open>\comentario{Completar la prueba anterior.}\<close>
 
-text \<open>\comentario{Pendiente de revisar a partir de aquí.}\<close>
-
-text \<open>\comentario{Completar la demostración anterior.}\<close>
-
-text \<open>Concluimos la sección de subfórmulas con un resultado que
-  relaciona varias funciones sobre la longitud de la lista 
-  \<open>subformulae F\<close> de una fórmula \<open>F\<close> cualquiera.\<close>
-
-lemma length_subformulae: "length (subformulae F) = size F" 
-  oops
-
-text \<open>En primer lugar aparece la clase @{term "size"} de la teoría de 
-  números naturales ....
-
-  Vamos a definir @{term size1} de manera idéntica a como aparece 
-  @{term size} en la teoría.\<close>
-
-class size1 =
-  fixes size1 :: "'a \<Rightarrow> nat" 
-
-instantiation nat :: size1
-begin
-
-definition size1_nat where [simp, code]: "size1 (n::nat) = n"
-
-instance ..
-
-end
-
-text \<open>Como podemos observar, se trata de una clase que actúa sobre un 
-  parámetro global de tipo \<open>'a\<close> cualquiera. Por otro lado, 
-  \<open>instantation\<close> define una clase de parámetros, en este caso los 
-  números naturales \<open>nat\<close> que devuelve como resultado. Incluye una 
-  definición concreta del operador \<open>size1\<close> sobre dichos parámetros. 
-  Además, el último \<open>instance\<close> abre una prueba que afirma que los 
-  parámetros dados conforman la clase especificada en la definición. 
-  Esta prueba que nos afirma que está bien definida la clase aparece
-  omitida utilizando \<open>..\<close> .
-
-  En particular, sobre una fórmula nos devuelve el número de elementos 
-  de la lista cuyos elementos son los nodos y las hojas de su árbol de 
-  formación.\<close>
-          
-value "size (n::nat) = n"
-value "size (5::nat) = 5"
-(* value "(5::nat) = {1,2,3,4,5}" que es eso*)
-
-text \<open>Por otro lado, la función @{term "length"} de la teoría 
-  \href{http://cort.as/-Stfm}{List.thy} nos indica la longitud de una 
-  lista cualquiera de elementos, definiéndose utilizando el comando
-  @{term "size"} visto anteriormente.\<close>
-
-abbreviation length' :: "'a list \<Rightarrow> nat" where
-  "length' \<equiv> size"
-
-text \<open>Las demostración del resultado se vuelve a basar en la inducción 
-  que nos despliega seis casos. 
-
-  La prueba estructurada no resulta interesante, pues todos los casos 
-  son inmediatos por simplificación como en el primer lema de esta 
-  sección. 
-
-  Incluimos a continuación la prueba automática.\<close>
-
-lemma length_subformulae: "length (subformulae F) = size F" 
-  by (induction F; simp)
-
-text \<open>\comentario{Hacer la prueba detallada para mostrar los teoremas 
-  utilizados.}\<close>
-
 section \<open>Conectivas derivadas\<close>
 
 text \<open>En esta sección definiremos nuevas conectivas y fórmulas a partir 
@@ -1738,8 +1647,6 @@ text \<open>Como podemos observar, se define mediante una relación de
 
 lemma "atoms \<top> = \<emptyset>"
    by (simp only: Top_def formula.set Un_absorb)
-
-text \<open>\comentario{Añadir regla al glosario.}\<close>
 
 text \<open>\comentario{Añadir la doble implicación como conectiva derivada.}\<close>
 
@@ -1790,13 +1697,13 @@ text \<open>A continuación vamos a definir dos conectivas que generalizan la
 
   \comentario{Da error que no localizo}\<close>
 
-(*primrec BigAnd :: "'a formula list \<Rightarrow> 'a formula" ("\<^bold>\<And>_") where
+primrec BigAnd :: "'a formula list \<Rightarrow> 'a formula" ("\<^bold>\<And>_") where
   "\<^bold>\<And>Nil = (\<^bold>\<not>\<bottom>)" 
 | "\<^bold>\<And>(F#Fs) = F \<^bold>\<and> \<^bold>\<And>Fs"
 
 primrec BigOr :: "'a formula list \<Rightarrow> 'a formula" ("\<^bold>\<Or>_") where
   "\<^bold>\<Or>Nil = \<bottom>" 
-| "\<^bold>\<Or>(F#Fs) = F \<^bold>\<or> \<^bold>\<Or>Fs"*)
+| "\<^bold>\<Or>(F#Fs) = F \<^bold>\<or> \<^bold>\<Or>Fs"
 
 text \<open>Ambas nuevas conectivas se definen con el tipo funciones 
   primitivas recursivas. Estas se basan en los dos casos descritos
@@ -1824,31 +1731,86 @@ text \<open>Ambas nuevas conectivas se definen con el tipo funciones
 
   La conjunción plural nos da el siguiente resultado.
 
-\comentario{Añadir lema a mano y demostración. Falta demostración en Isabelle.}\<close>
+\comentario{Añadir lema a mano y demostración. Falta demostración en 
+  Isabelle.}\<close>
+
+lemma atoms_nil: "atoms (\<^bold>\<And>Nil) = \<Union>(atoms ` set Nil)"
+proof -
+  have "atoms (\<^bold>\<And>Nil) = atoms (\<^bold>\<not> \<bottom>)" 
+    by (simp only: BigAnd.simps(1))
+  also have "\<dots> = atoms \<bottom>" 
+    by (simp only: formula.set(3))
+  also have "\<dots> = \<emptyset>" 
+    by (simp only: formula.set(2))
+  also have "\<dots> = \<Union>(\<emptyset>)"
+    by (simp only: Union_empty)
+  also have "\<dots> =  \<Union>(atoms ` \<emptyset>)"
+    by (simp only: image_empty)
+  also have "\<dots> = \<Union>(atoms ` set Nil)"
+    by (simp only: list.set)
+  finally show ?thesis
+    by this
+qed
+find_theorems "_ \<union> \<Union> _"
+(*lemma atoms_list:
+  assumes "atoms (\<^bold>\<And>Fs) = \<Union>(atoms ` set Fs)"
+  shows "atoms (\<^bold>\<And>(F#Fs)) = \<Union>(atoms ` set (F#Fs))"
+proof -
+  have "atoms (\<^bold>\<And>(F#Fs)) = atoms (F \<^bold>\<and> \<^bold>\<And>Fs)"
+    by (simp only: BigAnd.simps(2))
+  also have "\<dots> = atoms F \<union> atoms (\<^bold>\<And>Fs)"
+    by (simp only: formula.set(4))
+  also have "\<dots> = atoms F \<union> \<Union>(atoms ` set Fs)"
+    by (simp only: assms)
+  also have "\<dots> = \<Union>(atoms ` ({F} \<union> set Fs))"
+    by (simp only: Union_image_insert)*)
+
+(*lemma atoms_list:
+  assumes "atoms (\<^bold>\<And>Fs) = \<Union>(atoms ` set Fs)"
+  shows "atoms (\<^bold>\<And>(F#Fs)) = \<Union>(atoms ` set (F#Fs))"
+proof -
+  have "atoms (\<^bold>\<And>(F#Fs)) = atoms (F \<^bold>\<and> \<^bold>\<And>Fs)"
+    by (simp only: BigAnd.simps(2))
+  also have "\<dots> = atoms F \<union> atoms (\<^bold>\<And>Fs)"
+    by (simp only: formula.set(4))
+  also have "\<dots> = atoms F \<union> \<Union>(atoms ` set Fs)"
+    by (simp only: assms)
+  also have "\<dots> = \<Union>(atoms ` ({F} \<union> set Fs))"
+    by (simp only: Union_image_insert)*)
+
+(*lemma atoms_list:
+  assumes "atoms (\<^bold>\<And>Fs) = \<Union>(atoms ` set Fs)"
+  shows "atoms (\<^bold>\<And>(F#Fs)) = \<Union>(atoms ` set (F#Fs))"
+proof -
+  have "\<Union>(atoms ` set (F#Fs)) = \<Union>(atoms ` ({F} \<union> set Fs))"
+    by simp (*Pendiente*)
+  also have "\<dots> = atoms F \<union> \<Union> (atoms ` set Fs)"
+    by (simp only: Union_image_insert)*)
+
 
 (*lemma "atoms (\<^bold>\<And>Fs) = \<Union>(atoms ` set Fs)"
 proof (induction Fs)
   case Nil
-    have "atoms (\<^bold>\<And>Nil) = atoms (\<^bold>\<not>\<bottom>)" 
+    have "atoms (\<^bold>\<And>Nil) = atoms (\<^bold>\<not> \<bottom>)" 
       by (simp only: BigAnd.simps(1))
     also have "\<dots> = atoms \<bottom>" 
       by (simp only: formula.set(3))
     also have "\<dots> = \<emptyset>" 
       by (simp only: formula.set)
-    also have "\<dots> =  \<Union> atoms ` \<emptyset>" 
+    also have "\<dots> =  \<Union>(atoms ` set Nil)" 
       by (simp only: list.set) 
   then show ?case 
 next
 case (Cons a Fs)
   assume H:"atoms (\<^bold>\<And>Fs) = \<Union>(atoms ` set Fs)" 
-  show "atoms
+  show "atoms"
   then show ?case sorry
 qed*)
 
-(*text \<open>Su demostración automática es la siguiente.\<close>
+text \<open>Su demostración automática es la siguiente.\<close>
 
 lemma atoms_BigAnd: "atoms (\<^bold>\<And>Fs) = \<Union>(atoms ` set Fs)"
-  by (induction Fs; simp)*)
+  by (induction Fs) simp_all
 
 (*<*)
 end
