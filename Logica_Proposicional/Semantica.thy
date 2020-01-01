@@ -1,7 +1,7 @@
 (*<*) 
 theory Semantica
   imports 
-    Formulas
+    Sintaxis
 begin
 (*>*)
 
