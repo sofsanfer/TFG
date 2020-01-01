@@ -244,3 +244,5 @@ TSWLatexianTemp*
 # Eliminar los ficheros generados por Isabelle
 *.thy~
 /Logica_Proposicional/output/*
+
+.DS_Store
