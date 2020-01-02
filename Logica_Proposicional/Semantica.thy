@@ -5,19 +5,18 @@ theory Semantica
 begin
 (*>*)
 
-section\<open>Semántica\<close>
+section \<open>Semántica\<close>
 
-
-text\<open>Definición de interpretación como una aplicación de los símbolos
+text \<open>Definición de interpretación como una aplicación de los símbolos
   proposicionales (o átomos) en los valores de verdad\<close>
 
 type_synonym 'a valuation = "'a \<Rightarrow> bool"
 
-text\<open>The implicit statement here is that an assignment or valuation is
+text \<open>The implicit statement here is that an assignment or valuation is
   always defined on all atoms (because HOL is a total logic).
   Thus, there are no unsuitable assignments.\<close>
 
-text\<open>Definición: valor de una fórmula proposicional en una
+text \<open>Definición: valor de una fórmula proposicional en una
   interpretación (la def. es por recursión en la estructura de la 
   fórmula)\<close>
 
@@ -39,41 +38,37 @@ abbreviation valid ("\<Turnstile> _" 51) where
 
 text \<open>Lema: enunciar y hacer la demostración detallada.\<close>
 
-find_theorems "_\<in>_ \<Longrightarrow> _ = _"
+lemma irrelevant_atom_atomica_l1:
+  assumes "A \<notin> atoms (Atom x)" 
+  shows "x \<noteq> A"
+proof (rule notI)
+  assume "x = A"
+  then have "A \<in> {x}" 
+    by (simp only: singleton_iff)
+  also have "\<dots> = atoms (Atom x)"
+    by (simp only: formula.set(1))
+  finally have "A \<in> atoms (Atom x)"
+    by (simp only: singleton_iff)
+  with assms show "False"  
+    by (rule notE)
+qed
 
 lemma irrelevant_atom_atomica:
   assumes "A \<notin> atoms (Atom x)" 
   shows "(\<A>(A := V)) \<Turnstile> (Atom x) \<longleftrightarrow> \<A> \<Turnstile> (Atom x)"
-proof (rule iffI)
-  assume "(\<A>(A := V)) \<Turnstile> Atom x"
-  then have "(\<A>(A := V)) x" 
+proof -
+  have "x \<noteq> A"
+    using assms
+    by (rule irrelevant_atom_atomica_l1)
+  have "(\<A>(A := V)) \<Turnstile> (Atom x) = (\<A>(A := V)) x"
     by (simp only: formula_semantics.simps(1))
-  then have 1:"if x = A then V else \<A> x"
-    by (simp only: fun_upd_apply)
-  have "x \<noteq> A" 
-  proof (rule notI)
-    assume "x = A"
-    then have "A \<in> {x}" 
-      by (simp only: singleton_iff)
-    also have "\<dots> = atoms (Atom x)"
-      by (simp only: formula.set(1))
-    finally have 2:"A \<in> atoms (Atom x)"
-      by (simp only: singleton_iff)
-    show "False" using assms 2 
-      by (rule notE)
-  qed
-  then have "\<A> x" using 1
-    by (simp only: if_False)
-  thus "\<A> \<Turnstile> (Atom x)" 
+  also have "\<dots> = \<A> x"
+    using \<open>x \<noteq> A\<close>
+    by (rule fun_upd_other)
+  also have "\<dots> = \<A> \<Turnstile> (Atom x)"
     by (simp only: formula_semantics.simps(1))
-next
-  assume "\<A> \<Turnstile> (Atom x)"
-  then have "\<A> x" 
-    by (simp only: formula_semantics.simps(1))
-  then have "(\<A>(A := V)) x" using assms using [[simp_trace]]
-    by simp (*Pendiente*)
-  thus "(\<A>(A := V)) \<Turnstile> (Atom x)" 
-    by (simp only: formula_semantics.simps(1))
+  finally show ?thesis
+    by this
 qed
 
 lemma irrelevant_atom_bot:
@@ -109,8 +104,7 @@ next
     by simp
   thus "(\<A>(A := V)) \<Turnstile> (\<^bold>\<not> F)" 
     by (simp only: formula_semantics.simps(3))
-qed
-
+  oops
 
 (*lemma irrelevant_atom_and: 
   assumes "A \<notin> atoms (F \<^bold>\<and> G)" 
@@ -145,9 +139,41 @@ next
   have "\<A> \<Turnstile> G" using 4
     by (rule conjE)*)
 
+lemma irrelevant_atom_v1:
+  "A \<notin> atoms F \<Longrightarrow> (\<A>(A := V)) \<Turnstile> F \<longleftrightarrow> \<A> \<Turnstile> F"
+proof (induction F)
+  case (Atom x)
+  then show ?case by (rule irrelevant_atom_atomica)
+  (*
+  then show ?case by (simp only: formula.set
+                                 Set.insert_iff
+                                 Set.empty_iff
+                                 HOL.simp_thms
+                                 Fun.fun_upd_apply
+                                 HOL.if_False
+                                 HOL.simp_thms
+                                 HOL.implies_True_equals
+                     )
+   *)
+next
+  case Bot
+  then show ?case sorry
+next
+  case (Not F)
+  then show ?case sorry
+next
+  case (And F1 F2)
+  then show ?case sorry
+next
+  case (Or F1 F2)
+  then show ?case sorry
+next
+  case (Imp F1 F2)
+  then show ?case sorry
+qed
 
 lemma irrelevant_atom: 
-   "A \<notin> atoms F \<Longrightarrow> (\<A>(A := V)) \<Turnstile> F \<longleftrightarrow> \<A> \<Turnstile> F"
+  "A \<notin> atoms F \<Longrightarrow> (\<A>(A := V)) \<Turnstile> F \<longleftrightarrow> \<A> \<Turnstile> F"
   by (induction F; simp)
 
 text\<open>Lema: enunciar y hacer la demostración detallada.\<close>
