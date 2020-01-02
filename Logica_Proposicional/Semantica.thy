@@ -139,22 +139,14 @@ next
   have "\<A> \<Turnstile> G" using 4
     by (rule conjE)*)
 
+text \<open>\comentario{Pendiente de completar irrelevant-atom-v1 y cambiar el
+    nombre.\<close>
+
 lemma irrelevant_atom_v1:
   "A \<notin> atoms F \<Longrightarrow> (\<A>(A := V)) \<Turnstile> F \<longleftrightarrow> \<A> \<Turnstile> F"
 proof (induction F)
   case (Atom x)
   then show ?case by (rule irrelevant_atom_atomica)
-  (*
-  then show ?case by (simp only: formula.set
-                                 Set.insert_iff
-                                 Set.empty_iff
-                                 HOL.simp_thms
-                                 Fun.fun_upd_apply
-                                 HOL.if_False
-                                 HOL.simp_thms
-                                 HOL.implies_True_equals
-                     )
-   *)
 next
   case Bot
   then show ?case sorry
