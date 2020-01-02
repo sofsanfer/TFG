@@ -383,10 +383,8 @@ text \<open>Lemas: enunciar y demostrar detalladamente.\<close>
 
 lemma "A \<Turnstile> \<top>" 
 proof -
- have H:"False \<longrightarrow> False"
+ have "A \<Turnstile> \<bottom> \<longrightarrow> A \<Turnstile> \<bottom>" 
    by (rule imp_refl)
- then have "A \<Turnstile> \<bottom> \<longrightarrow> A \<Turnstile> \<bottom>" 
-   by (simp only: formula_semantics.simps(2))
  then have "A \<Turnstile> (\<bottom> \<^bold>\<rightarrow> \<bottom>)"
    by (simp only: formula_semantics.simps(6))
  thus "A \<Turnstile> \<top>" unfolding Top_def by this
