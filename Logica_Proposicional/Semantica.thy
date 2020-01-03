@@ -166,6 +166,8 @@ proof -
     by this
 qed
 
+text \<open>\comentario{Eliminar notInUnion si no se usa.}\<close>
+
 lemma notInUnion: (* Aún no lo he usado *)
   assumes "x \<notin> A \<union> B"
   shows " x \<notin> A \<and> x \<notin> B"
@@ -185,11 +187,14 @@ proof -
   show ?thesis using C1 C2 by (rule conjI)
 qed
 
+text \<open>\comentario{Simplificar la demostración de irrelevant-atom-and 
+  como irrelevant-atom-no.}\<close>
+
 lemma irrelevant_atom_and:
   assumes "A \<notin> atoms F \<Longrightarrow> \<A>(A := V) \<Turnstile> F \<longleftrightarrow> \<A> \<Turnstile> F"
           "A \<notin> atoms G \<Longrightarrow> \<A>(A := V) \<Turnstile> G \<longleftrightarrow> \<A> \<Turnstile> G"
           "A \<notin> atoms (F \<^bold>\<and> G)"
-        shows "\<A>(A := V) \<Turnstile> (F \<^bold>\<and> G) \<longleftrightarrow> \<A> \<Turnstile> (F \<^bold>\<and> G)"
+  shows "\<A>(A := V) \<Turnstile> (F \<^bold>\<and> G) \<longleftrightarrow> \<A> \<Turnstile> (F \<^bold>\<and> G)"
 proof -
   have AtomsAnd:"atoms (F \<^bold>\<and> G) = atoms F \<union> atoms G" 
     by (simp only: formula.set(4))
@@ -245,11 +250,14 @@ proof -
   qed
 qed
 
+text \<open>\comentario{Simplificar la demostración de irrelevant-atom-or 
+  como irrelevant-atom-no.}\<close>
+
 lemma irrelevant_atom_or:
   assumes "A \<notin> atoms F \<Longrightarrow> \<A>(A := V) \<Turnstile> F \<longleftrightarrow> \<A> \<Turnstile> F"
           "A \<notin> atoms G \<Longrightarrow> \<A>(A := V) \<Turnstile> G \<longleftrightarrow> \<A> \<Turnstile> G"
           "A \<notin> atoms (F \<^bold>\<or> G)"
-        shows "\<A>(A := V) \<Turnstile> (F \<^bold>\<or> G) \<longleftrightarrow> \<A> \<Turnstile> (F \<^bold>\<or> G)"
+  shows "\<A>(A := V) \<Turnstile> (F \<^bold>\<or> G) \<longleftrightarrow> \<A> \<Turnstile> (F \<^bold>\<or> G)"
 proof -
   have AtomsAnd:"atoms (F \<^bold>\<or> G) = atoms F \<union> atoms G" 
     by (simp only: formula.set(5))
@@ -317,11 +325,14 @@ proof -
   qed
 qed
 
+text \<open>\comentario{Simplificar la demostración de irrelevant-atom-imp 
+  como irrelevant-atom-no.}\<close>
+
 lemma irrelevant_atom_imp:
   assumes "A \<notin> atoms F \<Longrightarrow> \<A>(A := V) \<Turnstile> F \<longleftrightarrow> \<A> \<Turnstile> F"
           "A \<notin> atoms G \<Longrightarrow> \<A>(A := V) \<Turnstile> G \<longleftrightarrow> \<A> \<Turnstile> G"
           "A \<notin> atoms (F \<^bold>\<rightarrow> G)"
-        shows "\<A>(A := V) \<Turnstile> (F \<^bold>\<rightarrow> G) \<longleftrightarrow> \<A> \<Turnstile> (F \<^bold>\<rightarrow> G)"
+  shows "\<A>(A := V) \<Turnstile> (F \<^bold>\<rightarrow> G) \<longleftrightarrow> \<A> \<Turnstile> (F \<^bold>\<rightarrow> G)"
 proof -
   have AtomsAnd:"atoms (F \<^bold>\<rightarrow> G) = atoms F \<union> atoms G" 
     by (simp only: formula.set(6))
