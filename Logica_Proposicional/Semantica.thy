@@ -732,7 +732,7 @@ definition "fin_sat S \<equiv> (\<forall>s \<subseteq> S. finite s \<longrightar
 text \<open>Lema: un conjunto de fórmulas S es inconsistente si y sólo si
  \<bottom> es consecuencia lógica de S.\<close>
 
-(*lemma "\<Gamma> \<TTurnstile> \<bottom> \<longleftrightarrow> \<not> sat \<Gamma>" 
+lemma "\<Gamma> \<TTurnstile> \<bottom> \<longleftrightarrow> \<not> sat \<Gamma>" 
 proof (rule iffI)
   assume "\<Gamma> \<TTurnstile> \<bottom>"
   then have 1:"\<forall>\<A>. ((\<forall>G \<in> \<Gamma>. \<A> \<Turnstile> G) \<longrightarrow> (\<A> \<Turnstile> \<bottom>))"
@@ -754,26 +754,24 @@ proof (rule iffI)
       by (simp only: formula_semantics.simps(2))
   qed
 next
-  assume "\<not> sat \<Gamma>" (*"\<not>(\<exists> \<A>. \<forall>F \<in> \<Gamma>. \<A> \<Turnstile> F)"*)
-  then have N1:"\<not>(\<exists>\<A>. \<forall>F \<in> \<Gamma>. \<A> \<Turnstile> F)"
-    by simp (*(simp only: sat_def)*)
+  assume H1:"\<not> sat \<Gamma>" 
   have "\<forall>\<A>. ((\<forall>G \<in> \<Gamma>. \<A> \<Turnstile> G) \<longrightarrow> (\<A> \<Turnstile> \<bottom>))"
   proof (rule allI)
     fix \<A>
     show "(\<forall>G \<in> \<Gamma>. \<A> \<Turnstile> G) \<longrightarrow> (\<A> \<Turnstile> \<bottom>)"
     proof (rule impI)
-      assume N2:"\<forall>G \<in> \<Gamma>. \<A> \<Turnstile> G"
+      assume "\<forall>G \<in> \<Gamma>. \<A> \<Turnstile> G"
       then have "\<exists>\<A>. \<forall>G \<in> \<Gamma>. \<A> \<Turnstile> G"
         by auto (*(rule exI)*)
-      have "False" using N1 N2
-        by auto (*(rule notE)*) (* Pendiente *)
-      thus "\<A> \<Turnstile> \<bottom>"
-        by (simp only: formula_semantics.simps(2))
+      then have H2:"sat \<Gamma>"
+        by (simp only: sat_def)
+      show "\<A> \<Turnstile> \<bottom>" using H1 H2
+        by (rule notE)
     qed
   qed
-  then show "\<Gamma> \<TTurnstile> \<bottom>" (*(\<forall>\<A>. ((\<forall>G \<in> \<Gamma>. \<A> \<Turnstile> G) \<longrightarrow> (\<A> \<Turnstile> \<bottom>)))*)
- qed
-qed*)
+  then show "\<Gamma> \<TTurnstile> \<bottom>"
+    by (simp only: entailment_def)
+qed
 
 lemma entail_sat: 
   "\<Gamma> \<TTurnstile> \<bottom> \<longleftrightarrow> \<not> sat \<Gamma>" 
