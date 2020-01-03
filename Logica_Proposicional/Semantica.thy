@@ -94,7 +94,8 @@ lemma irrelevant_atom_bot:
   shows "(\<A>(A := V)) \<Turnstile> \<bottom> \<longleftrightarrow> \<A> \<Turnstile> \<bottom>"
   by (simp only: formula_semantics.simps(2))
 
-lemma irrelevant_atom_not:
+(*
+lemma irrelevant_atom_not_v1:
   assumes "A \<notin> atoms F \<Longrightarrow> \<A>(A := V) \<Turnstile> F \<longleftrightarrow> \<A> \<Turnstile> F"
           "A \<notin> atoms (\<^bold>\<not> F)"
   shows "\<A>(A := V) \<Turnstile> \<^bold>\<not> F \<longleftrightarrow> \<A> \<Turnstile> \<^bold>\<not> F"
@@ -130,8 +131,42 @@ proof -
       by simp (* Pendiente *)
   qed
 qed
+*)
 
-lemma notInUnion: (*Aún no lo he usado*)
+text \<open>\comentario{La demostración anterior se puede simplificar como
+  sigue}\<close> 
+
+lemma irrelevant_atom_not_l1:
+  assumes "A \<notin> atoms (\<^bold>\<not> F)"
+  shows   "A \<notin> atoms F"
+proof
+  assume "A \<in> atoms F"
+  then have "A \<in> atoms (\<^bold>\<not> F)"
+    by (simp only: formula.set(3)) 
+  with assms show False
+    by (rule notE)
+qed
+
+lemma irrelevant_atom_not:
+  assumes "A \<notin> atoms F \<Longrightarrow> \<A>(A := V) \<Turnstile> F \<longleftrightarrow> \<A> \<Turnstile> F"
+          "A \<notin> atoms (\<^bold>\<not> F)"
+ shows "\<A>(A := V) \<Turnstile> \<^bold>\<not> F \<longleftrightarrow> \<A> \<Turnstile> \<^bold>\<not> F"
+proof -
+  have "A \<notin> atoms F"
+    using assms(2) by (rule irrelevant_atom_not_l1)
+  then have "\<A>(A := V) \<Turnstile> F \<longleftrightarrow> \<A> \<Turnstile> F"
+    by (rule assms(1))
+  have "\<A>(A := V) \<Turnstile> \<^bold>\<not> F = (\<not> \<A>(A := V) \<Turnstile> F)"
+    by (simp only: formula_semantics.simps(3))
+  also have "\<dots> = (\<not> \<A> \<Turnstile> F)"
+    by (simp only: \<open>\<A>(A := V) \<Turnstile> F \<longleftrightarrow> \<A> \<Turnstile> F\<close>)
+  also have "\<dots> = \<A> \<Turnstile> \<^bold>\<not> F"
+    by (simp only: formula_semantics.simps(3))
+  finally show "\<A>(A := V) \<Turnstile> \<^bold>\<not> F \<longleftrightarrow> \<A> \<Turnstile> \<^bold>\<not> F"
+    by this
+qed
+
+lemma notInUnion: (* Aún no lo he usado *)
   assumes "x \<notin> A \<union> B"
   shows " x \<notin> A \<and> x \<notin> B"
 proof -
