@@ -71,6 +71,7 @@ proof -
     by this
 qed
 
+(*
 lemma irrelevant_atom_bot:
   assumes "A \<notin> atoms \<bottom>" 
   shows "(\<A>(A := V)) \<Turnstile> \<bottom> \<longleftrightarrow> \<A> \<Turnstile> \<bottom>"
@@ -83,11 +84,20 @@ next
   thus "(\<A>(A := V)) \<Turnstile> \<bottom>" 
     by (simp only: formula_semantics.simps(2))
 qed
+*)
+
+text \<open>\comentario{La demostración anterior se puede simplificar como
+  sigue}\<close> 
+
+lemma irrelevant_atom_bot:
+  assumes "A \<notin> atoms \<bottom>" 
+  shows "(\<A>(A := V)) \<Turnstile> \<bottom> \<longleftrightarrow> \<A> \<Turnstile> \<bottom>"
+  by (simp only: formula_semantics.simps(2))
 
 lemma irrelevant_atom_not:
   assumes "A \<notin> atoms F \<Longrightarrow> \<A>(A := V) \<Turnstile> F \<longleftrightarrow> \<A> \<Turnstile> F"
           "A \<notin> atoms (\<^bold>\<not> F)"
-        shows "\<A>(A := V) \<Turnstile> \<^bold>\<not> F \<longleftrightarrow> \<A> \<Turnstile> \<^bold>\<not> F"
+  shows "\<A>(A := V) \<Turnstile> \<^bold>\<not> F \<longleftrightarrow> \<A> \<Turnstile> \<^bold>\<not> F"
 proof -
   have "A \<notin> atoms F" using assms(2)
     by simp (*Pendiente*)
