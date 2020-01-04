@@ -125,6 +125,27 @@ next
   qed 
 qed
 
+lemma irrelevant_atom_and_l1:
+  assumes "A \<notin> atoms (F \<^bold>\<and> G)"
+  shows   "A \<notin> atoms F"
+proof 
+  assume "A \<in> atoms F"
+  then have "A \<in> atoms F \<union> atoms G"
+    by (rule UnI1)
+  then have "A \<in> atoms (F \<^bold>\<and> G)"
+    by (simp only: formula.set(4))
+  with assms show False 
+    by (rule notE)
+qed
+
+lemma irrelevant_atom_and:
+  assumes "A \<notin> atoms F \<Longrightarrow> \<A>(A := V) \<Turnstile> F \<longleftrightarrow> \<A> \<Turnstile> F"
+          "A \<notin> atoms G \<Longrightarrow> \<A>(A := V) \<Turnstile> G \<longleftrightarrow> \<A> \<Turnstile> G"
+          "A \<notin> atoms (F \<^bold>\<and> G)"
+  shows "\<A>(A := V) \<Turnstile> (F \<^bold>\<and> G) \<longleftrightarrow> \<A> \<Turnstile> (F \<^bold>\<and> G)"
+proof -
+  oops
+
 text \<open>\comentario{Simplificar la demostración de irrelevant-atom-and 
   como irrelevant-atom-no.}\<close>
 
