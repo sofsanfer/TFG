@@ -154,6 +154,57 @@ proof -
     by this
 qed
 
+lemma irrelevant_atom_or_l1:
+  assumes "A \<notin> atoms (F \<^bold>\<or> G)"
+  shows   "A \<notin> atoms F"
+proof 
+  assume "A \<in> atoms F"
+  then have "A \<in> atoms F \<union> atoms G"
+    by (rule UnI1)
+  then have "A \<in> atoms (F \<^bold>\<or> G)"
+    by (simp only: formula.set(5))
+  with assms show False 
+    by (rule notE)
+qed
+
+lemma irrelevant_atom_or_l2:
+  assumes "A \<notin> atoms (F \<^bold>\<or> G)"
+  shows   "A \<notin> atoms G"
+proof 
+  assume "A \<in> atoms G"
+  then have "A \<in> atoms F \<union> atoms G"
+    by (rule UnI2)
+  then have "A \<in> atoms (F \<^bold>\<or> G)"
+    by (simp only: formula.set(5))
+  with assms show False 
+    by (rule notE)
+qed
+
+lemma irrelevant_atom_or:
+  assumes "A \<notin> atoms F \<Longrightarrow> \<A>(A := V) \<Turnstile> F \<longleftrightarrow> \<A> \<Turnstile> F"
+          "A \<notin> atoms G \<Longrightarrow> \<A>(A := V) \<Turnstile> G \<longleftrightarrow> \<A> \<Turnstile> G"
+          "A \<notin> atoms (F \<^bold>\<or> G)"
+  shows   "\<A>(A := V) \<Turnstile> (F \<^bold>\<or> G) \<longleftrightarrow> \<A> \<Turnstile> (F \<^bold>\<or> G)"
+proof -
+  have "A \<notin> atoms F"
+    using assms(3)
+    by (rule irrelevant_atom_or_l1)
+  then have HF: "\<A>(A := V) \<Turnstile> F \<longleftrightarrow> \<A> \<Turnstile> F"
+    by (rule assms(1))
+  have "A \<notin> atoms G"
+    using assms(3)
+    by (rule irrelevant_atom_or_l2)
+  then have HG: "\<A>(A := V) \<Turnstile> G \<longleftrightarrow> \<A> \<Turnstile> G"
+    by (rule assms(2))
+  have "\<A>(A := V) \<Turnstile> (F \<^bold>\<or> G) = (\<A>(A := V) \<Turnstile> F \<or> \<A>(A := V) \<Turnstile> G)"
+    by (simp only: formula_semantics.simps(5))
+  also have "\<dots> = (\<A> \<Turnstile> F \<or> \<A> \<Turnstile> G)"
+    by (simp only: HF HG)
+  also have "\<dots> = \<A> \<Turnstile> (F \<^bold>\<or> G)"
+    by (simp only: formula_semantics.simps(5))
+  finally show "\<A>(A := V) \<Turnstile> (F \<^bold>\<or> G) \<longleftrightarrow> \<A> \<Turnstile> (F \<^bold>\<or> G)"
+    by this
+qed
 
 text \<open>\comentario{Simplificar la demostración de irrelevant-atom-or 
   como irrelevant-atom-no.}\<close>
