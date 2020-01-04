@@ -284,28 +284,35 @@ lemma irrelevant_atom:
   "A \<notin> atoms F \<Longrightarrow> (\<A>(A := V)) \<Turnstile> F \<longleftrightarrow> \<A> \<Turnstile> F"
   by (induction F) simp_all
 
-text\<open>Lema: enunciar y hacer la demostración detallada.\<close>
+text \<open>Lema: enunciar y hacer la demostración detallada.\<close>
+
+lemma relevant_atoms_same_semantics_atomica_l1:
+  "x \<in> atoms (Atom x)"
+proof 
+  show "x \<in> {x}"
+    by (simp only: singleton_iff)
+next
+  show "{x} \<subseteq> atoms (Atom x)"
+    by (simp only: formula.set(1))
+qed
 
 lemma relevant_atoms_same_semantics_atomica: 
   assumes "\<forall>k \<in> atoms (Atom x). \<A>\<^sub>1 k = \<A>\<^sub>2 k"
-  shows "\<A>\<^sub>1 \<Turnstile> (Atom x) \<longleftrightarrow> \<A>\<^sub>2 \<Turnstile> (Atom x)"
-proof (rule iffI)
-  assume "\<A>\<^sub>1 \<Turnstile> (Atom x)"
-  then have "\<A>\<^sub>1 x"
+  shows   "\<A>\<^sub>1 \<Turnstile> Atom x \<longleftrightarrow> \<A>\<^sub>2 \<Turnstile> Atom x"
+proof -
+  have "\<A>\<^sub>1 \<Turnstile> Atom x = \<A>\<^sub>1 x"
     by (simp only: formula_semantics.simps(1))
-  then have "\<A>\<^sub>2 x" using assms 
-    by simp (* Pendiente *)
-  thus "\<A>\<^sub>2 \<Turnstile> (Atom x)"
+  also have "\<dots> = \<A>\<^sub>2 x"
+    using  assms(1)
+    by (simp only: relevant_atoms_same_semantics_atomica_l1)
+  also have "\<dots> = \<A>\<^sub>2 \<Turnstile> Atom x"
     by (simp only: formula_semantics.simps(1))
-next
-  assume "\<A>\<^sub>2 \<Turnstile> (Atom x)"
-  then have "\<A>\<^sub>2 x"
-    by (simp only: formula_semantics.simps(1))
-  then have "\<A>\<^sub>1 x" using assms 
-    by simp (* Pendiente *)
-  thus "\<A>\<^sub>1 \<Turnstile> (Atom x)"
-    by (simp only: formula_semantics.simps(1))
+  finally show ?thesis
+    by this
 qed
+
+text \<open>\comentario{Demostrar los casos de relevant-atoms-same-semantics
+  con razonamiento ecuacional como el caso anterior de las atómicas.}\<close>
 
 lemma relevant_atoms_same_semantics_bot: 
   assumes "\<forall>k \<in> atoms \<bottom>. \<A>\<^sub>1 k = \<A>\<^sub>2 k"
