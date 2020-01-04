@@ -102,27 +102,27 @@ proof -
     by this
 qed
 
-text \<open>\comentario{Revisado hasta aquí.}\<close>
-
-text \<open>\comentario{Eliminar notInUnion si no se usa.}\<close>
-
-lemma notInUnion: (* Aún no lo he usado *)
+lemma notInUnion: 
   assumes "x \<notin> A \<union> B"
-  shows " x \<notin> A \<and> x \<notin> B"
-proof -
-  have "x \<in> A \<longrightarrow> x \<in> A \<union> B" 
-    by (rule impI, rule UnI1)
-  then have "x \<notin> A \<union> B \<longrightarrow> x \<notin> A"
-    by (rule not_mono)
-  then have C1:"x \<notin> A" using assms
-    by (rule impE)
-  have "x \<in> B \<longrightarrow> x \<in> A \<union> B" 
-    by (rule impI, rule UnI2)
-  then have "x \<notin> A \<union> B \<longrightarrow> x \<notin> B"
-    by (rule not_mono)
-  then have C2:"x \<notin> B" using assms
-    by (rule impE)
-  show ?thesis using C1 C2 by (rule conjI)
+  shows   "x \<notin> A \<and> x \<notin> B"
+proof 
+  show "x \<notin> A"
+  proof
+    assume "x \<in> A"
+    then have "x \<in> A \<union> B"
+      by (rule UnI1)
+    with assms show False
+      by (rule notE)
+  qed 
+next
+  show "x \<notin> B"
+  proof
+    assume "x \<in> B"
+    then have "x \<in> A \<union> B"
+      by (rule UnI2)
+    with assms show False
+      by (rule notE)
+  qed 
 qed
 
 text \<open>\comentario{Simplificar la demostración de irrelevant-atom-and 
