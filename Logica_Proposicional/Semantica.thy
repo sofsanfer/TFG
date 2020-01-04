@@ -138,6 +138,19 @@ proof
     by (rule notE)
 qed
 
+lemma irrelevant_atom_and_l2:
+  assumes "A \<notin> atoms (F \<^bold>\<and> G)"
+  shows   "A \<notin> atoms G"
+proof 
+  assume "A \<in> atoms G"
+  then have "A \<in> atoms F \<union> atoms G"
+    by (rule UnI2)
+  then have "A \<in> atoms (F \<^bold>\<and> G)"
+    by (simp only: formula.set(4))
+  with assms show False 
+    by (rule notE)
+qed
+
 lemma irrelevant_atom_and:
   assumes "A \<notin> atoms F \<Longrightarrow> \<A>(A := V) \<Turnstile> F \<longleftrightarrow> \<A> \<Turnstile> F"
           "A \<notin> atoms G \<Longrightarrow> \<A>(A := V) \<Turnstile> G \<longleftrightarrow> \<A> \<Turnstile> G"
