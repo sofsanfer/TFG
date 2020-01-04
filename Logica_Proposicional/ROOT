@@ -6,6 +6,7 @@ sessions
     "HOL-Library"    
   theories
     Sintaxis
+    Semantica
     Glosario
   document_files
     "root.tex"
