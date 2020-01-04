@@ -102,29 +102,6 @@ proof -
     by this
 qed
 
-lemma notInUnion: 
-  assumes "x \<notin> A \<union> B"
-  shows   "x \<notin> A \<and> x \<notin> B"
-proof 
-  show "x \<notin> A"
-  proof
-    assume "x \<in> A"
-    then have "x \<in> A \<union> B"
-      by (rule UnI1)
-    with assms show False
-      by (rule notE)
-  qed 
-next
-  show "x \<notin> B"
-  proof
-    assume "x \<in> B"
-    then have "x \<in> A \<union> B"
-      by (rule UnI2)
-    with assms show False
-      by (rule notE)
-  qed 
-qed
-
 lemma irrelevant_atom_and_l1:
   assumes "A \<notin> atoms (F \<^bold>\<and> G)"
   shows   "A \<notin> atoms F"
@@ -157,70 +134,26 @@ lemma irrelevant_atom_and:
           "A \<notin> atoms (F \<^bold>\<and> G)"
   shows "\<A>(A := V) \<Turnstile> (F \<^bold>\<and> G) \<longleftrightarrow> \<A> \<Turnstile> (F \<^bold>\<and> G)"
 proof -
-  oops
-
-text \<open>\comentario{Simplificar la demostración de irrelevant-atom-and 
-  como irrelevant-atom-no.}\<close>
-
-lemma irrelevant_atom_and:
-  assumes "A \<notin> atoms F \<Longrightarrow> \<A>(A := V) \<Turnstile> F \<longleftrightarrow> \<A> \<Turnstile> F"
-          "A \<notin> atoms G \<Longrightarrow> \<A>(A := V) \<Turnstile> G \<longleftrightarrow> \<A> \<Turnstile> G"
-          "A \<notin> atoms (F \<^bold>\<and> G)"
-  shows "\<A>(A := V) \<Turnstile> (F \<^bold>\<and> G) \<longleftrightarrow> \<A> \<Turnstile> (F \<^bold>\<and> G)"
-proof -
-  have AtomsAnd:"atoms (F \<^bold>\<and> G) = atoms F \<union> atoms G" 
-    by (simp only: formula.set(4))
-  then have notF:"A \<notin> atoms F" using assms(3)
-    by simp (* Pendiente *)
-  then have H1:"\<A>(A := V) \<Turnstile> F \<longleftrightarrow> \<A> \<Turnstile> F" using assms(1) notF
-    by (simp only: assms(1))
-  then have H11:"\<A>(A := V) \<Turnstile> F \<longrightarrow> \<A> \<Turnstile> F"
-    by simp (* Pendiente *)
-  have H12:"\<A> \<Turnstile> F \<longrightarrow> \<A>(A := V) \<Turnstile> F" using H1
-    by simp (* Pendiente *)
-  have notG:"A \<notin> atoms G" using assms(3) AtomsAnd
-    by simp (* Pendiente *)
-  then have H2:"\<A>(A := V) \<Turnstile> G \<longleftrightarrow> \<A> \<Turnstile> G" using assms(2) notG
-    by (simp only: assms(2))
-  then have H21:"\<A>(A := V) \<Turnstile> G \<longrightarrow> \<A> \<Turnstile> G"
-    by simp (* Pendiente *)
-  have H22:"\<A> \<Turnstile> G \<longrightarrow> \<A>(A := V) \<Turnstile> G" using H2
-    by simp (* Pendiente *)
-  show "\<A>(A := V) \<Turnstile> (F \<^bold>\<and> G) \<longleftrightarrow> \<A> \<Turnstile> (F \<^bold>\<and> G)"
-  proof (rule iffI)
-    assume "\<A>(A := V) \<Turnstile> (F \<^bold>\<and> G)"
-    then have 1:"\<A>(A := V) \<Turnstile> F \<and> \<A>(A := V) \<Turnstile> G"
-      by (simp only: formula_semantics.simps(4))
-    then have F1:"\<A>(A := V) \<Turnstile> F" 
-      by (rule conjunct1)
-    have G1:"\<A>(A := V) \<Turnstile> G" using 1
-      by (rule conjunct2)
-    have C1:"\<A> \<Turnstile> F" using H11 F1
-      by (rule impE)
-    have C2:"\<A> \<Turnstile> G" using H21 G1
-      by (rule impE)
-    have "\<A> \<Turnstile> F \<and> \<A> \<Turnstile> G" using C1 C2
-      by (rule conjI)
-    thus "\<A> \<Turnstile> F \<^bold>\<and> G"
-      by (simp only: formula_semantics.simps(4))
-  next
-    assume "\<A> \<Turnstile> F \<^bold>\<and> G"
-    then have 2:"\<A> \<Turnstile> F \<and> \<A> \<Turnstile> G"
-      by (simp only: formula_semantics.simps(4))
-    then have F2:"\<A> \<Turnstile> F" 
-      by (rule conjunct1)
-    have C1:"\<A>(A := V) \<Turnstile> F" using H12 F2
-      by (rule impE)
-    have G2:"\<A> \<Turnstile> G" using 2
-      by (rule conjunct2)
-    have C2:"\<A>(A := V) \<Turnstile> G" using H22 G2
-      by (rule impE)
-    have "\<A>(A := V) \<Turnstile> F \<and> \<A>(A := V) \<Turnstile> G" using C1 C2
-      by (rule conjI)
-    thus "\<A>(A := V) \<Turnstile> (F \<^bold>\<and> G)"
-      by (simp only: formula_semantics.simps(4))
-  qed
+  have "A \<notin> atoms F"
+    using assms(3)
+    by (rule irrelevant_atom_and_l1)
+  then have HF: "\<A>(A := V) \<Turnstile> F \<longleftrightarrow> \<A> \<Turnstile> F"
+    by (rule assms(1))
+  have "A \<notin> atoms G"
+    using assms(3)
+    by (rule irrelevant_atom_and_l2)
+  then have HG: "\<A>(A := V) \<Turnstile> G \<longleftrightarrow> \<A> \<Turnstile> G"
+    by (rule assms(2))
+  have "\<A>(A := V) \<Turnstile> (F \<^bold>\<and> G) = (\<A>(A := V) \<Turnstile> F \<and> \<A>(A := V) \<Turnstile> G)"
+    by (simp only: formula_semantics.simps(4))
+  also have "\<dots> = (\<A> \<Turnstile> F \<and> \<A> \<Turnstile> G)"
+    by (simp only: HF HG)
+  also have "\<dots> = \<A> \<Turnstile> (F \<^bold>\<and> G)"
+    by (simp only: formula_semantics.simps(4))
+  finally show "\<A>(A := V) \<Turnstile> (F \<^bold>\<and> G) \<longleftrightarrow> \<A> \<Turnstile> (F \<^bold>\<and> G)"
+    by this
 qed
+
 
 text \<open>\comentario{Simplificar la demostración de irrelevant-atom-or 
   como irrelevant-atom-no.}\<close>
