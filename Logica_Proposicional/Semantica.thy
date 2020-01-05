@@ -7,18 +7,15 @@ begin
 
 section \<open>Semántica\<close>
 
-text \<open>Definición de interpretación como una aplicación de los símbolos
-  proposicionales (o átomos) en los valores de verdad\<close>
+text \<open>\comentario{Escribir la definición de interpretación como una
+  aplicación de los símbolos proposicionales (o átomos) en los valores 
+  de verdad}\<close> 
 
 type_synonym 'a valuation = "'a \<Rightarrow> bool"
 
-text \<open>The implicit statement here is that an assignment or valuation is
-  always defined on all atoms (because HOL is a total logic).
-  Thus, there are no unsuitable assignments.\<close>
-
-text \<open>Definición: valor de una fórmula proposicional en una
+text \<open>\comentario{Definir el valor de una fórmula proposicional en una
   interpretación (la def. es por recursión en la estructura de la 
-  fórmula)\<close>
+  fórmula)}\<close>
 
 primrec formula_semantics :: 
   "'a valuation \<Rightarrow> 'a formula \<Rightarrow> bool" (infix "\<Turnstile>" 51) where
@@ -29,14 +26,13 @@ primrec formula_semantics ::
 | "\<A> \<Turnstile> Or F G = (\<A> \<Turnstile> F \<or> \<A> \<Turnstile> G)" 
 | "\<A> \<Turnstile> Imp F G = (\<A> \<Turnstile> F \<longrightarrow> \<A> \<Turnstile> G)"
 
-thm formula_semantics.simps
-
-text \<open>Definición de fórmula válida (o tautología).\<close>
+text \<open>\comentario{Definir fórmula válida (o tautología).}\<close>
 
 abbreviation valid ("\<Turnstile> _" 51) where
   "\<Turnstile> F \<equiv> \<forall>A. A \<Turnstile> F"
 
-text \<open>Lema: enunciar y hacer la demostración detallada.\<close>
+text \<open>\comentario{Enunciar y hacer la demostración detallada de 
+  irrelevant-atom-atomica.}\<close>
 
 lemma irrelevant_atom_atomica_l1:
   assumes "A \<notin> atoms (Atom x)" 
@@ -48,7 +44,7 @@ proof (rule notI)
   also have "\<dots> = atoms (Atom x)"
     by (simp only: formula.set(1))
   finally have "A \<in> atoms (Atom x)"
-    by (simp only: singleton_iff)
+    by this 
   with assms show "False"  
     by (rule notE)
 qed
@@ -71,70 +67,10 @@ proof -
     by this
 qed
 
-(*
-lemma irrelevant_atom_bot:
-  assumes "A \<notin> atoms \<bottom>" 
-  shows "(\<A>(A := V)) \<Turnstile> \<bottom> \<longleftrightarrow> \<A> \<Turnstile> \<bottom>"
-proof (rule iffI)
-  assume "(\<A>(A := V)) \<Turnstile> \<bottom>"
-  thus "\<A> \<Turnstile> \<bottom>" 
-    by (simp only: formula_semantics.simps(2))
-next
-  assume "\<A> \<Turnstile> \<bottom>"
-  thus "(\<A>(A := V)) \<Turnstile> \<bottom>" 
-    by (simp only: formula_semantics.simps(2))
-qed
-*)
-
-text \<open>\comentario{La demostración anterior se puede simplificar como
-  sigue}\<close> 
-
 lemma irrelevant_atom_bot:
   assumes "A \<notin> atoms \<bottom>" 
   shows "(\<A>(A := V)) \<Turnstile> \<bottom> \<longleftrightarrow> \<A> \<Turnstile> \<bottom>"
   by (simp only: formula_semantics.simps(2))
-
-(*
-lemma irrelevant_atom_not_v1:
-  assumes "A \<notin> atoms F \<Longrightarrow> \<A>(A := V) \<Turnstile> F \<longleftrightarrow> \<A> \<Turnstile> F"
-          "A \<notin> atoms (\<^bold>\<not> F)"
-  shows "\<A>(A := V) \<Turnstile> \<^bold>\<not> F \<longleftrightarrow> \<A> \<Turnstile> \<^bold>\<not> F"
-proof -
-  have "A \<notin> atoms F" using assms(2)
-    by simp (* Pendiente *)
-  then have H:"\<A>(A := V) \<Turnstile> F \<longleftrightarrow> \<A> \<Turnstile> F" using assms
-    by (simp only: assms)
-  then have H1:"\<A>(A := V) \<Turnstile> F \<longrightarrow> \<A> \<Turnstile> F" 
-    by simp (* Pendiente *)
-  have H2:"\<A> \<Turnstile> F \<longrightarrow> \<A>(A := V) \<Turnstile> F" using H
-    by simp (* Pendiente *)
-  show "\<A>(A := V) \<Turnstile> \<^bold>\<not> F \<longleftrightarrow> \<A> \<Turnstile> \<^bold>\<not> F"
-  proof (rule iffI)
-    assume "\<A>(A := V) \<Turnstile> \<^bold>\<not> F"
-    then have 1:"\<not> \<A>(A := V) \<Turnstile> F" 
-      by simp (* Pendiente *)
-    have "\<not> \<A>(A := V) \<Turnstile> F \<longrightarrow> \<not> \<A> \<Turnstile> F" using H2
-      by (rule not_mono)
-    then have "\<not> \<A> \<Turnstile> F" using 1
-      by (rule impE)
-    thus "\<A> \<Turnstile> \<^bold>\<not> F"
-      by simp (* Pendiente *)
-  next
-    assume "\<A> \<Turnstile> \<^bold>\<not> F"
-    then have 2:"\<not> \<A> \<Turnstile> F"
-      by simp (* Pendiente *)
-    have "\<not> \<A> \<Turnstile> F \<longrightarrow> \<not> \<A>(A := V) \<Turnstile> F" using H1
-      by (rule not_mono)
-    then have "\<not> \<A>(A := V) \<Turnstile> F" using 2
-      by (rule impE)
-    thus "\<A>(A := V) \<Turnstile> \<^bold>\<not> F"
-      by simp (* Pendiente *)
-  qed
-qed
-*)
-
-text \<open>\comentario{La demostración anterior se puede simplificar como
-  sigue}\<close> 
 
 lemma irrelevant_atom_not_l1:
   assumes "A \<notin> atoms (\<^bold>\<not> F)"
@@ -166,29 +102,31 @@ proof -
     by this
 qed
 
-text \<open>\comentario{Eliminar notInUnion si no se usa.}\<close>
-
-lemma notInUnion: (* Aún no lo he usado *)
-  assumes "x \<notin> A \<union> B"
-  shows " x \<notin> A \<and> x \<notin> B"
-proof -
-  have "x \<in> A \<longrightarrow> x \<in> A \<union> B" 
-    by (rule impI, rule UnI1)
-  then have "x \<notin> A \<union> B \<longrightarrow> x \<notin> A"
-    by (rule not_mono)
-  then have C1:"x \<notin> A" using assms
-    by (rule impE)
-  have "x \<in> B \<longrightarrow> x \<in> A \<union> B" 
-    by (rule impI, rule UnI2)
-  then have "x \<notin> A \<union> B \<longrightarrow> x \<notin> B"
-    by (rule not_mono)
-  then have C2:"x \<notin> B" using assms
-    by (rule impE)
-  show ?thesis using C1 C2 by (rule conjI)
+lemma irrelevant_atom_and_l1:
+  assumes "A \<notin> atoms (F \<^bold>\<and> G)"
+  shows   "A \<notin> atoms F"
+proof 
+  assume "A \<in> atoms F"
+  then have "A \<in> atoms F \<union> atoms G"
+    by (rule UnI1)
+  then have "A \<in> atoms (F \<^bold>\<and> G)"
+    by (simp only: formula.set(4))
+  with assms show False 
+    by (rule notE)
 qed
 
-text \<open>\comentario{Simplificar la demostración de irrelevant-atom-and 
-  como irrelevant-atom-no.}\<close>
+lemma irrelevant_atom_and_l2:
+  assumes "A \<notin> atoms (F \<^bold>\<and> G)"
+  shows   "A \<notin> atoms G"
+proof 
+  assume "A \<in> atoms G"
+  then have "A \<in> atoms F \<union> atoms G"
+    by (rule UnI2)
+  then have "A \<in> atoms (F \<^bold>\<and> G)"
+    by (simp only: formula.set(4))
+  with assms show False 
+    by (rule notE)
+qed
 
 lemma irrelevant_atom_and:
   assumes "A \<notin> atoms F \<Longrightarrow> \<A>(A := V) \<Turnstile> F \<longleftrightarrow> \<A> \<Turnstile> F"
@@ -196,137 +134,103 @@ lemma irrelevant_atom_and:
           "A \<notin> atoms (F \<^bold>\<and> G)"
   shows "\<A>(A := V) \<Turnstile> (F \<^bold>\<and> G) \<longleftrightarrow> \<A> \<Turnstile> (F \<^bold>\<and> G)"
 proof -
-  have AtomsAnd:"atoms (F \<^bold>\<and> G) = atoms F \<union> atoms G" 
-    by (simp only: formula.set(4))
-  then have notF:"A \<notin> atoms F" using assms(3)
-    by simp (* Pendiente *)
-  then have H1:"\<A>(A := V) \<Turnstile> F \<longleftrightarrow> \<A> \<Turnstile> F" using assms(1) notF
-    by (simp only: assms(1))
-  then have H11:"\<A>(A := V) \<Turnstile> F \<longrightarrow> \<A> \<Turnstile> F"
-    by simp (* Pendiente *)
-  have H12:"\<A> \<Turnstile> F \<longrightarrow> \<A>(A := V) \<Turnstile> F" using H1
-    by simp (* Pendiente *)
-  have notG:"A \<notin> atoms G" using assms(3) AtomsAnd
-    by simp (* Pendiente *)
-  then have H2:"\<A>(A := V) \<Turnstile> G \<longleftrightarrow> \<A> \<Turnstile> G" using assms(2) notG
-    by (simp only: assms(2))
-  then have H21:"\<A>(A := V) \<Turnstile> G \<longrightarrow> \<A> \<Turnstile> G"
-    by simp (* Pendiente *)
-  have H22:"\<A> \<Turnstile> G \<longrightarrow> \<A>(A := V) \<Turnstile> G" using H2
-    by simp (* Pendiente *)
-  show "\<A>(A := V) \<Turnstile> (F \<^bold>\<and> G) \<longleftrightarrow> \<A> \<Turnstile> (F \<^bold>\<and> G)"
-  proof (rule iffI)
-    assume "\<A>(A := V) \<Turnstile> (F \<^bold>\<and> G)"
-    then have 1:"\<A>(A := V) \<Turnstile> F \<and> \<A>(A := V) \<Turnstile> G"
-      by (simp only: formula_semantics.simps(4))
-    then have F1:"\<A>(A := V) \<Turnstile> F" 
-      by (rule conjunct1)
-    have G1:"\<A>(A := V) \<Turnstile> G" using 1
-      by (rule conjunct2)
-    have C1:"\<A> \<Turnstile> F" using H11 F1
-      by (rule impE)
-    have C2:"\<A> \<Turnstile> G" using H21 G1
-      by (rule impE)
-    have "\<A> \<Turnstile> F \<and> \<A> \<Turnstile> G" using C1 C2
-      by (rule conjI)
-    thus "\<A> \<Turnstile> F \<^bold>\<and> G"
-      by (simp only: formula_semantics.simps(4))
-  next
-    assume "\<A> \<Turnstile> F \<^bold>\<and> G"
-    then have 2:"\<A> \<Turnstile> F \<and> \<A> \<Turnstile> G"
-      by (simp only: formula_semantics.simps(4))
-    then have F2:"\<A> \<Turnstile> F" 
-      by (rule conjunct1)
-    have C1:"\<A>(A := V) \<Turnstile> F" using H12 F2
-      by (rule impE)
-    have G2:"\<A> \<Turnstile> G" using 2
-      by (rule conjunct2)
-    have C2:"\<A>(A := V) \<Turnstile> G" using H22 G2
-      by (rule impE)
-    have "\<A>(A := V) \<Turnstile> F \<and> \<A>(A := V) \<Turnstile> G" using C1 C2
-      by (rule conjI)
-    thus "\<A>(A := V) \<Turnstile> (F \<^bold>\<and> G)"
-      by (simp only: formula_semantics.simps(4))
-  qed
+  have "A \<notin> atoms F"
+    using assms(3)
+    by (rule irrelevant_atom_and_l1)
+  then have HF: "\<A>(A := V) \<Turnstile> F \<longleftrightarrow> \<A> \<Turnstile> F"
+    by (rule assms(1))
+  have "A \<notin> atoms G"
+    using assms(3)
+    by (rule irrelevant_atom_and_l2)
+  then have HG: "\<A>(A := V) \<Turnstile> G \<longleftrightarrow> \<A> \<Turnstile> G"
+    by (rule assms(2))
+  have "\<A>(A := V) \<Turnstile> (F \<^bold>\<and> G) = (\<A>(A := V) \<Turnstile> F \<and> \<A>(A := V) \<Turnstile> G)"
+    by (simp only: formula_semantics.simps(4))
+  also have "\<dots> = (\<A> \<Turnstile> F \<and> \<A> \<Turnstile> G)"
+    by (simp only: HF HG)
+  also have "\<dots> = \<A> \<Turnstile> (F \<^bold>\<and> G)"
+    by (simp only: formula_semantics.simps(4))
+  finally show "\<A>(A := V) \<Turnstile> (F \<^bold>\<and> G) \<longleftrightarrow> \<A> \<Turnstile> (F \<^bold>\<and> G)"
+    by this
 qed
 
-text \<open>\comentario{Simplificar la demostración de irrelevant-atom-or 
-  como irrelevant-atom-no.}\<close>
+lemma irrelevant_atom_or_l1:
+  assumes "A \<notin> atoms (F \<^bold>\<or> G)"
+  shows   "A \<notin> atoms F"
+proof 
+  assume "A \<in> atoms F"
+  then have "A \<in> atoms F \<union> atoms G"
+    by (rule UnI1)
+  then have "A \<in> atoms (F \<^bold>\<or> G)"
+    by (simp only: formula.set(5))
+  with assms show False 
+    by (rule notE)
+qed
+
+lemma irrelevant_atom_or_l2:
+  assumes "A \<notin> atoms (F \<^bold>\<or> G)"
+  shows   "A \<notin> atoms G"
+proof 
+  assume "A \<in> atoms G"
+  then have "A \<in> atoms F \<union> atoms G"
+    by (rule UnI2)
+  then have "A \<in> atoms (F \<^bold>\<or> G)"
+    by (simp only: formula.set(5))
+  with assms show False 
+    by (rule notE)
+qed
 
 lemma irrelevant_atom_or:
   assumes "A \<notin> atoms F \<Longrightarrow> \<A>(A := V) \<Turnstile> F \<longleftrightarrow> \<A> \<Turnstile> F"
           "A \<notin> atoms G \<Longrightarrow> \<A>(A := V) \<Turnstile> G \<longleftrightarrow> \<A> \<Turnstile> G"
           "A \<notin> atoms (F \<^bold>\<or> G)"
-  shows "\<A>(A := V) \<Turnstile> (F \<^bold>\<or> G) \<longleftrightarrow> \<A> \<Turnstile> (F \<^bold>\<or> G)"
+  shows   "\<A>(A := V) \<Turnstile> (F \<^bold>\<or> G) \<longleftrightarrow> \<A> \<Turnstile> (F \<^bold>\<or> G)"
 proof -
-  have AtomsAnd:"atoms (F \<^bold>\<or> G) = atoms F \<union> atoms G" 
-    by (simp only: formula.set(5))
-  then have notF:"A \<notin> atoms F" using assms(3)
-    by simp (* Pendiente *)
-  then have H1:"\<A>(A := V) \<Turnstile> F \<longleftrightarrow> \<A> \<Turnstile> F" using assms(1) notF
-    by (simp only: assms(1))
-  then have H11:"\<A>(A := V) \<Turnstile> F \<longrightarrow> \<A> \<Turnstile> F"
-    by simp (* Pendiente *)
-  have H12:"\<A> \<Turnstile> F \<longrightarrow> \<A>(A := V) \<Turnstile> F" using H1
-    by simp (* Pendiente *)
-  have notG:"A \<notin> atoms G" using assms(3) AtomsAnd
-    by simp (* Pendiente *)
-  then have H2:"\<A>(A := V) \<Turnstile> G \<longleftrightarrow> \<A> \<Turnstile> G" using assms(2) notG
-    by (simp only: assms(2))
-  then have H21:"\<A>(A := V) \<Turnstile> G \<longrightarrow> \<A> \<Turnstile> G"
-    by simp (* Pendiente *)
-  have H22:"\<A> \<Turnstile> G \<longrightarrow> \<A>(A := V) \<Turnstile> G" using H2
-    by simp (* Pendiente *)
-  show "\<A>(A := V) \<Turnstile> (F \<^bold>\<or> G) \<longleftrightarrow> \<A> \<Turnstile> (F \<^bold>\<or> G)"
-  proof (rule iffI)
-    assume "\<A>(A := V) \<Turnstile> (F \<^bold>\<or> G)"
-    then have "\<A>(A := V) \<Turnstile> F \<or> \<A>(A := V) \<Turnstile> G"
-      by (simp only: formula_semantics.simps(5))
-    then show "\<A> \<Turnstile> F \<^bold>\<or> G"
-    proof (rule disjE)
-      assume F1:"\<A>(A := V) \<Turnstile> F" 
-      have "\<A> \<Turnstile> F" using H11 F1
-        by (rule impE)
-      then have "\<A> \<Turnstile> F \<or> \<A> \<Turnstile> G"
-        by (rule disjI1)
-      thus "\<A> \<Turnstile> F \<^bold>\<or> G"
-        by (simp only: formula_semantics.simps(5))
-    next
-      assume G1: "\<A>(A := V) \<Turnstile> G"
-      have "\<A> \<Turnstile> G" using H21 G1
-        by (rule impE)
-      then have "\<A> \<Turnstile> F \<or> \<A> \<Turnstile> G"
-        by (rule disjI2)
-      thus "\<A> \<Turnstile> F \<^bold>\<or> G"
-        by (simp only: formula_semantics.simps(5))
-    qed
-  next
-    assume "\<A> \<Turnstile> F \<^bold>\<or> G"
-    then have "\<A> \<Turnstile> F \<or> \<A> \<Turnstile> G"
-      by (simp only: formula_semantics.simps(5))
-    then show "\<A>(A := V) \<Turnstile> (F \<^bold>\<or> G)"
-    proof (rule disjE)
-      assume F2:"\<A> \<Turnstile> F" 
-      have "\<A>(A := V)\<Turnstile> F" using H12 F2
-        by (rule impE)
-      then have "\<A>(A := V) \<Turnstile> F \<or> \<A>(A := V) \<Turnstile> G"
-        by (rule disjI1)
-      thus "\<A>(A := V) \<Turnstile> F \<^bold>\<or> G"
-        by (simp only: formula_semantics.simps(5))
-    next
-      assume G2: "\<A> \<Turnstile> G"
-      have "\<A>(A := V) \<Turnstile> G" using H22 G2
-        by (rule impE)
-      then have "\<A>(A := V) \<Turnstile> F \<or> \<A>(A := V) \<Turnstile> G"
-        by (rule disjI2)
-      thus "\<A>(A := V) \<Turnstile> F \<^bold>\<or> G"
-        by (simp only: formula_semantics.simps(5))
-    qed
-  qed
+  have "A \<notin> atoms F"
+    using assms(3)
+    by (rule irrelevant_atom_or_l1)
+  then have HF: "\<A>(A := V) \<Turnstile> F \<longleftrightarrow> \<A> \<Turnstile> F"
+    by (rule assms(1))
+  have "A \<notin> atoms G"
+    using assms(3)
+    by (rule irrelevant_atom_or_l2)
+  then have HG: "\<A>(A := V) \<Turnstile> G \<longleftrightarrow> \<A> \<Turnstile> G"
+    by (rule assms(2))
+  have "\<A>(A := V) \<Turnstile> (F \<^bold>\<or> G) = (\<A>(A := V) \<Turnstile> F \<or> \<A>(A := V) \<Turnstile> G)"
+    by (simp only: formula_semantics.simps(5))
+  also have "\<dots> = (\<A> \<Turnstile> F \<or> \<A> \<Turnstile> G)"
+    by (simp only: HF HG)
+  also have "\<dots> = \<A> \<Turnstile> (F \<^bold>\<or> G)"
+    by (simp only: formula_semantics.simps(5))
+  finally show "\<A>(A := V) \<Turnstile> (F \<^bold>\<or> G) \<longleftrightarrow> \<A> \<Turnstile> (F \<^bold>\<or> G)"
+    by this
 qed
 
-text \<open>\comentario{Simplificar la demostración de irrelevant-atom-imp 
-  como irrelevant-atom-no.}\<close>
+lemma irrelevant_atom_imp_l1:
+  assumes "A \<notin> atoms (F \<^bold>\<rightarrow> G)"
+  shows   "A \<notin> atoms F"
+proof 
+  assume "A \<in> atoms F"
+  then have "A \<in> atoms F \<union> atoms G"
+    by (rule UnI1)
+  then have "A \<in> atoms (F \<^bold>\<rightarrow> G)"
+    by (simp only: formula.set(6))
+  with assms show False 
+    by (rule notE)
+qed
+
+lemma irrelevant_atom_imp_l2:
+  assumes "A \<notin> atoms (F \<^bold>\<rightarrow> G)"
+  shows   "A \<notin> atoms G"
+proof 
+  assume "A \<in> atoms G"
+  then have "A \<in> atoms F \<union> atoms G"
+    by (rule UnI2)
+  then have "A \<in> atoms (F \<^bold>\<rightarrow> G)"
+    by (simp only: formula.set(6))
+  with assms show False 
+    by (rule notE)
+qed
 
 lemma irrelevant_atom_imp:
   assumes "A \<notin> atoms F \<Longrightarrow> \<A>(A := V) \<Turnstile> F \<longleftrightarrow> \<A> \<Turnstile> F"
@@ -334,58 +238,24 @@ lemma irrelevant_atom_imp:
           "A \<notin> atoms (F \<^bold>\<rightarrow> G)"
   shows "\<A>(A := V) \<Turnstile> (F \<^bold>\<rightarrow> G) \<longleftrightarrow> \<A> \<Turnstile> (F \<^bold>\<rightarrow> G)"
 proof -
-  have AtomsAnd:"atoms (F \<^bold>\<rightarrow> G) = atoms F \<union> atoms G" 
-    by (simp only: formula.set(6))
-  then have notF:"A \<notin> atoms F" using assms(3)
-    by simp (* Pendiente *)
-  then have H1:"\<A>(A := V) \<Turnstile> F \<longleftrightarrow> \<A> \<Turnstile> F" using assms(1) notF
-    by (simp only: assms(1))
-  then have H11:"\<A>(A := V) \<Turnstile> F \<longrightarrow> \<A> \<Turnstile> F"
-    by simp (* Pendiente *)
-  have H12:"\<A> \<Turnstile> F \<longrightarrow> \<A>(A := V) \<Turnstile> F" using H1
-    by simp (* Pendiente *)
-  have notG:"A \<notin> atoms G" using assms(3) AtomsAnd
-    by simp (* Pendiente *)
-  then have H2:"\<A>(A := V) \<Turnstile> G \<longleftrightarrow> \<A> \<Turnstile> G" using assms(2) notG
-    by (simp only: assms(2))
-  then have H21:"\<A>(A := V) \<Turnstile> G \<longrightarrow> \<A> \<Turnstile> G"
-    by simp (* Pendiente *)
-  have H22:"\<A> \<Turnstile> G \<longrightarrow> \<A>(A := V) \<Turnstile> G" using H2
-    by simp (* Pendiente *)
-  show "\<A>(A := V) \<Turnstile> (F \<^bold>\<rightarrow> G) \<longleftrightarrow> \<A> \<Turnstile> (F \<^bold>\<rightarrow> G)"
-  proof (rule iffI)
-    assume "\<A>(A := V) \<Turnstile> (F \<^bold>\<rightarrow> G)"
-    then have 1:"\<A>(A := V) \<Turnstile> F \<longrightarrow> \<A>(A := V) \<Turnstile> G"
-      by (simp only: formula_semantics.simps(6))
-    have "\<A> \<Turnstile> F \<longrightarrow> \<A> \<Turnstile> G"
-    proof (rule impI)
-      assume F1:"\<A> \<Turnstile> F"
-      have FV1:"\<A>(A := V) \<Turnstile> F" using H12 F1
-        by (rule impE)
-      have G1:"\<A>(A := V) \<Turnstile> G" using 1 FV1
-        by (rule impE)
-      show "\<A> \<Turnstile> G" using H21 G1
-        by (rule impE)
-    qed
-    thus "\<A> \<Turnstile> (F \<^bold>\<rightarrow> G)"
-      by (simp only: formula_semantics.simps(6))
-  next
-    assume "\<A> \<Turnstile> (F \<^bold>\<rightarrow> G)"
-    then have 2:"\<A> \<Turnstile> F \<longrightarrow> \<A> \<Turnstile> G"
-      by (simp only: formula_semantics.simps(6))
-    have "\<A>(A := V) \<Turnstile> F \<longrightarrow> \<A>(A := V) \<Turnstile> G"
-    proof (rule impI)
-      assume F2:"\<A>(A := V) \<Turnstile> F"
-      have FV2:"\<A> \<Turnstile> F" using H11 F2
-        by (rule impE)
-      have G2:"\<A> \<Turnstile> G" using 2 FV2
-        by (rule impE)
-      show "\<A>(A := V) \<Turnstile> G" using H22 G2
-        by (rule impE)
-    qed
-    thus "\<A>(A := V) \<Turnstile> (F \<^bold>\<rightarrow> G)"
-      by (simp only: formula_semantics.simps(6))
-  qed
+  have "A \<notin> atoms F"
+    using assms(3)
+    by (rule irrelevant_atom_imp_l1)
+  then have HF: "\<A>(A := V) \<Turnstile> F \<longleftrightarrow> \<A> \<Turnstile> F"
+    by (rule assms(1))
+  have "A \<notin> atoms G"
+    using assms(3)
+    by (rule irrelevant_atom_imp_l2)
+  then have HG: "\<A>(A := V) \<Turnstile> G \<longleftrightarrow> \<A> \<Turnstile> G"
+    by (rule assms(2))
+  have "\<A>(A := V) \<Turnstile> (F \<^bold>\<rightarrow> G) = (\<A>(A := V) \<Turnstile> F \<longrightarrow> \<A>(A := V) \<Turnstile> G)"
+    by (simp only: formula_semantics.simps(6))
+  also have "\<dots> = (\<A> \<Turnstile> F \<longrightarrow> \<A> \<Turnstile> G)"
+    by (simp only: HF HG)
+  also have "\<dots> = \<A> \<Turnstile> (F \<^bold>\<rightarrow> G)"
+    by (simp only: formula_semantics.simps(6))
+  finally show "\<A>(A := V) \<Turnstile> (F \<^bold>\<rightarrow> G) \<longleftrightarrow> \<A> \<Turnstile> (F \<^bold>\<rightarrow> G)"
+    by this
 qed
 
 lemma irrelevant_atom_detallada:
@@ -414,28 +284,35 @@ lemma irrelevant_atom:
   "A \<notin> atoms F \<Longrightarrow> (\<A>(A := V)) \<Turnstile> F \<longleftrightarrow> \<A> \<Turnstile> F"
   by (induction F) simp_all
 
-text\<open>Lema: enunciar y hacer la demostración detallada.\<close>
+text \<open>Lema: enunciar y hacer la demostración detallada.\<close>
+
+lemma relevant_atoms_same_semantics_atomica_l1:
+  "x \<in> atoms (Atom x)"
+proof 
+  show "x \<in> {x}"
+    by (simp only: singleton_iff)
+next
+  show "{x} \<subseteq> atoms (Atom x)"
+    by (simp only: formula.set(1))
+qed
 
 lemma relevant_atoms_same_semantics_atomica: 
   assumes "\<forall>k \<in> atoms (Atom x). \<A>\<^sub>1 k = \<A>\<^sub>2 k"
-  shows "\<A>\<^sub>1 \<Turnstile> (Atom x) \<longleftrightarrow> \<A>\<^sub>2 \<Turnstile> (Atom x)"
-proof (rule iffI)
-  assume "\<A>\<^sub>1 \<Turnstile> (Atom x)"
-  then have "\<A>\<^sub>1 x"
+  shows   "\<A>\<^sub>1 \<Turnstile> Atom x \<longleftrightarrow> \<A>\<^sub>2 \<Turnstile> Atom x"
+proof -
+  have "\<A>\<^sub>1 \<Turnstile> Atom x = \<A>\<^sub>1 x"
     by (simp only: formula_semantics.simps(1))
-  then have "\<A>\<^sub>2 x" using assms 
-    by simp (* Pendiente *)
-  thus "\<A>\<^sub>2 \<Turnstile> (Atom x)"
+  also have "\<dots> = \<A>\<^sub>2 x"
+    using  assms(1)
+    by (simp only: relevant_atoms_same_semantics_atomica_l1)
+  also have "\<dots> = \<A>\<^sub>2 \<Turnstile> Atom x"
     by (simp only: formula_semantics.simps(1))
-next
-  assume "\<A>\<^sub>2 \<Turnstile> (Atom x)"
-  then have "\<A>\<^sub>2 x"
-    by (simp only: formula_semantics.simps(1))
-  then have "\<A>\<^sub>1 x" using assms 
-    by simp (* Pendiente *)
-  thus "\<A>\<^sub>1 \<Turnstile> (Atom x)"
-    by (simp only: formula_semantics.simps(1))
+  finally show ?thesis
+    by this
 qed
+
+text \<open>\comentario{Demostrar los casos de relevant-atoms-same-semantics
+  con razonamiento ecuacional como el caso anterior de las atómicas.}\<close>
 
 lemma relevant_atoms_same_semantics_bot: 
   assumes "\<forall>k \<in> atoms \<bottom>. \<A>\<^sub>1 k = \<A>\<^sub>2 k"
@@ -730,7 +607,7 @@ text \<open>Definición: conjunto de fórmulas finitamente consistente.\<close>
 definition "fin_sat S \<equiv> (\<forall>s \<subseteq> S. finite s \<longrightarrow> sat s)"
 
 text \<open>Lema: un conjunto de fórmulas S es inconsistente si y sólo si
- \<bottom> es consecuencia lógica de S.\<close>
+ $\bot$ es consecuencia lógica de S.\<close>
 
 lemma "\<Gamma> \<TTurnstile> \<bottom> \<longleftrightarrow> \<not> sat \<Gamma>" 
 proof (rule iffI)
