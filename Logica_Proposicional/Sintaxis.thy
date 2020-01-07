@@ -1588,12 +1588,15 @@ lemma subformulas_in_subformulas_and:
   assumes "G \<^bold>\<and> H \<in> setSubformulae F" 
   shows "G \<in> setSubformulae F \<and> H \<in> setSubformulae F"
 proof (rule conjI)
-  have 1:"G \<in> setSubformulae (G \<^bold>\<and> H)" 
+  have "G \<in> setSubformulae (G \<^bold>\<and> H)" 
     by (simp only: subformulae_self UnI2 UnI1 setSubformulae_and)
-  have 2:"H \<in> setSubformulae (G \<^bold>\<and> H)"  
+  with assms show "G \<in> setSubformulae F" 
+    by (rule subsubformulae)
+next
+  have "H \<in> setSubformulae (G \<^bold>\<and> H)"  
     by (simp only: subformulae_self UnI2 UnI1 setSubformulae_and)
-  show "G \<in> setSubformulae F" using assms 1 by (rule subsubformulae)
-  show "H \<in> setSubformulae F" using assms 2 by (rule subsubformulae)
+  with assms show "H \<in> setSubformulae F" 
+    by (rule subsubformulae)
 qed
 
 text \<open>Mostremos ahora la demostración automática.\<close>
