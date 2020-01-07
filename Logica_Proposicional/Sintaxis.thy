@@ -1618,12 +1618,8 @@ lemma subformulas_in_subformulas:
      apply (drule subformulas_in_subformulas_not, assumption)  
   oops 
 
-  text\<open>
- \comentario{Probar cada uno de los casos (faltan 2) por separado para 
-usarlos en la prueba del lema.} 
-\<close>
-
-text \<open>\comentario{Completar la prueba anterior.}\<close>
+text \<open>\comentario{Probar cada uno de los casos (faltan 2) por separado
+ para usarlos en la prueba del lema.}\<close>
 
 section \<open>Conectivas derivadas\<close>
 
@@ -1667,7 +1663,7 @@ text \<open>A continuación vamos a definir dos conectivas que generalizan la
     \end{itemize}
   \end{definicion} 
 
-\comentario{Esta definición es un caso particular de listas. 
+  \comentario{Esta definición es un caso particular de listas. 
   No se si incluir la definicion de estructura e inducción general}
 
   De este modo, se definen las conectivas plurales de acuerdo a la 
@@ -1737,7 +1733,7 @@ text \<open>Ambas nuevas conectivas se definen con el tipo funciones
 \comentario{Añadir lema a mano y demostración. Falta demostración en 
   Isabelle.}\<close>
 
-lemma atoms_nil: "atoms (\<^bold>\<And>Nil) = \<Union>(atoms ` set Nil)"
+lemma atoms_nil: "atoms (\<^bold>\<And>Nil) = \<Union> (atoms ` set Nil)"
 proof -
   have "atoms (\<^bold>\<And>Nil) = atoms (\<^bold>\<not> \<bottom>)" 
     by (simp only: BigAnd.simps(1))
@@ -1754,7 +1750,9 @@ proof -
   finally show ?thesis
     by this
 qed
-find_theorems "_ \<union> \<Union> _"
+
+(* find_theorems "_ \<union> \<Union> _" *)
+
 (*lemma atoms_list:
   assumes "atoms (\<^bold>\<And>Fs) = \<Union>(atoms ` set Fs)"
   shows "atoms (\<^bold>\<And>(F#Fs)) = \<Union>(atoms ` set (F#Fs))"
@@ -1814,6 +1812,8 @@ text \<open>Su demostración automática es la siguiente.\<close>
 
 lemma atoms_BigAnd: "atoms (\<^bold>\<And>Fs) = \<Union>(atoms ` set Fs)"
   by (induction Fs) simp_all
+
+text \<open>\comentario{Falta la demostración detallada de atoms-BigAnd.}\<close>
 
 (*<*)
 end
