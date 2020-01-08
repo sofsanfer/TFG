@@ -1697,11 +1697,11 @@ text \<open>A continuación vamos a definir dos conectivas que generalizan la
   \comentario{Da error que no localizo}\<close>
 
 primrec BigAnd :: "'a formula list \<Rightarrow> 'a formula" ("\<^bold>\<And>_") where
-  "\<^bold>\<And>Nil = (\<^bold>\<not>\<bottom>)" 
+  "\<^bold>\<And>[] = (\<^bold>\<not>\<bottom>)" 
 | "\<^bold>\<And>(F#Fs) = F \<^bold>\<and> \<^bold>\<And>Fs"
 
 primrec BigOr :: "'a formula list \<Rightarrow> 'a formula" ("\<^bold>\<Or>_") where
-  "\<^bold>\<Or>Nil = \<bottom>" 
+  "\<^bold>\<Or>[] = \<bottom>" 
 | "\<^bold>\<Or>(F#Fs) = F \<^bold>\<or> \<^bold>\<Or>Fs"
 
 text \<open>Ambas nuevas conectivas se definen con el tipo funciones 
@@ -1733,9 +1733,9 @@ text \<open>Ambas nuevas conectivas se definen con el tipo funciones
 \comentario{Añadir lema a mano y demostración. Falta demostración en 
   Isabelle.}\<close>
 
-lemma atoms_nil: "atoms (\<^bold>\<And>Nil) = \<Union> (atoms ` set Nil)"
+lemma atoms_nil: "atoms (\<^bold>\<And>[]) = \<Union> (atoms ` set Nil)"
 proof -
-  have "atoms (\<^bold>\<And>Nil) = atoms (\<^bold>\<not> \<bottom>)" 
+  have "atoms (\<^bold>\<And>[]) = atoms (\<^bold>\<not> \<bottom>)" 
     by (simp only: BigAnd.simps(1))
   also have "\<dots> = atoms \<bottom>" 
     by (simp only: formula.set(3))
@@ -1745,7 +1745,7 @@ proof -
     by (simp only: Union_empty)
   also have "\<dots> =  \<Union>(atoms ` \<emptyset>)"
     by (simp only: image_empty)
-  also have "\<dots> = \<Union>(atoms ` set Nil)"
+  also have "\<dots> = \<Union>(atoms ` set [])"
     by (simp only: list.set)
   finally show ?thesis
     by this
