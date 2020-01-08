@@ -1733,7 +1733,8 @@ text \<open>Ambas nuevas conectivas se definen con el tipo funciones
 \comentario{Añadir lema a mano y demostración. Falta demostración en 
   Isabelle.}\<close>
 
-lemma atoms_nil: "atoms (\<^bold>\<And>[]) = \<Union> (atoms ` set Nil)"
+lemma atoms_nil: 
+  "atoms (\<^bold>\<And>[]) = \<Union> (atoms ` set Nil)"
 proof -
   have "atoms (\<^bold>\<And>[]) = atoms (\<^bold>\<not> \<bottom>)" 
     by (simp only: BigAnd.simps(1))
@@ -1741,20 +1742,15 @@ proof -
     by (simp only: formula.set(3))
   also have "\<dots> = \<emptyset>" 
     by (simp only: formula.set(2))
-  also have "\<dots> = \<Union>(\<emptyset>)"
+  also have "\<dots> = \<Union> \<emptyset>"
     by (simp only: Union_empty)
-  also have "\<dots> =  \<Union>(atoms ` \<emptyset>)"
+  also have "\<dots> =  \<Union> (atoms ` \<emptyset>)"
     by (simp only: image_empty)
-  also have "\<dots> = \<Union>(atoms ` set [])"
+  also have "\<dots> = \<Union> (atoms ` set [])"
     by (simp only: list.set)
   finally show ?thesis
     by this
 qed
-
-find_theorems "\<Union> _ = ?x \<union> \<Union> (?f _ _)" 
-
-lemma "\<Union> (atoms ` set Fs) = undefined"
-  oops
 
 lemma atoms_list:
   assumes "atoms (\<^bold>\<And>Fs) = \<Union> (atoms ` set Fs)"
