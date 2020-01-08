@@ -1733,7 +1733,7 @@ text \<open>Ambas nuevas conectivas se definen con el tipo funciones
 \comentario{Añadir lema a mano y demostración. Falta demostración en 
   Isabelle.}\<close>
 
-lemma atoms_nil: 
+lemma atoms_BigAnd_base: 
   "atoms (\<^bold>\<And>[]) = \<Union> (atoms ` set Nil)"
 proof -
   have "atoms (\<^bold>\<And>[]) = atoms (\<^bold>\<not> \<bottom>)" 
@@ -1752,7 +1752,7 @@ proof -
     by this
 qed
 
-lemma atoms_list:
+lemma atoms_BigAnd_paso:
   assumes "atoms (\<^bold>\<And>Fs) = \<Union> (atoms ` set Fs)"
   shows "atoms (\<^bold>\<And>(F#Fs)) = \<Union> (atoms ` set (F#Fs))"
 proof -
@@ -1762,7 +1762,9 @@ proof -
     by (simp only: formula.set(4))
   also have "\<dots> = atoms F \<union> \<Union> (atoms ` set Fs)"
     by (simp only: assms)
-  also have "\<dots> = \<Union>(atoms ` ({F} \<union> set Fs))"
+  also have "\<dots> = \<Union> (atoms ` ({F} \<union> (set Fs)))"
+    find_theorems "\<Union> _ =_ _ \<union> \<Union> _"
+    using UN_insert[THEN sym]
     by simp \<comment> \<open>Pendiente\<close>
   also have "\<dots> = \<Union> (atoms ` set (F#Fs))"
     by simp \<comment> \<open>Pendiente\<close>
@@ -1770,29 +1772,22 @@ proof -
     by this
 qed
 
-lemma "atoms (\<^bold>\<And>Fs) = \<Union> (atoms ` set Fs)"
+lemma atoms_BigAnd_detallada:
+  "atoms (\<^bold>\<And>Fs) = \<Union> (atoms ` set Fs)"
 proof (induction Fs)
   case Nil
-  have "atoms (\<^bold>\<And>Nil) = atoms (\<^bold>\<not> \<bottom>)" 
-    by (simp only: BigAnd.simps(1))
-  also have "\<dots> = atoms \<bottom>" 
-    by (simp only: formula.set(3))
-  also have "\<dots> = \<emptyset>" 
-    by (simp only: formula.set)
-  also have "\<dots> =  \<Union>(atoms ` set Nil)" 
-    by simp \<comment> \<open>Pendiente\<close> 
-  then show ?case 
-    by simp \<comment> \<open>Pendiente\<close>
+  then show ?case by (rule atoms_BigAnd_base)
 next
   case (Cons a Fs)
-  assume H:"atoms (\<^bold>\<And>Fs) = \<Union>(atoms ` set Fs)" 
+  assume "atoms (\<^bold>\<And>Fs) = \<Union>(atoms ` set Fs)" 
   then show ?case 
     by simp \<comment> \<open>Pendiente\<close>
 qed
 
 text \<open>Su demostración automática es la siguiente.\<close>
 
-lemma atoms_BigAnd: "atoms (\<^bold>\<And>Fs) = \<Union>(atoms ` set Fs)"
+lemma atoms_BigAnd: 
+  "atoms (\<^bold>\<And>Fs) = \<Union>(atoms ` set Fs)"
   by (induction Fs) simp_all
 
 text \<open>\comentario{Falta la demostración detallada de atoms-BigAnd.}\<close>
