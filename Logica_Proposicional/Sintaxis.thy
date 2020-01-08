@@ -1751,62 +1751,48 @@ proof -
     by this
 qed
 
-(* find_theorems "_ \<union> \<Union> _" *)
+find_theorems "\<Union> _ = ?x \<union> \<Union> (?f _ _)" 
 
-(*lemma atoms_list:
-  assumes "atoms (\<^bold>\<And>Fs) = \<Union>(atoms ` set Fs)"
-  shows "atoms (\<^bold>\<And>(F#Fs)) = \<Union>(atoms ` set (F#Fs))"
+lemma "\<Union> (atoms ` set Fs) = undefined"
+  oops
+
+lemma atoms_list:
+  assumes "atoms (\<^bold>\<And>Fs) = \<Union> (atoms ` set Fs)"
+  shows "atoms (\<^bold>\<And>(F#Fs)) = \<Union> (atoms ` set (F#Fs))"
 proof -
   have "atoms (\<^bold>\<And>(F#Fs)) = atoms (F \<^bold>\<and> \<^bold>\<And>Fs)"
     by (simp only: BigAnd.simps(2))
   also have "\<dots> = atoms F \<union> atoms (\<^bold>\<And>Fs)"
     by (simp only: formula.set(4))
-  also have "\<dots> = atoms F \<union> \<Union>(atoms ` set Fs)"
-    by (simp only: assms)
-  also have "\<dots> = \<Union>(atoms ` ({F} \<union> set Fs))"
-    by (simp only: Union_image_insert)*)
-
-(*lemma atoms_list:
-  assumes "atoms (\<^bold>\<And>Fs) = \<Union>(atoms ` set Fs)"
-  shows "atoms (\<^bold>\<And>(F#Fs)) = \<Union>(atoms ` set (F#Fs))"
-proof -
-  have "atoms (\<^bold>\<And>(F#Fs)) = atoms (F \<^bold>\<and> \<^bold>\<And>Fs)"
-    by (simp only: BigAnd.simps(2))
-  also have "\<dots> = atoms F \<union> atoms (\<^bold>\<And>Fs)"
-    by (simp only: formula.set(4))
-  also have "\<dots> = atoms F \<union> \<Union>(atoms ` set Fs)"
-    by (simp only: assms)
-  also have "\<dots> = \<Union>(atoms ` ({F} \<union> set Fs))"
-    by (simp only: Union_image_insert)*)
-
-(*lemma atoms_list:
-  assumes "atoms (\<^bold>\<And>Fs) = \<Union>(atoms ` set Fs)"
-  shows "atoms (\<^bold>\<And>(F#Fs)) = \<Union>(atoms ` set (F#Fs))"
-proof -
-  have "\<Union>(atoms ` set (F#Fs)) = \<Union>(atoms ` ({F} \<union> set Fs))"
-    by simp (*Pendiente*)
   also have "\<dots> = atoms F \<union> \<Union> (atoms ` set Fs)"
-    by (simp only: Union_image_insert)*)
+    by (simp only: assms)
+  also have "\<dots> = \<Union>(atoms ` ({F} \<union> set Fs))"
+    by simp \<comment> \<open>Pendiente\<close>
+  also have "\<dots> = \<Union> (atoms ` set (F#Fs))"
+    by simp \<comment> \<open>Pendiente\<close>
+  finally show "atoms (\<^bold>\<And>(F#Fs)) = \<Union> (atoms ` set (F#Fs))"
+    by this
+qed
 
-
-(*lemma "atoms (\<^bold>\<And>Fs) = \<Union>(atoms ` set Fs)"
+lemma "atoms (\<^bold>\<And>Fs) = \<Union> (atoms ` set Fs)"
 proof (induction Fs)
   case Nil
-    have "atoms (\<^bold>\<And>Nil) = atoms (\<^bold>\<not> \<bottom>)" 
-      by (simp only: BigAnd.simps(1))
-    also have "\<dots> = atoms \<bottom>" 
-      by (simp only: formula.set(3))
-    also have "\<dots> = \<emptyset>" 
-      by (simp only: formula.set)
-    also have "\<dots> =  \<Union>(atoms ` set Nil)" 
-      by (simp only: list.set) 
+  have "atoms (\<^bold>\<And>Nil) = atoms (\<^bold>\<not> \<bottom>)" 
+    by (simp only: BigAnd.simps(1))
+  also have "\<dots> = atoms \<bottom>" 
+    by (simp only: formula.set(3))
+  also have "\<dots> = \<emptyset>" 
+    by (simp only: formula.set)
+  also have "\<dots> =  \<Union>(atoms ` set Nil)" 
+    by simp \<comment> \<open>Pendiente\<close> 
   then show ?case 
+    by simp \<comment> \<open>Pendiente\<close>
 next
-case (Cons a Fs)
+  case (Cons a Fs)
   assume H:"atoms (\<^bold>\<And>Fs) = \<Union>(atoms ` set Fs)" 
-  show "atoms"
-  then show ?case sorry
-qed*)
+  then show ?case 
+    by simp \<comment> \<open>Pendiente\<close>
+qed
 
 text \<open>Su demostración automática es la siguiente.\<close>
 
