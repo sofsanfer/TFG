@@ -1588,12 +1588,15 @@ lemma subformulas_in_subformulas_and:
   assumes "G \<^bold>\<and> H \<in> setSubformulae F" 
   shows "G \<in> setSubformulae F \<and> H \<in> setSubformulae F"
 proof (rule conjI)
-  have 1:"G \<in> setSubformulae (G \<^bold>\<and> H)" 
+  have "G \<in> setSubformulae (G \<^bold>\<and> H)" 
     by (simp only: subformulae_self UnI2 UnI1 setSubformulae_and)
-  have 2:"H \<in> setSubformulae (G \<^bold>\<and> H)"  
+  with assms show "G \<in> setSubformulae F" 
+    by (rule subsubformulae)
+next
+  have "H \<in> setSubformulae (G \<^bold>\<and> H)"  
     by (simp only: subformulae_self UnI2 UnI1 setSubformulae_and)
-  show "G \<in> setSubformulae F" using assms 1 by (rule subsubformulae)
-  show "H \<in> setSubformulae F" using assms 2 by (rule subsubformulae)
+  with assms show "H \<in> setSubformulae F" 
+    by (rule subsubformulae)
 qed
 
 text \<open>Mostremos ahora la demostración automática.\<close>
@@ -1615,12 +1618,8 @@ lemma subformulas_in_subformulas:
      apply (drule subformulas_in_subformulas_not, assumption)  
   oops 
 
-  text\<open>
- \comentario{Probar cada uno de los casos (faltan 2) por separado para 
-usarlos en la prueba del lema.} 
-\<close>
-
-text \<open>\comentario{Completar la prueba anterior.}\<close>
+text \<open>\comentario{Probar cada uno de los casos (faltan 2) por separado
+ para usarlos en la prueba del lema.}\<close>
 
 section \<open>Conectivas derivadas\<close>
 
@@ -1664,7 +1663,7 @@ text \<open>A continuación vamos a definir dos conectivas que generalizan la
     \end{itemize}
   \end{definicion} 
 
-\comentario{Esta definición es un caso particular de listas. 
+  \comentario{Esta definición es un caso particular de listas. 
   No se si incluir la definicion de estructura e inducción general}
 
   De este modo, se definen las conectivas plurales de acuerdo a la 
@@ -1698,11 +1697,11 @@ text \<open>A continuación vamos a definir dos conectivas que generalizan la
   \comentario{Da error que no localizo}\<close>
 
 primrec BigAnd :: "'a formula list \<Rightarrow> 'a formula" ("\<^bold>\<And>_") where
-  "\<^bold>\<And>Nil = (\<^bold>\<not>\<bottom>)" 
+  "\<^bold>\<And>[] = (\<^bold>\<not>\<bottom>)" 
 | "\<^bold>\<And>(F#Fs) = F \<^bold>\<and> \<^bold>\<And>Fs"
 
 primrec BigOr :: "'a formula list \<Rightarrow> 'a formula" ("\<^bold>\<Or>_") where
-  "\<^bold>\<Or>Nil = \<bottom>" 
+  "\<^bold>\<Or>[] = \<bottom>" 
 | "\<^bold>\<Or>(F#Fs) = F \<^bold>\<or> \<^bold>\<Or>Fs"
 
 text \<open>Ambas nuevas conectivas se definen con el tipo funciones 
@@ -1734,83 +1733,64 @@ text \<open>Ambas nuevas conectivas se definen con el tipo funciones
 \comentario{Añadir lema a mano y demostración. Falta demostración en 
   Isabelle.}\<close>
 
-lemma atoms_nil: "atoms (\<^bold>\<And>Nil) = \<Union>(atoms ` set Nil)"
+lemma atoms_BigAnd_base: 
+  "atoms (\<^bold>\<And>[]) = \<Union> (atoms ` set Nil)"
 proof -
-  have "atoms (\<^bold>\<And>Nil) = atoms (\<^bold>\<not> \<bottom>)" 
+  have "atoms (\<^bold>\<And>[]) = atoms (\<^bold>\<not> \<bottom>)" 
     by (simp only: BigAnd.simps(1))
   also have "\<dots> = atoms \<bottom>" 
     by (simp only: formula.set(3))
   also have "\<dots> = \<emptyset>" 
     by (simp only: formula.set(2))
-  also have "\<dots> = \<Union>(\<emptyset>)"
+  also have "\<dots> = \<Union> \<emptyset>"
     by (simp only: Union_empty)
-  also have "\<dots> =  \<Union>(atoms ` \<emptyset>)"
+  also have "\<dots> =  \<Union> (atoms ` \<emptyset>)"
     by (simp only: image_empty)
-  also have "\<dots> = \<Union>(atoms ` set Nil)"
+  also have "\<dots> = \<Union> (atoms ` set [])"
     by (simp only: list.set)
   finally show ?thesis
     by this
 qed
-find_theorems "_ \<union> \<Union> _"
-(*lemma atoms_list:
-  assumes "atoms (\<^bold>\<And>Fs) = \<Union>(atoms ` set Fs)"
-  shows "atoms (\<^bold>\<And>(F#Fs)) = \<Union>(atoms ` set (F#Fs))"
+
+lemma atoms_BigAnd_paso:
+  assumes "atoms (\<^bold>\<And>Fs) = \<Union> (atoms ` set Fs)"
+  shows "atoms (\<^bold>\<And>(F#Fs)) = \<Union> (atoms ` set (F#Fs))"
 proof -
   have "atoms (\<^bold>\<And>(F#Fs)) = atoms (F \<^bold>\<and> \<^bold>\<And>Fs)"
     by (simp only: BigAnd.simps(2))
   also have "\<dots> = atoms F \<union> atoms (\<^bold>\<And>Fs)"
     by (simp only: formula.set(4))
-  also have "\<dots> = atoms F \<union> \<Union>(atoms ` set Fs)"
-    by (simp only: assms)
-  also have "\<dots> = \<Union>(atoms ` ({F} \<union> set Fs))"
-    by (simp only: Union_image_insert)*)
-
-(*lemma atoms_list:
-  assumes "atoms (\<^bold>\<And>Fs) = \<Union>(atoms ` set Fs)"
-  shows "atoms (\<^bold>\<And>(F#Fs)) = \<Union>(atoms ` set (F#Fs))"
-proof -
-  have "atoms (\<^bold>\<And>(F#Fs)) = atoms (F \<^bold>\<and> \<^bold>\<And>Fs)"
-    by (simp only: BigAnd.simps(2))
-  also have "\<dots> = atoms F \<union> atoms (\<^bold>\<And>Fs)"
-    by (simp only: formula.set(4))
-  also have "\<dots> = atoms F \<union> \<Union>(atoms ` set Fs)"
-    by (simp only: assms)
-  also have "\<dots> = \<Union>(atoms ` ({F} \<union> set Fs))"
-    by (simp only: Union_image_insert)*)
-
-(*lemma atoms_list:
-  assumes "atoms (\<^bold>\<And>Fs) = \<Union>(atoms ` set Fs)"
-  shows "atoms (\<^bold>\<And>(F#Fs)) = \<Union>(atoms ` set (F#Fs))"
-proof -
-  have "\<Union>(atoms ` set (F#Fs)) = \<Union>(atoms ` ({F} \<union> set Fs))"
-    by simp (*Pendiente*)
   also have "\<dots> = atoms F \<union> \<Union> (atoms ` set Fs)"
-    by (simp only: Union_image_insert)*)
+    by (simp only: assms)
+  also have "\<dots> = \<Union> (atoms ` ({F} \<union> (set Fs)))"
+    find_theorems "\<Union> _ =_ _ \<union> \<Union> _"
+    using UN_insert[THEN sym]
+    by simp \<comment> \<open>Pendiente\<close>
+  also have "\<dots> = \<Union> (atoms ` set (F#Fs))"
+    by simp \<comment> \<open>Pendiente\<close>
+  finally show "atoms (\<^bold>\<And>(F#Fs)) = \<Union> (atoms ` set (F#Fs))"
+    by this
+qed
 
-
-(*lemma "atoms (\<^bold>\<And>Fs) = \<Union>(atoms ` set Fs)"
+lemma atoms_BigAnd_detallada:
+  "atoms (\<^bold>\<And>Fs) = \<Union> (atoms ` set Fs)"
 proof (induction Fs)
   case Nil
-    have "atoms (\<^bold>\<And>Nil) = atoms (\<^bold>\<not> \<bottom>)" 
-      by (simp only: BigAnd.simps(1))
-    also have "\<dots> = atoms \<bottom>" 
-      by (simp only: formula.set(3))
-    also have "\<dots> = \<emptyset>" 
-      by (simp only: formula.set)
-    also have "\<dots> =  \<Union>(atoms ` set Nil)" 
-      by (simp only: list.set) 
-  then show ?case 
+  then show ?case by (rule atoms_BigAnd_base)
 next
-case (Cons a Fs)
-  assume H:"atoms (\<^bold>\<And>Fs) = \<Union>(atoms ` set Fs)" 
-  show "atoms"
-  then show ?case sorry
-qed*)
+  case (Cons a Fs)
+  assume "atoms (\<^bold>\<And>Fs) = \<Union>(atoms ` set Fs)" 
+  then show ?case 
+    by simp \<comment> \<open>Pendiente\<close>
+qed
 
 text \<open>Su demostración automática es la siguiente.\<close>
 
-lemma atoms_BigAnd: "atoms (\<^bold>\<And>Fs) = \<Union>(atoms ` set Fs)"
+lemma atoms_BigAnd: 
+  "atoms (\<^bold>\<And>Fs) = \<Union>(atoms ` set Fs)"
   by (induction Fs) simp_all
+
+text \<open>\comentario{Falta la demostración detallada de atoms-BigAnd.}\<close>
 
 (*<*)
 end
