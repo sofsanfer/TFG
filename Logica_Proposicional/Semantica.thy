@@ -317,6 +317,16 @@ text \<open>\comentario{Demostrar los casos de relevant-atoms-same-semantics
 lemma relevant_atoms_same_semantics_bot: 
   assumes "\<forall>k \<in> atoms \<bottom>. \<A>\<^sub>1 k = \<A>\<^sub>2 k"
   shows "\<A>\<^sub>1 \<Turnstile> \<bottom> \<longleftrightarrow> \<A>\<^sub>2 \<Turnstile> \<bottom>"
+proof -
+  have "\<forall>k \<in> \<emptyset>. \<A>\<^sub>1 k = \<A>\<^sub>2 k" using assms
+    by (simp only: formula.set(2))
+  have "\<A>\<^sub>1 \<Turnstile> \<bottom> = False"
+    by (simp only: formula_semantics.simps(2))
+  oops
+
+lemma relevant_atoms_same_semantics_bot: 
+  assumes "\<forall>k \<in> atoms \<bottom>. \<A>\<^sub>1 k = \<A>\<^sub>2 k"
+  shows "\<A>\<^sub>1 \<Turnstile> \<bottom> \<longleftrightarrow> \<A>\<^sub>2 \<Turnstile> \<bottom>"
 proof (rule iffI)
   assume "\<A>\<^sub>1 \<Turnstile> \<bottom>"
   then have "False"
