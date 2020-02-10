@@ -194,13 +194,12 @@ text \<open>Una vez definida la estructura de las fórmulas, vamos a introducir
     \item[] @{thm[mode=Rule] formula.induct}
   \end{itemize} 
 
-  Como hemos señalado, el esquema inductivo se aplicará en cada uno de 
-  los casos de los constructores, desglosándose así seis casos distintos 
-  como se muestra anteriormente. Además, todas las demostraciones sobre 
-  casos de conectivas binarias son equivalentes en esta sección, pues la 
-  construcción sintáctica de fórmulas es idéntica entre ellas. Estas se 
-  diferencian esencialmente en la connotación semántica que veremos más 
-  adelante.
+  Como hemos señalado, el esquema inductivo genera así seis casos 
+  distintos como se muestra anteriormente. Además, todas las 
+  demostraciones sobre casos de conectivas binarias son equivalentes en 
+  esta sección, pues la construcción sintáctica de fórmulas es idéntica 
+  entre ellas. Estas se diferencian esencialmente en la connotación 
+  semántica que veremos más adelante.
 
   A continuación el primer resultado de este apartado:
 
@@ -676,8 +675,8 @@ text \<open>Veamos ahora los distintos resultados sobre subfórmulas.
     En primer lugar, sabemos que los 
     conjuntos de variables proposicionales de \<open>F\<close> y \<open>\<not> F\<close> coinciden, 
     luego tendrán igual conjunto de fórmulas atómicas. Por lo tanto,
-    por hipótesis de inducción tenemos que le conjunto de fórmulas
-    atómicas de \<open>\<not> F\<close> está contenido en el conjunto de subfórmulas de 
+    por hipótesis de inducción tenemos que el conjunto de fórmulas
+    atómicas de \<open>F\<close> está contenido en el conjunto de subfórmulas de 
     \<open>F\<close>. Por otro lado, como el conjunto de subfórmulas de \<open>\<not> F\<close> está 
     definido como \<open>Subf(\<not> F) = {\<not> F} \<union> Subf(F)\<close>, tenemos que el 
     el conjunto de subfórmulas de \<open>F\<close> está contenido en el de \<open>\<not> F\<close>
@@ -713,8 +712,7 @@ lemma "Atom ` atoms F \<subseteq> setSubformulae F"
 
 text \<open>Debemos observar que \<open>Atom ` atoms F\<close> construye las fórmulas 
   atómicas a partir de cada uno de los elementos de \<open>atoms F\<close>, creando 
-  un conjunto de fórmulas atómicas. Dicho conjunto es equivalente al 
-  conjunto \<open>A\<^sub>F\<close> del enunciado del lema. Para ello emplea el infijo \<open>`\<close> 
+  un conjunto de fórmulas atómicas. Para ello emplea el infijo \<open>`\<close> 
   definido como notación abreviada de @{term "image"} que calcula la 
   imagen de un conjunto en la teoría \href{https://n9.cl/qatp}{Set.thy}.
 
@@ -908,12 +906,12 @@ text \<open>La siguiente propiedad declara que el conjunto de átomos de una
   los distintos casos:
 
   Sea \<open>p\<close> una fórmula atómica cualquiera. Por definición de su conjunto
-  de subfórmulas, su única subfórmula es ella misma. Por tanto, tienen 
-  igual conjunto de átomos.
+  de subfórmulas, su única subfórmula es ella misma, luego se verifica
+  el resultado.
 
   Sea la fórmula \<open>\<bottom>\<close>. Por definición de su conjunto de subfórmulas, su 
-  única subfórmula es ella misma. Por tanto, tienen 
-  igual conjunto de átomos (en particular, el vacío).
+  única subfórmula es ella misma, luego se verifica análogamente la
+  propiedad en este caso.
 
   Sea la fórmula \<open>F\<close> tal que para cualquier subfórmula suya se verifica 
   que el conjunto de sus átomos está contenido en el conjunto de átomos 
@@ -922,7 +920,7 @@ text \<open>La siguiente propiedad declara que el conjunto de átomos de una
   \<open>\<not> F\<close>.
   Por definición, tenemos que el conjunto de subfórmulas de \<open>\<not> F\<close> es de
   la forma \<open>Subf(\<not> F) = {\<not> F} \<union> Subf(F)\<close>. De este modo, tenemos dos 
-  opciones posibles: \<open>G \<in> {\<not> F}\<close> o \<open>G \<in> Subf(F)\<close>. 
+  opciones posibles: \\\<open>G \<in> {\<not> F}\<close> o \<open>G \<in> Subf(F)\<close>. 
   Del primer caso se deduce \<open>G = \<not> F\<close> 
   y, por tanto, tienen igual conjunto de átomos.
   Observando el segundo caso, por hipótesis de inducción, se tiene que 
@@ -930,11 +928,11 @@ text \<open>La siguiente propiedad declara que el conjunto de átomos de una
   el conjunto de átomos de \<open>F\<close> y \<open>\<not> F\<close> coinciden, se verifica el 
   resultado.
 
-  Sea \<open>F1\<close> fórmula proposicional tal que el conjunto de los átomos de
-  cualquier subfórmula suya está contenido en el conjunto de átomos de 
-  \<open>F1\<close>. Sea también \<open>F2\<close> cumpliendo dicha hipótesis de inducción para 
-  sus correspondientes subfórmulas. Supongamos además 
-  \<open>G\<close> subfórmula de \<open>F1*F2\<close>, donde \<open>*\<close> simboliza una conectiva binaria 
+  Sea \<open>F1\<close> una fórmula proposicional tal que el conjunto de los átomos 
+  de cualquier subfórmula suya está contenido en el conjunto de átomos 
+  de \<open>F1\<close>. Sea también \<open>F2\<close> cumpliendo dicha hipótesis de inducción para 
+  sus correspondientes subfórmulas. Supongamos además que \<open>G\<close> es
+  subfórmula de \<open>F1*F2\<close>, donde \<open>*\<close> simboliza una conectiva binaria 
   cualquiera. Vamos a probar que el conjunto de átomos de \<open>G\<close> está 
   contenido en el conjunto de átomos de \<open>F1*F2\<close>.
   En primer lugar, por definición tenemos que el conjunto de
@@ -1185,14 +1183,14 @@ qed
 text \<open>\comentario{Usar símbolos lógicos en la demostración anterior.
   No lo permite.}\<close>
 
-text \<open>Por último, su demostración aplicativa automática.\<close>
+text \<open>Por último, su demostración automática.\<close>
 
 lemma "G \<in> setSubformulae F \<Longrightarrow> atoms G \<subseteq> atoms F"
   by (induction F) auto
 
-text \<open>A continuación vamos a introducir un lema que no pertenece a la 
-  teoría original de Isabelle pero facilita las siguientes 
-  demostraciones detalladas mediante contenciones en cadena.
+text \<open>A continuación vamos a introducir un lema para facilitar
+   las siguientes demostraciones detalladas mediante contenciones en 
+   cadena.
 
   \begin{lema}
     Sea \<open>G\<close> una subfórmula de \<open>F\<close>, entonces el conjunto de subfórmulas 
@@ -1217,7 +1215,7 @@ text \<open>A continuación vamos a introducir un lema que no pertenece a la
   subfórmulas de \<open>G\<close> está contenido en el de \<open>\<not> F\<close>.
   En primer lugar, por definición se cumple que el conjunto de
   subfórmulas de \<open>\<not> F\<close> es de la forma \<open>Subf(\<not> F) = {\<not> F} \<union> Subf(F)\<close>.
-  Como hemos supuesto \<open>G\<close> subfórmula de \<open>\<not> F\<close>, hay dos opciones 
+  Como hemos supuesto \<open>G\<close> subfórmula de \\\<open>\<not> F\<close>, hay dos opciones 
   posibles:\<open>G \<in> {\<not> F}\<close> o \<open>G \<in> Subf(F)\<close>. 
   Del primer caso se obtiene que \<open>G = \<not> F\<close> y, por tanto, tienen igual 
   conjunto de subfórmulas. 
@@ -1238,9 +1236,9 @@ text \<open>A continuación vamos a introducir un lema que no pertenece a la
   cualquiera. Vamos a probar que el conjunto de subfórmulas de \<open>G\<close> está
   contenido en el de \<open>F1*F2\<close>. 
   En primer lugar, por definición se cumple que el conjunto de 
-  subfórmulas de \<open>F1*F2\<close> es de la forma 
-  \<open>Subf(F1*F2) = {F1*F2} \<union> (Subf(F1) \<union> Subf(F2))\<close>. De este modo,
-  tenemos dos opciones: \<open>G \<in> {F1*F2}\<close> o \<open>G \<in> Subf(F1) \<union> Subf(F2)\<close>.
+  subfórmulas de \<open>F1*F2\<close> es de la forma\\
+  \<open>{F1*F2} \<union> (Subf(F1) \<union> Subf(F2))\<close>. De este modo,
+  tenemos dos opciones:\\ \<open>G \<in> {F1*F2}\<close> o \<open>G \<in> Subf(F1) \<union> Subf(F2)\<close>.
    De la primera opción se deduce \<open>G = F1*F2\<close> y, por
   tanto, tienen igual conjunto de subfórmulas. 
   Por otro lado, si \<open>G \<in> Subf(F1) \<union> Subf(F2)\<close>, tenemos a su vez dos 
@@ -1563,12 +1561,8 @@ lemma subformulas_in_subformulas:
   "\<^bold>\<not> G \<in> setSubformulae F \<Longrightarrow> G \<in> setSubformulae F"
   oops
 
-text \<open>Como podemos observar, el resultado es análogo en todas las 
-  conectivas binarias aunque aparezcan definidas por separado, por tanto 
-  haré la demostración estructurada para una de ellas pues el resto son 
-  análogas. 
-
-  Nos basaremos en el lema anterior @{term "subsubformulae"}.\<close>
+text \<open>Para la demostración en Isabelle nos basaremos en el lema anterior 
+  @{term "subsubformulae"} para cada caso.\<close>
 
 lemma subformulas_in_subformulas_not:
   assumes "\<^bold>\<not> G \<in> setSubformulae F"
@@ -1599,6 +1593,36 @@ next
     by (rule subsubformulae)
 qed
 
+lemma subformulas_in_subformulas_or:
+  assumes "G \<^bold>\<or> H \<in> setSubformulae F" 
+  shows "G \<in> setSubformulae F \<and> H \<in> setSubformulae F"
+proof (rule conjI)
+  have "G \<in> setSubformulae (G \<^bold>\<or> H)" 
+    by (simp only: subformulae_self UnI2 UnI1 setSubformulae_or)
+  with assms show "G \<in> setSubformulae F" 
+    by (rule subsubformulae)
+next
+  have "H \<in> setSubformulae (G \<^bold>\<or> H)"  
+    by (simp only: subformulae_self UnI2 UnI1 setSubformulae_or)
+  with assms show "H \<in> setSubformulae F" 
+    by (rule subsubformulae)
+qed
+
+lemma subformulas_in_subformulas_imp:
+  assumes "G \<^bold>\<rightarrow> H \<in> setSubformulae F" 
+  shows "G \<in> setSubformulae F \<and> H \<in> setSubformulae F"
+proof (rule conjI)
+  have "G \<in> setSubformulae (G \<^bold>\<rightarrow> H)" 
+    by (simp only: subformulae_self UnI2 UnI1 setSubformulae_imp)
+  with assms show "G \<in> setSubformulae F" 
+    by (rule subsubformulae)
+next
+  have "H \<in> setSubformulae (G \<^bold>\<rightarrow> H)"  
+    by (simp only: subformulae_self UnI2 UnI1 setSubformulae_imp)
+  with assms show "H \<in> setSubformulae F" 
+    by (rule subsubformulae)
+qed
+
 text \<open>Mostremos ahora la demostración automática.\<close>
 
 lemma subformulas_in_subformulas:
@@ -1610,16 +1634,14 @@ lemma subformulas_in_subformulas:
    \<Longrightarrow> G \<in> setSubformulae F \<and> H \<in> setSubformulae F"
   "\<^bold>\<not> G \<in> setSubformulae F \<Longrightarrow> G \<in> setSubformulae F"
      apply (rule conjI)
-      apply (drule subformulas_in_subformulas_and)
-      apply (erule conjunct1)
-       apply (drule subformulas_in_subformulas_and)
+     apply (drule subformulas_in_subformulas_and)
+     apply (erule conjunct1)
+     apply (drule subformulas_in_subformulas_and)
      apply (erule conjunct2)
-    prefer 3
-     apply (drule subformulas_in_subformulas_not, assumption)  
+     apply (drule subformulas_in_subformulas_or, assumption)
+     apply (drule subformulas_in_subformulas_imp, assumption)
+     apply (drule subformulas_in_subformulas_not, assumption)
   oops 
-
-text \<open>\comentario{Probar cada uno de los casos (faltan 2) por separado
- para usarlos en la prueba del lema.}\<close>
 
 section \<open>Conectivas derivadas\<close>
 
@@ -1666,7 +1688,7 @@ text \<open>A continuación vamos a definir dos conectivas que generalizan la
   \comentario{Esta definición es un caso particular de listas. 
   No se si incluir la definicion de estructura e inducción general}
 
-  De este modo, se definen las conectivas plurales de acuerdo a la 
+  De este modo, se definen las conectivas generalizadas de acuerdo a la 
   estructura recursiva anterior. Notemos que al referirnos simplemente 
   a disyunción o conjunción nos referiremos a la de dos elementos.
 
@@ -1685,7 +1707,7 @@ text \<open>A continuación vamos a definir dos conectivas que generalizan la
   La disyunción plural de una lista de fórmulas se define recursivamente
   como:
     \begin{itemize}
-      \item La disyunción plural de la lista vacía es \<open>\<not>\<bottom>\<close>.
+      \item La disyunción plural de la lista vacía es \<open>\<bottom>\<close>.
       \item Sea \<open>F\<close> una fórmula y \<open>Fs\<close> una lista de fórmulas. Entonces,
   la disyunción plural de \<open>F#Fs\<close> es la disyunción de \<open>F\<close> con la 
   disyunción plural de \<open>Fs\<close>.
@@ -1716,19 +1738,7 @@ text \<open>Ambas nuevas conectivas se definen con el tipo funciones
   este caso, se trata de la inducción para la estructura de lista de 
   fórmulas.
 
-  \begin{definicion}
-    Sea \<open>\<P>\<close> una propiedad sobre lista de fórmulas proposicionales que 
-    verifica las siguientes condiciones:
-    \begin{itemize}
-     \item La lista vacía la verifica.
-     \item Dada una fórmula \<open>F\<close> y una lista de fórmulas \<open>Fs\<close> que la
-      verifican, entonces \<open>F#Fs\<close> la verifica.
-    \end{itemize}
-    Entonces, todas las listas de fórmulas proposicionales tienen la 
-    propiedad \<open>\<P>\<close>. 
-  \end{definicion}
-
-  La conjunción plural nos da el siguiente resultado.
+  A continuación se muestra una propiedad sobre la conjunción plural.
 
 \comentario{Añadir lema a mano y demostración. Falta demostración en 
   Isabelle.}\<close>
