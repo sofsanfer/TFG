@@ -335,39 +335,32 @@ lemma relevant_atoms_same_semantics_not:
   assumes "\<forall>k \<in> atoms F. \<A>\<^sub>1 k = \<A>\<^sub>2 k \<Longrightarrow> \<A>\<^sub>1 \<Turnstile> F \<longleftrightarrow> \<A>\<^sub>2 \<Turnstile> F"
           "\<forall>k \<in> atoms (\<^bold>\<not> F). \<A>\<^sub>1 k = \<A>\<^sub>2 k"
         shows "\<A>\<^sub>1 \<Turnstile> (\<^bold>\<not> F) \<longleftrightarrow> \<A>\<^sub>2 \<Turnstile> (\<^bold>\<not> F)"
-proof (rule iffI)
-  assume "\<A>\<^sub>1 \<Turnstile> (\<^bold>\<not> F)"
-  then have H1:"\<not> (\<A>\<^sub>1 \<Turnstile> F)"
-    by simp (*Da error?: (simp only: formula_semantics.simps(3))*)
+proof -
   have "\<forall>k \<in> atoms F. \<A>\<^sub>1 k = \<A>\<^sub>2 k" using assms(2)
     by (simp only: formula.set(3))
-  then have "\<A>\<^sub>1 \<Turnstile> F \<longleftrightarrow> \<A>\<^sub>2 \<Turnstile> F"
+  then have H:"\<A>\<^sub>1 \<Turnstile> F \<longleftrightarrow> \<A>\<^sub>2 \<Turnstile> F"
     by (simp only: assms(1))
-  then have "\<A>\<^sub>2 \<Turnstile> F \<longrightarrow> \<A>\<^sub>1 \<Turnstile> F"
-    by simp (* Pendiente *)
-  then have "\<not>(\<A>\<^sub>1 \<Turnstile> F) \<longrightarrow> \<not>(\<A>\<^sub>2 \<Turnstile> F)"
-    by (rule not_mono)
-  then have "\<not> (\<A>\<^sub>2 \<Turnstile> F)" using H1
-    by (rule impE)
-  thus "\<A>\<^sub>2 \<Turnstile> (\<^bold>\<not> F)"
-    by simp (*(simp only: formula_semantics.simps(3))*)
-next
-  assume "\<A>\<^sub>2 \<Turnstile> (\<^bold>\<not> F)"
-  then have H2:"\<not> (\<A>\<^sub>2 \<Turnstile> F)"
-    by simp (*Da error?: (simp only: formula_semantics.simps(3))*)
-  have "\<forall>k \<in> atoms F. \<A>\<^sub>1 k = \<A>\<^sub>2 k" using assms(2)
-    by (simp only: formula.set(3))
-  then have "\<A>\<^sub>1 \<Turnstile> F \<longleftrightarrow> \<A>\<^sub>2 \<Turnstile> F"
-    by (simp only: assms(1))
-  then have "\<A>\<^sub>1 \<Turnstile> F \<longrightarrow> \<A>\<^sub>2 \<Turnstile> F"
-    by simp (* Pendiente *)
-  then have "\<not>(\<A>\<^sub>2 \<Turnstile> F) \<longrightarrow> \<not>(\<A>\<^sub>1 \<Turnstile> F)"
-    by (rule not_mono)
-  then have "\<not> (\<A>\<^sub>1 \<Turnstile> F)" using H2
-    by (rule impE)
-  thus "\<A>\<^sub>1 \<Turnstile> (\<^bold>\<not> F)"
-    by simp (*(simp only: formula_semantics.simps(3))*)
+  have "\<A>\<^sub>1 \<Turnstile> (\<^bold>\<not> F) = (\<not> \<A>\<^sub>1 \<Turnstile> F)"
+    by (simp only: formula_semantics.simps(3))
+  also have "\<dots> = (\<not> \<A>\<^sub>2 \<Turnstile> F)"
+    using H by (rule arg_cong)
+  also have "\<dots> = \<A>\<^sub>2 \<Turnstile> (\<^bold>\<not> F)"
+    by (simp only: formula_semantics.simps(3))
+  finally show ?thesis
+    by this
 qed
+
+text \<open>\comentario{Añadir rule arg_cong y arg_cong2 al glosario.}\<close>
+
+lemma forall_union1: 
+  assumes "\<forall>x \<in> A \<union> B. P x"
+  shows "\<forall>x \<in> A. P x"
+  by (simp add: assms) (*Pendiente*)
+
+lemma forall_union2:
+  assumes "\<forall>x \<in> A \<union> B. P x"
+  shows "\<forall>x \<in> B. P x"
+  by (simp add: assms) (*Pendiente*)
 
 lemma relevant_atoms_same_semantics_and: 
   assumes "\<forall>k \<in> atoms F. \<A>\<^sub>1 k = \<A>\<^sub>2 k \<Longrightarrow> \<A>\<^sub>1 \<Turnstile> F \<longleftrightarrow> \<A>\<^sub>2 \<Turnstile> F"
@@ -375,48 +368,24 @@ lemma relevant_atoms_same_semantics_and:
           "\<forall>k \<in> atoms (F \<^bold>\<and> G). \<A>\<^sub>1 k = \<A>\<^sub>2 k"
         shows "\<A>\<^sub>1 \<Turnstile> (F \<^bold>\<and> G) \<longleftrightarrow> \<A>\<^sub>2 \<Turnstile> (F \<^bold>\<and> G)"
 proof -
-  have "\<forall>k \<in> atoms F. \<A>\<^sub>1 k = \<A>\<^sub>2 k" using assms(3)
-    by simp (* Pendiente *)
-  then have H1:"\<A>\<^sub>1 \<Turnstile> F \<longleftrightarrow> \<A>\<^sub>2 \<Turnstile> F" 
+  have H:"\<forall>k \<in> atoms F \<union> atoms G. \<A>\<^sub>1 k = \<A>\<^sub>2 k" using assms(3)
+    by (simp only: formula.set(4))
+  then have "\<forall>k \<in> atoms F. \<A>\<^sub>1 k = \<A>\<^sub>2 k"
+    by (rule forall_union1)
+  then have H1:"\<A>\<^sub>1 \<Turnstile> F \<longleftrightarrow> \<A>\<^sub>2 \<Turnstile> F"
     by (simp only: assms(1))
-  have "\<forall>k \<in> atoms G. \<A>\<^sub>1 k = \<A>\<^sub>2 k" using assms(3)
-    by simp (* Pendiente *)
-  then have H2:"\<A>\<^sub>1 \<Turnstile> G \<longleftrightarrow> \<A>\<^sub>2 \<Turnstile> G" 
+  have "\<forall>k \<in> atoms G. \<A>\<^sub>1 k = \<A>\<^sub>2 k"
+    using H by (rule forall_union2)
+  then have H2:"\<A>\<^sub>1 \<Turnstile> G \<longleftrightarrow> \<A>\<^sub>2 \<Turnstile> G"
     by (simp only: assms(2))
-  show "\<A>\<^sub>1 \<Turnstile> (F \<^bold>\<and> G) \<longleftrightarrow> \<A>\<^sub>2 \<Turnstile> (F \<^bold>\<and> G)"
-  proof (rule iffI)
-    assume "\<A>\<^sub>1 \<Turnstile> (F \<^bold>\<and> G)"
-    then have C:"\<A>\<^sub>1 \<Turnstile> F \<and> \<A>\<^sub>1 \<Turnstile> G" 
-      by (simp only: formula_semantics.simps(4))
-    then have C1:"\<A>\<^sub>1 \<Turnstile> F" 
-      by (rule conjunct1)
-    have F1:"\<A>\<^sub>2 \<Turnstile> F" using H1 C1
-      by (rule iffD1)
-    have C2:"\<A>\<^sub>1 \<Turnstile> G" using C
-      by (rule conjunct2)
-    have G1:"\<A>\<^sub>2 \<Turnstile> G" using H2 C2
-      by (rule iffD1)
-    have "\<A>\<^sub>2 \<Turnstile> F \<and> \<A>\<^sub>2 \<Turnstile> G" using F1 G1
-      by (rule conjI)
-    thus "\<A>\<^sub>2 \<Turnstile> (F \<^bold>\<and> G)"
-      by (simp only: formula_semantics.simps(4))
-  next
-    assume "\<A>\<^sub>2 \<Turnstile> (F \<^bold>\<and> G)"
-    then have C:"\<A>\<^sub>2 \<Turnstile> F \<and> \<A>\<^sub>2 \<Turnstile> G" 
-      by (simp only: formula_semantics.simps(4))
-    then have C1:"\<A>\<^sub>2 \<Turnstile> F" 
-      by (rule conjunct1)
-    have F2:"\<A>\<^sub>1 \<Turnstile> F" using H1 C1
-      by (rule iffD2)
-    have C2:"\<A>\<^sub>2 \<Turnstile> G" using C
-      by (rule conjunct2)
-    have G2:"\<A>\<^sub>1 \<Turnstile> G" using H2 C2
-      by (rule iffD2)
-    have "\<A>\<^sub>1 \<Turnstile> F \<and> \<A>\<^sub>1 \<Turnstile> G" using F2 G2
-      by (rule conjI)
-    thus "\<A>\<^sub>1 \<Turnstile> (F \<^bold>\<and> G)"
-      by (simp only: formula_semantics.simps(4))
-  qed
+  have "\<A>\<^sub>1 \<Turnstile> F \<^bold>\<and> G = (\<A>\<^sub>1 \<Turnstile> F \<and> \<A>\<^sub>1 \<Turnstile> G)"
+    by (simp only: formula_semantics.simps(4))
+  also have "\<dots> = (\<A>\<^sub>2 \<Turnstile> F \<and> \<A>\<^sub>2 \<Turnstile> G)"
+    using H1 H2 by (rule arg_cong2)
+  also have "\<dots> = \<A>\<^sub>2 \<Turnstile> F \<^bold>\<and> G"
+    by (simp only: formula_semantics.simps(4))
+  finally show ?thesis 
+    by this
 qed
 
 lemma relevant_atoms_same_semantics_or: 
@@ -425,60 +394,24 @@ lemma relevant_atoms_same_semantics_or:
           "\<forall>k \<in> atoms (F \<^bold>\<or> G). \<A>\<^sub>1 k = \<A>\<^sub>2 k"
      shows "\<A>\<^sub>1 \<Turnstile> (F \<^bold>\<or> G) \<longleftrightarrow> \<A>\<^sub>2 \<Turnstile> (F \<^bold>\<or> G)"
 proof -
-  have "\<forall>k \<in> atoms F. \<A>\<^sub>1 k = \<A>\<^sub>2 k" using assms(3)
-    by simp (* Pendiente *)
-  then have H1:"\<A>\<^sub>1 \<Turnstile> F \<longleftrightarrow> \<A>\<^sub>2 \<Turnstile> F" 
+  have H:"\<forall>k \<in> atoms F \<union> atoms G. \<A>\<^sub>1 k = \<A>\<^sub>2 k" using assms(3)
+    by (simp only: formula.set(5))
+  then have "\<forall>k \<in> atoms F. \<A>\<^sub>1 k = \<A>\<^sub>2 k"
+    by (rule forall_union1)
+  then have H1:"\<A>\<^sub>1 \<Turnstile> F \<longleftrightarrow> \<A>\<^sub>2 \<Turnstile> F"
     by (simp only: assms(1))
-  have "\<forall>k \<in> atoms G. \<A>\<^sub>1 k = \<A>\<^sub>2 k" using assms(3)
-    by simp (* Pendiente *)
-  then have H2:"\<A>\<^sub>1 \<Turnstile> G \<longleftrightarrow> \<A>\<^sub>2 \<Turnstile> G" 
+  have "\<forall>k \<in> atoms G. \<A>\<^sub>1 k = \<A>\<^sub>2 k"
+    using H by (rule forall_union2)
+  then have H2:"\<A>\<^sub>1 \<Turnstile> G \<longleftrightarrow> \<A>\<^sub>2 \<Turnstile> G"
     by (simp only: assms(2))
-  show "\<A>\<^sub>1 \<Turnstile> (F \<^bold>\<or> G) \<longleftrightarrow> \<A>\<^sub>2 \<Turnstile> (F \<^bold>\<or> G)"
-  proof (rule iffI)
-    assume "\<A>\<^sub>1 \<Turnstile> (F \<^bold>\<or> G)"
-    then have C:"\<A>\<^sub>1 \<Turnstile> F \<or> \<A>\<^sub>1 \<Turnstile> G" 
-      by (simp only: formula_semantics.simps(5))
-    then show "\<A>\<^sub>2 \<Turnstile> (F \<^bold>\<or> G)"
-    proof (rule disjE)
-      assume D1:"\<A>\<^sub>1 \<Turnstile> F"
-      have "\<A>\<^sub>2 \<Turnstile> F" using H1 D1
-        by (rule iffD1)
-      then have "\<A>\<^sub>2 \<Turnstile> F \<or> \<A>\<^sub>2 \<Turnstile> G"
-        by (rule disjI1)
-      thus "\<A>\<^sub>2 \<Turnstile> (F \<^bold>\<or> G)" 
-        by (simp only: formula_semantics.simps(5))
-    next
-      assume D2:"\<A>\<^sub>1 \<Turnstile> G"
-      have "\<A>\<^sub>2 \<Turnstile> G" using H2 D2
-        by (rule iffD1)
-      then have "\<A>\<^sub>2 \<Turnstile> F \<or> \<A>\<^sub>2 \<Turnstile> G"
-        by (rule disjI2)
-      thus "\<A>\<^sub>2 \<Turnstile> (F \<^bold>\<or> G)" 
-        by (simp only: formula_semantics.simps(5))
-    qed
-  next
-    assume "\<A>\<^sub>2 \<Turnstile> (F \<^bold>\<or> G)"
-    then have C:"\<A>\<^sub>2 \<Turnstile> F \<or> \<A>\<^sub>2 \<Turnstile> G" 
-      by (simp only: formula_semantics.simps(5))
-    then show "\<A>\<^sub>1 \<Turnstile> (F \<^bold>\<or> G)"
-    proof (rule disjE)
-      assume D1:"\<A>\<^sub>2 \<Turnstile> F"
-      have "\<A>\<^sub>1 \<Turnstile> F" using H1 D1
-        by (rule iffD2)
-      then have "\<A>\<^sub>1 \<Turnstile> F \<or> \<A>\<^sub>1 \<Turnstile> G"
-        by (rule disjI1)
-      thus "\<A>\<^sub>1 \<Turnstile> (F \<^bold>\<or> G)" 
-        by (simp only: formula_semantics.simps(5))
-    next
-      assume D2:"\<A>\<^sub>2 \<Turnstile> G"
-      have "\<A>\<^sub>1 \<Turnstile> G" using H2 D2
-        by (rule iffD2)
-      then have "\<A>\<^sub>1 \<Turnstile> F \<or> \<A>\<^sub>1 \<Turnstile> G"
-        by (rule disjI2)
-      thus "\<A>\<^sub>1 \<Turnstile> (F \<^bold>\<or> G)" 
-        by (simp only: formula_semantics.simps(5))
-    qed
-  qed
+  have "\<A>\<^sub>1 \<Turnstile> F \<^bold>\<or> G = (\<A>\<^sub>1 \<Turnstile> F \<or> \<A>\<^sub>1 \<Turnstile> G)"
+    by (simp only: formula_semantics.simps(5))
+  also have "\<dots> = (\<A>\<^sub>2 \<Turnstile> F \<or> \<A>\<^sub>2 \<Turnstile> G)"
+    using H1 H2 by (rule arg_cong2)
+  also have "\<dots> = \<A>\<^sub>2 \<Turnstile> F \<^bold>\<or> G"
+    by (simp only: formula_semantics.simps(5))
+  finally show ?thesis 
+    by this
 qed
 
 lemma relevant_atoms_same_semantics_imp: 
@@ -487,48 +420,24 @@ lemma relevant_atoms_same_semantics_imp:
           "\<forall>k \<in> atoms (F \<^bold>\<rightarrow> G). \<A>\<^sub>1 k = \<A>\<^sub>2 k"
      shows "\<A>\<^sub>1 \<Turnstile> (F \<^bold>\<rightarrow> G) \<longleftrightarrow> \<A>\<^sub>2 \<Turnstile> (F \<^bold>\<rightarrow> G)"
 proof -
-  have "\<forall>k \<in> atoms F. \<A>\<^sub>1 k = \<A>\<^sub>2 k" using assms(3)
-    by simp (* Pendiente *)
-  then have H1:"\<A>\<^sub>1 \<Turnstile> F \<longleftrightarrow> \<A>\<^sub>2 \<Turnstile> F" 
+  have H:"\<forall>k \<in> atoms F \<union> atoms G. \<A>\<^sub>1 k = \<A>\<^sub>2 k" using assms(3)
+    by (simp only: formula.set(6))
+  then have "\<forall>k \<in> atoms F. \<A>\<^sub>1 k = \<A>\<^sub>2 k"
+    by (rule forall_union1)
+  then have H1:"\<A>\<^sub>1 \<Turnstile> F \<longleftrightarrow> \<A>\<^sub>2 \<Turnstile> F"
     by (simp only: assms(1))
-  have "\<forall>k \<in> atoms G. \<A>\<^sub>1 k = \<A>\<^sub>2 k" using assms(3)
-    by simp (* Pendiente *)
-  then have H2:"\<A>\<^sub>1 \<Turnstile> G \<longleftrightarrow> \<A>\<^sub>2 \<Turnstile> G" 
+  have "\<forall>k \<in> atoms G. \<A>\<^sub>1 k = \<A>\<^sub>2 k"
+    using H by (rule forall_union2)
+  then have H2:"\<A>\<^sub>1 \<Turnstile> G \<longleftrightarrow> \<A>\<^sub>2 \<Turnstile> G"
     by (simp only: assms(2))
-  show "\<A>\<^sub>1 \<Turnstile> (F \<^bold>\<rightarrow> G) \<longleftrightarrow> \<A>\<^sub>2 \<Turnstile> (F \<^bold>\<rightarrow> G)"
-  proof (rule iffI)
-    assume "\<A>\<^sub>1 \<Turnstile> (F \<^bold>\<rightarrow> G)"
-    then have I1:"\<A>\<^sub>1 \<Turnstile> F \<longrightarrow> \<A>\<^sub>1 \<Turnstile> G"
-      by (simp only: formula_semantics.simps(6))
-    have "\<A>\<^sub>2 \<Turnstile> F \<longrightarrow> \<A>\<^sub>2 \<Turnstile> G"
-    proof (rule impI)
-      assume F2:"\<A>\<^sub>2 \<Turnstile> F"
-      have F1:"\<A>\<^sub>1 \<Turnstile> F" using H1 F2
-        by (rule iffD2)
-      have G1:"\<A>\<^sub>1 \<Turnstile> G" using I1 F1
-        by (rule impE)
-      show "\<A>\<^sub>2 \<Turnstile> G" using H2 G1
-        by (rule iffD1)
-    qed
-    thus "\<A>\<^sub>2 \<Turnstile> (F \<^bold>\<rightarrow> G)"
-      by (simp only: formula_semantics.simps(6))
-  next
-    assume "\<A>\<^sub>2 \<Turnstile> (F \<^bold>\<rightarrow> G)"
-    then have I2:"\<A>\<^sub>2 \<Turnstile> F \<longrightarrow> \<A>\<^sub>2 \<Turnstile> G"
-      by (simp only: formula_semantics.simps(6))
-    have "\<A>\<^sub>1 \<Turnstile> F \<longrightarrow> \<A>\<^sub>1 \<Turnstile> G"
-    proof (rule impI)
-      assume F1:"\<A>\<^sub>1 \<Turnstile> F"
-      have F2:"\<A>\<^sub>2 \<Turnstile> F" using H1 F1
-        by (rule iffD1)
-      have G2:"\<A>\<^sub>2 \<Turnstile> G" using I2 F2
-        by (rule impE)
-      show "\<A>\<^sub>1 \<Turnstile> G" using H2 G2
-        by (rule iffD2)
-    qed
-    thus "\<A>\<^sub>1 \<Turnstile> (F \<^bold>\<rightarrow> G)"
-      by (simp only: formula_semantics.simps(6))
-  qed
+  have "\<A>\<^sub>1 \<Turnstile> F \<^bold>\<rightarrow> G = (\<A>\<^sub>1 \<Turnstile> F \<longrightarrow> \<A>\<^sub>1 \<Turnstile> G)"
+    by (simp only: formula_semantics.simps(6))
+  also have "\<dots> = (\<A>\<^sub>2 \<Turnstile> F \<longrightarrow> \<A>\<^sub>2 \<Turnstile> G)"
+    using H1 H2 by (rule arg_cong2)
+  also have "\<dots> = \<A>\<^sub>2 \<Turnstile> F \<^bold>\<rightarrow> G"
+    by (simp only: formula_semantics.simps(6))
+  finally show ?thesis 
+    by this
 qed
 
 lemma relevant_atoms_same_semantics_detallada: 
@@ -556,7 +465,7 @@ qed
 lemma relevant_atoms_same_semantics: 
    "\<forall>k \<in> atoms F. \<A>\<^sub>1 k = \<A>\<^sub>2 k \<Longrightarrow> \<A>\<^sub>1 \<Turnstile> F \<longleftrightarrow> \<A>\<^sub>2 \<Turnstile> F"
   by (induction F) simp_all
- 
+
 text \<open>Definición: consecuencia lógica.\<close>
 
 definition entailment :: 
