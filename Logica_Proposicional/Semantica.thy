@@ -371,7 +371,7 @@ proof (rule ballI)
   fix x
   assume "x \<in> A"
   then have "x \<in> A \<union> B" 
-    by (simp only: Set.UnI1)
+    by (simp only: UnI1)
   then show "P x" 
     by (simp only:assms)
 qed
@@ -379,7 +379,14 @@ qed
 lemma forall_union2:
   assumes "\<forall>x \<in> A \<union> B. P x"
   shows "\<forall>x \<in> B. P x"
-  by (simp add: assms) (*Pendiente*)
+proof (rule ballI)
+  fix x
+  assume "x \<in> B"
+  then have "x \<in> A \<union> B" 
+    by (simp only: UnI2)
+  then show "P x" 
+    by (simp only:assms)
+qed
 
 lemma relevant_atoms_same_semantics_and: 
   assumes "\<forall>k \<in> atoms F. \<A>\<^sub>1 k = \<A>\<^sub>2 k \<Longrightarrow> \<A>\<^sub>1 \<Turnstile> F \<longleftrightarrow> \<A>\<^sub>2 \<Turnstile> F"
