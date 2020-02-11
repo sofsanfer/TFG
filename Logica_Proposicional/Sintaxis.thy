@@ -1773,7 +1773,6 @@ proof -
   also have "\<dots> = atoms F \<union> \<Union> (atoms ` set Fs)"
     by (simp only: assms)
   also have "\<dots> = \<Union> (atoms ` ({F} \<union> (set Fs)))"
-    find_theorems "\<Union> _ =_ _ \<union> \<Union> _"
     using UN_insert[THEN sym]
     by simp \<comment> \<open>Pendiente\<close>
   also have "\<dots> = \<Union> (atoms ` set (F#Fs))"
@@ -1790,8 +1789,7 @@ proof (induction Fs)
 next
   case (Cons a Fs)
   assume "atoms (\<^bold>\<And>Fs) = \<Union>(atoms ` set Fs)" 
-  then show ?case 
-    by simp \<comment> \<open>Pendiente\<close>
+  then show ?case by (rule atoms_BigAnd_paso)
 qed
 
 text \<open>Su demostración automática es la siguiente.\<close>
