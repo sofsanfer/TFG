@@ -317,29 +317,7 @@ text \<open>\comentario{Demostrar los casos de relevant-atoms-same-semantics
 lemma relevant_atoms_same_semantics_bot: 
   assumes "\<forall>k \<in> atoms \<bottom>. \<A>\<^sub>1 k = \<A>\<^sub>2 k"
   shows "\<A>\<^sub>1 \<Turnstile> \<bottom> \<longleftrightarrow> \<A>\<^sub>2 \<Turnstile> \<bottom>"
-proof -
-  have "\<forall>k \<in> \<emptyset>. \<A>\<^sub>1 k = \<A>\<^sub>2 k" using assms
-    by (simp only: formula.set(2))
-  have "\<A>\<^sub>1 \<Turnstile> \<bottom> = False"
-    by (simp only: formula_semantics.simps(2))
-  oops
-
-lemma relevant_atoms_same_semantics_bot: 
-  assumes "\<forall>k \<in> atoms \<bottom>. \<A>\<^sub>1 k = \<A>\<^sub>2 k"
-  shows "\<A>\<^sub>1 \<Turnstile> \<bottom> \<longleftrightarrow> \<A>\<^sub>2 \<Turnstile> \<bottom>"
-proof (rule iffI)
-  assume "\<A>\<^sub>1 \<Turnstile> \<bottom>"
-  then have "False"
-    by (simp only: formula_semantics.simps(2))
-  then show "\<A>\<^sub>2 \<Turnstile> \<bottom>"
-    by (simp only: formula_semantics.simps(2))
-next
-  assume "\<A>\<^sub>2 \<Turnstile> \<bottom>"
-  then have "False"
-    by (simp only: formula_semantics.simps(2))
-  then show "\<A>\<^sub>1 \<Turnstile> \<bottom>"
-    by (simp only: formula_semantics.simps(2))
-qed
+  by (simp only: formula_semantics.simps(2))
 
 lemma relevant_atoms_same_semantics_not: 
   assumes "\<forall>k \<in> atoms F. \<A>\<^sub>1 k = \<A>\<^sub>2 k \<Longrightarrow> \<A>\<^sub>1 \<Turnstile> F \<longleftrightarrow> \<A>\<^sub>2 \<Turnstile> F"
@@ -365,12 +343,26 @@ text \<open>\comentario{Añadir rule arg_cong y arg_cong2 al glosario.}\<close>
 lemma forall_union1: 
   assumes "\<forall>x \<in> A \<union> B. P x"
   shows "\<forall>x \<in> A. P x"
-  by (simp add: assms) (*Pendiente*)
+proof (rule ballI)
+  fix x
+  assume "x \<in> A"
+  then have "x \<in> A \<union> B" 
+    by (simp only: UnI1)
+  then show "P x" 
+    by (simp only: assms)
+qed
 
 lemma forall_union2:
   assumes "\<forall>x \<in> A \<union> B. P x"
   shows "\<forall>x \<in> B. P x"
-  by (simp add: assms) (*Pendiente*)
+proof (rule ballI)
+  fix x
+  assume "x \<in> B"
+  then have "x \<in> A \<union> B" 
+    by (simp only: UnI2)
+  then show "P x" 
+    by (simp only: assms)
+qed
 
 lemma relevant_atoms_same_semantics_and: 
   assumes "\<forall>k \<in> atoms F. \<A>\<^sub>1 k = \<A>\<^sub>2 k \<Longrightarrow> \<A>\<^sub>1 \<Turnstile> F \<longleftrightarrow> \<A>\<^sub>2 \<Turnstile> F"
