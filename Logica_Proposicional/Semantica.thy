@@ -362,10 +362,19 @@ qed
 
 text \<open>\comentario{Añadir rule arg_cong y arg_cong2 al glosario.}\<close>
 
+find_theorems  "_ \<Longrightarrow> \<forall>_ \<in> _. _"
+
 lemma forall_union1: 
   assumes "\<forall>x \<in> A \<union> B. P x"
   shows "\<forall>x \<in> A. P x"
-  by (simp add: assms) (*Pendiente*)
+proof (rule ballI)
+  fix x
+  assume "x \<in> A"
+  then have "x \<in> A \<union> B" 
+    by (simp only: Set.UnI1)
+  then show "P x" 
+    by (simp only:assms)
+qed
 
 lemma forall_union2:
   assumes "\<forall>x \<in> A \<union> B. P x"
