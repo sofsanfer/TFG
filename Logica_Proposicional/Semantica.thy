@@ -338,7 +338,7 @@ proof -
     by this
 qed
 
-text \<open>\comentario{Añadir rule arg_cong y arg_cong2 al glosario.}\<close>
+text \<open>\comentario{Añadir rule arg\_cong y arg\_cong2 al glosario.}\<close>
 
 lemma forall_union1: 
   assumes "\<forall>x \<in> A \<union> B. P x"
