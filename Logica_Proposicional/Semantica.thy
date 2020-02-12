@@ -311,9 +311,6 @@ proof -
     by this
 qed
 
-text \<open>\comentario{Demostrar los casos de relevant-atoms-same-semantics
-  con razonamiento ecuacional como el caso anterior de las atómicas.}\<close>
-
 lemma relevant_atoms_same_semantics_bot: 
   assumes "\<forall>k \<in> atoms \<bottom>. \<A>\<^sub>1 k = \<A>\<^sub>2 k"
   shows "\<A>\<^sub>1 \<Turnstile> \<bottom> \<longleftrightarrow> \<A>\<^sub>2 \<Turnstile> \<bottom>"
@@ -563,50 +560,6 @@ proof -
     by (simp only: sat_def)
   finally show ?thesis
     by this
-qed
-
-text \<open>\comentario{Borrar la siguiente demostración cuando complete 
-  la detallada de forma ecuacional.}\<close>
-
-lemma "\<Gamma> \<TTurnstile> \<bottom> \<longleftrightarrow> \<not> sat \<Gamma>" 
-proof (rule iffI)
-  assume "\<Gamma> \<TTurnstile> \<bottom>"
-  then have 1:"\<forall>\<A>. ((\<forall>G \<in> \<Gamma>. \<A> \<Turnstile> G) \<longrightarrow> (\<A> \<Turnstile> \<bottom>))"
-    by (simp only: entailment_def)
-  show "\<not> sat \<Gamma>" 
-  proof (rule ccontr)
-    assume "\<not> \<not> sat \<Gamma>" 
-    then have "sat \<Gamma>" 
-      by (rule notnotD)
-    then have 2:"\<exists>\<A>. \<forall>F \<in> \<Gamma>. \<A> \<Turnstile> F"
-      by (simp only: sat_def)
-    obtain "\<B>" where 3:"\<forall>F \<in> \<Gamma>. \<B> \<Turnstile> F" using 2
-      by (rule exE)
-    have "(\<forall>F \<in> \<Gamma>. \<B> \<Turnstile> F) \<longrightarrow> (\<B> \<Turnstile> \<bottom>)" using 1
-      by (rule allE)
-    then have "\<B> \<Turnstile> \<bottom>" using 3
-      by (rule impE)
-    thus "False" 
-      by (simp only: formula_semantics.simps(2))
-  qed
-next
-  assume H1:"\<not> sat \<Gamma>" 
-  have "\<forall>\<A>. ((\<forall>G \<in> \<Gamma>. \<A> \<Turnstile> G) \<longrightarrow> (\<A> \<Turnstile> \<bottom>))"
-  proof (rule allI)
-    fix \<A>
-    show "(\<forall>G \<in> \<Gamma>. \<A> \<Turnstile> G) \<longrightarrow> (\<A> \<Turnstile> \<bottom>)"
-    proof (rule impI)
-      assume "\<forall>G \<in> \<Gamma>. \<A> \<Turnstile> G"
-      then have "\<exists>\<A>. \<forall>G \<in> \<Gamma>. \<A> \<Turnstile> G"
-        by auto (*(rule exI)*)
-      then have H2:"sat \<Gamma>"
-        by (simp only: sat_def)
-      show "\<A> \<Turnstile> \<bottom>" using H1 H2
-        by (rule notE)
-    qed
-  qed
-  then show "\<Gamma> \<TTurnstile> \<bottom>"
-    by (simp only: entailment_def)
 qed
 
 lemma entail_sat: 

@@ -12,11 +12,6 @@ begin
 
 section \<open>Fórmulas\<close>
 
-text \<open>\comentario{Explicar la siguiente notación y recolocarla donde se
-  use por primera vez.}\<close>
-
-notation insert ("_ \<triangleright> _" [56,55] 55)
-
 text \<open>En esta sección presentaremos una formalización en Isabelle de la 
   sintaxis de la lógica proposicional, junto con resultados y pruebas 
   sobre la misma. En líneas generales, primero daremos las nociones de 
@@ -354,11 +349,6 @@ next
   case (Imp F1 F2)
   then show ?case by (simp only: atoms_finite_imp)
 qed
-
-
-text \<open>\comentario{Usar símbolos lógicos en la demostración anterior.
- No permite usar símbolos lógicos en la demostracion inductiva en cada
- caso porque dice que no están definidos}\<close>
 
 text \<open>Su demostración automática es la siguiente.\<close>
 
@@ -884,8 +874,6 @@ next
   then show ?case by (simp only: atoms_are_subformulae_imp)
 qed
 
-text \<open>\comentario{Usar símbolos lógicos en la demostración anterior.}\<close>
-
 text \<open>La demostración automática queda igualmente expuesta a 
   continuación.\<close>
 
@@ -1179,9 +1167,6 @@ next
   case (Imp F1 F2)
   then show ?case by (simp only: subformulas_atoms_imp)
 qed
-
-text \<open>\comentario{Usar símbolos lógicos en la demostración anterior.
-  No lo permite.}\<close>
 
 text \<open>Por último, su demostración automática.\<close>
 
@@ -1480,9 +1465,6 @@ next
   then show ?case by (rule subContsubformulae_imp)
 qed
 
-text \<open>\comentario{Usar símbolos lógicos en la demostración anterior.
-  No se puede.}\<close>
-
 text \<open>Finalmente, su demostración automática se muestra a continuación.\<close>
 
 lemma subContsubformulae:
@@ -1643,7 +1625,7 @@ lemma subformulas_in_subformulas:
      apply (drule subformulas_in_subformulas_not, assumption)
   oops 
 
-section \<open>Conectivas derivadas\<close>
+section \<open>Conectivas generalizadas\<close>
 
 text \<open>En esta sección definiremos nuevas conectivas y fórmulas a partir 
   de los ya definidos en el apartado anterior, junto con varios 
@@ -1668,8 +1650,6 @@ text \<open>Como podemos observar, se define mediante una relación de
 
 lemma "atoms \<top> = \<emptyset>"
    by (simp only: Top_def formula.set Un_absorb)
-
-text \<open>\comentario{Añadir la doble implicación como conectiva derivada.}\<close>
 
 text \<open>A continuación vamos a definir dos conectivas que generalizan la 
   conjunción y la disyunción para una lista finita de fórmulas. En
@@ -1714,9 +1694,7 @@ text \<open>A continuación vamos a definir dos conectivas que generalizan la
     \end{itemize}
   \end{definicion}
 
-  Su formalización en Isabelle es la siguiente.
-
-  \comentario{Da error que no localizo}\<close>
+  Su formalización en Isabelle es la siguiente.\<close>
 
 primrec BigAnd :: "'a formula list \<Rightarrow> 'a formula" ("\<^bold>\<And>_") where
   "\<^bold>\<And>[] = (\<^bold>\<not>\<bottom>)" 
@@ -1801,8 +1779,6 @@ text \<open>Su demostración automática es la siguiente.\<close>
 lemma atoms_BigAnd: 
   "atoms (\<^bold>\<And>Fs) = \<Union>(atoms ` set Fs)"
   by (induction Fs) simp_all
-
-text \<open>\comentario{Falta la demostración detallada de atoms-BigAnd.}\<close>
 
 (*<*)
 end
