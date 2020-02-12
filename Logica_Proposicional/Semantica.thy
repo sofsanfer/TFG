@@ -526,18 +526,14 @@ text \<open>Lema: un conjunto de fórmulas S es inconsistente si y sólo si
   \<not> sat \<Gamma> = \<not> (\<exists>\<A>. \<forall>F \<in> \<Gamma>. \<A> \<Turnstile> F) 
           = \<forall>\<A>. \<exists>F \<in> \<Gamma>. \<not> (\<A> \<Turnstile> F) *)
 
-text \<open>\comentario{Unificar los nombres de los lemas (en inglés o en español).}\<close>
+text \<open>\comentario{Unificar los nombres de los lemas (en inglés o en
+  español).}\<close> 
 
 lemma implicacion_y_negacion:
   assumes "P \<longrightarrow> False"
   shows "\<not> P"
-proof (rule ccontr)
-  assume "\<not> \<not> P"
-  then have "P" 
-    by (rule notnotD)
-  show "False" 
-    using assms `P` by (rule mp)
-qed             
+  using assms 
+  by (simp only: not_def)
 
 lemma notforall_exists:
   assumes "\<not> (\<forall>x \<in> A. P x)"
