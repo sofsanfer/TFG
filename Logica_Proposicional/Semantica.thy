@@ -537,8 +537,9 @@ lemma implicacion_y_negacion:
 
 lemma notforall_exists:
   assumes "\<not> (\<forall>x \<in> A. P x)"
-  shows "\<exists>y \<in> A. \<not> P y"try
-  using assms by blast (*Pendiente*)
+  shows "\<exists>y \<in> A. \<not> P y"
+  using assms
+  by (simp only: ball_simps(10)) 
 
 lemma "\<Gamma> \<TTurnstile> \<bottom> \<longleftrightarrow> \<not> sat \<Gamma>" 
 proof -
