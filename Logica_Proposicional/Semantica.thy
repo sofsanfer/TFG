@@ -338,7 +338,7 @@ proof -
     by this
 qed
 
-text \<open>\comentario{Añadir rule arg_cong y arg_cong2 al glosario.}\<close>
+text \<open>\comentario{Añadir rule arg\_cong y arg\_cong2 al glosario.}\<close>
 
 lemma forall_union1: 
   assumes "\<forall>x \<in> A \<union> B. P x"
@@ -513,6 +513,8 @@ text\<open> Definición: conjunto de fórmulas consistente.\<close>
 
 definition "sat S \<equiv> \<exists>\<A>. \<forall>F \<in> S. \<A> \<Turnstile> F" 
 
+text \<open>\comentario{Unificar nomenclatura de consistente y sat.}\<close>
+
 text \<open>Definición: conjunto de fórmulas finitamente consistente.\<close>
 
 definition "fin_sat S \<equiv> (\<forall>s \<subseteq> S. finite s \<longrightarrow> sat s)"
@@ -520,37 +522,43 @@ definition "fin_sat S \<equiv> (\<forall>s \<subseteq> S. finite s \<longrightar
 text \<open>Lema: un conjunto de fórmulas S es inconsistente si y sólo si
  $\bot$ es consecuencia lógica de S.\<close>
 
-(*Observamos que 
-  \<not> sat \<Gamma> = \<not> (\<exists>\<A>. \<forall>F \<in> \<Gamma>. \<A> \<Turnstile> F) = \<forall>\<A>. \<exists>F \<in> \<Gamma>. \<not> (\<A> \<Turnstile> F) *)
+(* Observamos que 
+  \<not> sat \<Gamma> = \<not> (\<exists>\<A>. \<forall>F \<in> \<Gamma>. \<A> \<Turnstile> F) 
+          = \<forall>\<A>. \<exists>F \<in> \<Gamma>. \<not> (\<A> \<Turnstile> F) *)
+
+text \<open>\comentario{Unificar los nombres de los lemas (en inglés o en
+  español).}\<close> 
+
+text \<open>\comentario{Eliminar el lema siguiente si no se usa.}\<close>
 
 lemma implicacion_y_negacion:
   assumes "P \<longrightarrow> False"
   shows "\<not> P"
-proof (rule ccontr)
-  assume "\<not> \<not> P"
-  then have "P" 
-    by (rule notnotD)
-  show "False" 
-    using assms `P` by (rule mp)
-qed             
+  using assms 
+  by (simp only: not_def)
+
+text \<open>\comentario{Eliminar el lema siguiente si no se usa.}\<close>
 
 lemma notforall_exists:
   assumes "\<not> (\<forall>x \<in> A. P x)"
-  shows "\<exists>y \<in> A. \<not> P y"try
-  using assms by blast (*Pendiente*)
+  shows "\<exists>y \<in> A. \<not> P y"
+  using assms
+  by (simp only: ball_simps(10)) 
 
 lemma "\<Gamma> \<TTurnstile> \<bottom> \<longleftrightarrow> \<not> sat \<Gamma>" 
 proof -
-  have "\<Gamma> \<TTurnstile> \<bottom> = (\<forall>\<A>. ((\<forall>G \<in> \<Gamma>. \<A> \<Turnstile> G) \<longrightarrow> (\<A> \<Turnstile> \<bottom>)))"
+  have "\<Gamma> \<TTurnstile> \<bottom> = (\<forall>\<A>. ((\<forall>G \<in> \<Gamma>. \<A> \<Turnstile> G) \<longrightarrow> \<A> \<Turnstile> \<bottom>))"
     by (simp only: entailment_def)
   also have "\<dots> = (\<forall>\<A>. ((\<forall>G \<in> \<Gamma>. \<A> \<Turnstile> G) \<longrightarrow> False))"
     by (simp only: formula_semantics.simps(2))
-  also have "\<dots> = (\<forall>\<A>. \<not> (\<forall>G \<in> \<Gamma>. \<A> \<Turnstile> G))"
-    by simp (*(rule implicacion_y_negacion) - Da error*)
-  also have "\<dots> = (\<forall>\<A>. \<exists>F \<in> \<Gamma>. \<not> (\<A> \<Turnstile> F))" using [[simp_trace]]
-    by simp (*(rule notforall_exists - Da error*)
-  also have "\<dots> =  (\<not>(\<exists>\<A>. \<forall>F \<in> \<Gamma>. \<A> \<Turnstile> F))"
-    by simp (*Pendiente*)
+  also have "\<dots> = (\<forall>\<A>. \<not>(\<forall>G \<in> \<Gamma>. \<A> \<Turnstile> G))"
+    by (simp only: not_def)
+  also have "\<dots> = (\<forall>\<A>. (\<exists>G \<in> \<Gamma>. \<not> (\<A> \<Turnstile> G)))"
+    by (simp only: ball_simps(10)) 
+  also have "\<dots> = (\<forall>\<A>. \<not>(\<forall>G \<in> \<Gamma>. \<A> \<Turnstile> G))"
+    by (simp only: ball_simps(10)) 
+  also have "\<dots> =  (\<not>(\<exists>\<A>. \<forall>G \<in> \<Gamma>. \<A> \<Turnstile> G))"
+    by (simp only: not_ex) 
   also have "\<dots> = (\<not> sat \<Gamma>)"
     by (simp only: sat_def)
   finally show ?thesis

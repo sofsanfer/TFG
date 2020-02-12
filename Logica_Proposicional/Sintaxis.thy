@@ -1762,6 +1762,10 @@ proof -
     by this
 qed
 
+lemma union_imagen: "f a \<union> \<Union> (f ` B) = \<Union> (f ` ({a} \<union> B))"
+  by (simp only: Union_image_insert
+                 insert_is_Un[THEN sym])
+
 lemma atoms_BigAnd_paso:
   assumes "atoms (\<^bold>\<And>Fs) = \<Union> (atoms ` set Fs)"
   shows "atoms (\<^bold>\<And>(F#Fs)) = \<Union> (atoms ` set (F#Fs))"
@@ -1770,14 +1774,13 @@ proof -
     by (simp only: BigAnd.simps(2))
   also have "\<dots> = atoms F \<union> atoms (\<^bold>\<And>Fs)"
     by (simp only: formula.set(4))
-  also have "\<dots> = atoms F \<union> \<Union> (atoms ` set Fs)"
+  also have "\<dots> = atoms F \<union> \<Union>(atoms ` set Fs)"
     by (simp only: assms)
-  also have "\<dots> = \<Union> (atoms ` ({F} \<union> (set Fs)))"
-    using UN_insert[THEN sym]
-    by simp \<comment> \<open>Pendiente\<close>
-  also have "\<dots> = \<Union> (atoms ` set (F#Fs))"
-    by simp \<comment> \<open>Pendiente\<close>
-  finally show "atoms (\<^bold>\<And>(F#Fs)) = \<Union> (atoms ` set (F#Fs))"
+  also have "\<dots> = \<Union>(atoms ` ({F} \<union> set Fs))" 
+    by (simp only: union_imagen)
+  also have "\<dots> =  \<Union>(atoms ` set (F#Fs))"
+    by (simp only: set_insert)
+  finally show  "atoms (\<^bold>\<And>(F#Fs)) = \<Union>(atoms ` set (F#Fs))" 
     by this
 qed
 
@@ -1789,7 +1792,8 @@ proof (induction Fs)
 next
   case (Cons a Fs)
   assume "atoms (\<^bold>\<And>Fs) = \<Union>(atoms ` set Fs)" 
-  then show ?case by (rule atoms_BigAnd_paso)
+  then show ?case 
+    by (rule atoms_BigAnd_paso)
 qed
 
 text \<open>Su demostración automática es la siguiente.\<close>
