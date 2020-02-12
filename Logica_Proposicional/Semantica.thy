@@ -529,11 +529,15 @@ text \<open>Lema: un conjunto de fórmulas S es inconsistente si y sólo si
 text \<open>\comentario{Unificar los nombres de los lemas (en inglés o en
   español).}\<close> 
 
+text \<open>\comentario{Eliminar el lema siguiente si no se usa.}\<close>
+
 lemma implicacion_y_negacion:
   assumes "P \<longrightarrow> False"
   shows "\<not> P"
   using assms 
   by (simp only: not_def)
+
+text \<open>\comentario{Eliminar el lema siguiente si no se usa.}\<close>
 
 lemma notforall_exists:
   assumes "\<not> (\<forall>x \<in> A. P x)"
@@ -543,16 +547,18 @@ lemma notforall_exists:
 
 lemma "\<Gamma> \<TTurnstile> \<bottom> \<longleftrightarrow> \<not> sat \<Gamma>" 
 proof -
-  have "\<Gamma> \<TTurnstile> \<bottom> = (\<forall>\<A>. ((\<forall>G \<in> \<Gamma>. \<A> \<Turnstile> G) \<longrightarrow> (\<A> \<Turnstile> \<bottom>)))"
+  have "\<Gamma> \<TTurnstile> \<bottom> = (\<forall>\<A>. ((\<forall>G \<in> \<Gamma>. \<A> \<Turnstile> G) \<longrightarrow> \<A> \<Turnstile> \<bottom>))"
     by (simp only: entailment_def)
   also have "\<dots> = (\<forall>\<A>. ((\<forall>G \<in> \<Gamma>. \<A> \<Turnstile> G) \<longrightarrow> False))"
     by (simp only: formula_semantics.simps(2))
-  also have "\<dots> = (\<forall>\<A>. \<not> (\<forall>G \<in> \<Gamma>. \<A> \<Turnstile> G))"
-    by simp (*(rule implicacion_y_negacion) - Da error*)
-  also have "\<dots> = (\<forall>\<A>. \<exists>F \<in> \<Gamma>. \<not> (\<A> \<Turnstile> F))" using [[simp_trace]]
-    by simp (*(rule notforall_exists - Da error*)
+  also have "\<dots> = (\<forall>\<A>. \<not>(\<forall>G \<in> \<Gamma>. \<A> \<Turnstile> G))"
+    by (simp only: not_def)
+  also have "\<dots> = (\<forall>\<A>. (\<exists>G \<in> \<Gamma>. \<not> (\<A> \<Turnstile> G)))"
+    by (simp only: ball_simps(10)) 
+  also have "\<dots> = (\<forall>\<A>. \<not>(\<forall>G \<in> \<Gamma>. \<A> \<Turnstile> G))"
+    by (simp only: ball_simps(10)) 
   also have "\<dots> =  (\<not>(\<exists>\<A>. \<forall>F \<in> \<Gamma>. \<A> \<Turnstile> F))"
-    by simp (*Pendiente*)
+    by (simp only: not_ex) 
   also have "\<dots> = (\<not> sat \<Gamma>)"
     by (simp only: sat_def)
   finally show ?thesis
