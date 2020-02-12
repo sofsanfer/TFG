@@ -183,11 +183,21 @@ text \<open>Una vez definida la estructura de las fórmulas, vamos a introducir
   las pruebas formalizadas utilizaremos la táctica @{term "induction"}, 
   que corresponde al siguiente esquema.
 
-  \comentario{Poner bien cada regla.}
+  \<open>\<And>x. P(Atom x)\<close>
 
-  \begin{itemize}
-    \item[] @{thm[mode=Rule] formula.induct}
-  \end{itemize} 
+  \<open>P \<bottom>\<close>
+
+  \<open>\<And>x. P x \<Longrightarrow> P(\<^bold>\<not> x)\<close>
+
+  \<open>\<And>x1 x2. P x1 \<and> P x2 \<Longrightarrow> P (x1 \<^bold>\<and> x2)\<close>
+
+  \<open>\<And>x1 x2. P x1 \<and> P x2 \<Longrightarrow> P (x1 \<^bold>\<or> x2)\<close>
+
+  \<open>\<And>x1 x2. P x1 \<and> P x2 \<Longrightarrow> P (x1 \<^bold>\<rightarrow> x2)\<close>
+
+  \rule{70mm}{0.1mm}
+
+  \<open>P formula\<close>
 
   Como hemos señalado, el esquema inductivo genera así seis casos 
   distintos como se muestra anteriormente. Además, todas las 
@@ -1518,20 +1528,16 @@ proof -
     by (rule rev_subsetD)
 qed
 
-text\<open>A continuación su demostración aplicativa.\<close>
+text\<open>A continuación su demostración automática.\<close>
 
 lemma subsubformulae: 
   "G \<in> setSubformulae F 
    \<Longrightarrow> H \<in> setSubformulae G 
    \<Longrightarrow> H \<in> setSubformulae F"
-  apply (drule subContsubformulae)
-  apply (erule subsetD, assumption)
-  done
+  by (drule subContsubformulae, erule subsetD)
 
-text \<open>\comentario{Explicar el cambio de enunciado}\<close>
-
-text \<open>A continuación presentamos otro resultado que relaciona los 
-  conjuntos de subfórmulas según las conectivas que operen.\<close>
+text \<open>Presentemos ahora otro resultado que relaciona las conectivas
+  con los conjuntos de subfórmulas.\<close>
 
 lemma subformulas_in_subformulas:
   "G \<^bold>\<and> H \<in> setSubformulae F 
@@ -1607,7 +1613,7 @@ qed
 
 text \<open>Mostremos ahora la demostración automática.\<close>
 
-lemma subformulas_in_subformulas:
+lemma
   "G \<^bold>\<and> H \<in> setSubformulae F 
    \<Longrightarrow> G \<in> setSubformulae F \<and> H \<in> setSubformulae F"
   "G \<^bold>\<or> H \<in> setSubformulae F 
@@ -1623,7 +1629,17 @@ lemma subformulas_in_subformulas:
      apply (drule subformulas_in_subformulas_or, assumption)
      apply (drule subformulas_in_subformulas_imp, assumption)
      apply (drule subformulas_in_subformulas_not, assumption)
-  oops 
+  done
+
+lemma subformulas_in_subformulas:
+  "G \<^bold>\<and> H \<in> setSubformulae F 
+   \<Longrightarrow> G \<in> setSubformulae F \<and> H \<in> setSubformulae F"
+  "G \<^bold>\<or> H \<in> setSubformulae F 
+   \<Longrightarrow> G \<in> setSubformulae F \<and> H \<in> setSubformulae F"
+  "G \<^bold>\<rightarrow> H \<in> setSubformulae F 
+   \<Longrightarrow> G \<in> setSubformulae F \<and> H \<in> setSubformulae F"
+  "\<^bold>\<not> G \<in> setSubformulae F \<Longrightarrow> G \<in> setSubformulae F"
+  oops (*Pendiente*)
 
 section \<open>Conectivas generalizadas\<close>
 
@@ -1673,24 +1689,24 @@ text \<open>A continuación vamos a definir dos conectivas que generalizan la
   a disyunción o conjunción nos referiremos a la de dos elementos.
 
   \begin{definicion}
-  La conjunción plural de una lista de fórmulas se define recursivamente
-  como:
+  La conjunción generalizada de una lista de fórmulas se define 
+  recursivamente como:
     \begin{itemize}
-      \item La conjunción plural de la lista vacía es \<open>\<not>\<bottom>\<close>.
+      \item La conjunción generalizada de la lista vacía es \<open>\<not>\<bottom>\<close>.
       \item Sea \<open>F\<close> una fórmula y \<open>Fs\<close> una lista de fórmulas. Entonces,
-  la conjunción plural de \<open>F#Fs\<close> es la conjunción de \<open>F\<close> con la 
-  conjunción plural de \<open>Fs\<close>.
+  la conjunción generalizada de \<open>F#Fs\<close> es la conjunción de \<open>F\<close> con la 
+  conjunción generalizada de \<open>Fs\<close>.
     \end{itemize}
   \end{definicion}
 
   \begin{definicion}
-  La disyunción plural de una lista de fórmulas se define recursivamente
-  como:
+  La disyunción generalizada de una lista de fórmulas se define 
+  recursivamente como:
     \begin{itemize}
-      \item La disyunción plural de la lista vacía es \<open>\<bottom>\<close>.
+      \item La disyunción generalizada de la lista vacía es \<open>\<bottom>\<close>.
       \item Sea \<open>F\<close> una fórmula y \<open>Fs\<close> una lista de fórmulas. Entonces,
-  la disyunción plural de \<open>F#Fs\<close> es la disyunción de \<open>F\<close> con la 
-  disyunción plural de \<open>Fs\<close>.
+  la disyunción generalizada de \<open>F#Fs\<close> es la disyunción de \<open>F\<close> con la 
+  disyunción generalizada de \<open>Fs\<close>.
     \end{itemize}
   \end{definicion}
 
@@ -1721,7 +1737,7 @@ text \<open>Ambas nuevas conectivas se definen con el tipo funciones
 \comentario{Añadir lema a mano y demostración. Falta demostración en 
   Isabelle.}\<close>
 
-lemma atoms_BigAnd_base: 
+lemma atoms_BigAnd_nil: 
   "atoms (\<^bold>\<And>[]) = \<Union> (atoms ` set Nil)"
 proof -
   have "atoms (\<^bold>\<And>[]) = atoms (\<^bold>\<not> \<bottom>)" 
@@ -1744,7 +1760,7 @@ lemma union_imagen: "f a \<union> \<Union> (f ` B) = \<Union> (f ` ({a} \<union>
   by (simp only: Union_image_insert
                  insert_is_Un[THEN sym])
 
-lemma atoms_BigAnd_paso:
+lemma atoms_BigAnd_cons:
   assumes "atoms (\<^bold>\<And>Fs) = \<Union> (atoms ` set Fs)"
   shows "atoms (\<^bold>\<And>(F#Fs)) = \<Union> (atoms ` set (F#Fs))"
 proof -
@@ -1762,16 +1778,15 @@ proof -
     by this
 qed
 
-lemma atoms_BigAnd_detallada:
-  "atoms (\<^bold>\<And>Fs) = \<Union> (atoms ` set Fs)"
+lemma "atoms (\<^bold>\<And>Fs) = \<Union> (atoms ` set Fs)"
 proof (induction Fs)
   case Nil
-  then show ?case by (rule atoms_BigAnd_base)
+  then show ?case by (rule atoms_BigAnd_nil)
 next
   case (Cons a Fs)
   assume "atoms (\<^bold>\<And>Fs) = \<Union>(atoms ` set Fs)" 
   then show ?case 
-    by (rule atoms_BigAnd_paso)
+    by (rule atoms_BigAnd_cons)
 qed
 
 text \<open>Su demostración automática es la siguiente.\<close>
