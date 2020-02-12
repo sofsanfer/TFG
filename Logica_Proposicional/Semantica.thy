@@ -513,6 +513,8 @@ text\<open> Definición: conjunto de fórmulas consistente.\<close>
 
 definition "sat S \<equiv> \<exists>\<A>. \<forall>F \<in> S. \<A> \<Turnstile> F" 
 
+text \<open>\comentario{Unificar nomenclatura de consistente y sat.}\<close>
+
 text \<open>Definición: conjunto de fórmulas finitamente consistente.\<close>
 
 definition "fin_sat S \<equiv> (\<forall>s \<subseteq> S. finite s \<longrightarrow> sat s)"
