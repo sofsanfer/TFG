@@ -557,7 +557,7 @@ proof -
     by (simp only: ball_simps(10)) 
   also have "\<dots> = (\<forall>\<A>. \<not>(\<forall>G \<in> \<Gamma>. \<A> \<Turnstile> G))"
     by (simp only: ball_simps(10)) 
-  also have "\<dots> =  (\<not>(\<exists>\<A>. \<forall>F \<in> \<Gamma>. \<A> \<Turnstile> F))"
+  also have "\<dots> =  (\<not>(\<exists>\<A>. \<forall>G \<in> \<Gamma>. \<A> \<Turnstile> G))"
     by (simp only: not_ex) 
   also have "\<dots> = (\<not> sat \<Gamma>)"
     by (simp only: sat_def)
