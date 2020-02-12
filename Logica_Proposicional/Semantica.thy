@@ -522,8 +522,11 @@ definition "fin_sat S \<equiv> (\<forall>s \<subseteq> S. finite s \<longrightar
 text \<open>Lema: un conjunto de fórmulas S es inconsistente si y sólo si
  $\bot$ es consecuencia lógica de S.\<close>
 
-(*Observamos que 
-  \<not> sat \<Gamma> = \<not> (\<exists>\<A>. \<forall>F \<in> \<Gamma>. \<A> \<Turnstile> F) = \<forall>\<A>. \<exists>F \<in> \<Gamma>. \<not> (\<A> \<Turnstile> F) *)
+(* Observamos que 
+  \<not> sat \<Gamma> = \<not> (\<exists>\<A>. \<forall>F \<in> \<Gamma>. \<A> \<Turnstile> F) 
+          = \<forall>\<A>. \<exists>F \<in> \<Gamma>. \<not> (\<A> \<Turnstile> F) *)
+
+text \<open>\comentario{Unificar los nombres de los lemas (en inglés o en español).}\<close>
 
 lemma implicacion_y_negacion:
   assumes "P \<longrightarrow> False"
