@@ -14,6 +14,33 @@ text \<open>En este glosario se recoge la lista de los lemas usados en
   indicando la página del \href{http://bit.ly/2OMbjMM}{libro de HOL} 
   donde se encuentran.\<close>
 
+section \<open>Lógica de primer orden (2)\<close>
+
+text \<open>En Isabelle corresponde a la teoría 
+  \href{http://bit.ly/38iFKlA}{HOL.thy}\<close>
+
+subsection \<open>Reglas fundamentales (2.2)\<close>
+
+subsubsection \<open>Disyunción I (2.2.9)\<close>
+
+text \<open>
+  \begin{itemize}
+    \item (p.40) @{thm[mode=Rule] disjE[no_vars]} 
+      \hfill (@{text disjE})
+  \end{itemize}\<close>
+
+subsubsection \<open>Conjunción (2.2.14)\<close>
+
+text \<open>
+  \begin{itemize}
+    \item (p.41) @{thm[mode=Rule] conjI[no_vars]} 
+      \hfill (@{text conjI})
+    \item (p.41) @{thm[mode=Rule] conjunct1[no_vars]} 
+      \hfill (@{text conjunct1})
+    \item (p.41) @{thm[mode=Rule] conjunct2[no_vars]} 
+      \hfill (@{text conjunct2})
+  \end{itemize}\<close>
+
 section \<open>Teoría de conjuntos (7)\<close>
 
 text \<open>Los siguientes resultados corresponden a la teoría de conjuntos 
@@ -71,6 +98,8 @@ text\<open>
       \hfill (@{text singletonD})
   \end{itemize}
 \<close>
+
+subsection \<open>Más operaciones y lemas (7.4)\<close>
 
 subsubsection \<open>Reglas derivadas sobre subconjuntos (7.4.2)\<close>
 
@@ -150,19 +179,6 @@ Como es habitual, hemos cambiado la notación de la definición a @{term "list'"
   \begin{itemize}
     \item[] @{thm[mode=Rule] Un_insert_left[no_vars]} 
     \hfill (@{text Un_insert_left})
-  \end{itemize}
-\<close>
-
-section \<open>Lógica de primer orden\<close>
-
-text \<open>En Isabelle corresponde a la teoría \href{http://bit.ly/38iFKlA}{HOL.thy}
-  Los resultados empleados son los siguientes.
-
-  \begin{itemize}
-    \item[] @{thm[mode=Rule] conjunct1[no_vars]} 
-      \hfill (@{text conjunct1})
-    \item[] @{thm[mode=Rule] conjunct2[no_vars]} 
-      \hfill (@{text conjunct2})
   \end{itemize}
 \<close>
 
