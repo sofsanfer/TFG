@@ -133,54 +133,33 @@ text \<open>
   \end{itemize}
 \<close>
 
-section \<open>Teoría de conjuntos finitos\<close>
-
-text \<open>\comentario{Poner las páginas y secciones y ordenar los lemas 
-  según las páginas.}\<close> 
+section \<open>Teoría de conjuntos finitos (18)\<close>
 
 text \<open>A continuación se muestran resultamos relativos a la teoría 
-  \href{https://n9.cl/x86r}{FiniteSet.thy}. Dicha teoría se basa en la definición recursiva de
-  @{term "finite"}, que aparece retratada en la sección de \<open>Sintaxis\<close>. Además, hemos empleado los
-  siguientes resultados. 
+  \href{https://n9.cl/x86r}{FiniteSet.thy}.\<close> 
 
+subsection \<open>Predicado para conjuntos finitos (18.1)\<close>
+
+text \<open>
+  \begin{itemize}
+    \item (p.419) @{thm[mode=Def] finite[no_vars]} 
+      \hfill (@{text finite})
+  \end{itemize}\<close>
+
+subsection \<open>Finitud y operaciones de conjuntos comunes (18.2)\<close>
+
+text\<open>  
   \begin{itemize}
     \item[] @{thm[mode=Rule] finite_UnI[no_vars]} 
       \hfill (@{text finite_UnI})
   \end{itemize}\<close>
 
-section \<open>Teoría de listas\<close>
+section \<open>Teoría de retículos completos (10)\<close>
 
-text\<open>La teoría de listas en Isabelle corresponde a \href{http://bit.ly/2se9Oy0}{List.thy}. 
-  Esta se fundamenta en la definición recursiva de @{term "list"}.\\
+text \<open>En Isabelle corresponde a la teoría 
+  \href{http://bit.ly/38iFKlA}{Complete-Lattices.thy}\<close>
 
-\<open>datatype (set': 'a) list' =\\
-    Nil'  ("[]")\\
-  | Cons' (hd: 'a) (tl: "'a list'")  (infixr "#" 65)\\
-for\\
-  map: map\\
-  rel: list_all2\\
-  pred: list_all\\
-where\\
-  "tl [] = []"\\\<close>
 
-COMENTARIO: NO ME PERMITE PONERLO FUERA DEL ENTORNO DE TEXTO, NI CAMBIANDO EL NOMBRE \\
-
-Como es habitual, hemos cambiado la notación de la definición a @{term "list'"} para no 
-  definir dos veces de manera idéntica la misma noción. Simultáneamente se define la función
-  de conjuntos @{term "set"} (idéntica a @{term "set'"}), una función @{term "map"}, una relación
-  @{term "rel"} y un predicado @{term "pred"}. Para dicha definción hemos empleado los operadores
-  sobre listas \<open>hd\<close> y \<open>tl\<close>.
-  De este modo, \<open>hd\<close> aplicado a una lista de elementos de un tipo cualquiera \<open>'a\<close> nos 
-  devuelve el primer elemento de la misma, y \<open>tl\<close>  nos 
-  devuelve la lista quitando el primer elmento.
- 
-  Además, hemos utilizado las siguientes propiedades sobre listas.
-
-  \begin{itemize}
-    \item[] @{thm[mode=Rule] Un_insert_left[no_vars]} 
-    \hfill (@{text Un_insert_left})
-  \end{itemize}
-\<close>
 
 (*<*)
 end
