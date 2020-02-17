@@ -10,7 +10,7 @@ begin
 
 (* chapter \<open>Glosario de reglas\<close> *)
 
-text \<open>En este glosario se recoge la lista de los lemas usados en
+text \<open>En este glosario se recoge la lista de los lemas y reglas usadas
   indicando la página del \href{http://bit.ly/2OMbjMM}{libro de HOL} 
   donde se encuentran.\<close>
 
@@ -133,12 +133,27 @@ text \<open>
   \end{itemize}
 \<close>
 
+section \<open>Teoría de retículos completos (10)\<close>
+
+text \<open>En Isabelle corresponde a la teoría 
+  \href{http://bit.ly/2wimZjA}{Complete-Lattices.thy}\<close>
+
+subsection \<open>Retículos completos y conjuntos (10.6)\<close>
+
+subsubsection \<open>Unión (10.6.3)\<close>
+
+text \<open>
+  \begin{itemize}
+    \item (p.238) @{thm[mode=Rule] Union_empty[no_vars]} 
+      \hfill (@{text Union_empty})
+  \end{itemize}\<close>
+
 section \<open>Teoría de conjuntos finitos (18)\<close>
 
 text \<open>A continuación se muestran resultamos relativos a la teoría 
   \href{https://n9.cl/x86r}{FiniteSet.thy}.\<close> 
 
-subsection \<open>Predicado para conjuntos finitos (18.1)\<close>
+subsection \<open>Predicado de conjuntos finitos (18.1)\<close>
 
 text \<open>
   \begin{itemize}
@@ -150,16 +165,9 @@ subsection \<open>Finitud y operaciones de conjuntos comunes (18.2)\<close>
 
 text\<open>  
   \begin{itemize}
-    \item[] @{thm[mode=Rule] finite_UnI[no_vars]} 
+    \item (p.422) @{thm[mode=Rule] finite_UnI[no_vars]} 
       \hfill (@{text finite_UnI})
   \end{itemize}\<close>
-
-section \<open>Teoría de retículos completos (10)\<close>
-
-text \<open>En Isabelle corresponde a la teoría 
-  \href{http://bit.ly/38iFKlA}{Complete-Lattices.thy}\<close>
-
-
 
 (*<*)
 end
