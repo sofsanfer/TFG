@@ -78,7 +78,7 @@ text \<open>
       \hfill (@{text UnI1})
     \item (p.170) @{thm[mode=Rule] UnI2[no_vars]} 
       \hfill (@{text UnI2})
-\<close>
+  \end{itemize}\<close>
 
 subsubsection \<open>Aumentar un conjunto - insertar (7.3.10)\<close>
 
