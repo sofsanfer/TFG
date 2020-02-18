@@ -1013,8 +1013,6 @@ proof -
   qed
 qed
 
-text \<open>\comentario{Añadir disjE y otras al glosario.}\<close>
-
 lemma subformulas_atoms_and:
   assumes "G \<in> setSubformulae F1 \<Longrightarrow> atoms G \<subseteq> atoms F1"
           "G \<in> setSubformulae F2 \<Longrightarrow> atoms G \<subseteq> atoms F2"
@@ -1611,26 +1609,6 @@ next
     by (rule subsubformulae)
 qed
 
-text \<open>Mostremos ahora la demostración automática.\<close>
-
-lemma
-  "G \<^bold>\<and> H \<in> setSubformulae F 
-   \<Longrightarrow> G \<in> setSubformulae F \<and> H \<in> setSubformulae F"
-  "G \<^bold>\<or> H \<in> setSubformulae F 
-   \<Longrightarrow> G \<in> setSubformulae F \<and> H \<in> setSubformulae F"
-  "G \<^bold>\<rightarrow> H \<in> setSubformulae F 
-   \<Longrightarrow> G \<in> setSubformulae F \<and> H \<in> setSubformulae F"
-  "\<^bold>\<not> G \<in> setSubformulae F \<Longrightarrow> G \<in> setSubformulae F" 
-     apply (rule conjI)
-     apply (drule subformulas_in_subformulas_and)
-     apply (erule conjunct1)
-     apply (drule subformulas_in_subformulas_and)
-     apply (erule conjunct2)
-     apply (drule subformulas_in_subformulas_or, assumption)
-     apply (drule subformulas_in_subformulas_imp, assumption)
-     apply (drule subformulas_in_subformulas_not, assumption)
-  done
-
 lemma subformulas_in_subformulas:
   "G \<^bold>\<and> H \<in> setSubformulae F 
    \<Longrightarrow> G \<in> setSubformulae F \<and> H \<in> setSubformulae F"
@@ -1663,11 +1641,45 @@ next
     by (rule subformulas_in_subformulas_not)
 qed
 
+text \<open>Mostremos ahora la demostración automática.\<close>
+
+lemma
+  "G \<^bold>\<and> H \<in> setSubformulae F 
+   \<Longrightarrow> G \<in> setSubformulae F \<and> H \<in> setSubformulae F"
+  "G \<^bold>\<or> H \<in> setSubformulae F 
+   \<Longrightarrow> G \<in> setSubformulae F \<and> H \<in> setSubformulae F"
+  "G \<^bold>\<rightarrow> H \<in> setSubformulae F 
+   \<Longrightarrow> G \<in> setSubformulae F \<and> H \<in> setSubformulae F"
+  "\<^bold>\<not> G \<in> setSubformulae F \<Longrightarrow> G \<in> setSubformulae F" 
+     apply (rule conjI)
+     apply (drule subformulas_in_subformulas_and)
+     apply (erule conjunct1)
+     apply (drule subformulas_in_subformulas_and)
+     apply (erule conjunct2)
+     apply (drule subformulas_in_subformulas_or, assumption)
+     apply (drule subformulas_in_subformulas_imp, assumption)
+     apply (drule subformulas_in_subformulas_not, assumption)
+  done
+
+lemma
+  "G \<^bold>\<and> H \<in> setSubformulae F 
+   \<Longrightarrow> G \<in> setSubformulae F \<and> H \<in> setSubformulae F"
+  "G \<^bold>\<or> H \<in> setSubformulae F 
+   \<Longrightarrow> G \<in> setSubformulae F \<and> H \<in> setSubformulae F"
+  "G \<^bold>\<rightarrow> H \<in> setSubformulae F 
+   \<Longrightarrow> G \<in> setSubformulae F \<and> H \<in> setSubformulae F"
+  "\<^bold>\<not> G \<in> setSubformulae F \<Longrightarrow> G \<in> setSubformulae F"
+  oops
+
+  text \<open>
+  \comentario{Falta hacer demostración automática. Ver el 19/02/2020.
+  Quitar aplicativa cuando tenga la automática.}\<close> 
+
 section \<open>Conectivas generalizadas\<close>
 
 text \<open>En esta sección definiremos nuevas conectivas y fórmulas a partir 
-  de los ya definidos en el apartado anterior, junto con varios 
-  resultados sobre los mismos. Veamos el primero.
+  de las ya definidas en el apartado anterior, junto con varios 
+  resultados sobre las mismas. Veamos el primero.
 
   \begin{definicion}
     Se define la fórmula \<open>\<top>\<close> como la implicación \<open>\<bottom> \<longrightarrow> \<bottom>\<close>.
