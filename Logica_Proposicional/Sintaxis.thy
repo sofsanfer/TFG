@@ -1549,8 +1549,8 @@ lemma subformulas_in_subformulas:
   "\<^bold>\<not> G \<in> setSubformulae F \<Longrightarrow> G \<in> setSubformulae F"
   oops
 
-text \<open>Para la demostración en Isabelle nos basaremos en el lema anterior 
-  @{term "subsubformulae"} para cada caso.\<close>
+  text \<open>Para la demostración en Isabelle, probaremos cada caso de forma
+ independiente.\<close>
 
 lemma subformulas_in_subformulas_not:
   assumes "\<^bold>\<not> G \<in> setSubformulae F"
@@ -1620,7 +1620,7 @@ lemma
    \<Longrightarrow> G \<in> setSubformulae F \<and> H \<in> setSubformulae F"
   "G \<^bold>\<rightarrow> H \<in> setSubformulae F 
    \<Longrightarrow> G \<in> setSubformulae F \<and> H \<in> setSubformulae F"
-  "\<^bold>\<not> G \<in> setSubformulae F \<Longrightarrow> G \<in> setSubformulae F"
+  "\<^bold>\<not> G \<in> setSubformulae F \<Longrightarrow> G \<in> setSubformulae F" 
      apply (rule conjI)
      apply (drule subformulas_in_subformulas_and)
      apply (erule conjunct1)
@@ -1639,7 +1639,29 @@ lemma subformulas_in_subformulas:
   "G \<^bold>\<rightarrow> H \<in> setSubformulae F 
    \<Longrightarrow> G \<in> setSubformulae F \<and> H \<in> setSubformulae F"
   "\<^bold>\<not> G \<in> setSubformulae F \<Longrightarrow> G \<in> setSubformulae F"
-  oops (*Pendiente*)
+proof
+  assume "G \<^bold>\<and> H \<in> setSubformulae F"
+  hence "G \<in> setSubformulae F \<and> H \<in> setSubformulae F" 
+    by (rule subformulas_in_subformulas_and)
+  thus "G \<in> setSubformulae F" by (rule conjunct1)
+next 
+  assume "G \<^bold>\<and> H \<in> setSubformulae F"
+  hence "G \<in> setSubformulae F \<and> H \<in> setSubformulae F" 
+    by (rule subformulas_in_subformulas_and)
+  thus "H \<in> setSubformulae F" by (rule conjunct2)
+next
+assume "G  \<^bold>\<or>  H \<in> setSubformulae F"
+  thus "G \<in> setSubformulae F \<and> H \<in> setSubformulae F" 
+    by (rule subformulas_in_subformulas_or)
+next 
+assume "G  \<^bold>\<rightarrow> H \<in> setSubformulae F"
+  thus "G \<in> setSubformulae F \<and> H \<in> setSubformulae F" 
+    by (rule subformulas_in_subformulas_imp)
+next
+  assume " \<^bold>\<not> G \<in> setSubformulae F"
+  thus  "G \<in> setSubformulae F" 
+    by (rule subformulas_in_subformulas_not)
+qed
 
 section \<open>Conectivas generalizadas\<close>
 
