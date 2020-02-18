@@ -1703,24 +1703,25 @@ lemma "atoms \<top> = \<emptyset>"
 
 text \<open>A continuación vamos a definir dos conectivas que generalizan la 
   conjunción y la disyunción para una lista finita de fórmulas. En
-  particular, al ser aplicadas a listas, se definen conforme a la 
-  estructura recursiva de las mismas que se muestra a continuación. 
-  
+  particular, al ser aplicadas a listas, se definen sobre la 
+  estructura recursiva de las mismas. 
+
   \begin{definicion}
-    Las listas de fórmulas se definen recursivamente como sigue.
+    Las listas de un tipo de elemento cualquiera se definen
+    recursivamente como sigue.
     \begin{itemize}
-      \item La lista vacía es una lista.
-      \item Sea \<open>F\<close> una fórmula y \<open>Fs\<close> una lista de fórmulas. Entonces,
-        \<open>F#Fs\<close> es una lista de fórmulas.
+      \item[] La lista vacía es una lista.
+      \item[] Sea \<open>x\<close> un elemento, y \<open>xs\<close> una lista de elementos de su
+      mismo tipo. Entonces, \<open>x#xs\<close> es una lista.
     \end{itemize}
-  \end{definicion} 
+  \end{definicion}
 
-  \comentario{Esta definición es un caso particular de listas. 
-  No se si incluir la definicion de estructura e inducción general}
+  Por dicha definición recursiva de
+  listas dispondremos de un esquema de inducción habitual que 
+  utilizaremos para probar el siguiente resultado.
 
-  De este modo, se definen las conectivas generalizadas de acuerdo a la 
-  estructura recursiva anterior. Notemos que al referirnos simplemente 
-  a disyunción o conjunción nos referiremos a la de dos elementos.
+  Notemos que al referirnos simplemente a disyunción o conjunción en las
+  siguientes definiciones nos referiremos a la de dos elementos.
 
   \begin{definicion}
   La conjunción generalizada de una lista de fórmulas se define 
@@ -1756,20 +1757,66 @@ primrec BigOr :: "'a formula list \<Rightarrow> 'a formula" ("\<^bold>\<Or>_") w
 
 text \<open>Ambas nuevas conectivas se definen con el tipo funciones 
   primitivas recursivas. Estas se basan en los dos casos descritos
-  anteriormente: la lista vacía representada como \<open>Nil\<close> y la lista
+  anteriormente según la definición recursiva de listas que se genera en
+  Isabelle: la lista vacía representada como \<open>[]\<close> y la lista
   construida añadiendo una fórmula a una lista de fórmulas. 
-  Además, se observa en cada conectiva plural el nuevo símbolo de 
+  Además, se observa en cada definición el nuevo símbolo de 
   notación que aparece entre paréntesis.
 
-  Por otro lado, como es habitual, estas definiciones recursivas llevan
-  asociado el correspondiente esquema inductivo de demostración. En
-  este caso, se trata de la inducción para la estructura de lista de 
-  fórmulas.
+  Por otro lado, como es habitual, de acuerdo a la definición recursiva
+  de listas, Isabelle genera automáticamente un esquema inductivo que 
+  emplearemos a continuación.
 
-  A continuación se muestra una propiedad sobre la conjunción plural.
+  Vamos a mostrar una propiedad sobre la conjunción plural.
 
-\comentario{Añadir lema a mano y demostración. Falta demostración en 
-  Isabelle.}\<close>
+  \begin{lema}
+  El conjunto de átomos de la conjunción generalizada de una lista 
+  de fórmulas es la unión de los conjuntos de átomos de cada fórmula de 
+  la lista.
+  \end{lema}
+
+  \begin{demostracion}
+  La demostración se basa en la inducción sobre listas, en particular,
+  listas de fórmulas. Para ello, demostremos el resultado en los casos
+  siguientes. 
+
+  En primer lugar supongamos la lista vacía de fórmulas. Es claro por
+  definición que la conjunción generalizada de la lista vacía es \<open>\<not> \<bottom>\<close>.
+  De este modo, su conjunto de átomos coincide con los de \<open>\<bottom>\<close>, luego
+  es el vacío. Por tanto, queda demostrado el resultado, pues el vacío
+  es igual a la unión del conjunto de átomos de cada elemento de la
+  lista vacía de fórmulas. 
+
+  Supongamos ahora una lista de fórmulas \<open>Fs\<close> verificando el enunciado.
+  Sea la fórmula \<open>F\<close>, vamos a probar que \<open>F#Fs\<close> cumple la propiedad.
+  Por definición de la nueva conectiva, el conjunto de átomos de 
+  la conjunción generalizada de \<open>F#Fs\<close> es igual al conjunto de átomos de 
+  la conjunción de \<open>F\<close> con la conjunción generalizada de \<open>Fs\<close>. De este
+  modo, por propiedades del conjunto de átomos de la conjunción, tenemos
+  que dicho conjunto es la unión del conjunto de átomos de \<open>F\<close> y el
+  conjunto de átomos de la conjunción generalizada de \<open>Fs\<close>. Aplicando 
+  ahora la hipótesis de inducción sobre \<open>Fs\<close>, tenemos que lo anterior es 
+  igual a la unión (binaria) del conjunto de átomos de \<open>F\<close> con la unión 
+  (generalizada) de los conjuntos de átomos de cada fórmula de \<open>Fs\<close>. 
+  Luego por propiedades de la unión, es equivalente a la unión de los 
+  conjuntos de átomos de cada elemento de \<open>F#Fs\<close> como queríamos 
+  demostrar.
+  \end{demostracion}
+
+  De este modo, en Isabelle se formaliza como sigue.\<close>
+
+lemma atoms_BigAnd: 
+  "atoms (\<^bold>\<And>Fs) = \<Union>(atoms ` set Fs)"
+  oops
+
+text \<open>Se observa que, como la conjunción generalizada actúa sobre 
+  una lista de fórmulas y \<open>atoms\<close> actúa sobre un conjunto de fórmulas,
+  es necesario aplicar el operador \<open>set\<close> a la lista de fórmulas para
+  unificar los tipos y que esté bien definido.
+
+  Veamos ahora la demostración detallada. Esta seguirá el esquema de 
+  inducción sobre listas, luego probemos inicialmente cada caso por
+  separado.\<close>
 
 lemma atoms_BigAnd_nil: 
   "atoms (\<^bold>\<And>[]) = \<Union> (atoms ` set Nil)"
@@ -1789,6 +1836,11 @@ proof -
   finally show ?thesis
     by this
 qed
+
+text \<open>Con motivo de facilitar la relación entre el operador \<open>set\<close> y la 
+  unión de conjuntos, vamos a dar el resultado \<open>union_imagen\<close> en 
+  Isabelle. Posteriormente demostraremos el último
+  caso del esquema de inducción.\<close>
 
 lemma union_imagen: "f a \<union> \<Union> (f ` B) = \<Union> (f ` ({a} \<union> B))"
   by (simp only: Union_image_insert
@@ -1812,6 +1864,8 @@ proof -
     by this
 qed
 
+text \<open>Por tanto, la demostración detallada completa es la siguiente.\<close>
+
 lemma "atoms (\<^bold>\<And>Fs) = \<Union> (atoms ` set Fs)"
 proof (induction Fs)
   case Nil
@@ -1823,7 +1877,7 @@ next
     by (rule atoms_BigAnd_cons)
 qed
 
-text \<open>Su demostración automática es la siguiente.\<close>
+text \<open>Por último, su demostración automática.\<close>
 
 lemma atoms_BigAnd: 
   "atoms (\<^bold>\<And>Fs) = \<Union>(atoms ` set Fs)"
