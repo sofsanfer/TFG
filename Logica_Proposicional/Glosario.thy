@@ -14,12 +14,42 @@ text \<open>En este glosario se recoge la lista de los lemas y reglas usadas
   indicando la página del \href{http://bit.ly/2OMbjMM}{libro de HOL} 
   donde se encuentran.\<close>
 
-section \<open>Lógica de primer orden (2)\<close>
+section \<open>La base de lógica de primer orden (2)\<close>
 
 text \<open>En Isabelle corresponde a la teoría 
   \href{http://bit.ly/38iFKlA}{HOL.thy}\<close>
 
+subsection \<open>Lógica primitiva (2.1)\<close>
+
+subsubsection \<open>Conectivas y cuantificadores definidos (2.1.2)\<close>
+
+text \<open>
+  \begin{itemize}
+    \item (p.34) @{thm[mode=Rule] not_def[no_vars]} 
+      \hfill (@{text not_def})
+  \end{itemize}\<close>
+
 subsection \<open>Reglas fundamentales (2.2)\<close>
+
+subsubsection \<open>Reglas de congruencia para aplicaciones (2.2.2)\<close>
+
+text \<open>
+  \begin{itemize}
+    \item (p.37) @{thm[mode=Rule] arg_cong[no_vars]} 
+      \hfill (@{text arg_cong})
+    \item (p.37) @{thm[mode=Rule] arg_cong2[no_vars]} 
+      \hfill (@{text arg_cong2})
+  \end{itemize}\<close>
+
+subsubsection \<open>Negación (2.2.7)\<close>
+
+text \<open>
+  \begin{itemize}
+    \item (p.39) @{thm[mode=Rule] notI[no_vars]} 
+      \hfill (@{text notI})
+    \item (p.39) @{thm[mode=Rule] notE[no_vars]} 
+      \hfill (@{text notE})
+  \end{itemize}\<close>
 
 subsubsection \<open>Disyunción I (2.2.9)\<close>
 
@@ -41,10 +71,28 @@ text \<open>
       \hfill (@{text conjunct2})
   \end{itemize}\<close>
 
-section \<open>Teoría de conjuntos (7)\<close>
+subsection \<open>Configuración del paquete (2.3)\<close>
+
+subsubsection \<open>Simplificadores (2.3.4)\<close>
+
+text \<open>
+  \begin{itemize}
+    \item (p.53) @{thm[mode=Rule] not_ex[no_vars]} 
+      \hfill (@{text not_ex})
+  \end{itemize}\<close>
+
+section \<open>Teoría de conjuntos para lógica de orden superior (7)\<close>
 
 text \<open>Los siguientes resultados corresponden a la teoría de conjuntos 
   \href{https://n9.cl/qatp}{Set.thy}.\<close>
+
+subsection \<open>Subconjuntos y cuantificadores acotados (7.2)\<close>
+
+text \<open>
+  \begin{itemize}
+    \item (p.163) @{thm[mode=Rule] ballI[no_vars]} 
+      \hfill (@{text ballI})
+  \end{itemize}\<close>
 
 subsection \<open>Operaciones básicas (7.3)\<close>
 
@@ -96,6 +144,8 @@ text\<open>
       \hfill (@{text singletonI})
     \item (p.172) @{thm[mode=Rule] singletonD[no_vars]} 
       \hfill (@{text singletonD})
+    \item (p.172) @{thm[mode=Rule] singleton_iff[no_vars]} 
+      \hfill (@{text singleton_iff})
   \end{itemize}
 \<close>
 
@@ -122,6 +172,8 @@ text \<open>
       \hfill (@{text Un_empty_right})
     \item (p.182) @{thm[mode=Rule] Un_insert_left[no_vars]} 
       \hfill (@{text Un_insert_left})
+    \item (p.187) @{thm[mode=Rule] ball_simps[no_vars]} 
+      \hfill (@{text ball_simps})
   \end{itemize}\<close>
 
 subsubsection \<open>Monotonía de varias operaciones (7.4.4)\<close>
@@ -130,15 +182,30 @@ text \<open>
   \begin{itemize}
     \item (p.188) @{thm[mode=Rule] Un_mono[no_vars]} 
       \hfill (@{text Un_mono})
+    \item (p.188) @{thm[mode=Rule] imp_refl[no_vars]} 
+      \hfill (@{text imp_refl})
   \end{itemize}
 \<close>
 
-section \<open>Teoría de retículos completos (10)\<close>
+section \<open>Nociones sobre funciones (9)\<close>
+
+text \<open>En Isabelle, la teoría de funciones se corresponde con 
+  \href{http://bit.ly/2P9NWwq}{Fun.thy}\<close>
+
+subsection \<open>Actualización de funciones (9.6)\<close>
+
+text \<open>
+  \begin{itemize}
+    \item (p.213) @{thm[mode=Rule] fun_upd_other[no_vars]} 
+      \hfill (@{text fun_upd_other})
+  \end{itemize}\<close>
+
+section \<open>Retículos completos (10)\<close>
 
 text \<open>En Isabelle corresponde a la teoría 
   \href{http://bit.ly/2wimZjA}{Complete-Lattices.thy}\<close>
 
-subsection \<open>Retículos completos y conjuntos (10.6)\<close>
+subsection \<open>Retículos completos en conjuntos (10.6)\<close>
 
 subsubsection \<open>Unión (10.6.3)\<close>
 
@@ -148,7 +215,7 @@ text \<open>
       \hfill (@{text Union_empty})
   \end{itemize}\<close>
 
-section \<open>Teoría de conjuntos finitos (18)\<close>
+section \<open>Conjuntos finitos (18)\<close>
 
 text \<open>A continuación se muestran resultamos relativos a la teoría 
   \href{https://n9.cl/x86r}{FiniteSet.thy}.\<close> 
