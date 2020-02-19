@@ -34,7 +34,7 @@ abbreviation valid ("\<Turnstile> _" 51) where
 text \<open>\comentario{Enunciar y hacer la demostración detallada de 
   irrelevant-atom-atomica.}\<close>
 
-lemma irrelevant_atom_atomica_l1:
+lemma irrelevant_atom_atomic_l1:
   assumes "A \<notin> atoms (Atom x)" 
   shows "x \<noteq> A"
 proof (rule notI)
@@ -49,13 +49,13 @@ proof (rule notI)
     by (rule notE)
 qed
 
-lemma irrelevant_atom_atomica:
+lemma irrelevant_atom_atomic:
   assumes "A \<notin> atoms (Atom x)" 
   shows "(\<A>(A := V)) \<Turnstile> (Atom x) \<longleftrightarrow> \<A> \<Turnstile> (Atom x)"
 proof -
   have "x \<noteq> A"
     using assms
-    by (rule irrelevant_atom_atomica_l1)
+    by (rule irrelevant_atom_atomic_l1)
   have "(\<A>(A := V)) \<Turnstile> (Atom x) = (\<A>(A := V)) x"
     by (simp only: formula_semantics.simps(1))
   also have "\<dots> = \<A> x"
@@ -258,11 +258,10 @@ proof -
     by this
 qed
 
-lemma irrelevant_atom_detallada:
-  "A \<notin> atoms F \<Longrightarrow> (\<A>(A := V)) \<Turnstile> F \<longleftrightarrow> \<A> \<Turnstile> F"
+lemma "A \<notin> atoms F \<Longrightarrow> (\<A>(A := V)) \<Turnstile> F \<longleftrightarrow> \<A> \<Turnstile> F"
 proof (induction F)
   case (Atom x)
-  then show ?case by (rule irrelevant_atom_atomica)
+  then show ?case by (rule irrelevant_atom_atomic)
 next
   case Bot
   then show ?case by (rule irrelevant_atom_bot)
@@ -286,7 +285,7 @@ lemma irrelevant_atom:
 
 text \<open>Lema: enunciar y hacer la demostración detallada.\<close>
 
-lemma relevant_atoms_same_semantics_atomica_l1:
+lemma relevant_atoms_same_semantics_atomic_l1:
   "x \<in> atoms (Atom x)"
 proof 
   show "x \<in> {x}"
@@ -296,7 +295,7 @@ next
     by (simp only: formula.set(1))
 qed
 
-lemma relevant_atoms_same_semantics_atomica: 
+lemma relevant_atoms_same_semantics_atomic: 
   assumes "\<forall>k \<in> atoms (Atom x). \<A>\<^sub>1 k = \<A>\<^sub>2 k"
   shows   "\<A>\<^sub>1 \<Turnstile> Atom x \<longleftrightarrow> \<A>\<^sub>2 \<Turnstile> Atom x"
 proof -
@@ -304,7 +303,7 @@ proof -
     by (simp only: formula_semantics.simps(1))
   also have "\<dots> = \<A>\<^sub>2 x"
     using  assms(1)
-    by (simp only: relevant_atoms_same_semantics_atomica_l1)
+    by (simp only: relevant_atoms_same_semantics_atomic_l1)
   also have "\<dots> = \<A>\<^sub>2 \<Turnstile> Atom x"
     by (simp only: formula_semantics.simps(1))
   finally show ?thesis
@@ -439,11 +438,10 @@ proof -
     by this
 qed
 
-lemma relevant_atoms_same_semantics_detallada: 
-   "\<forall>k \<in> atoms F. \<A>\<^sub>1 k = \<A>\<^sub>2 k \<Longrightarrow> \<A>\<^sub>1 \<Turnstile> F \<longleftrightarrow> \<A>\<^sub>2 \<Turnstile> F"
+lemma "\<forall>k \<in> atoms F. \<A>\<^sub>1 k = \<A>\<^sub>2 k \<Longrightarrow> \<A>\<^sub>1 \<Turnstile> F \<longleftrightarrow> \<A>\<^sub>2 \<Turnstile> F"
 proof (induction F)
 case (Atom x)
-  then show ?case by (rule relevant_atoms_same_semantics_atomica)
+  then show ?case by (rule relevant_atoms_same_semantics_atomic)
 next
   case Bot
 then show ?case by (rule relevant_atoms_same_semantics_bot)
@@ -518,13 +516,6 @@ definition "fin_sat S \<equiv> (\<forall>s \<subseteq> S. finite s \<longrightar
 
 text \<open>Lema: un conjunto de fórmulas S es inconsistente si y sólo si
  $\bot$ es consecuencia lógica de S.\<close>
-
-(* Observamos que 
-  \<not> sat \<Gamma> = \<not> (\<exists>\<A>. \<forall>F \<in> \<Gamma>. \<A> \<Turnstile> F) 
-          = \<forall>\<A>. \<exists>F \<in> \<Gamma>. \<not> (\<A> \<Turnstile> F) *)
-
-text \<open>\comentario{Unificar los nombres de los lemas (en inglés o en
-  español).}\<close> 
 
 lemma "\<Gamma> \<TTurnstile> \<bottom> \<longleftrightarrow> \<not> sat \<Gamma>" 
 proof -
