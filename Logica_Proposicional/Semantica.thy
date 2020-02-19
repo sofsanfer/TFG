@@ -31,9 +31,6 @@ text \<open>\comentario{Definir fórmula válida (o tautología).}\<close>
 abbreviation valid ("\<Turnstile> _" 51) where
   "\<Turnstile> F \<equiv> \<forall>A. A \<Turnstile> F"
 
-text \<open>\comentario{Enunciar y hacer la demostración detallada de 
-  irrelevant-atom-atomica.}\<close>
-
 lemma irrelevant_atom_atomic_l1:
   assumes "A \<notin> atoms (Atom x)" 
   shows "x \<noteq> A"
@@ -333,8 +330,6 @@ proof -
   finally show ?thesis
     by this
 qed
-
-text \<open>\comentario{Añadir rule arg\_cong y arg\_cong2 al glosario.}\<close>
 
 lemma forall_union1: 
   assumes "\<forall>x \<in> A \<union> B. P x"
