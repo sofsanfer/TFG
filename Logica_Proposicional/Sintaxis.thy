@@ -1537,17 +1537,7 @@ lemma subsubformulae:
 text \<open>Presentemos ahora otro resultado que relaciona las conectivas
   con los conjuntos de subfórmulas.\<close>
 
-lemma subformulas_in_subformulas:
-  "G \<^bold>\<and> H \<in> setSubformulae F 
-  \<Longrightarrow> G \<in> setSubformulae F \<and> H \<in> setSubformulae F"
-  "G \<^bold>\<or> H \<in> setSubformulae F 
-  \<Longrightarrow> G \<in> setSubformulae F \<and> H \<in> setSubformulae F"
-  "G \<^bold>\<rightarrow> H \<in> setSubformulae F 
-  \<Longrightarrow> G \<in> setSubformulae F \<and> H \<in> setSubformulae F"
-  "\<^bold>\<not> G \<in> setSubformulae F \<Longrightarrow> G \<in> setSubformulae F"
-  oops
-
-  text \<open>Para la demostración en Isabelle, probaremos cada caso de forma
+text \<open>Para la demostración en Isabelle, probaremos cada caso de forma
  independiente.\<close>
 
 lemma subformulas_in_subformulas_not:
@@ -1609,71 +1599,11 @@ next
     by (rule subsubformulae)
 qed
 
-lemma subformulas_in_subformulas:
-  "G \<^bold>\<and> H \<in> setSubformulae F 
-   \<Longrightarrow> G \<in> setSubformulae F \<and> H \<in> setSubformulae F"
-  "G \<^bold>\<or> H \<in> setSubformulae F 
-   \<Longrightarrow> G \<in> setSubformulae F \<and> H \<in> setSubformulae F"
-  "G \<^bold>\<rightarrow> H \<in> setSubformulae F 
-   \<Longrightarrow> G \<in> setSubformulae F \<and> H \<in> setSubformulae F"
-  "\<^bold>\<not> G \<in> setSubformulae F \<Longrightarrow> G \<in> setSubformulae F"
-proof
-  assume "G \<^bold>\<and> H \<in> setSubformulae F"
-  hence "G \<in> setSubformulae F \<and> H \<in> setSubformulae F" 
-    by (rule subformulas_in_subformulas_and)
-  thus "G \<in> setSubformulae F" by (rule conjunct1)
-next 
-  assume "G \<^bold>\<and> H \<in> setSubformulae F"
-  hence "G \<in> setSubformulae F \<and> H \<in> setSubformulae F" 
-    by (rule subformulas_in_subformulas_and)
-  thus "H \<in> setSubformulae F" by (rule conjunct2)
-next
-assume "G  \<^bold>\<or>  H \<in> setSubformulae F"
-  thus "G \<in> setSubformulae F \<and> H \<in> setSubformulae F" 
-    by (rule subformulas_in_subformulas_or)
-next 
-assume "G  \<^bold>\<rightarrow> H \<in> setSubformulae F"
-  thus "G \<in> setSubformulae F \<and> H \<in> setSubformulae F" 
-    by (rule subformulas_in_subformulas_imp)
-next
-  assume " \<^bold>\<not> G \<in> setSubformulae F"
-  thus  "G \<in> setSubformulae F" 
-    by (rule subformulas_in_subformulas_not)
-qed
-
-text \<open>Mostremos ahora la demostración automática.\<close>
-
-lemma
-  "G \<^bold>\<and> H \<in> setSubformulae F 
-   \<Longrightarrow> G \<in> setSubformulae F \<and> H \<in> setSubformulae F"
-  "G \<^bold>\<or> H \<in> setSubformulae F 
-   \<Longrightarrow> G \<in> setSubformulae F \<and> H \<in> setSubformulae F"
-  "G \<^bold>\<rightarrow> H \<in> setSubformulae F 
-   \<Longrightarrow> G \<in> setSubformulae F \<and> H \<in> setSubformulae F"
-  "\<^bold>\<not> G \<in> setSubformulae F \<Longrightarrow> G \<in> setSubformulae F" 
-     apply (rule conjI)
-     apply (drule subformulas_in_subformulas_and)
-     apply (erule conjunct1)
-     apply (drule subformulas_in_subformulas_and)
-     apply (erule conjunct2)
-     apply (drule subformulas_in_subformulas_or, assumption)
-     apply (drule subformulas_in_subformulas_imp, assumption)
-     apply (drule subformulas_in_subformulas_not, assumption)
-  done
-
-lemma
-  "G \<^bold>\<and> H \<in> setSubformulae F 
-   \<Longrightarrow> G \<in> setSubformulae F \<and> H \<in> setSubformulae F"
-  "G \<^bold>\<or> H \<in> setSubformulae F 
-   \<Longrightarrow> G \<in> setSubformulae F \<and> H \<in> setSubformulae F"
-  "G \<^bold>\<rightarrow> H \<in> setSubformulae F 
-   \<Longrightarrow> G \<in> setSubformulae F \<and> H \<in> setSubformulae F"
-  "\<^bold>\<not> G \<in> setSubformulae F \<Longrightarrow> G \<in> setSubformulae F"
-  oops
-
-  text \<open>
-  \comentario{Falta hacer demostración automática. Ver el 19/02/2020.
-  Quitar aplicativa cuando tenga la automática.}\<close> 
+lemmas subformulas_in_subformulas =
+  subformulas_in_subformulas_and
+  subformulas_in_subformulas_or
+  subformulas_in_subformulas_imp
+  subformulas_in_subformulas_not
 
 section \<open>Conectivas generalizadas\<close>
 
