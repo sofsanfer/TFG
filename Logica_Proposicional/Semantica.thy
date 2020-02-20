@@ -486,15 +486,98 @@ qed
 lemma top_semantics: 
   "A \<Turnstile> \<top>" 
   unfolding Top_def 
-  by simp
+  by simp 
+
+text \<open>\comentario{Terminar los pendientes de BigAnd_semantics y 
+  BigOr_semantics.}\<close>
+
+lemma BigAnd_semantics_nil: "A \<Turnstile> \<^bold>\<And>[] \<longleftrightarrow> (\<forall>f \<in> set []. A \<Turnstile> f)"
+proof - 
+  have "A \<Turnstile> \<^bold>\<And>[] = A \<Turnstile> (\<^bold>\<not>\<bottom>)"
+    by (simp only: BigAnd.simps(1))
+  also have "\<dots> = (\<not> A \<Turnstile> \<bottom>)"
+    by (simp only: formula_semantics.simps(3))
+  also have "\<dots> = (\<not> False)"
+    by (simp only: formula_semantics.simps(2))
+  also have "\<dots> = True"
+    by simp (*Pendiente*)
+  also have "\<dots> = (\<forall>f \<in> \<emptyset>. A \<Turnstile> f)"
+    by simp (*Pendiente*)
+  also have "\<dots> = (\<forall>f \<in> set []. A \<Turnstile> f)"
+    by simp (*Pendiente*)
+  finally show ?thesis
+    by this
+qed
+
+lemma BigAnd_semantics_cons: 
+  assumes "A \<Turnstile> \<^bold>\<And>Fs \<longleftrightarrow> (\<forall>f \<in> set Fs. A \<Turnstile> f)"
+  shows "A \<Turnstile> \<^bold>\<And>(F#Fs) \<longleftrightarrow> (\<forall>f \<in> set (F#Fs). A \<Turnstile> f)"
+proof -
+  have "A \<Turnstile> \<^bold>\<And>(F#Fs) = A \<Turnstile> F \<^bold>\<and> \<^bold>\<And>Fs"
+    by (simp only: BigAnd.simps(2))
+  also have "\<dots> = (A \<Turnstile> F \<and> A \<Turnstile> \<^bold>\<And>Fs)"
+    by (simp only: formula_semantics.simps(4))
+  also have "\<dots> = (A \<Turnstile> F \<and> (\<forall>f \<in> set Fs. A \<Turnstile> f))"
+    by (simp only: assms)
+  also have "\<dots> = (\<forall>f \<in> set (F#Fs). A \<Turnstile> f)"
+    by simp (*Pendiente*)
+  finally show ?thesis
+    by this
+qed
+
+lemma "A \<Turnstile> \<^bold>\<And>Fs \<longleftrightarrow> (\<forall>f \<in> set Fs. A \<Turnstile> f)"
+proof (induction Fs)
+  case Nil
+  then show ?case by (rule BigAnd_semantics_nil)
+next
+  case (Cons a Fs)
+  then show ?case by (rule BigAnd_semantics_cons)
+qed
 
 lemma BigAnd_semantics: 
-  "A \<Turnstile> \<^bold>\<And>F \<longleftrightarrow> (\<forall>f \<in> set F. A \<Turnstile> f)"
-  by (induction F; simp)
+  "A \<Turnstile> \<^bold>\<And>Fs \<longleftrightarrow> (\<forall>f \<in> set Fs. A \<Turnstile> f)"
+  by (induction Fs; simp)
+
+lemma BigOr_semantics_nil: "A \<Turnstile> \<^bold>\<Or>[] \<longleftrightarrow> (\<exists>f \<in> set []. A \<Turnstile> f)" 
+proof -
+  have "A \<Turnstile> \<^bold>\<Or>[] = A \<Turnstile> \<bottom>"
+    by (simp only: BigOr.simps(1))
+  also have "\<dots> = False"
+    by (simp only: formula_semantics.simps(2))
+  also have "\<dots> = (\<exists>f \<in> set []. A \<Turnstile> f)"
+    by simp (*Pendiente*)
+  finally show ?thesis
+    by this
+qed
+
+lemma BigOr_semantics_cons: 
+  assumes "A \<Turnstile> \<^bold>\<Or>Fs \<longleftrightarrow> (\<exists>f \<in> set Fs. A \<Turnstile> f)" 
+  shows "A \<Turnstile> \<^bold>\<Or>(F#Fs) \<longleftrightarrow> (\<exists>f \<in> set (F#Fs). A \<Turnstile> f)" 
+proof -
+  have "A \<Turnstile> \<^bold>\<Or>(F#Fs) = A \<Turnstile> F \<^bold>\<or> \<^bold>\<Or>Fs"
+    by (simp only: BigOr.simps(2))
+  also have "\<dots> = (A \<Turnstile> F \<or> A \<Turnstile> \<^bold>\<Or>Fs)"
+    by (simp only: formula_semantics.simps(5))
+  also have "\<dots> = (A \<Turnstile> F \<or> (\<exists>f \<in> set Fs. A \<Turnstile> f))"
+    by (simp only: assms)
+  also have "\<dots> = (\<exists>f \<in> set (F#Fs). A \<Turnstile> f)"
+    by simp (*Pendiente*)
+  finally show ?thesis
+    by this
+qed
+
+lemma "A \<Turnstile> \<^bold>\<Or>Fs \<longleftrightarrow> (\<exists>f \<in> set Fs. A \<Turnstile> f)" 
+proof (induction Fs)
+case Nil
+  then show ?case by (rule BigOr_semantics_nil)
+next
+  case (Cons a Fs)
+then show ?case by (rule BigOr_semantics_cons)
+qed
 
 lemma BigOr_semantics: 
-  "A \<Turnstile> \<^bold>\<Or>F \<longleftrightarrow> (\<exists>f \<in> set F. A \<Turnstile> f)" 
-  by (induction F; simp)
+  "A \<Turnstile> \<^bold>\<Or>Fs \<longleftrightarrow> (\<exists>f \<in> set Fs. A \<Turnstile> f)" 
+  by (induction Fs; simp)
     
 text \<open>Definitions for sets of formulae, used for compactness and model 
   existence.\<close>
