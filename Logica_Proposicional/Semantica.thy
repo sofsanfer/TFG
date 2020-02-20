@@ -488,9 +488,6 @@ lemma top_semantics:
   unfolding Top_def 
   by simp 
 
-text \<open>\comentario{Terminar los pendientes de BigAnd_semantics y 
-  BigOr_semantics.}\<close>
-
 lemma BigAnd_semantics_nil: "A \<Turnstile> \<^bold>\<And>[] \<longleftrightarrow> (\<forall>f \<in> set []. A \<Turnstile> f)"
 proof - 
   have "A \<Turnstile> \<^bold>\<And>[] = A \<Turnstile> (\<^bold>\<not>\<bottom>)"
@@ -500,14 +497,17 @@ proof -
   also have "\<dots> = (\<not> False)"
     by (simp only: formula_semantics.simps(2))
   also have "\<dots> = True"
-    by simp (*Pendiente*)
+    by (simp only: not_False_eq_True)
   also have "\<dots> = (\<forall>f \<in> \<emptyset>. A \<Turnstile> f)"
-    by simp (*Pendiente*)
+    by (simp only: ball_empty) 
   also have "\<dots> = (\<forall>f \<in> set []. A \<Turnstile> f)"
-    by simp (*Pendiente*)
+    by (simp only: list.set)
   finally show ?thesis
     by this
 qed
+
+text \<open>\comentario{Terminar los pendientes de BigAnd_semantics y 
+  BigOr_semantics.}\<close>
 
 lemma BigAnd_semantics_cons: 
   assumes "A \<Turnstile> \<^bold>\<And>Fs \<longleftrightarrow> (\<forall>f \<in> set Fs. A \<Turnstile> f)"
@@ -519,7 +519,9 @@ proof -
     by (simp only: formula_semantics.simps(4))
   also have "\<dots> = (A \<Turnstile> F \<and> (\<forall>f \<in> set Fs. A \<Turnstile> f))"
     by (simp only: assms)
-  also have "\<dots> = (\<forall>f \<in> set (F#Fs). A \<Turnstile> f)"
+  also have "\<dots> = (\<forall>f \<in> (set [F] \<union> set Fs). A \<Turnstile> f)"
+    by simp (*Pendiente*)
+  also have "\<dots> = (\<forall>f \<in> set (F#Fs). A \<Turnstile> f)" using [[simp_trace]]
     by simp (*Pendiente*)
   finally show ?thesis
     by this
@@ -544,8 +546,10 @@ proof -
     by (simp only: BigOr.simps(1))
   also have "\<dots> = False"
     by (simp only: formula_semantics.simps(2))
+  also have "\<dots> = (\<exists>f \<in> \<emptyset>. A \<Turnstile> f)"
+    by (simp only: bex_empty)
   also have "\<dots> = (\<exists>f \<in> set []. A \<Turnstile> f)"
-    by simp (*Pendiente*)
+    by (simp only: list.set)
   finally show ?thesis
     by this
 qed
@@ -565,6 +569,9 @@ proof -
   finally show ?thesis
     by this
 qed
+
+text \<open>\comentario{añadir ball_empty, list.set, not_False_eq_True,
+ bex_empty al glosario.}\<close>
 
 lemma "A \<Turnstile> \<^bold>\<Or>Fs \<longleftrightarrow> (\<exists>f \<in> set Fs. A \<Turnstile> f)" 
 proof (induction Fs)
