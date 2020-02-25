@@ -1634,8 +1634,7 @@ lemma "atoms \<top> = \<emptyset>"
 text \<open>A continuación vamos a definir dos conectivas que generalizan la 
   conjunción y la disyunción para una lista finita de fórmulas. 
 
-  En Isabelle está predefinido el tipo listas, que se define
-  recursivamente como sigue:
+  En Isabelle está predefinido el tipo listas de la siguiente manera:
 
   \begin{definicion}
     Las listas de un tipo de elemento cualquiera se definen
@@ -1695,7 +1694,7 @@ text \<open>Ambas nuevas conectivas se definen con el tipo funciones
 
   Por otro lado, como es habitual, de acuerdo a la definición recursiva
   de listas, Isabelle genera automáticamente un esquema inductivo que 
-  emplearemos a continuación.
+  emplearemos más adelante.
 
   Vamos a mostrar una propiedad sobre la conjunción plural.
 
@@ -1706,16 +1705,16 @@ text \<open>Ambas nuevas conectivas se definen con el tipo funciones
   \end{lema}
 
   \begin{demostracion}
-  La demostración se basa en la inducción sobre listas, en particular,
+  La prueba se basa en la inducción sobre listas, en particular,
   listas de fórmulas. Para ello, demostremos el resultado en los casos
   siguientes. 
 
-  En primer lugar lo demostramos para la lista vacía de fórmulas. Es
- claro por definición que la conjunción generalizada de la lista vacía
- es \<open>\<not> \<bottom>\<close>. De este modo, su conjunto de átomos coincide con los de \<open>\<bottom>\<close>,
- luego es el vacío. Por tanto, queda demostrado el resultado, pues el
- vacío es igual a la unión del conjunto de átomos de cada elemento de la
-  lista vacía de fórmulas. 
+  En primer lugar lo probaremos para la lista vacía de fórmulas. Es
+  claro por definición que la conjunción generalizada de la lista vacía
+  es \\\<open>\<not> \<bottom>\<close>. De este modo, su conjunto de átomos coincide con los de 
+  \<open>\<bottom>\<close>, luego es el vacío. Por tanto, queda demostrado el resultado, 
+  pues el vacío es igual a la unión del conjunto de átomos de cada 
+  elemento de la lista vacía de fórmulas. 
 
   Supongamos ahora una lista de fórmulas \<open>Fs\<close> verificando el enunciado.
   Sea la fórmula \<open>F\<close>, vamos a probar que \<open>F#Fs\<close> cumple la propiedad.
@@ -1785,8 +1784,7 @@ text \<open>Se trata de una modificación del lema \<open>Union_image_insert\<cl
   Para ello empleamos el lema \<open>insert_is_Un\<close>.
 
   \begin{itemize}
-    \item[] @{thm[mode=Rule] insert_is_Un[no_vars]} 
-      \hfill (@{text insert_is_Un})
+    \item[] \<open>insert a A = {a} \<union> A\<close> \hspace{5cm} \<open>(insert_is_Un)\<close>
   \end{itemize}
 
   De esta manera, la unión de un conjunto de un solo elemento y otro 
