@@ -1798,8 +1798,7 @@ text \<open>Se trata de una modificación del lema \<open>Union_image_insert\<cl
   lema de Isabelle \<open>Union_image_insert\<close> teniendo en cuenta las
   equivalencias anteriores.
 
-  Procedamos a la demostración del último caso de inducción.
-  \<close>
+  Procedamos a la demostración del último caso de inducción.\<close>
 
 lemma atoms_BigAnd_cons:
   assumes "atoms (\<^bold>\<And>Fs) = \<Union> (atoms ` set Fs)"

@@ -506,8 +506,8 @@ proof -
     by this
 qed
 
-text \<open>\comentario{Terminar los pendientes de BigAnd_semantics y 
-  BigOr_semantics.}\<close>
+text \<open>\comentario{Terminar los pendientes de BigAnd semantics y 
+  BigOr semantics.}\<close>
 
 lemma BigAnd_semantics_cons: 
   assumes "A \<Turnstile> \<^bold>\<And>Fs \<longleftrightarrow> (\<forall>f \<in> set Fs. A \<Turnstile> f)"
