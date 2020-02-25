@@ -917,8 +917,8 @@ text \<open>La siguiente propiedad declara que el conjunto de átomos de una
   probar que el conjunto de átomos de \<open>G\<close> está contenido en el de 
   \<open>\<not> F\<close>.
   Por definición, tenemos que el conjunto de subfórmulas de \<open>\<not> F\<close> es de
-  la forma \<open>Subf(\<not> F) = {\<not> F} \<union> Subf(F)\<close>. De este modo, tenemos dos 
-  opciones posibles: \\\<open>G \<in> {\<not> F}\<close> o \<open>G \<in> Subf(F)\<close>. 
+  la forma \\ \<open>Subf(\<not> F) = {\<not> F} \<union> Subf(F)\<close>. De este modo, tenemos dos 
+  opciones posibles: \<open>G \<in> {\<not> F}\<close> o \<open>G \<in> Subf(F)\<close>. 
   Del primer caso se deduce \<open>G = \<not> F\<close> 
   y, por tanto, tienen igual conjunto de átomos.
   Observando el segundo caso, por hipótesis de inducción, se tiene que 
@@ -934,12 +934,12 @@ text \<open>La siguiente propiedad declara que el conjunto de átomos de una
   cualquiera. Vamos a probar que el conjunto de átomos de \<open>G\<close> está 
   contenido en el conjunto de átomos de \<open>F1*F2\<close>.
   En primer lugar, por definición tenemos que el conjunto de
-  subfórmulas de \<open>F1*F2\<close> es de la forma
+  subfórmulas de \<open>F1*F2\<close> es de la forma \\
   \<open>Subf(F1*F2) = {F1*F2} \<union> (Subf(F1) \<union> Subf(F2))\<close>. De este modo, 
-  tenemos dos posibles opciones: \<open>G \<in> {F1*F2}\<close> o 
-  \<open>G \<in> Subf(F1) \<union> Subf(F2)\<close>.
+  tenemos dos posibles opciones:
+  \<open>G \<in> {F1*F2}\<close> o \<open>G \<in> Subf(F1) \<union> Subf(F2)\<close>.\\
   Si \<open>G \<in> {F1*F2}\<close>, entonces \<open>G = F1*F2\<close> y tienen igual conjunto de 
-  átomos.
+  átomos. \\
   Por otro lado, si \<open>G \<in> Subf(F1) \<union> Subf(F2)\<close> tenemos dos nuevas
   posibilidades: \<open>G\<close> es subfórmula de \<open>F1\<close> o \<open>G\<close> es subfórmula de \<open>F2\<close>.
   Suponiendo que fuese subfórmula de \<open>F1\<close>, aplicando hipótesis de
@@ -1209,7 +1209,7 @@ text \<open>A continuación vamos a introducir un lema para facilitar
   En primer lugar, por definición se cumple que el conjunto de
   subfórmulas de \<open>\<not> F\<close> es de la forma \<open>Subf(\<not> F) = {\<not> F} \<union> Subf(F)\<close>.
   Como hemos supuesto \<open>G\<close> subfórmula de \\\<open>\<not> F\<close>, hay dos opciones 
-  posibles:\<open>G \<in> {\<not> F}\<close> o \<open>G \<in> Subf(F)\<close>. 
+  posibles: \<open>G \<in> {\<not> F}\<close> o \<open>G \<in> Subf(F)\<close>. 
   Del primer caso se obtiene que \<open>G = \<not> F\<close> y, por tanto, tienen igual 
   conjunto de subfórmulas. 
   Por otro lado si suponemos que \<open>G\<close> es subfórmula de \<open>F\<close>, por hipótesis
@@ -1232,7 +1232,7 @@ text \<open>A continuación vamos a introducir un lema para facilitar
   subfórmulas de \<open>F1*F2\<close> es de la forma\\
   \<open>{F1*F2} \<union> (Subf(F1) \<union> Subf(F2))\<close>. De este modo,
   tenemos dos opciones:\\ \<open>G \<in> {F1*F2}\<close> o \<open>G \<in> Subf(F1) \<union> Subf(F2)\<close>.
-   De la primera opción se deduce \<open>G = F1*F2\<close> y, por
+   De la primera opción se deduce \\\<open>G = F1*F2\<close> y, por
   tanto, tienen igual conjunto de subfórmulas. 
   Por otro lado, si \<open>G \<in> Subf(F1) \<union> Subf(F2)\<close>, tenemos a su vez dos 
   opciones: \<open>G\<close> es subfórmula de \<open>F1\<close> o \<open>G\<close> es subfórmula de \<open>F2\<close>.
