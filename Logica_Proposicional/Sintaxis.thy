@@ -1632,9 +1632,10 @@ lemma "atoms \<top> = \<emptyset>"
    by (simp only: Top_def formula.set Un_absorb)
 
 text \<open>A continuación vamos a definir dos conectivas que generalizan la 
-  conjunción y la disyunción para una lista finita de fórmulas. En
-  particular, al ser aplicadas a listas, se definen sobre la 
-  estructura recursiva de las mismas. 
+  conjunción y la disyunción para una lista finita de fórmulas. 
+
+  En Isabelle está predefinido el tipo listas, que se define
+  recursivamente como sigue:
 
   \begin{definicion}
     Las listas de un tipo de elemento cualquiera se definen
@@ -1646,12 +1647,8 @@ text \<open>A continuación vamos a definir dos conectivas que generalizan la
     \end{itemize}
   \end{definicion}
 
-  Por dicha definición recursiva de
-  listas dispondremos de un esquema de inducción habitual que 
-  utilizaremos para probar el siguiente resultado.
-
-  Notemos que al referirnos simplemente a disyunción o conjunción en las
-  siguientes definiciones nos referiremos a la de dos elementos.
+  La conjunción y disyunción generalizadas se definen sobre listas de
+  fórmulas de manera recursiva:
 
   \begin{definicion}
   La conjunción generalizada de una lista de fórmulas se define 
@@ -1675,7 +1672,10 @@ text \<open>A continuación vamos a definir dos conectivas que generalizan la
     \end{itemize}
   \end{definicion}
 
-  Su formalización en Isabelle es la siguiente.\<close>
+  Notemos que al referirnos simplemente a disyunción o conjunción en las
+  siguientes definiciones nos referiremos a la de dos elementos.
+
+  Su formalización en Isabelle es la siguiente: \<close>
 
 primrec BigAnd :: "'a formula list \<Rightarrow> 'a formula" ("\<^bold>\<And>_") where
   "\<^bold>\<And>[] = (\<^bold>\<not>\<bottom>)" 
@@ -1710,11 +1710,11 @@ text \<open>Ambas nuevas conectivas se definen con el tipo funciones
   listas de fórmulas. Para ello, demostremos el resultado en los casos
   siguientes. 
 
-  En primer lugar supongamos la lista vacía de fórmulas. Es claro por
-  definición que la conjunción generalizada de la lista vacía es \<open>\<not> \<bottom>\<close>.
-  De este modo, su conjunto de átomos coincide con los de \<open>\<bottom>\<close>, luego
-  es el vacío. Por tanto, queda demostrado el resultado, pues el vacío
-  es igual a la unión del conjunto de átomos de cada elemento de la
+  En primer lugar lo demostramos para la lista vacía de fórmulas. Es
+ claro por definición que la conjunción generalizada de la lista vacía
+ es \<open>\<not> \<bottom>\<close>. De este modo, su conjunto de átomos coincide con los de \<open>\<bottom>\<close>,
+ luego es el vacío. Por tanto, queda demostrado el resultado, pues el
+ vacío es igual a la unión del conjunto de átomos de cada elemento de la
   lista vacía de fórmulas. 
 
   Supongamos ahora una lista de fórmulas \<open>Fs\<close> verificando el enunciado.
@@ -1726,14 +1726,14 @@ text \<open>Ambas nuevas conectivas se definen con el tipo funciones
   que dicho conjunto es la unión del conjunto de átomos de \<open>F\<close> y el
   conjunto de átomos de la conjunción generalizada de \<open>Fs\<close>. Aplicando 
   ahora la hipótesis de inducción sobre \<open>Fs\<close>, tenemos que lo anterior es 
-  igual a la unión (binaria) del conjunto de átomos de \<open>F\<close> con la unión 
-  (generalizada) de los conjuntos de átomos de cada fórmula de \<open>Fs\<close>. 
+  igual a la unión del conjunto de átomos de \<open>F\<close> con la unión
+ (generalizada) de los conjuntos de átomos de cada fórmula de \<open>Fs\<close>. 
   Luego por propiedades de la unión, es equivalente a la unión de los 
   conjuntos de átomos de cada elemento de \<open>F#Fs\<close> como queríamos 
   demostrar.
   \end{demostracion}
 
-  De este modo, en Isabelle se formaliza como sigue.\<close>
+  En Isabelle se formaliza como sigue.\<close>
 
 lemma atoms_BigAnd: 
   "atoms (\<^bold>\<And>Fs) = \<Union>(atoms ` set Fs)"
@@ -1745,7 +1745,7 @@ text \<open>Se observa que, como la conjunción generalizada actúa sobre
   unificar los tipos y que esté bien definido.
 
   Veamos ahora la demostración detallada. Esta seguirá el esquema de 
-  inducción sobre listas, luego probemos inicialmente cada caso por
+  inducción sobre listas. Previamente vamos a probar cada caso por
   separado.\<close>
 
 lemma atoms_BigAnd_nil: 
@@ -1767,14 +1767,39 @@ proof -
     by this
 qed
 
-text \<open>Con motivo de facilitar la relación entre el operador \<open>set\<close> y la 
-  unión de conjuntos, vamos a dar el resultado \<open>union_imagen\<close> en 
-  Isabelle. Posteriormente demostraremos el último
-  caso del esquema de inducción.\<close>
+text \<open>Mostramos el siguiente lema auxiliar que utilizaremos en la
+  demostración del último caso de inducción.\<close>
 
 lemma union_imagen: "f a \<union> \<Union> (f ` B) = \<Union> (f ` ({a} \<union> B))"
   by (simp only: Union_image_insert
                  insert_is_Un[THEN sym])
+
+text \<open>Se trata de una modificación del lema \<open>Union_image_insert\<close> en 
+  Isabelle para adaptarlo según nos interesa. 
+
+  \begin{itemize}
+    \item[] @{thm[mode=Rule] Union_image_insert[no_vars]} 
+      \hfill (@{text Union_image_insert})
+  \end{itemize}
+
+  Para ello empleamos el lema \<open>insert_is_Un\<close>.
+
+  \begin{itemize}
+    \item[] @{thm[mode=Rule] insert_is_Un[no_vars]} 
+      \hfill (@{text insert_is_Un})
+  \end{itemize}
+
+  De esta manera, la unión de un conjunto de un solo elemento y otro 
+  conjunto cualquiera es equivalente a insertar dicho elemento en el 
+  conjunto. Además, aplicamos el lema seguido de \<open>[THEN sym]\<close> para 
+  mostrar la equivalencia en el sentido en el que acaba de ser
+  enunciada por simetría, pues en Isabelle aparece en sentido opuesto.
+  Por tanto, el lema auxiliar \<open>union_imagen\<close> es fundamentalmente el
+  lema de Isabelle \<open>Union_image_insert\<close> teniendo en cuenta las
+  equivalencias anteriores.
+
+  Procedamos a la demostración del último caso de inducción.
+  \<close>
 
 lemma atoms_BigAnd_cons:
   assumes "atoms (\<^bold>\<And>Fs) = \<Union> (atoms ` set Fs)"

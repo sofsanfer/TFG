@@ -570,8 +570,8 @@ proof -
     by this
 qed
 
-text \<open>\comentario{añadir ball_empty, list.set, not_False_eq_True,
- bex_empty al glosario.}\<close>
+text \<open>\comentario{Añadir ball empty, list set, not False eq True,
+ bex empty al glosario.}\<close>
 
 lemma "A \<Turnstile> \<^bold>\<Or>Fs \<longleftrightarrow> (\<exists>f \<in> set Fs. A \<Turnstile> f)" 
 proof (induction Fs)
