@@ -1705,7 +1705,7 @@ text \<open>Ambas nuevas conectivas se definen con el tipo funciones
   \end{lema}
 
   \begin{demostracion}
-  La prueba se basa en la inducción sobre listas, en particular,
+  La prueba se hace por inducción sobre listas, en particular,
   listas de fórmulas. Para ello, demostremos el resultado en los casos
   siguientes. 
 
@@ -1738,10 +1738,17 @@ lemma atoms_BigAnd:
   "atoms (\<^bold>\<And>Fs) = \<Union>(atoms ` set Fs)"
   oops
 
-text \<open>Se observa que, como la conjunción generalizada actúa sobre 
-  una lista de fórmulas y \<open>atoms\<close> actúa sobre un conjunto de fórmulas,
-  es necesario aplicar el operador \<open>set\<close> a la lista de fórmulas para
-  unificar los tipos y que esté bien definido.
+text \<open>Observemos el lado izquierdo de la igualdad. \<open>Fs\<close> es una 
+  lista de fórmulas, luego la conjunción generalizada de dicha lista se 
+  trata de una fórmula. Al aplicarle \<open>atoms\<close> a dicha fórmula, obtenemos 
+  finalmente el conjunto de sus átomos. Por otro lado, en el lado 
+  derecho de la igualdad tenemos el conjunto \<open>set Fs\<close> cuyos elementos 
+  son las fórmulas de la lista \<open>Fs\<close>. De este modo, al aplicar \<open>atoms `\<close> 
+  a dicho conjunto obtenemos la imagen por \<open>atoms\<close> de cada uno de sus
+  elementos, es decir, un conjunto cuyos elementos son los 
+  conjuntos de átomos de cada fórmula de \<open>Fs\<close>. Por último, mediante la 
+  unión se obtiene el conjunto de los átomos de cada fórmula de la 
+  lista inicial.
 
   Veamos ahora la demostración detallada. Esta seguirá el esquema de 
   inducción sobre listas. Previamente vamos a probar cada caso por
@@ -1774,7 +1781,7 @@ lemma union_imagen: "f a \<union> \<Union> (f ` B) = \<Union> (f ` ({a} \<union>
                  insert_is_Un[THEN sym])
 
 text \<open>Se trata de una modificación del lema \<open>Union_image_insert\<close> en 
-  Isabelle para adaptarlo según nos interesa. 
+  Isabelle para adaptarlo al caso particular. 
 
   \begin{itemize}
     \item[] @{thm[mode=Rule] Union_image_insert[no_vars]} 
