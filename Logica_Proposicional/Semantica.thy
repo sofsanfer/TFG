@@ -7,11 +7,37 @@ begin
 
 section \<open>Semántica\<close>
 
-text \<open>\comentario{Escribir la definición de interpretación como una
-  aplicación de los símbolos proposicionales (o átomos) en los valores 
-  de verdad}\<close> 
+text \<open>En esta sección, mostraremos cómo interpretar las fórmulas del
+  apartado anterior de \<open>Sintaxis\<close> mediante un operador en el conjunto de 
+  valores de verdad. 
+
+  En la lógica clásica que estamos tratando, consideramos los valores de 
+  verdad \<open>Verdadero\<close> y \<open>Falso\<close>. Vamos a corresponder dichos conjunto 
+  binario con los booleanos \<open>\<BB> = {0,1}\<close>, de modo que \<open>Falso\<close> se 
+  corresponda con \<open>0\<close> y \<open>Verdadero\<close> con \<open>1\<close>. Bajo estas condiciones,
+  damos la siguiente noción de interpretación.
+
+  \begin{definicion}
+  Una interpretación es una aplicación entre el conjunto de variables
+  proposicionales del alfabeto al conjunto \<open>\<BB>\<close> de los booleanos.
+  \end{definicion}
+
+  De este modo, las interpretaciones asignan valores de verdad a las 
+  variables proposicionales.
+
+  En Isabelle, se formaliza como sigue.\<close> 
 
 type_synonym 'a valuation = "'a \<Rightarrow> bool"
+
+text \<open>Como podemos observar, \<open>valuation\<close> es un sufijo que, dado un
+  elemento de tipo \<open>'a\<close> cualquiera le asigna un booleano que representa
+  un valor de verdad. Se define mediante el tipo \<open>type_synonym\<close>, pues
+  consiste en renombrar una construcción ya existente en Isabelle.\<close>
+ 
+text \<open>A continuación se muestra un ejemplo en el que se ha asignado a 
+  la variable \<open>p\<close> el valor \<open>Verdadero\<close> mediante una interpretación.\<close>
+
+value "p valuation = True"
 
 text \<open>\comentario{Definir el valor de una fórmula proposicional en una
   interpretación (la def. es por recursión en la estructura de la 
