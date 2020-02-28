@@ -8,11 +8,11 @@ begin
 section \<open>Semántica\<close>
 
 text \<open>En esta sección, mostraremos cómo interpretar las fórmulas del
-  apartado anterior de \<open>Sintaxis\<close> mediante un operador en el conjunto de 
+  apartado anterior \<open>Sintaxis\<close> mediante un operador en el conjunto de 
   valores de verdad. 
 
   En la lógica clásica que estamos tratando, consideramos los valores de 
-  verdad \<open>Verdadero\<close> y \<open>Falso\<close>. Vamos a corresponder dichos conjunto 
+  verdad \<open>Verdadero\<close> y \<open>Falso\<close>. Vamos a corresponder dicho conjunto 
   binario con los booleanos \<open>\<BB> = {0,1}\<close>, de modo que \<open>Falso\<close> se 
   corresponda con \<open>0\<close> y \<open>Verdadero\<close> con \<open>1\<close>. Bajo estas condiciones,
   damos la siguiente noción de interpretación.
@@ -32,16 +32,39 @@ type_synonym 'a valuation = "'a \<Rightarrow> bool"
 text \<open>Como podemos observar, \<open>valuation\<close> es un sufijo que, dado un
   elemento de tipo \<open>'a\<close> cualquiera le asigna un booleano que representa
   un valor de verdad. Se define mediante el tipo \<open>type_synonym\<close>, pues
-  consiste en renombrar una construcción ya existente en Isabelle.\<close>
+  consiste en renombrar una construcción ya existente en Isabelle.
  
-text \<open>A continuación se muestra un ejemplo en el que se ha asignado a 
+  A continuación se muestra un ejemplo en el que se ha asignado a 
   la variable \<open>p\<close> el valor \<open>Verdadero\<close> mediante una interpretación.\<close>
 
 value "p valuation = True"
 
-text \<open>\comentario{Definir el valor de una fórmula proposicional en una
-  interpretación (la def. es por recursión en la estructura de la 
-  fórmula)}\<close>
+text \<open>Una vez definida una interpretación para variables
+  proposicionales, vamos a definir el valor de verdad de una fórmula
+  proposicional.
+
+  \begin{definicion}
+  Para cada interpretación \<open>\<A>\<close> existe una única aplicación \<open>\<Turnstile>\<close> desde el
+  conjunto de fórmulas al conjunto \<open>\<BB>\<close> de los booleanos definida 
+  recursivamente sobre la estructura de las fórmulas como sigue:
+  Sea \<open>F\<close> una fórmula cualquiera,
+    \begin{itemize}
+      \item Si \<open>F\<close> es una fórmula atómica, entonces \<open>\<A> \<Turnstile> F = \<A> F\<close>.
+      \item Si \<open>F\<close> es la fórmula \<open>\<bottom>\<close>, entonces \<open>\<A> \<Turnstile> F = False\<close>.
+      \item Si \<open>F\<close> es de la forma \<open>\<not> G\<close> para cierta fórmula \<open>G\<close>, 
+        entonces\\ \<open>\<A> \<Turnstile> F = (\<not> \<A> \<Turnstile> F)\<close>.
+      \item Si \<open>F\<close> es de la forma \<open>G \<and> H\<close> para ciertas fórmulas \<open>G\<close> y 
+        \<open>H\<close>, entonces\\ \<open>\<A> \<Turnstile> F = (\<A> \<Turnstile> G \<and> \<A> \<Turnstile> H)\<close>.
+      \item Si \<open>F\<close> es de la forma \<open>G \<or> H\<close> para ciertas fórmulas \<open>G\<close> y 
+        \<open>H\<close>, entonces\\ \<open>\<A> \<Turnstile> F = (\<A> \<Turnstile> G \<or> \<A> \<Turnstile> H)\<close>.
+      \item Si \<open>F\<close> es de la forma \<open>G \<longrightarrow> H\<close> para ciertas fórmulas \<open>G\<close> y 
+        \<open>H\<close>, entonces\\ \<open>\<A> \<Turnstile> F = (\<A> \<Turnstile> G \<longrightarrow> \<A> \<Turnstile> H)\<close>.
+    \end{itemize}
+  En estas condiciones, se dice que \<open>\<A> \<Turnstile> F\<close> es el valor de la fórmula
+  \<open>F\<close> en la interpretación \<open>\<A>\<close>.
+  \end{definicion}
+
+  A continuación veamos su formalización en Isabelle.\<close>
 
 primrec formula_semantics :: 
   "'a valuation \<Rightarrow> 'a formula \<Rightarrow> bool" (infix "\<Turnstile>" 51) where
@@ -51,6 +74,18 @@ primrec formula_semantics ::
 | "\<A> \<Turnstile> And F G = (\<A> \<Turnstile> F \<and> \<A> \<Turnstile> G)" 
 | "\<A> \<Turnstile> Or F G = (\<A> \<Turnstile> F \<or> \<A> \<Turnstile> G)" 
 | "\<A> \<Turnstile> Imp F G = (\<A> \<Turnstile> F \<longrightarrow> \<A> \<Turnstile> G)"
+
+text \<open>Como podemos observar, \<open>formula_semantics\<close> es una función
+  primitiva recursiva, como indica el tipo \<open>primrec\<close>, notada con el 
+  símbolo infijo \<open>\<Turnstile>\<close>. De este modo, dada una interpretación \<open>\<A>\<close> sobre 
+  variables proposicionales de un tipo \<open>'a\<close> cualquiera, y una fórmula
+  formada por variables del mismo tipo, se define el valor de la
+  fórmula en la interpretación \<open>\<A>\<close> como se muestra.
+
+  Veamos a continuación ejemplos del valor de una fórmula según
+  la interpretación.
+
+  \comentario{Poner ejemplos aquí.}\<close>
 
 text \<open>\comentario{Definir fórmula válida (o tautología).}\<close>
 
