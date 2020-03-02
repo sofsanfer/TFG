@@ -8,13 +8,12 @@ begin
 section \<open>Semántica\<close>
 
 text \<open>En esta sección, mostraremos cómo interpretar las fórmulas del
-  apartado anterior \<open>Sintaxis\<close> mediante un operador en el conjunto de 
-  valores de verdad. 
+  apartado anterior \<open>Sintaxis\<close> mediante un operador que devuelva un 
+  cierto valor de verdad. 
 
   En la lógica clásica que estamos tratando, consideramos los valores de 
   verdad \<open>Verdadero\<close> y \<open>Falso\<close>. Vamos a corresponder dicho conjunto 
-  binario con los booleanos \<open>\<BB> = {0,1}\<close>, de modo que \<open>Falso\<close> se 
-  corresponda con \<open>0\<close> y \<open>Verdadero\<close> con \<open>1\<close>. Bajo estas condiciones,
+  binario con los booleanos \<open>\<BB>\<close>. Bajo estas condiciones,
   damos la siguiente noción de interpretación.
 
   \begin{definicion}
@@ -29,17 +28,13 @@ text \<open>En esta sección, mostraremos cómo interpretar las fórmulas del
 
 type_synonym 'a valuation = "'a \<Rightarrow> bool"
 
-text \<open>Como podemos observar, \<open>valuation\<close> es un sufijo que, dado un
-  elemento de tipo \<open>'a\<close> cualquiera le asigna un booleano que representa
-  un valor de verdad. Se define mediante el tipo \<open>type_synonym\<close>, pues
-  consiste en renombrar una construcción ya existente en Isabelle.
- 
-  A continuación se muestra un ejemplo en el que se ha asignado a 
-  la variable \<open>p\<close> el valor \<open>Verdadero\<close> mediante una interpretación.\<close>
+text \<open>Como podemos observar, \<open>'a valuation\<close> representa
+  una función entre elementos de tipo \<open>'a\<close> cualquiera a los que les 
+  asigna un booleano que representa un valor de verdad. Se define 
+  mediante el tipo \<open>type_synonym\<close>, pues consiste en renombrar una 
+  construcción ya existente en Isabelle.
 
-value "p valuation = True"
-
-text \<open>Una vez definida una interpretación para variables
+  Una vez definida una interpretación para variables
   proposicionales, vamos a definir el valor de verdad de una fórmula
   proposicional.
 
@@ -78,19 +73,210 @@ primrec formula_semantics ::
 text \<open>Como podemos observar, \<open>formula_semantics\<close> es una función
   primitiva recursiva, como indica el tipo \<open>primrec\<close>, notada con el 
   símbolo infijo \<open>\<Turnstile>\<close>. De este modo, dada una interpretación \<open>\<A>\<close> sobre 
-  variables proposicionales de un tipo \<open>'a\<close> cualquiera, y una fórmula
+  variables proposicionales de un tipo \<open>'a\<close> cualquiera y una fórmula
   formada por variables del mismo tipo, se define el valor de la
-  fórmula en la interpretación \<open>\<A>\<close> como se muestra.
+  fórmula en la interpretación \<open>\<A>\<close> como se muestra. Veamos algunos
+  ejemplos.\<close>
 
-  Veamos a continuación ejemplos del valor de una fórmula según
-  la interpretación.
+notepad
+begin
+  fix p q r :: 'a
 
-  \comentario{Poner ejemplos aquí.}\<close>
+  have "(\<A> (p := True) \<Turnstile> Atom p) = True"
+    by simp
 
-text \<open>\comentario{Definir fórmula válida (o tautología).}\<close>
+  have "(\<A> (p := True) \<Turnstile> \<^bold>\<not> (Atom p)) = False"
+    by simp
+
+  have "(\<A> (p := True, q := False) \<Turnstile> \<^bold>\<not> (Atom p) \<^bold>\<and> (Atom q)) = False"
+    by simp
+
+  have "(\<A> (p := True, q := False, r := False) 
+            \<Turnstile> (\<^bold>\<not> ((Atom p \<^bold>\<and> Atom q)) \<^bold>\<rightarrow> Atom r)) = False"
+    by simp
+
+  have "(\<A> (p := True, q := False, r := True) 
+            \<Turnstile> (\<^bold>\<not> ((Atom p \<^bold>\<or> Atom q)) \<^bold>\<rightarrow> Atom r)) = True"
+    by simp
+
+end
+
+(*He encontrado una fórmula que con esa interpretación Isabelle 
+  encuentra contraejemplo tanto para Verdadero como Falso:
+
+  have "(\<A> (p := True, q := False, r := False) 
+            \<Turnstile> (\<^bold>\<not> ((Atom p \<^bold>\<or> Atom q)) \<^bold>\<rightarrow> Atom r)) = False"
+    by simp
+
+DUDA *)
+
+text \<open>En los ejemplos anteriores se ha usado la notación para
+  funciones\\ \<open>f (a := b)\<close> para el caso en que la función \<open>f\<close> es una 
+  interpretación \<open>\<A>\<close>, \<open>a\<close> es una variable proposicional y \<open>b\<close> un 
+  booleano. Dicha notación abreviada se corresponde con la definción de 
+  \<open>fun_upd f a b\<close>.
+
+  \begin{itemize}
+    \item[] @{thm[mode=Def] fun_upd_def} 
+      \hfill (@{text fun_upd_def})
+  \end{itemize}
+
+  Es decir, bajo esas condiciones, \<open>f (a:=b)\<close> es la función que para 
+  cualquier valor \<open>x\<close> del dominio, si \<open>x = a\<close>, entonces devuelve \<open>b\<close>.
+  En caso contrario, devuelve el valor \<open>f x\<close>.
+
+  A continuación veamos una serie de definiciones sobre fórmulas e 
+  interpretaciones, en primer lugar, la noción de modelo de una 
+  fórmula.
+
+  \begin{definicion}
+  Una interpretación \<open>\<A>\<close> es modelo de una fórmula \<open>F\<close> si\\
+  \<open>\<A> \<Turnstile> F = True\<close>, notado \<open>A \<Turnstile> F\<close>. 
+  \end{definicion}
+
+  En Isabelle se formaliza de la siguiente manera.\<close>
+
+definition "isModel \<A> F \<equiv> \<A> \<Turnstile> F"
+
+text \<open>Veamos cuáles de las interpretaciones de los ejemplos anteriores
+  son modelos de las fórmulas dadas.\<close>
+
+notepad
+begin
+  fix p q r :: 'a
+
+  have "isModel (\<A> (p := True)) (Atom p)"
+    by (simp add: isModel_def)
+
+  have "\<not> isModel (\<A> (p := True)) (\<^bold>\<not> (Atom p))"
+    by (simp add: isModel_def)
+
+  have "\<not> isModel (\<A> (p := True, q := False)) (\<^bold>\<not> (Atom p) \<^bold>\<and> (Atom q))"
+    by (simp add: isModel_def)
+
+  have "\<not> isModel (\<A> (p := True, q := False, r := False)) 
+          (\<^bold>\<not> ((Atom p \<^bold>\<and> Atom q)) \<^bold>\<rightarrow> Atom r)"
+    by (simp add: isModel_def)
+
+  have "isModel (\<A> (p := True, q := False, r := True)) 
+          (\<^bold>\<not> ((Atom p \<^bold>\<or> Atom q)) \<^bold>\<rightarrow> Atom r)"
+    by (simp add: isModel_def)
+
+end
+
+text \<open>Demos ahora la noción de fórmula satisfacible.
+
+  \begin{definicion}
+    Una fórmula es satisfacible si tiene algún modelo.
+  \end{definicion}
+
+  Se concreta en Isabelle como sigue.\<close>
+
+definition "satF(F) \<equiv> \<exists>\<A>. \<A> \<Turnstile> F"
+
+text \<open>Mostremos ejemplos de fórmulas satisfacibles y no satisfacibles.
+  Estas últimas son también llamadas contradicciones, pues son
+  falsas para cualquier interpretación.\<close>
+
+notepad
+begin
+  fix p :: 'a
+
+  have "satF (Atom p)"
+    by (meson formula_semantics.simps(1) satF_def)
+
+  have "satF (Atom p \<^bold>\<and> Atom q)" 
+    using satF_def by force
+
+  have "\<not> satF (Atom p \<^bold>\<and> (\<^bold>\<not> (Atom p)))"
+    using satF_def by force
+
+end
+
+text \<open>Por último, extendamos la noción de modelo a un conjunto de 
+  fórmulas.
+
+  \begin{definicion}
+  Una interpretación es modelo de un conjunto de fórmulas si dada una
+  fórmula cualquiera, si pertenece al conjunto entonces 
+  la interpretación es modelo de dicha fórmula.
+  \end{definicion}
+
+  Su formalización en Isabelle es la siguiente.\<close>
+
+definition "isModelSet \<A> S \<equiv> \<forall>F. (F\<in> S \<longrightarrow> \<A> \<Turnstile> F)"
+
+text \<open>Continuando con los ejemplos anteriores, veamos una interpretación
+  que es modelo de un conjunto de fórmulas.\<close>
+
+notepad
+begin
+  fix p :: 'a
+
+  have "isModelSet (\<A> (p := True))
+     {Atom p, (Atom p \<^bold>\<and> Atom p) \<^bold>\<rightarrow> Atom p}"
+    by (simp add: isModelSet_def)
+
+end
+
+(*Sale un contraejemplo que no entiendo:
+  have "isModelSet (\<A> (p := True, q := False, r := True))
+     {Atom p, (\<^bold>\<not> ((Atom p \<^bold>\<or> Atom q)) \<^bold>\<rightarrow> Atom r)}" 
+
+DUDA *)
+
+text \<open>Como podemos observar, \<open>isModel\<close>, \<open>satF\<close> y \<open>inModelSet\<close> se han 
+  formalizado usando el tipo \<open>definition\<close> ...
+
+  \comentario{Completar comentario respecto al tipo.}
+
+  A continuación vamos a dar un resultado que relaciona los conceptos de 
+  ser modelo de una fórmula y de un conjunto de fórmulas en Isabelle.
+  La equivalencia se demostrará fácilmente mediante las definiciones
+  de\\ \<open>isModel\<close> e \<open>isModelSet\<close>.\<close>
+
+lemma modelSet:
+  "isModelSet A S \<equiv> \<forall>F. (F\<in> S \<longrightarrow> isModel A F)" 
+  by (simp only: isModelSet_def isModel_def)
+
+text \<open>Continuemos con la noción de fórmula válida o tautología.
+
+  \begin{definicion} 
+  \<open>F\<close> es una fórmula válida o tautología (\<open>\<Turnstile> F\<close>) si toda interpretación 
+  es modelo de \<open>F\<close>, es decir, dada cualquier interpretación \<open>\<A>\<close> se 
+  tiene \<open>\<A> \<Turnstile> F\<close>. 
+  \end{definicion}
+
+  Es decir, una tautología es una fórmula que es verdadera para 
+  cualquier interpretación.
+
+  En Isabelle se formaliza de la siguiente manera.\<close>
 
 abbreviation valid ("\<Turnstile> _" 51) where
   "\<Turnstile> F \<equiv> \<forall>A. A \<Turnstile> F"
+
+text \<open>De este modo, \<open>\<Turnstile>\<close> como prefijo de una fórmula es la notación
+  en\\ Isabelle para indicar que dicha fórmula es una tautología. 
+  Podemos observar que se ha definido mediante el tipo \<open>abbreviation\<close>..
+
+  \comentario{Terminar de comentar el tipo.}
+
+  Veamos un ejemplo clásico de tautología: el principio del tercio
+  excluso.\<close>
+
+notepad
+begin
+  fix p :: 'a
+
+  have "\<Turnstile> (Atom p \<^bold>\<or> (\<^bold>\<not> (Atom p)))"
+    by simp
+
+end
+
+text \<open>\comentario{Hasta aquí redactado 2 de marzo.}\<close>
+
+lemma "A \<notin> atoms F \<Longrightarrow> (\<A>(A := V)) \<Turnstile> F \<longleftrightarrow> \<A> \<Turnstile> F"
+  oops
 
 lemma irrelevant_atom_atomic_l1:
   assumes "A \<notin> atoms (Atom x)" 
