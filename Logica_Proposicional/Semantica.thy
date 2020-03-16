@@ -293,6 +293,21 @@ text \<open>Mostremos el primer lema de la sección.
   Sea la fórmula \<open>\<bottom>\<close>. Por definición, el valor de dicha fórmula es 
   \<open>Falso\<close> dada cualquier interpretación, luego se verifica el
   resultado en particular.
+
+  Sea \<open>F\<close> una fórmula tal que para cualquier variable que no pertenezca
+  al conjunto de sus átomos, entonces el valor de \<open>F\<close> dada la 
+  interpretación \<open>\<A>\<close> coincide con su valor dada la interpretación \<open>\<A>'\<close> 
+  construida como se indica en el enunciado. Vamos a demostrar el 
+  resultado para la fórmula \<open>\<not> F\<close> considerando una variable \<open>A\<close> 
+  cualquiera que no pertenezca al conjunto de átomos de \<open>\<not> F\<close>. Como 
+  los conjuntos de átomos de \<open>F\<close> y \<open>\<not> F\<close> son el mismo, entonces \<open>A\<close> 
+  tampoco pertenece al conjunto de átomos de \<open>F\<close>. De este modo, por 
+  hipótesis de inducción, el valor de la fórmula \<open>F\<close> dada la 
+  interpretación \<open>\<A>\<close> coincide con su valor dada la interpretación 
+  \<open>\<A>'\<close>. Por otro lado, por definición, tenemos que el valor de la 
+  fórmula \<open>\<not> F\<close> dada \<open>\<A>\<close> es \<open>\<not> \<I>\<^sub>\<A>(F)\<close>. Por lo visto anteriormente,
+  esto es igual a \<open>\<not> \<I>\<^sub>\<A>\<^sub>'(F)\<close> que, por definición, es igual al valor 
+  de \<open>\<not> F\<close> dada \<open>\<A>'\<close>, como quería demostrar.
   \end{demostracion}
 
   \comentario{Terminar demostracion a mano.}\<close>
