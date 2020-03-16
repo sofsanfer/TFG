@@ -7,18 +7,12 @@ begin
 
 section \<open>Semántica\<close>
 
-text \<open>En esta sección, mostraremos cómo interpretar las fórmulas del
-  apartado anterior \<open>Sintaxis\<close> mediante un operador que devuelva un 
-  cierto valor de verdad. 
-
-  En la lógica clásica que estamos tratando, consideramos los valores de 
-  verdad \<open>Verdadero\<close> y \<open>Falso\<close>. Vamos a corresponder dicho conjunto 
-  binario con los booleanos \<open>\<BB>\<close>. Bajo estas condiciones,
-  damos la siguiente noción de interpretación.
+text \<open>En esta sección presentaremos la semántica de las fórmulas
+  proposicionales y su formalización en Isabelle/HOL. 
 
   \begin{definicion}
-  Una interpretación es una aplicación entre el conjunto de variables
-  proposicionales del alfabeto al conjunto \<open>\<BB>\<close> de los booleanos.
+  Una interpretación es una aplicación del conjunto de variables
+  proposicionales en el conjunto \<open>\<BB>\<close> de los booleanos.
   \end{definicion}
 
   De este modo, las interpretaciones asignan valores de verdad a las 
@@ -28,38 +22,39 @@ text \<open>En esta sección, mostraremos cómo interpretar las fórmulas del
 
 type_synonym 'a valuation = "'a \<Rightarrow> bool"
 
-text \<open>Como podemos observar, \<open>'a valuation\<close> representa
-  una función entre elementos de tipo \<open>'a\<close> cualquiera a los que les 
-  asigna un booleano que representa un valor de verdad. Se define 
-  mediante el tipo \<open>type_synonym\<close>, pues consiste en renombrar una 
-  construcción ya existente en Isabelle.
+  text \<open>Como podemos observar, \<open>'a valuation\<close> representa
+  una función entre elementos de tipo \<open>'a\<close> cualquiera que conforman los
+  átomos de una fórmula proposicional a los que les asigna un booleano. 
+  Se define mediante el tipo \<open>type_synonym\<close>, pues consiste en renombrar 
+  una construcción ya existente en Isabelle.
 
-  Una vez definida una interpretación para variables
-  proposicionales, vamos a definir el valor de verdad de una fórmula
-  proposicional.
+  Dada una interpretación, vamos a definir el valor de verdad de una 
+  fórmula proposicional en dicha interpretación.
 
   \begin{definicion}
-  Para cada interpretación \<open>\<A>\<close> existe una única aplicación \<open>\<Turnstile>\<close> desde el
-  conjunto de fórmulas al conjunto \<open>\<BB>\<close> de los booleanos definida 
-  recursivamente sobre la estructura de las fórmulas como sigue:
+  Para cada interpretación \<open>\<A>\<close> existe una única aplicación \<open>\<I>\<^sub>\<A>\<close> desde 
+  el conjunto de fórmulas al conjunto \<open>\<BB>\<close> de los booleanos definida 
+  recursivamente sobre la estructura de las fórmulas como sigue:\\
   Sea \<open>F\<close> una fórmula cualquiera,
     \begin{itemize}
-      \item Si \<open>F\<close> es una fórmula atómica, entonces \<open>\<A> \<Turnstile> F = \<A> F\<close>.
-      \item Si \<open>F\<close> es la fórmula \<open>\<bottom>\<close>, entonces \<open>\<A> \<Turnstile> F = False\<close>.
+      \item Si \<open>F\<close> es una fórmula atómica, entonces \<open>\<I>\<^sub>\<A>(F) = \<A>(F)\<close>.
+      \item Si \<open>F\<close> es la fórmula \<open>\<bottom>\<close>, entonces \<open>\<I>\<^sub>\<A>(F) = False\<close>.
       \item Si \<open>F\<close> es de la forma \<open>\<not> G\<close> para cierta fórmula \<open>G\<close>, 
-        entonces\\ \<open>\<A> \<Turnstile> F = (\<not> \<A> \<Turnstile> F)\<close>.
+        entonces\\ \<open>\<I>\<^sub>\<A>(F) = \<not> \<I>\<^sub>\<A>(G)\<close>.
       \item Si \<open>F\<close> es de la forma \<open>G \<and> H\<close> para ciertas fórmulas \<open>G\<close> y 
-        \<open>H\<close>, entonces\\ \<open>\<A> \<Turnstile> F = (\<A> \<Turnstile> G \<and> \<A> \<Turnstile> H)\<close>.
+        \<open>H\<close>, entonces\\ \<open>\<I>\<^sub>\<A>(F)= \<I>\<^sub>\<A>(G) \<and> \<I>\<^sub>\<A>(H)\<close>.
       \item Si \<open>F\<close> es de la forma \<open>G \<or> H\<close> para ciertas fórmulas \<open>G\<close> y 
-        \<open>H\<close>, entonces\\ \<open>\<A> \<Turnstile> F = (\<A> \<Turnstile> G \<or> \<A> \<Turnstile> H)\<close>.
+        \<open>H\<close>, entonces\\ \<open>\<I>\<^sub>\<A>(F)= \<I>\<^sub>\<A>(G) \<or> \<I>\<^sub>\<A>(H)\<close>.
       \item Si \<open>F\<close> es de la forma \<open>G \<longrightarrow> H\<close> para ciertas fórmulas \<open>G\<close> y 
-        \<open>H\<close>, entonces\\ \<open>\<A> \<Turnstile> F = (\<A> \<Turnstile> G \<longrightarrow> \<A> \<Turnstile> H)\<close>.
+        \<open>H\<close>, entonces\\ \<open>\<I>\<^sub>\<A>(F)= \<I>\<^sub>\<A>(G) \<longrightarrow> \<I>\<^sub>\<A>(H)\<close>.
     \end{itemize}
-  En estas condiciones, se dice que \<open>\<A> \<Turnstile> F\<close> es el valor de la fórmula
+  En estas condiciones se dice que \<open>\<I>\<^sub>\<A>(F)\<close> es el valor de la fórmula 
   \<open>F\<close> en la interpretación \<open>\<A>\<close>.
   \end{definicion}
 
-  A continuación veamos su formalización en Isabelle.\<close>
+  En Isabelle, dada una interpretación \<open>\<A>\<close> y una fórmula \<open>F\<close>, vamos a 
+  definir \<open>\<I>\<^sub>\<A>(F)\<close> mediante la función \<open>formula_semantics \<A> F\<close>, 
+  notado como \<open>\<A> \<Turnstile> F\<close>.\<close>
 
 primrec formula_semantics :: 
   "'a valuation \<Rightarrow> 'a formula \<Rightarrow> bool" (infix "\<Turnstile>" 51) where
@@ -73,10 +68,9 @@ primrec formula_semantics ::
 text \<open>Como podemos observar, \<open>formula_semantics\<close> es una función
   primitiva recursiva, como indica el tipo \<open>primrec\<close>, notada con el 
   símbolo infijo \<open>\<Turnstile>\<close>. De este modo, dada una interpretación \<open>\<A>\<close> sobre 
-  variables proposicionales de un tipo \<open>'a\<close> cualquiera y una fórmula
-  formada por variables del mismo tipo, se define el valor de la
-  fórmula en la interpretación \<open>\<A>\<close> como se muestra. Veamos algunos
-  ejemplos.\<close>
+  variables proposicionales de un tipo \<open>'a\<close> cualquiera y una fórmula,
+  se define el valor de la fórmula en la interpretación \<open>\<A>\<close> como se 
+  muestra. Veamos algunos ejemplos.\<close>
 
 notepad
 begin
@@ -111,19 +105,17 @@ end
 DUDA *)
 
 text \<open>En los ejemplos anteriores se ha usado la notación para
-  funciones\\ \<open>f (a := b)\<close> para el caso en que la función \<open>f\<close> es una 
-  interpretación \<open>\<A>\<close>, \<open>a\<close> es una variable proposicional y \<open>b\<close> un 
-  booleano. Dicha notación abreviada se corresponde con la definción de 
-  \<open>fun_upd f a b\<close>.
+  funciones\\ \<open>f (a := b)\<close>. Dicha notación abreviada se corresponde con 
+  la definción de \<open>fun_upd f a b\<close>.
 
   \begin{itemize}
     \item[] @{thm[mode=Def] fun_upd_def} 
       \hfill (@{text fun_upd_def})
   \end{itemize}
 
-  Es decir, bajo esas condiciones, \<open>f (a:=b)\<close> es la función que para 
-  cualquier valor \<open>x\<close> del dominio, si \<open>x = a\<close>, entonces devuelve \<open>b\<close>.
-  En caso contrario, devuelve el valor \<open>f x\<close>.
+  Es decir, \<open>f (a:=b)\<close> es la función que para cualquier valor \<open>x\<close> del 
+  dominio, si \<open>x = a\<close>, entonces devuelve \<open>b\<close>. En caso contrario, 
+  devuelve el valor \<open>f x\<close>.
 
   A continuación veamos una serie de definiciones sobre fórmulas e 
   interpretaciones, en primer lugar, la noción de modelo de una 
@@ -131,7 +123,7 @@ text \<open>En los ejemplos anteriores se ha usado la notación para
 
   \begin{definicion}
   Una interpretación \<open>\<A>\<close> es modelo de una fórmula \<open>F\<close> si\\
-  \<open>\<A> \<Turnstile> F = True\<close>, notado \<open>A \<Turnstile> F\<close>. 
+  \<open>\<I>\<^sub>\<A>(F) = True\<close>. 
   \end{definicion}
 
   En Isabelle se formaliza de la siguiente manera.\<close>
@@ -197,9 +189,8 @@ text \<open>Por último, extendamos la noción de modelo a un conjunto de
   fórmulas.
 
   \begin{definicion}
-  Una interpretación es modelo de un conjunto de fórmulas si dada una
-  fórmula cualquiera, si pertenece al conjunto entonces 
-  la interpretación es modelo de dicha fórmula.
+  Una interpretación es modelo de un conjunto de fórmulas si es modelo
+  de todas las fórmulas del conjunto.
   \end{definicion}
 
   Su formalización en Isabelle es la siguiente.\<close>
@@ -244,7 +235,7 @@ text \<open>Continuemos con la noción de fórmula válida o tautología.
   \begin{definicion} 
   \<open>F\<close> es una fórmula válida o tautología (\<open>\<Turnstile> F\<close>) si toda interpretación 
   es modelo de \<open>F\<close>, es decir, dada cualquier interpretación \<open>\<A>\<close> se 
-  tiene \<open>\<A> \<Turnstile> F\<close>. 
+  tiene \<open>\<I>\<^sub>\<A>(F) = True\<close>. 
   \end{definicion}
 
   Es decir, una tautología es una fórmula que es verdadera para 
@@ -255,9 +246,8 @@ text \<open>Continuemos con la noción de fórmula válida o tautología.
 abbreviation valid ("\<Turnstile> _" 51) where
   "\<Turnstile> F \<equiv> \<forall>A. A \<Turnstile> F"
 
-text \<open>De este modo, \<open>\<Turnstile>\<close> como prefijo de una fórmula es la notación
-  en\\ Isabelle para indicar que dicha fórmula es una tautología. 
-  Podemos observar que se ha definido mediante el tipo \<open>abbreviation\<close>..
+text \<open>Podemos observar que se ha definido mediante el tipo 
+  \<open>abbreviation\<close>..
 
   \comentario{Terminar de comentar el tipo.}
 
@@ -273,7 +263,7 @@ begin
 
 end
 
-text \<open>\comentario{Hasta aquí redactado 2 de marzo.}\<close>
+text \<open>\comentario{Corregido hasta aquí. Faltan los ejemplos.}\<close>
 
 lemma "A \<notin> atoms F \<Longrightarrow> (\<A>(A := V)) \<Turnstile> F \<longleftrightarrow> \<A> \<Turnstile> F"
   oops
