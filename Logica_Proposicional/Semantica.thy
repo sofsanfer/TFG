@@ -75,23 +75,23 @@ text \<open>Como podemos observar, \<open>formula_semantics\<close> es una funci
 
 notepad
 begin
-  fix p q r :: 'a
+  fix \<A> :: "nat valuation"
 
-  have "(\<A> (p := True) \<Turnstile> Atom p) = True"
+have "(\<A> (1 := True, 2 := False, 3 := True) 
+            \<Turnstile> (\<^bold>\<not> ((Atom 1 \<^bold>\<or> Atom 2)) \<^bold>\<rightarrow> Atom 3)) = True" 
+  by simp
+  
+  have "(\<A> (1 := True) \<Turnstile> Atom 1) = True"
     by simp
 
-  have "(\<A> (p := True) \<Turnstile> \<^bold>\<not> (Atom p)) = False"
+  have "(\<A> (1 := True) \<Turnstile> \<^bold>\<not> (Atom 1)) = False"
     by simp
 
-  have "(\<A> (p := True, q := False) \<Turnstile> \<^bold>\<not> (Atom p) \<^bold>\<and> (Atom q)) = False"
+  have "(\<A> (1 := True, 2 := False) \<Turnstile> \<^bold>\<not> (Atom 1) \<^bold>\<and> (Atom 2)) = False"
     by simp
 
-  have "(\<A> (p := True, q := False, r := False) 
-            \<Turnstile> (\<^bold>\<not> ((Atom p \<^bold>\<and> Atom q)) \<^bold>\<rightarrow> Atom r)) = False"
-    by simp
-
-  have "(\<A> (p := True, q := False, r := True) 
-            \<Turnstile> (\<^bold>\<not> ((Atom p \<^bold>\<or> Atom q)) \<^bold>\<rightarrow> Atom r)) = True"
+  have "(\<A> (1 := True, 2 := False, 3 := False) 
+            \<Turnstile> (\<^bold>\<not> ((Atom 1 \<^bold>\<and> Atom 2)) \<^bold>\<rightarrow> Atom 3)) = False" 
     by simp
 
 end
