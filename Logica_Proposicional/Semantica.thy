@@ -37,7 +37,8 @@ type_synonym 'a valuation = "'a \<Rightarrow> bool"
   recursivamente sobre la estructura de las fórmulas como sigue:\\
   Sea \<open>F\<close> una fórmula cualquiera,
     \begin{itemize}
-      \item Si \<open>F\<close> es una fórmula atómica, entonces \<open>\<I>\<^sub>\<A>(F) = \<A>(F)\<close>.
+      \item Si \<open>F\<close> es una fórmula atómica de la forma \<open>p\<close>, entonces \\ 
+        \<open>\<I>\<^sub>\<A>(F) = \<A>(p)\<close>.
       \item Si \<open>F\<close> es la fórmula \<open>\<bottom>\<close>, entonces \<open>\<I>\<^sub>\<A>(F) = False\<close>.
       \item Si \<open>F\<close> es de la forma \<open>\<not> G\<close> para cierta fórmula \<open>G\<close>, 
         entonces\\ \<open>\<I>\<^sub>\<A>(F) = \<not> \<I>\<^sub>\<A>(G)\<close>.
@@ -263,7 +264,38 @@ begin
 
 end
 
-text \<open>\comentario{Corregido hasta aquí. Faltan los ejemplos.}\<close>
+text \<open>Mostremos el primer lema de la sección.
+
+  \begin{lema}
+  Dadas una interpretación \<open>\<A>\<close> y una fórmula \<open>F\<close> de modo que \<open>A\<close>
+  es una variable proposicional que no pertenece al conjunto de átomos
+  de \<open>F\<close>. Sea la interpretación \<open>\<A>'\<close> la función que devuelve \<open>\<A>(q)\<close>
+  para cualquier variable proposicional \<open>q\<close> distinta de \<open>A\<close>, y \<open>V\<close> en 
+  caso contrario.
+
+  Entonces, el valor de la fórmula \<open>F\<close> es el mismo para las 
+  interpretaciones \<open>\<A>\<close> y \<open>\<A>'\<close>.
+  \end{lema}
+
+  \begin{demostracion}
+  Vamos a probar el resultado por inducción en la estructura recursiva
+  de las fórmulas. De este modo, demostremos los siguientes casos.
+
+  Sea \<open>p\<close> una fórmula atómica cualquiera tal que \<open>A\<close> no pertenece
+  al conjunto de sus átomos \<open>{p}\<close>. De este modo, se tiene \<open>p \<noteq> A\<close>. 
+  Por definición, el valor de la fórmula atómica \<open>p\<close> dada la 
+  interpretación \<open>\<A>'\<close>, es \<open>\<A>'(p)\<close>. Como hemos visto que \<open>p \<noteq> A\<close>, 
+  tenemos a su vez \<open>\<A>'(p) = \<A>(p)\<close> según la definición de \<open>\<A>'\<close>. A su
+  vez, \<open>\<A>(p)\<close> es el valor de la fórmula atómica \<open>p\<close> dada la 
+  interpretación \<open>\<A>\<close>, luego se tiene finalmente que ambos valores
+  coinciden. 
+
+  Sea la fórmula \<open>\<bottom>\<close>. Por definición, el valor de dicha fórmula es 
+  \<open>Falso\<close> dada cualquier interpretación, luego se verifica el
+  resultado en particular.
+  \end{demostracion}
+
+  \comentario{Terminar demostracion a mano.}\<close>
 
 lemma "A \<notin> atoms F \<Longrightarrow> (\<A>(A := V)) \<Turnstile> F \<longleftrightarrow> \<A> \<Turnstile> F"
   oops
