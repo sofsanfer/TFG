@@ -177,44 +177,10 @@ begin
 
 end
 
-text \<open>Por último, extendamos la noción de modelo a un conjunto de 
-  fórmulas.
-
-  \begin{definicion}
-  Una interpretación es modelo de un conjunto de fórmulas si es modelo
-  de todas las fórmulas del conjunto.
-  \end{definicion}
-
-  Su formalización en Isabelle es la siguiente.\<close>
-
-definition "isModelSet \<A> S \<equiv> \<forall>F. (F\<in> S \<longrightarrow> \<A> \<Turnstile> F)"
-
-text \<open>Continuando con los ejemplos anteriores, veamos una interpretación
-  que es modelo de un conjunto de fórmulas.\<close>
-
-notepad
-begin
-  fix p :: 'a
-
-  have "isModelSet (\<A> (p := True))
-     {Atom p, (Atom p \<^bold>\<and> Atom p) \<^bold>\<rightarrow> Atom p}"
-    by (simp add: isModelSet_def)
-
-end
-
-text \<open>Como podemos observar, \<open>isModel\<close>, \<open>satF\<close> y \<open>inModelSet\<close> se han 
+text \<open>Como podemos observar, \<open>isModel\<close> y \<open>satF\<close> se han 
   formalizado usando el tipo \<open>definition\<close> ...
 
-  \comentario{Completar comentario respecto al tipo.}
-
-  A continuación vamos a dar un resultado que relaciona los conceptos de 
-  ser modelo de una fórmula y de un conjunto de fórmulas en Isabelle.
-  La equivalencia se demostrará fácilmente mediante las definiciones
-  de\\ \<open>isModel\<close> e \<open>isModelSet\<close>.\<close>
-
-lemma modelSet:
-  "isModelSet A S \<equiv> \<forall>F. (F\<in> S \<longrightarrow> isModel A F)" 
-  by (simp only: isModelSet_def isModel_def)
+  \comentario{Completar comentario respecto al tipo.}\<close>
 
 text \<open>Continuemos con la noción de fórmula válida o tautología.
 
@@ -613,7 +579,26 @@ lemma irrelevant_atom:
   "A \<notin> atoms F \<Longrightarrow> (\<A>(A := V)) \<Turnstile> F \<longleftrightarrow> \<A> \<Turnstile> F"
   by (induction F) simp_all
 
-text \<open>Lema: enunciar y hacer la demostración detallada.\<close>
+text \<open>Procedamos con el siguiente resultado de la sección.
+
+  \begin{lema}
+    Si dos interpretaciones coinciden en el conjunto de átomos de una 
+    fórmula, entonces dicha fórmula tiene el mismo valor para ambas
+    interpretaciones. 
+  \end{lema}
+
+  Su formalización en Isabelle es la siguiente.\<close>
+
+lemma "\<forall>k \<in> atoms F. \<A>\<^sub>1 k = \<A>\<^sub>2 k \<Longrightarrow> \<A>\<^sub>1 \<Turnstile> F \<longleftrightarrow> \<A>\<^sub>2 \<Turnstile> F"
+  oops
+
+text \<open>Vamos a probar el resultado.
+
+  \comentario{Añadir demostración a mano.}
+
+  Probemos ahora el lema de forma detallada en Isabelle, haciendo cada
+  caso del esquema de inducción por separado y empleando lemas
+  auxiliares cuando sea necesario.\<close>
 
 lemma relevant_atoms_same_semantics_atomic_l1:
   "x \<in> atoms (Atom x)"
@@ -640,6 +625,10 @@ proof -
     by this
 qed
 
+text \<open>Para las fórmulas atómicas, se observa el uso del lema 
+  auxiliar \<open>relevant_atoms_same_semantics_atomic_l\<close>. Sigamos con los
+  siguientes casos.\<close>
+
 lemma relevant_atoms_same_semantics_bot: 
   assumes "\<forall>k \<in> atoms \<bottom>. \<A>\<^sub>1 k = \<A>\<^sub>2 k"
   shows "\<A>\<^sub>1 \<Turnstile> \<bottom> \<longleftrightarrow> \<A>\<^sub>2 \<Turnstile> \<bottom>"
@@ -664,6 +653,10 @@ proof -
     by this
 qed
 
+text \<open>Finalmente introducimos los siguientes lemas auxiliares para
+  facilitar las demostraciones detalladas en Isabelle de los casos del 
+  esquema de inducción correspondientes a las conectivas binarias.\<close>
+
 lemma forall_union1: 
   assumes "\<forall>x \<in> A \<union> B. P x"
   shows "\<forall>x \<in> A. P x"
@@ -687,6 +680,10 @@ proof (rule ballI)
   then show "P x" 
     by (simp only: assms)
 qed
+
+text \<open>Empleando dichos resultados veamos las demostraciones detalladas
+  de los tres últimos casos y, por último, la demostración detallada
+  del lema completo en Isabelle.\<close>
 
 lemma relevant_atoms_same_semantics_and: 
   assumes "\<forall>k \<in> atoms F. \<A>\<^sub>1 k = \<A>\<^sub>2 k \<Longrightarrow> \<A>\<^sub>1 \<Turnstile> F \<longleftrightarrow> \<A>\<^sub>2 \<Turnstile> F"
@@ -787,6 +784,8 @@ next
   then show ?case by (rule relevant_atoms_same_semantics_imp)
 qed
 
+text \<open>Su demostración automática es la siguiente.\<close>
+
 lemma relevant_atoms_same_semantics: 
    "\<forall>k \<in> atoms F. \<A>\<^sub>1 k = \<A>\<^sub>2 k \<Longrightarrow> \<A>\<^sub>1 \<Turnstile> F \<longleftrightarrow> \<A>\<^sub>2 \<Turnstile> F"
   by (induction F) simp_all
@@ -805,7 +804,7 @@ text \<open>We write entailment differently than semantics (\<open>\<Turnstile>\
    
 text \<open>Some helpers for the derived connectives\<close>
 
-text \<open>Lemas: enunciar y demostrar detalladamente.\<close>
+text \<open>Lemas: enunciar y demostrar a mano.\<close>
 
 lemma "A \<Turnstile> \<top>" 
 proof -
@@ -839,8 +838,8 @@ proof -
     by this
 qed
 
-text \<open>\comentario{Terminar los pendientes de BigAnd semantics y 
-  BigOr semantics.}\<close>
+text \<open>\comentario{Terminar los pendientes de BigAnd semantics cons y 
+  BigOr semantics cons.}\<close>
 
 lemma BigAnd_semantics_cons: 
   assumes "A \<Turnstile> \<^bold>\<And>Fs \<longleftrightarrow> (\<forall>f \<in> set Fs. A \<Turnstile> f)"
@@ -852,10 +851,10 @@ proof -
     by (simp only: formula_semantics.simps(4))
   also have "\<dots> = (A \<Turnstile> F \<and> (\<forall>f \<in> set Fs. A \<Turnstile> f))"
     by (simp only: assms)
-  also have "\<dots> = (\<forall>f \<in> (set [F] \<union> set Fs). A \<Turnstile> f)"
-    by simp (*Pendiente*)
-  also have "\<dots> = (\<forall>f \<in> set (F#Fs). A \<Turnstile> f)" using [[simp_trace]]
-    by simp (*Pendiente*)
+  also have "\<dots> = (\<forall>f \<in> ({F} \<union> set Fs). A \<Turnstile> f)" using [[simp_trace]]
+    by simp (*Pendiente: uso ball_simps(7)*)
+  also have "\<dots> = (\<forall>f \<in> set (F#Fs). A \<Turnstile> f)"
+    by (simp only: set_insert)
   finally show ?thesis
     by this
 qed
@@ -897,8 +896,8 @@ proof -
     by (simp only: formula_semantics.simps(5))
   also have "\<dots> = (A \<Turnstile> F \<or> (\<exists>f \<in> set Fs. A \<Turnstile> f))"
     by (simp only: assms)
-  also have "\<dots> = (\<exists>f \<in> set (F#Fs). A \<Turnstile> f)"
-    by simp (*Pendiente*)
+  also have "\<dots> = (\<exists>f \<in> set (F#Fs). A \<Turnstile> f)" using [[simp_trace]]
+    by simp (*Pendiente: (simp only: bex_simps(5))*)
   finally show ?thesis
     by this
 qed
@@ -918,15 +917,49 @@ qed
 lemma BigOr_semantics: 
   "A \<Turnstile> \<^bold>\<Or>Fs \<longleftrightarrow> (\<exists>f \<in> set Fs. A \<Turnstile> f)" 
   by (induction Fs; simp)
+
+section \<open>Semántica en conjuntos de fórmulas\<close>
     
-text \<open>Definitions for sets of formulae, used for compactness and model 
-  existence.\<close>
+text \<open>Veamos definiciones y resultados relativos a la semántica de un
+  conjunto de fórmulas.
+  
+  En primer lugar, extendamos la noción de modelo a un conjunto de 
+  fórmulas.
+
+  \begin{definicion}
+  Una interpretación es modelo de un conjunto de fórmulas si es modelo
+  de todas las fórmulas del conjunto.
+  \end{definicion}
+
+  Su formalización en Isabelle es la siguiente.\<close>
+
+definition "isModelSet \<A> S \<equiv> \<forall>F. (F\<in> S \<longrightarrow> \<A> \<Turnstile> F)"
+
+text \<open>Continuando con los ejemplos anteriores, veamos una interpretación
+  que es modelo de un conjunto de fórmulas.\<close>
+
+notepad
+begin
+  fix p :: 'a
+
+  have "isModelSet (\<A> (p := True))
+     {Atom p, (Atom p \<^bold>\<and> Atom p) \<^bold>\<rightarrow> Atom p}"
+    by (simp add: isModelSet_def)
+
+end
+
+text \<open>El siguiente resultado relaciona los conceptos de modelo de 
+  una fórmula y modelo de un conjunto de fórmulas en Isabelle.
+  La equivalencia se demostrará fácilmente mediante las definiciones
+  de\\ \<open>isModel\<close> e \<open>isModelSet\<close>.\<close>
+
+lemma modelSet:
+  "isModelSet A S \<equiv> \<forall>F. (F\<in> S \<longrightarrow> isModel A F)" 
+  by (simp only: isModelSet_def isModel_def)
 
 text\<open> Definición: conjunto de fórmulas consistente.\<close>
 
 definition "sat S \<equiv> \<exists>\<A>. \<forall>F \<in> S. \<A> \<Turnstile> F" 
-
-text \<open>\comentario{Unificar nomenclatura de consistente y sat.}\<close>
 
 text \<open>Definición: conjunto de fórmulas finitamente consistente.\<close>
 
