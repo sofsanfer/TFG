@@ -96,15 +96,6 @@ have "(\<A> (1 := True, 2 := False, 3 := True)
 
 end
 
-(*He encontrado una fórmula que con esa interpretación Isabelle 
-  encuentra contraejemplo tanto para Verdadero como Falso:
-
-  have "(\<A> (p := True, q := False, r := False) 
-            \<Turnstile> (\<^bold>\<not> ((Atom p \<^bold>\<or> Atom q)) \<^bold>\<rightarrow> Atom r)) = False"
-    by simp
-
-DUDA *)
-
 text \<open>En los ejemplos anteriores se ha usado la notación para
   funciones\\ \<open>f (a := b)\<close>. Dicha notación abreviada se corresponde con 
   la definción de \<open>fun_upd f a b\<close>.
@@ -211,12 +202,6 @@ begin
 
 end
 
-(*Sale un contraejemplo que no entiendo:
-  have "isModelSet (\<A> (p := True, q := False, r := True))
-     {Atom p, (\<^bold>\<not> ((Atom p \<^bold>\<or> Atom q)) \<^bold>\<rightarrow> Atom r)}" 
-
-DUDA *)
-
 text \<open>Como podemos observar, \<open>isModel\<close>, \<open>satF\<close> y \<open>inModelSet\<close> se han 
   formalizado usando el tipo \<open>definition\<close> ...
 
@@ -273,9 +258,17 @@ text \<open>Mostremos el primer lema de la sección.
   para cualquier variable proposicional \<open>q\<close> distinta de \<open>A\<close>, y \<open>V\<close> en 
   caso contrario.
 
-  Entonces, el valor de la fórmula \<open>F\<close> es el mismo para las 
+  Entonces, la fórmula \<open>F\<close> tiene el mismo valor para las 
   interpretaciones \<open>\<A>\<close> y \<open>\<A>'\<close>.
   \end{lema}
+
+  En Isabelle se formaliza de la siguiente manera empleando la notación
+  de \<open>fun_upd\<close>.\<close> 
+
+lemma "A \<notin> atoms F \<Longrightarrow> (\<A>(A := V)) \<Turnstile> F \<longleftrightarrow> \<A> \<Turnstile> F"
+  oops
+
+text\<open>Veamos ahora la prueba del lema.
 
   \begin{demostracion}
   Vamos a probar el resultado por inducción en la estructura recursiva
@@ -308,12 +301,66 @@ text \<open>Mostremos el primer lema de la sección.
   fórmula \<open>\<not> F\<close> dada \<open>\<A>\<close> es \<open>\<not> \<I>\<^sub>\<A>(F)\<close>. Por lo visto anteriormente,
   esto es igual a \<open>\<not> \<I>\<^sub>\<A>\<^sub>'(F)\<close> que, por definición, es igual al valor 
   de \<open>\<not> F\<close> dada \<open>\<A>'\<close>, como quería demostrar.
+
+  Sean ahora las fórmulas \<open>G\<close> y \<open>H\<close> tales que, para cada una, su valor
+  por la interpretación \<open>\<A>\<close> coincide con su valor dada la
+  interpretación \<open>\<A>'\<close> construida como se indica en el enunciado a 
+  partir de una variable que no pertenezca al conjunto de sus átomos. 
+  Veamos que se verifica el resultado para la fórmula \<open>G \<and> H\<close>.
+  Sea \<open>A\<close> una variable proposicional que no pertenece al conjunto de
+  átomos de \<open>G \<and> H\<close>. Por definición, dicho conjunto es igual a la unión
+  del conjunto de átomos de \<open>G\<close> y el conjunto de átomos de \<open>H\<close>.
+  Por tanto, en particular \<open>A\<close> no pertenece al conjunto de átomos de
+  \<open>G\<close> y, por hipótesis de inducción, el valor de \<open>G\<close> dada la
+  interpretación \<open>\<A>\<close> coincide con su valor dada la
+  interpretación \<open>\<A>'\<close>. Por el mismo motivo, \<open>A\<close> no pertenece al
+  conjunto de átomos de \<open>H\<close> y, por hipótesis de inducción,
+  el valor de \<open>H\<close> es el mismo dadas las interpretaciones \<open>\<A>\<close> y \<open>\<A>'\<close>. 
+  Aclaradas estas observaciones, se tiene por definición que el valor 
+  de la fórmula \<open>G \<and> H\<close> dada la interpretación \<open>\<A>'\<close> es 
+  \<open>\<I>\<^sub>\<A>\<^sub>'(G) \<and> \<I>\<^sub>\<A>\<^sub>'(H)\<close>. Por lo demostrado anteriormente, esto es igual a 
+  \<open>\<I>\<^sub>\<A>(G) \<and> \<I>\<^sub>\<A>(H)\<close> que, por definición, es el valor de \<open>G \<and> H\<close> dada la 
+  interpretación \<open>\<A>\<close>. Por tanto, queda probada la equivalencia en este 
+  caso.
+
+  Sean las fórmulas \<open>G\<close> y \<open>H\<close> cumpliendo las hipótesis supuestas
+  para el caso anterior. Veamos que el resultado se verifica para la
+  fórmula \<open>G \<or> H\<close>. Sea \<open>A\<close> una variable proposicional que no pertenece
+  al conjunto de átomos de \<open>G \<or> H\<close>. Por definición, dicho conjunto es
+  la unión de los conjuntos de átomos de \<open>G\<close> y \<open>H\<close>. Por tanto, como se
+  ha probado en el caso anterior, tenemos que \<open>A\<close> no pertenece al
+  conjunto de átomos de \<open>G\<close>. Por tanto, aplicando la hipótesis de 
+  inducción se tiene que el valor de \<open>G\<close> dada la interpretación \<open>\<A>\<close> 
+  coincide con su valor dada la interpretación \<open>\<A>'\<close>. Análogamente 
+  ocurre para la fórmula \<open>H\<close> como vimos en el caso anterior.
+  Veamos la equivalencia. Por definición tenemos que el valor de la 
+  fórmula \<open>G \<or> H\<close> dada la interpretación \<open>\<A>'\<close> es \<open>\<I>\<^sub>\<A>\<^sub>'(G) \<or> \<I>\<^sub>\<A>\<^sub>'(H)\<close>. Por 
+  lo probado anteriormente, esto es igual a \<open>\<I>\<^sub>\<A>(G) \<or> \<I>\<^sub>\<A>(H)\<close> . Por 
+  definición, se verifica que es igual al valor de \<open>G \<or> H\<close> dada la 
+  interpretación \<open>\<A>\<close>, como queríamos demostrar.
+
+  Demostremos finalmente el último caso considerando las fórmulas \<open>G\<close> y
+  \<open>H\<close> bajo las condiciones de los dos casos anteriores. Sea \<open>A\<close> una 
+  variable proposicional que no pertenece al conjunto de átomos de 
+  \<open>G \<rightarrow> H\<close>. Como dicho conjunto es la unión del conjunto de átomos de
+  \<open>G\<close> y el de \<open>H\<close>, \<open>A\<close> no pertenece ni al conjunto de átomos de \<open>G\<close> ni
+  al de \<open>H\<close>. Por lo tanto, por hipótesis de inducción, el valor de \<open>G\<close> 
+  es el mismo dadas las interpretaciones \<open>\<A>\<close> y \<open>\<A>'\<close>, y lo mismo ocurre 
+  para \<open>H\<close>. Veamos ahora la cadena de equivalencias. Por definición 
+  tenemos que el valor de la fórmula \<open>G \<rightarrow> H\<close> dada la interpretación 
+  \<open>\<A>'\<close> es \<open>\<I>\<^sub>\<A>\<^sub>'(G) \<rightarrow> \<I>\<^sub>\<A>\<^sub>'(H)\<close>. Análogamente a los casos anteriores y por 
+  lo observado anteriormente, esto es igual a \<open>\<I>\<^sub>\<A>(G) \<rightarrow> \<I>\<^sub>\<A>(H)\<close>. Por
+  definición, es igual al valor de \<open>G \<rightarrow> H\<close> dada la interpretación \<open>\<A>\<close>,
+  probando así la equivalencia.
   \end{demostracion}
 
-  \comentario{Terminar demostracion a mano.}\<close>
-
-lemma "A \<notin> atoms F \<Longrightarrow> (\<A>(A := V)) \<Turnstile> F \<longleftrightarrow> \<A> \<Turnstile> F"
-  oops
+  Veamos a continuación la demostración detallada del lema en 
+  Isabelle/HOL. Para facilitar la lectura, inicialmente se ha demostrado 
+  cada caso de la estructura de inducción por separado como es habitual.
+  Además, se han empleado los lemas auxiliares 
+  \<open>irrelevant_atom_atomic_l1\<close>, \<open>irrelevant_atom_not_l1\<close>,
+  \<open>irrelevant_atom_and_l1\<close>, \<open>irrelevant_atom_or_l1\<close> e 
+  \<open>irrelevant_atom_imp_l1\<close> como se muestra.\<close>
 
 lemma irrelevant_atom_atomic_l1:
   assumes "A \<notin> atoms (Atom x)" 
@@ -559,6 +606,8 @@ next
   case (Imp F1 F2)
   then show ?case by (rule irrelevant_atom_imp)
 qed
+
+text \<open>Por último, su demostración automática.\<close>
 
 lemma irrelevant_atom: 
   "A \<notin> atoms F \<Longrightarrow> (\<A>(A := V)) \<Turnstile> F \<longleftrightarrow> \<A> \<Turnstile> F"
