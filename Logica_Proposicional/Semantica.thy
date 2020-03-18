@@ -797,8 +797,8 @@ text \<open>Por último mostraremos varios resultados relativos a la semántica
     Toda interpretación es modelo de la fórmula \<open>\<top>\<close>.
   \end{lema}
 
-  En otras palabras, el valor de la fórmula \<open>\<top>\<close> dada cualquier 
-  interpretación es siempre \<open>Verdadero\<close>. Veamos su demostración.
+  En otras palabras, la fórmula \<open>\<top>\<close> es una tautología. Veamos su
+  prueba.
 
   \begin{demostracion}
     Sea una interpretación cualquiera \<open>\<A>\<close>. Es obvio que, aplicando la
