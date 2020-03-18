@@ -957,11 +957,29 @@ lemma modelSet:
   "isModelSet A S \<equiv> \<forall>F. (F\<in> S \<longrightarrow> isModel A F)" 
   by (simp only: isModelSet_def isModel_def)
 
-text\<open> Definición: conjunto de fórmulas consistente.\<close>
+text\<open>Veamos la noción de satisfacibilidad para un conjunto de fórmulas.
+
+  \begin{definicion}
+    Un conjunto de fórmulas es satisfacible si tiene algún modelo.
+  \end{definicion}
+
+  Es decir, la satisfacibilidad de un conjunto de fórmulas depende de la
+  existencia de una interpretación que sea modelo de dicho conjunto, es
+  decir, que sea modelo de todas las fórmulas del conjunto.
+
+  En Isabelle se formaliza de la siguiente manera.\<close>
 
 definition "sat S \<equiv> \<exists>\<A>. \<forall>F \<in> S. \<A> \<Turnstile> F" 
 
-text \<open>Definición: conjunto de fórmulas finitamente consistente.\<close>
+text \<open>En particular, se puede definir un conjunto de fórmulas 
+  finitamente satisfacible.
+
+  \begin{definicion}
+    Un conjunto de fórmulas es finitamente satisfacible si todo
+    subconjunto finito suyo es satisfacible.
+  \end{definicion}
+
+  Su formalización en Isabelle se muestra a continuación.\<close>
 
 definition "fin_sat S \<equiv> (\<forall>s \<subseteq> S. finite s \<longrightarrow> sat s)"
 
@@ -987,6 +1005,8 @@ proof -
   finally show ?thesis
     by this
 qed
+
+text \<open>Finalmente se muestra su demostración automática.\<close>
 
 lemma entail_sat: 
   "\<Gamma> \<TTurnstile> \<bottom> \<longleftrightarrow> \<not> sat \<Gamma>" 
