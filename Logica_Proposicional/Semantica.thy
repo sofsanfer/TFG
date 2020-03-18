@@ -794,7 +794,26 @@ text \<open>Por último mostraremos varios resultados relativos a la semántica
   de las conectivas generalizadas.
 
   \begin{lema}
-  \end{lema}\<close>
+    Toda interpretación es modelo de la fórmula \<open>\<top>\<close>.
+  \end{lema}
+
+  En otras palabras, el valor de la fórmula \<open>\<top>\<close> dada cualquier 
+  interpretación es siempre \<open>Verdadero\<close>. Veamos su demostración.
+
+  \begin{demostracion}
+    Sea una interpretación cualquiera \<open>\<A>\<close>. Es obvio que, aplicando la
+    propiedad reflexiva de la implicación, tenemos que es \<open>Verdadero\<close>
+    semánticamente que valor de \<open>\<bottom>\<close> dada \<open>\<A>\<close> se implique a sí mismo. 
+    Por definición, se tiene que la implicación anterior es, a su vez, 
+    equivalente al valor de la fórmula \<open>\<bottom> \<rightarrow> \<bottom>\<close> dada la interpretación 
+    \<open>\<A>\<close>. Según la definición de \<open>\<top>\<close>, tenemos que es a su vez
+    equivalente al valor de la fórmula \<open>\<top>\<close> dada la interpretación \<open>\<A>\<close>.
+    Finalmente, mediante esta cadena de equivalencias se observa que
+    el valor de \<open>\<top>\<close> dada una interpretación \<open>\<A>\<close> cualquiera es 
+    \<open>Verdadero\<close> como queríamos probar.    
+  \end{demostracion}
+
+  En Isabelle se enuncia y demuestra de manera detallada como sigue.\<close>
 
 lemma "\<A> \<Turnstile> \<top>" 
 proof -
@@ -804,11 +823,16 @@ proof -
    by (simp only: formula_semantics.simps(6))
  thus "\<A> \<Turnstile> \<top>" unfolding Top_def by this
 qed
+
+text \<open>Asimismo se muestra su demostración automática.\<close>
   
 lemma top_semantics: 
   "\<A> \<Turnstile> \<top>" 
   unfolding Top_def 
   by simp 
+
+text \<open>\comentario{Seguir con las demostraciones de conectivas
+  generalizadas}\<close>
 
 lemma BigAnd_semantics_nil: "\<A> \<Turnstile> \<^bold>\<And>[] \<longleftrightarrow> (\<forall>f \<in> set []. \<A> \<Turnstile> f)"
 proof - 
