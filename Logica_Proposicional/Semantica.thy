@@ -196,7 +196,7 @@ text \<open>Continuemos con la noción de fórmula válida o tautología.
   En Isabelle se formaliza de la siguiente manera.\<close>
 
 abbreviation valid ("\<Turnstile> _" 51) where
-  "\<Turnstile> F \<equiv> \<forall>A. A \<Turnstile> F"
+  "\<Turnstile> F \<equiv> \<forall>\<A>. \<A> \<Turnstile> F"
 
 text \<open>Podemos observar que se ha definido mediante el tipo 
   \<open>abbreviation\<close>..
@@ -790,49 +790,39 @@ lemma relevant_atoms_same_semantics:
    "\<forall>k \<in> atoms F. \<A>\<^sub>1 k = \<A>\<^sub>2 k \<Longrightarrow> \<A>\<^sub>1 \<Turnstile> F \<longleftrightarrow> \<A>\<^sub>2 \<Turnstile> F"
   by (induction F) simp_all
 
-text \<open>Definición: consecuencia lógica.\<close>
+text \<open>Por último mostraremos varios resultados relativos a la semántica
+  de las conectivas generalizadas.
 
-definition entailment :: 
-  "'a formula set \<Rightarrow> 'a formula \<Rightarrow> bool" ("(_ \<TTurnstile>/ _)" 
-    (* \TTurnstile *) [53,53] 53) where
-  "\<Gamma> \<TTurnstile> F \<equiv> (\<forall>\<A>. ((\<forall>G \<in> \<Gamma>. \<A> \<Turnstile> G) \<longrightarrow> (\<A> \<Turnstile> F)))"
- 
-text \<open>We write entailment differently than semantics (\<open>\<Turnstile>\<close> vs. \<open>\<TTurnstile>\<close>).
-  For humans, it is usually pretty clear what is meant in a specific
-  situation, but it often needs to be decided from context that
-  Isabelle/HOL does not have.\<close> 
-   
-text \<open>Some helpers for the derived connectives\<close>
+  \begin{lema}
+  \end{lema}\<close>
 
-text \<open>Lemas: enunciar y demostrar a mano.\<close>
-
-lemma "A \<Turnstile> \<top>" 
+lemma "\<A> \<Turnstile> \<top>" 
 proof -
- have "A \<Turnstile> \<bottom> \<longrightarrow> A \<Turnstile> \<bottom>" 
+ have "\<A> \<Turnstile> \<bottom> \<longrightarrow> \<A> \<Turnstile> \<bottom>" 
    by (rule imp_refl)
- then have "A \<Turnstile> (\<bottom> \<^bold>\<rightarrow> \<bottom>)"
+ then have "\<A> \<Turnstile> (\<bottom> \<^bold>\<rightarrow> \<bottom>)"
    by (simp only: formula_semantics.simps(6))
- thus "A \<Turnstile> \<top>" unfolding Top_def by this
+ thus "\<A> \<Turnstile> \<top>" unfolding Top_def by this
 qed
   
 lemma top_semantics: 
-  "A \<Turnstile> \<top>" 
+  "\<A> \<Turnstile> \<top>" 
   unfolding Top_def 
   by simp 
 
-lemma BigAnd_semantics_nil: "A \<Turnstile> \<^bold>\<And>[] \<longleftrightarrow> (\<forall>f \<in> set []. A \<Turnstile> f)"
+lemma BigAnd_semantics_nil: "\<A> \<Turnstile> \<^bold>\<And>[] \<longleftrightarrow> (\<forall>f \<in> set []. \<A> \<Turnstile> f)"
 proof - 
-  have "A \<Turnstile> \<^bold>\<And>[] = A \<Turnstile> (\<^bold>\<not>\<bottom>)"
+  have "\<A> \<Turnstile> \<^bold>\<And>[] = \<A> \<Turnstile> (\<^bold>\<not>\<bottom>)"
     by (simp only: BigAnd.simps(1))
-  also have "\<dots> = (\<not> A \<Turnstile> \<bottom>)"
+  also have "\<dots> = (\<not> \<A> \<Turnstile> \<bottom>)"
     by (simp only: formula_semantics.simps(3))
   also have "\<dots> = (\<not> False)"
     by (simp only: formula_semantics.simps(2))
   also have "\<dots> = True"
     by (simp only: not_False_eq_True)
-  also have "\<dots> = (\<forall>f \<in> \<emptyset>. A \<Turnstile> f)"
+  also have "\<dots> = (\<forall>f \<in> \<emptyset>. \<A> \<Turnstile> f)"
     by (simp only: ball_empty) 
-  also have "\<dots> = (\<forall>f \<in> set []. A \<Turnstile> f)"
+  also have "\<dots> = (\<forall>f \<in> set []. \<A> \<Turnstile> f)"
     by (simp only: list.set)
   finally show ?thesis
     by this
@@ -842,24 +832,24 @@ text \<open>\comentario{Terminar los pendientes de BigAnd semantics cons y
   BigOr semantics cons.}\<close>
 
 lemma BigAnd_semantics_cons: 
-  assumes "A \<Turnstile> \<^bold>\<And>Fs \<longleftrightarrow> (\<forall>f \<in> set Fs. A \<Turnstile> f)"
-  shows "A \<Turnstile> \<^bold>\<And>(F#Fs) \<longleftrightarrow> (\<forall>f \<in> set (F#Fs). A \<Turnstile> f)"
+  assumes "\<A> \<Turnstile> \<^bold>\<And>Fs \<longleftrightarrow> (\<forall>f \<in> set Fs. \<A> \<Turnstile> f)"
+  shows "\<A> \<Turnstile> \<^bold>\<And>(F#Fs) \<longleftrightarrow> (\<forall>f \<in> set (F#Fs). \<A> \<Turnstile> f)"
 proof -
-  have "A \<Turnstile> \<^bold>\<And>(F#Fs) = A \<Turnstile> F \<^bold>\<and> \<^bold>\<And>Fs"
+  have "\<A> \<Turnstile> \<^bold>\<And>(F#Fs) = \<A> \<Turnstile> F \<^bold>\<and> \<^bold>\<And>Fs"
     by (simp only: BigAnd.simps(2))
-  also have "\<dots> = (A \<Turnstile> F \<and> A \<Turnstile> \<^bold>\<And>Fs)"
+  also have "\<dots> = (\<A> \<Turnstile> F \<and> \<A> \<Turnstile> \<^bold>\<And>Fs)"
     by (simp only: formula_semantics.simps(4))
-  also have "\<dots> = (A \<Turnstile> F \<and> (\<forall>f \<in> set Fs. A \<Turnstile> f))"
+  also have "\<dots> = (\<A> \<Turnstile> F \<and> (\<forall>f \<in> set Fs. \<A> \<Turnstile> f))"
     by (simp only: assms)
-  also have "\<dots> = (\<forall>f \<in> ({F} \<union> set Fs). A \<Turnstile> f)" using [[simp_trace]]
+  also have "\<dots> = (\<forall>f \<in> ({F} \<union> set Fs). \<A> \<Turnstile> f)" using [[simp_trace]]
     by simp (*Pendiente: uso ball_simps(7)*)
-  also have "\<dots> = (\<forall>f \<in> set (F#Fs). A \<Turnstile> f)"
+  also have "\<dots> = (\<forall>f \<in> set (F#Fs). \<A> \<Turnstile> f)"
     by (simp only: set_insert)
   finally show ?thesis
     by this
 qed
 
-lemma "A \<Turnstile> \<^bold>\<And>Fs \<longleftrightarrow> (\<forall>f \<in> set Fs. A \<Turnstile> f)"
+lemma "\<A> \<Turnstile> \<^bold>\<And>Fs \<longleftrightarrow> (\<forall>f \<in> set Fs. \<A> \<Turnstile> f)"
 proof (induction Fs)
   case Nil
   then show ?case by (rule BigAnd_semantics_nil)
@@ -869,34 +859,34 @@ next
 qed
 
 lemma BigAnd_semantics: 
-  "A \<Turnstile> \<^bold>\<And>Fs \<longleftrightarrow> (\<forall>f \<in> set Fs. A \<Turnstile> f)"
+  "\<A> \<Turnstile> \<^bold>\<And>Fs \<longleftrightarrow> (\<forall>f \<in> set Fs. \<A> \<Turnstile> f)"
   by (induction Fs; simp)
 
-lemma BigOr_semantics_nil: "A \<Turnstile> \<^bold>\<Or>[] \<longleftrightarrow> (\<exists>f \<in> set []. A \<Turnstile> f)" 
+lemma BigOr_semantics_nil: "\<A> \<Turnstile> \<^bold>\<Or>[] \<longleftrightarrow> (\<exists>f \<in> set []. \<A> \<Turnstile> f)" 
 proof -
-  have "A \<Turnstile> \<^bold>\<Or>[] = A \<Turnstile> \<bottom>"
+  have "\<A> \<Turnstile> \<^bold>\<Or>[] = \<A> \<Turnstile> \<bottom>"
     by (simp only: BigOr.simps(1))
   also have "\<dots> = False"
     by (simp only: formula_semantics.simps(2))
-  also have "\<dots> = (\<exists>f \<in> \<emptyset>. A \<Turnstile> f)"
+  also have "\<dots> = (\<exists>f \<in> \<emptyset>. \<A> \<Turnstile> f)"
     by (simp only: bex_empty)
-  also have "\<dots> = (\<exists>f \<in> set []. A \<Turnstile> f)"
+  also have "\<dots> = (\<exists>f \<in> set []. \<A> \<Turnstile> f)"
     by (simp only: list.set)
   finally show ?thesis
     by this
 qed
 
 lemma BigOr_semantics_cons: 
-  assumes "A \<Turnstile> \<^bold>\<Or>Fs \<longleftrightarrow> (\<exists>f \<in> set Fs. A \<Turnstile> f)" 
-  shows "A \<Turnstile> \<^bold>\<Or>(F#Fs) \<longleftrightarrow> (\<exists>f \<in> set (F#Fs). A \<Turnstile> f)" 
+  assumes "\<A> \<Turnstile> \<^bold>\<Or>Fs \<longleftrightarrow> (\<exists>f \<in> set Fs. \<A> \<Turnstile> f)" 
+  shows "\<A> \<Turnstile> \<^bold>\<Or>(F#Fs) \<longleftrightarrow> (\<exists>f \<in> set (F#Fs). \<A> \<Turnstile> f)" 
 proof -
-  have "A \<Turnstile> \<^bold>\<Or>(F#Fs) = A \<Turnstile> F \<^bold>\<or> \<^bold>\<Or>Fs"
+  have "\<A> \<Turnstile> \<^bold>\<Or>(F#Fs) = \<A> \<Turnstile> F \<^bold>\<or> \<^bold>\<Or>Fs"
     by (simp only: BigOr.simps(2))
-  also have "\<dots> = (A \<Turnstile> F \<or> A \<Turnstile> \<^bold>\<Or>Fs)"
+  also have "\<dots> = (\<A> \<Turnstile> F \<or> \<A> \<Turnstile> \<^bold>\<Or>Fs)"
     by (simp only: formula_semantics.simps(5))
-  also have "\<dots> = (A \<Turnstile> F \<or> (\<exists>f \<in> set Fs. A \<Turnstile> f))"
+  also have "\<dots> = (\<A> \<Turnstile> F \<or> (\<exists>f \<in> set Fs. \<A> \<Turnstile> f))"
     by (simp only: assms)
-  also have "\<dots> = (\<exists>f \<in> set (F#Fs). A \<Turnstile> f)" using [[simp_trace]]
+  also have "\<dots> = (\<exists>f \<in> set (F#Fs). \<A> \<Turnstile> f)" using [[simp_trace]]
     by simp (*Pendiente: (simp only: bex_simps(5))*)
   finally show ?thesis
     by this
@@ -905,7 +895,7 @@ qed
 text \<open>\comentario{Añadir ball empty, list set, not False eq True,
  bex empty al glosario.}\<close>
 
-lemma "A \<Turnstile> \<^bold>\<Or>Fs \<longleftrightarrow> (\<exists>f \<in> set Fs. A \<Turnstile> f)" 
+lemma "\<A> \<Turnstile> \<^bold>\<Or>Fs \<longleftrightarrow> (\<exists>f \<in> set Fs. \<A> \<Turnstile> f)" 
 proof (induction Fs)
 case Nil
   then show ?case by (rule BigOr_semantics_nil)
@@ -915,7 +905,7 @@ then show ?case by (rule BigOr_semantics_cons)
 qed
 
 lemma BigOr_semantics: 
-  "A \<Turnstile> \<^bold>\<Or>Fs \<longleftrightarrow> (\<exists>f \<in> set Fs. A \<Turnstile> f)" 
+  "\<A> \<Turnstile> \<^bold>\<Or>Fs \<longleftrightarrow> (\<exists>f \<in> set Fs. \<A> \<Turnstile> f)" 
   by (induction Fs; simp)
 
 section \<open>Semántica en conjuntos de fórmulas\<close>
@@ -954,7 +944,7 @@ text \<open>El siguiente resultado relaciona los conceptos de modelo de
   de\\ \<open>isModel\<close> e \<open>isModelSet\<close>.\<close>
 
 lemma modelSet:
-  "isModelSet A S \<equiv> \<forall>F. (F\<in> S \<longrightarrow> isModel A F)" 
+  "isModelSet \<A> S \<equiv> \<forall>F. (F\<in> S \<longrightarrow> isModel \<A> F)" 
   by (simp only: isModelSet_def isModel_def)
 
 text\<open>Veamos la noción de satisfacibilidad para un conjunto de fórmulas.
@@ -982,6 +972,18 @@ text \<open>En particular, se puede definir un conjunto de fórmulas
   Su formalización en Isabelle se muestra a continuación.\<close>
 
 definition "fin_sat S \<equiv> (\<forall>s \<subseteq> S. finite s \<longrightarrow> sat s)"
+
+text \<open>Definición: consecuencia lógica.\<close>
+
+definition entailment :: 
+  "'a formula set \<Rightarrow> 'a formula \<Rightarrow> bool" ("(_ \<TTurnstile>/ _)" 
+    (* \TTurnstile *) [53,53] 53) where
+  "\<Gamma> \<TTurnstile> F \<equiv> (\<forall>\<A>. ((\<forall>G \<in> \<Gamma>. \<A> \<Turnstile> G) \<longrightarrow> (\<A> \<Turnstile> F)))"
+ 
+text \<open>We write entailment differently than semantics (\<open>\<Turnstile>\<close> vs. \<open>\<TTurnstile>\<close>).
+  For humans, it is usually pretty clear what is meant in a specific
+  situation, but it often needs to be decided from context that
+  Isabelle/HOL does not have.\<close> 
 
 text \<open>Lema: un conjunto de fórmulas S es inconsistente si y sólo si
  $\bot$ es consecuencia lógica de S.\<close>
