@@ -851,8 +851,40 @@ text \<open>Veamos ahora resultados relativos a la semántica de la conjunción
     lista.
   \end{lema}
 
+  Su formalización en Isabelle es la siguiente.\<close>
+
+lemma "\<A> \<Turnstile> \<^bold>\<And>Fs \<longleftrightarrow> (\<forall>f \<in> set Fs. \<A> \<Turnstile> f)"
+  oops
+
+text \<open>Como podemos observar, en el enunciado de la derecha hemos
+  empleado \<open>set\<close> para cambiar al tipo conjuntos la lista de fórmulas,
+  pues esto permite emplear el cuantificador universal.
+
+  Procedamos con la prueba del lema.
+
+  \begin{demostracion}
+   La prueba se basa en el esquema de inducción sobre listas de
+   fórmulas. Para ello, demostraremos el resultado mediante cadenas de
+   equivalencias en los siguientes casos.
+
+   En primer lugar, lo probamos para la lista vacía de fórmulas. Sea la
+   interpretación \<open>\<A>\<close> tal que es modelo de la conjunción generalizada
+   de la lista vacía. Por definición de la conjunción generalizada,
+   \<open>\<A>\<close> es modelo de \<open>\<not> \<bottom>\<close>. Aplicando la definición del valor de una
+   fórmula dada una interpretación para el caso de la negación,
+   tenemos que esto es equivalente a que \<open>\<A>\<close> no es modelo de \<open>\<bottom>\<close>.
+   Análogamente, como sabemos que el valor de \<open>\<bottom>\<close> es \<open>Falso\<close> para 
+   cualquier interpretación, se tiene que lo anterior es equivalente a
+   \<open>\<not> Falso\<close>, es decir, \<open>Verdad\<close>. Por otro lado, por propiedades
+   del conjunto vacío, se tiene que toda propiedad sobre sus elementos
+   es verdadera. Por tanto, lo anterior es equivalente a decir que \<open>\<A>\<close> 
+   es modelo de todos los elementos del conjunto vacío. Es decir, \<open>\<A>\<close>
+   es modelo de todos los elementos de la lista vacía, como queríamos
+   demostrar. 
+  \end{demostracion}
+
   \comentario{Demostrar los dos siguientes lemas de
-  conectivas generalizadas.}\<close>
+  conectivas generalizadas. Falta terminar cons de BigAnd.}\<close>
 
 lemma BigAnd_semantics_nil: "\<A> \<Turnstile> \<^bold>\<And>[] \<longleftrightarrow> (\<forall>f \<in> set []. \<A> \<Turnstile> f)"
 proof - 
