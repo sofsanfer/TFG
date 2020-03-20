@@ -842,7 +842,16 @@ lemma top_semantics:
   unfolding Top_def 
   by simp 
 
-text \<open>\comentario{Enunciar y demostrar los dos siguientes lemas de 
+text \<open>Veamos ahora resultados relativos a la semántica de la conjunción
+  y disyunción generalizadas.
+
+  \begin{lema}
+    Una interpretación es modelo de la conjunción generalizada de una 
+    lista de fórmulas si y solo si es modelo de cada fórmula de la
+    lista.
+  \end{lema}
+
+  \comentario{Demostrar los dos siguientes lemas de
   conectivas generalizadas.}\<close>
 
 lemma BigAnd_semantics_nil: "\<A> \<Turnstile> \<^bold>\<And>[] \<longleftrightarrow> (\<forall>f \<in> set []. \<A> \<Turnstile> f)"
@@ -893,9 +902,19 @@ next
   then show ?case by (rule BigAnd_semantics_cons)
 qed
 
+text \<open>Su demostración automática es la siguiente.\<close>
+
 lemma BigAnd_semantics: 
   "\<A> \<Turnstile> \<^bold>\<And>Fs \<longleftrightarrow> (\<forall>f \<in> set Fs. \<A> \<Turnstile> f)"
   by (induction Fs; simp)
+
+text \<open>Finalmente un resultado sobre la disyunción generalizada.
+
+  \begin{lema}
+    Una interpretación es modelo de la disyunción generalizada de una 
+    lista de fórmulas si y solo si es modelo de cada fórmula de la
+    lista.
+  \end{lema}\<close>
 
 lemma BigOr_semantics_nil: "\<A> \<Turnstile> \<^bold>\<Or>[] \<longleftrightarrow> (\<exists>f \<in> set []. \<A> \<Turnstile> f)" 
 proof -
@@ -1015,8 +1034,9 @@ text \<open>Veamos la noción de consecuencia lógica.
     todos los modelos del conjunto son modelos de la fórmula.
   \end{definicion}
 
-  Teniendo en cuenta la definicón de modelo de una fórmula, su 
-  formalización en Isabelle es la siguiente.\<close>
+  Teniendo en cuenta la definicón de modelo de una fórmula y modelo de
+  un conjunto de fórmulas, su formalización en Isabelle es la 
+  siguiente.\<close>
 
 definition entailment :: 
   "'a formula set \<Rightarrow> 'a formula \<Rightarrow> bool" ("(_ \<TTurnstile>/ _)" 
@@ -1027,10 +1047,10 @@ text \<open>Hagamos varias observaciones sobre esta definición. En primer
   lugar, hemos usado el tipo \<open>definition\<close> para renombrar una 
   construcción no recursiva ya existente en Isabelle. Por otro
   lado, no hemos empleado \<open>isModel\<close> ni \<open>isModelSet\<close> para su definición
-  ya que, de este modo, no tenemos que desplegar dichas definiciones y 
-  ahorramos pasos en las demostraciones detalladas y automáticas de los
-  lemas posteriores. Finalmente se puede observar la notación \<open>\<TTurnstile>\<close>. 
-  En la teoría clásica no se suele emplear una nueva notación pues se
+  ya que, de este modo, no tenemos que desplegar dichas definiciones 
+  en las demostraciones detalladas y automáticas de los lemas 
+  posteriores. Finalmente se puede observar la notación \<open>\<TTurnstile>\<close>. 
+  En la teoría clásica no se suele emplear una nueva notación ya que se
   diferencia por el contexto, mientras que en Isabelle/HOL es 
   imprescindible.
 
@@ -1050,8 +1070,20 @@ text\<open>
   \comentario{Demostrar lema a mano.}
 
   \begin{demostracion}
-    Vamos a probar la doble implicación como una cadena de
-    equivalencias. ...
+    Vamos a probar la doble implicación mediante una cadena de
+    equivalencias.
+
+    Sea un conjunto de fórmulas \<open>\<Gamma>\<close> tal que la fórmula \<open>\<bottom>\<close> es
+    consecuencia lógica de dicho conjunto. Por definición, esto es
+    equivalente a decir que para toda interpretación, si esta modelo de
+    \<open>\<Gamma>\<close>, entonces es a su vez modelo de \<open>\<bottom>\<close>. Por otro lado, el valor 
+    de \<open>\<bottom>\<close> es \<open>Falso\<close> para cualquier interpretación. Tenemos así que 
+    para toda interpretación, si es modelo de \<open>\<Gamma>\<close>, entonces implica
+    \<open>Falso\<close>. Es decir, por definición de negación, para toda 
+    interpretación se verifica que esta no es modelo del conjunto. En 
+    otras palabras, no existe una interpretación que sea modelo de \<open>\<Gamma>\<close>. 
+    Según la definición, esto es equivalente a decir que dicho conjunto 
+    es insatisfacible, como queríamos demostrar.
   \end{demostracion}
 
   Procedamos con las pruebas en Isabelle/HOL. Como se puede observar,
@@ -1067,10 +1099,6 @@ proof -
     by (simp only: formula_semantics.simps(2))
   also have "\<dots> = (\<forall>\<A>. \<not>(\<forall>G \<in> \<Gamma>. \<A> \<Turnstile> G))"
     by (simp only: not_def)
-  also have "\<dots> = (\<forall>\<A>. (\<exists>G \<in> \<Gamma>. \<not> (\<A> \<Turnstile> G)))"
-    by (simp only: ball_simps(10)) 
-  also have "\<dots> = (\<forall>\<A>. \<not>(\<forall>G \<in> \<Gamma>. \<A> \<Turnstile> G))"
-    by (simp only: ball_simps(10)) 
   also have "\<dots> =  (\<not>(\<exists>\<A>. \<forall>G \<in> \<Gamma>. \<A> \<Turnstile> G))"
     by (simp only: not_ex) 
   also have "\<dots> = (\<not> sat \<Gamma>)"
