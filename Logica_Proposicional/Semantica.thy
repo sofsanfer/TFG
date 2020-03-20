@@ -178,30 +178,29 @@ begin
 end
 
 text \<open>Como podemos observar, \<open>isModel\<close> y \<open>satF\<close> se han 
-  formalizado usando el tipo \<open>definition\<close> ...
+  formalizado usando el tipo \<open>definition\<close> pues, en ambos casos, hemos
+  renombrado una construcción no recursiva ya existente en Isabelle/HOL.
 
-  \comentario{Completar comentario respecto al tipo.}\<close>
-
-text \<open>Continuemos con la noción de fórmula válida o tautología.
+  Continuemos con la noción de fórmula válida o tautología.
 
   \begin{definicion} 
   \<open>F\<close> es una fórmula válida o tautología (\<open>\<Turnstile> F\<close>) si toda interpretación 
-  es modelo de \<open>F\<close>, es decir, dada cualquier interpretación \<open>\<A>\<close> se 
-  tiene \<open>\<I>\<^sub>\<A>(F) = True\<close>. 
+  es modelo de \<open>F\<close>. 
   \end{definicion}
 
   Es decir, una tautología es una fórmula que es verdadera para 
-  cualquier interpretación.
-
-  En Isabelle se formaliza de la siguiente manera.\<close>
+  cualquier interpretación. En Isabelle se formaliza de la siguiente 
+  manera.\<close>
 
 abbreviation valid ("\<Turnstile> _" 51) where
   "\<Turnstile> F \<equiv> \<forall>\<A>. \<A> \<Turnstile> F"
 
-text \<open>Podemos observar que se ha definido mediante el tipo 
-  \<open>abbreviation\<close>..
-
-  \comentario{Terminar de comentar el tipo.}
+text \<open>Por otro lado, podemos observar que se ha definido mediante el 
+  tipo \<open>abbreviation\<close>, pues no se trata de una definición propiamente 
+  dicha, sino de un mecanismo en Isabelle/HOl para nombrar
+  ciertas macros sintácticas. En este caso, introduce una nueva notación 
+  para una construcción compleja formada por un cuantificador 
+  universal aplicado a uno de los argumentos de \<open>formula_semantics\<close>.
 
   Veamos un ejemplo clásico de tautología: el principio del tercio
   excluso.\<close>
@@ -215,7 +214,8 @@ begin
 
 end
 
-text \<open>Mostremos el primer lema de la sección.
+text \<open>Una vez presentados los conceptos anteriores, mostremos el 
+  primer lema de la sección.
 
   \begin{lema}
   Dadas una interpretación \<open>\<A>\<close> y una fórmula \<open>F\<close> de modo que \<open>A\<close>
