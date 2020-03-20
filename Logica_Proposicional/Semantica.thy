@@ -263,10 +263,11 @@ text\<open>Veamos ahora la prueba del lema.
   tampoco pertenece al conjunto de átomos de \<open>F\<close>. De este modo, por 
   hipótesis de inducción, el valor de la fórmula \<open>F\<close> dada la 
   interpretación \<open>\<A>\<close> coincide con su valor dada la interpretación 
-  \<open>\<A>'\<close>. Por otro lado, por definición, tenemos que el valor de la 
-  fórmula \<open>\<not> F\<close> dada \<open>\<A>\<close> es \<open>\<not> \<I>\<^sub>\<A>(F)\<close>. Por lo visto anteriormente,
-  esto es igual a \<open>\<not> \<I>\<^sub>\<A>\<^sub>'(F)\<close> que, por definición, es igual al valor 
-  de \<open>\<not> F\<close> dada \<open>\<A>'\<close>, como quería demostrar.
+  \<open>\<A>'\<close>. Por otro lado, por definición tenemos que el valor de la 
+  fórmula \<open>\<not> F\<close> dada \<open>\<A>\<close> es \<open>\<not> \<I>\<^sub>\<A>(F)\<close>. Por lo visto anteriormente
+  según la hipótesis de inducción, esto es igual a \<open>\<not> \<I>\<^sub>\<A>\<^sub>'(F)\<close>. 
+  Por último, por definición es igual al valor de \<open>\<not> F\<close> dada \<open>\<A>'\<close>, 
+  como quería demostrar.
 
   Sean ahora las fórmulas \<open>G\<close> y \<open>H\<close> tales que, para cada una, su valor
   por la interpretación \<open>\<A>\<close> coincide con su valor dada la
@@ -284,10 +285,10 @@ text\<open>Veamos ahora la prueba del lema.
   el valor de \<open>H\<close> es el mismo dadas las interpretaciones \<open>\<A>\<close> y \<open>\<A>'\<close>. 
   Aclaradas estas observaciones, se tiene por definición que el valor 
   de la fórmula \<open>G \<and> H\<close> dada la interpretación \<open>\<A>'\<close> es 
-  \<open>\<I>\<^sub>\<A>\<^sub>'(G) \<and> \<I>\<^sub>\<A>\<^sub>'(H)\<close>. Por lo demostrado anteriormente, esto es igual a 
-  \<open>\<I>\<^sub>\<A>(G) \<and> \<I>\<^sub>\<A>(H)\<close> que, por definición, es el valor de \<open>G \<and> H\<close> dada la 
-  interpretación \<open>\<A>\<close>. Por tanto, queda probada la equivalencia en este 
-  caso.
+  \<open>\<I>\<^sub>\<A>\<^sub>'(G) \<and> \<I>\<^sub>\<A>\<^sub>'(H)\<close>. Por lo demostrado anteriormente según las hipótesis
+  de inducción, esto es igual a \<open>\<I>\<^sub>\<A>(G) \<and> \<I>\<^sub>\<A>(H)\<close> que, por definición, es 
+  el valor de \<open>G \<and> H\<close> dada la interpretación \<open>\<A>\<close>. Por tanto, queda 
+  probada la equivalencia en este caso.
 
   Sean las fórmulas \<open>G\<close> y \<open>H\<close> cumpliendo las hipótesis supuestas
   para el caso anterior. Veamos que el resultado se verifica para la
@@ -301,9 +302,10 @@ text\<open>Veamos ahora la prueba del lema.
   ocurre para la fórmula \<open>H\<close> como vimos en el caso anterior.
   Veamos la equivalencia. Por definición tenemos que el valor de la 
   fórmula \<open>G \<or> H\<close> dada la interpretación \<open>\<A>'\<close> es \<open>\<I>\<^sub>\<A>\<^sub>'(G) \<or> \<I>\<^sub>\<A>\<^sub>'(H)\<close>. Por 
-  lo probado anteriormente, esto es igual a \<open>\<I>\<^sub>\<A>(G) \<or> \<I>\<^sub>\<A>(H)\<close> . Por 
-  definición, se verifica que es igual al valor de \<open>G \<or> H\<close> dada la 
-  interpretación \<open>\<A>\<close>, como queríamos demostrar.
+  lo probado anteriormente según las hipótesis de inducicón, esto es 
+  igual a \<open>\<I>\<^sub>\<A>(G) \<or> \<I>\<^sub>\<A>(H)\<close> . Por definición, se verifica que es igual al 
+  valor de \<open>G \<or> H\<close> dada la interpretación \<open>\<A>\<close>, como queríamos 
+  demostrar.
 
   Demostremos finalmente el último caso considerando las fórmulas \<open>G\<close> y
   \<open>H\<close> bajo las condiciones de los dos casos anteriores. Sea \<open>A\<close> una 
@@ -314,19 +316,22 @@ text\<open>Veamos ahora la prueba del lema.
   es el mismo dadas las interpretaciones \<open>\<A>\<close> y \<open>\<A>'\<close>, y lo mismo ocurre 
   para \<open>H\<close>. Veamos ahora la cadena de equivalencias. Por definición 
   tenemos que el valor de la fórmula \<open>G \<rightarrow> H\<close> dada la interpretación 
-  \<open>\<A>'\<close> es \<open>\<I>\<^sub>\<A>\<^sub>'(G) \<rightarrow> \<I>\<^sub>\<A>\<^sub>'(H)\<close>. Análogamente a los casos anteriores y por 
-  lo observado anteriormente, esto es igual a \<open>\<I>\<^sub>\<A>(G) \<rightarrow> \<I>\<^sub>\<A>(H)\<close>. Por
+  \<open>\<A>'\<close> es \<open>\<I>\<^sub>\<A>\<^sub>'(G) \<rightarrow> \<I>\<^sub>\<A>\<^sub>'(H)\<close>. Análogamente a los casos anteriores por 
+  las hipótesis de inducción, esto es igual a \<open>\<I>\<^sub>\<A>(G) \<rightarrow> \<I>\<^sub>\<A>(H)\<close>. Por
   definición, es igual al valor de \<open>G \<rightarrow> H\<close> dada la interpretación \<open>\<A>\<close>,
   probando así la equivalencia.
   \end{demostracion}
 
-  Veamos a continuación la demostración detallada del lema en 
-  Isabelle/HOL. Para facilitar la lectura, inicialmente se ha demostrado 
-  cada caso de la estructura de inducción por separado como es habitual.
-  Además, se han empleado los lemas auxiliares 
+  Veamos a continuación la demostración detallada del lema en\\ 
+  Isabelle/HOL. Para facilitar la lectura, inicialmente se ha
+  probado el resultado para cada caso de la estructura de las fórmulas
+  como es habitual. Además, se han empleado los lemas auxiliares 
   \<open>irrelevant_atom_atomic_l1\<close>, \<open>irrelevant_atom_not_l1\<close>,
   \<open>irrelevant_atom_and_l1\<close>, \<open>irrelevant_atom_or_l1\<close> e 
-  \<open>irrelevant_atom_imp_l1\<close> como se muestra.\<close>
+  \<open>irrelevant_atom_imp_l1\<close> para mostrar resultados sobre la no
+  pertenencia a los conjuntos de átomos en cada caso. Es fácil observar 
+  que no ha sido necesario el uso de lemas auxiliares en el caso de la 
+  fórmula \<open>\<bottom>\<close>, pues su conjunto de átomos es el vacío.\<close>
 
 lemma irrelevant_atom_atomic_l1:
   assumes "A \<notin> atoms (Atom x)" 
@@ -582,7 +587,7 @@ lemma irrelevant_atom:
 text \<open>Procedamos con el siguiente resultado de la sección.
 
   \begin{lema}
-    Si dos interpretaciones coinciden en el conjunto de átomos de una 
+    Si dos interpretaciones coinciden sobre el conjunto de átomos de una 
     fórmula, entonces dicha fórmula tiene el mismo valor para ambas
     interpretaciones. 
   \end{lema}
@@ -597,8 +602,9 @@ text \<open>Vamos a probar el resultado.
   \comentario{Añadir demostración a mano.}
 
   Probemos ahora el lema de forma detallada en Isabelle, haciendo cada
-  caso del esquema de inducción por separado y empleando lemas
-  auxiliares cuando sea necesario.\<close>
+  caso de la estructura de las fórmulas por separado y empleando lemas
+  auxiliares sobre la pertenencia a los conjuntos de átomos cuando sea 
+  necesario.\<close>
 
 lemma relevant_atoms_same_semantics_atomic_l1:
   "x \<in> atoms (Atom x)"
@@ -626,7 +632,7 @@ proof -
 qed
 
 text \<open>Para las fórmulas atómicas, se observa el uso del lema 
-  auxiliar \<open>relevant_atoms_same_semantics_atomic_l\<close>. Sigamos con los
+  auxiliar\\ \<open>relevant_atoms_same_semantics_atomic_l\<close>. Sigamos con los
   siguientes casos.\<close>
 
 lemma relevant_atoms_same_semantics_bot: 
@@ -653,9 +659,12 @@ proof -
     by this
 qed
 
-text \<open>Finalmente introducimos los siguientes lemas auxiliares para
-  facilitar las demostraciones detalladas en Isabelle de los casos del 
-  esquema de inducción correspondientes a las conectivas binarias.\<close>
+text \<open>Para los casos de la fórmula \<open>\<bottom>\<close> y la negación \<open>\<not> F\<close> no han sido
+  necesarios los lemas auxiliares pues, en el primer caso, el conjunto
+  de átomos es el vacío y, en el segundo caso, el conjunto de átomos de
+  \<open>\<not> F\<close> coincide con el de \<open>F\<close>. Finalmente, introducimos los siguientes 
+  lemas auxiliares para facilitar las demostraciones detalladas en 
+  Isabelle de los casos correspondientes a las conectivas binarias.\<close>
 
 lemma forall_union1: 
   assumes "\<forall>x \<in> A \<union> B. P x"
@@ -790,15 +799,17 @@ lemma relevant_atoms_same_semantics:
    "\<forall>k \<in> atoms F. \<A>\<^sub>1 k = \<A>\<^sub>2 k \<Longrightarrow> \<A>\<^sub>1 \<Turnstile> F \<longleftrightarrow> \<A>\<^sub>2 \<Turnstile> F"
   by (induction F) simp_all
 
+section \<open>Semántica de fórmulas con conectivas generalizadas\<close>
+
 text \<open>Por último mostraremos varios resultados relativos a la semántica
-  de las conectivas generalizadas.
+  de las fórmulas construidas con conectivas generalizadas.
 
   \begin{lema}
-    Toda interpretación es modelo de la fórmula \<open>\<top>\<close>.
+    La fórmula \<open>\<top>\<close> es una tautología.
   \end{lema}
 
-  En otras palabras, la fórmula \<open>\<top>\<close> es una tautología. Veamos su
-  prueba.
+  En otras palabras, toda interpretación es modelo de la fórmula \<open>\<top>\<close>. 
+  Veamos su prueba.
 
   \begin{demostracion}
     Sea una interpretación cualquiera \<open>\<A>\<close>. Es obvio que, aplicando la
@@ -806,7 +817,7 @@ text \<open>Por último mostraremos varios resultados relativos a la semántica
     semánticamente que valor de \<open>\<bottom>\<close> dada \<open>\<A>\<close> se implique a sí mismo. 
     Por definición, se tiene que la implicación anterior es, a su vez, 
     equivalente al valor de la fórmula \<open>\<bottom> \<rightarrow> \<bottom>\<close> dada la interpretación 
-    \<open>\<A>\<close>. Según la definición de \<open>\<top>\<close>, tenemos que es a su vez
+    \<open>\<A>\<close>. Según la definición de \<open>\<top>\<close>, tenemos que esto es
     equivalente al valor de la fórmula \<open>\<top>\<close> dada la interpretación \<open>\<A>\<close>.
     Finalmente, mediante esta cadena de equivalencias se observa que
     el valor de \<open>\<top>\<close> dada una interpretación \<open>\<A>\<close> cualquiera es 
@@ -831,8 +842,8 @@ lemma top_semantics:
   unfolding Top_def 
   by simp 
 
-text \<open>\comentario{Seguir con las demostraciones de conectivas
-  generalizadas}\<close>
+text \<open>\comentario{Enunciar y demostrar los dos siguientes lemas de 
+  conectivas generalizadas.}\<close>
 
 lemma BigAnd_semantics_nil: "\<A> \<Turnstile> \<^bold>\<And>[] \<longleftrightarrow> (\<forall>f \<in> set []. \<A> \<Turnstile> f)"
 proof - 
@@ -932,7 +943,7 @@ lemma BigOr_semantics:
   "\<A> \<Turnstile> \<^bold>\<Or>Fs \<longleftrightarrow> (\<exists>f \<in> set Fs. \<A> \<Turnstile> f)" 
   by (induction Fs; simp)
 
-section \<open>Semántica en conjuntos de fórmulas\<close>
+section \<open>Semántica de conjuntos de fórmulas\<close>
     
 text \<open>Veamos definiciones y resultados relativos a la semántica de un
   conjunto de fórmulas.
@@ -965,7 +976,7 @@ end
 text \<open>El siguiente resultado relaciona los conceptos de modelo de 
   una fórmula y modelo de un conjunto de fórmulas en Isabelle.
   La equivalencia se demostrará fácilmente mediante las definiciones
-  de\\ \<open>isModel\<close> e \<open>isModelSet\<close>.\<close>
+  de \<open>isModel\<close> e\\ \<open>isModelSet\<close>.\<close>
 
 lemma modelSet:
   "isModelSet \<A> S \<equiv> \<forall>F. (F\<in> S \<longrightarrow> isModel \<A> F)" 
@@ -977,9 +988,9 @@ text\<open>Veamos la noción de satisfacibilidad para un conjunto de fórmulas.
     Un conjunto de fórmulas es satisfacible si tiene algún modelo.
   \end{definicion}
 
-  Es decir, la satisfacibilidad de un conjunto de fórmulas depende de la
-  existencia de una interpretación que sea modelo de dicho conjunto, es
-  decir, que sea modelo de todas las fórmulas del conjunto.
+  En otras palabras, la satisfacibilidad de un conjunto de fórmulas 
+  depende de la existencia de una interpretación que sea modelo de dicho 
+  conjunto, es decir, que sea modelo de todas las fórmulas del conjunto.
 
   En Isabelle se formaliza de la siguiente manera.\<close>
 
@@ -997,7 +1008,7 @@ text \<open>En particular, se puede definir un conjunto de fórmulas
 
 definition "fin_sat S \<equiv> (\<forall>s \<subseteq> S. finite s \<longrightarrow> sat s)"
 
-text \<open>Definición: consecuencia lógica.\<close>
+text \<open>\comentario{Definición de consecuencia lógica.}\<close>
 
 definition entailment :: 
   "'a formula set \<Rightarrow> 'a formula \<Rightarrow> bool" ("(_ \<TTurnstile>/ _)" 
@@ -1009,8 +1020,9 @@ text \<open>We write entailment differently than semantics (\<open>\<Turnstile>\
   situation, but it often needs to be decided from context that
   Isabelle/HOL does not have.\<close> 
 
-text \<open>Lema: un conjunto de fórmulas S es inconsistente si y sólo si
- $\bot$ es consecuencia lógica de S.\<close>
+text \<open>\comentario{Enunciar y demostrar lema a mano.}
+  Lema: un conjunto de fórmulas S es inconsistente si y sólo si
+  $\bot$ es consecuencia lógica de S.\<close>
 
 lemma "\<Gamma> \<TTurnstile> \<bottom> \<longleftrightarrow> \<not> sat \<Gamma>" 
 proof -
@@ -1032,7 +1044,7 @@ proof -
     by this
 qed
 
-text \<open>Finalmente se muestra su demostración automática.\<close>
+text \<open>Finalmente su demostración automática es la siguiente.\<close>
 
 lemma entail_sat: 
   "\<Gamma> \<TTurnstile> \<bottom> \<longleftrightarrow> \<not> sat \<Gamma>" 
