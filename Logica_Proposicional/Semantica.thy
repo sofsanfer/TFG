@@ -1008,21 +1008,56 @@ text \<open>En particular, se puede definir un conjunto de fórmulas
 
 definition "fin_sat S \<equiv> (\<forall>s \<subseteq> S. finite s \<longrightarrow> sat s)"
 
-text \<open>\comentario{Definición de consecuencia lógica.}\<close>
+text \<open>Veamos la noción de consecuencia lógica.
+
+  \begin{definicion}
+    Una fórmula es consecuencia lógica de un conjunto de fórmulas si
+    todos los modelos del conjunto son modelos de la fórmula.
+  \end{definicion}
+
+  Teniendo en cuenta la definicón de modelo de una fórmula, su 
+  formalización en Isabelle es la siguiente.\<close>
 
 definition entailment :: 
   "'a formula set \<Rightarrow> 'a formula \<Rightarrow> bool" ("(_ \<TTurnstile>/ _)" 
     (* \TTurnstile *) [53,53] 53) where
   "\<Gamma> \<TTurnstile> F \<equiv> (\<forall>\<A>. ((\<forall>G \<in> \<Gamma>. \<A> \<Turnstile> G) \<longrightarrow> (\<A> \<Turnstile> F)))"
  
-text \<open>We write entailment differently than semantics (\<open>\<Turnstile>\<close> vs. \<open>\<TTurnstile>\<close>).
-  For humans, it is usually pretty clear what is meant in a specific
-  situation, but it often needs to be decided from context that
-  Isabelle/HOL does not have.\<close> 
+text \<open>Hagamos varias observaciones sobre esta definición. En primer
+  lugar, hemos usado el tipo \<open>definition\<close> para renombrar una 
+  construcción no recursiva ya existente en Isabelle. Por otro
+  lado, no hemos empleado \<open>isModel\<close> ni \<open>isModelSet\<close> para su definición
+  ya que, de este modo, no tenemos que desplegar dichas definiciones y 
+  ahorramos pasos en las demostraciones detalladas y automáticas de los
+  lemas posteriores. Finalmente se puede observar la notación \<open>\<TTurnstile>\<close>. 
+  En la teoría clásica no se suele emplear una nueva notación pues se
+  diferencia por el contexto, mientras que en Isabelle/HOL es 
+  imprescindible.
 
-text \<open>\comentario{Enunciar y demostrar lema a mano.}
-  Lema: un conjunto de fórmulas S es inconsistente si y sólo si
-  $\bot$ es consecuencia lógica de S.\<close>
+  Llegamos así al último lema de la sección.
+
+  \begin{lema}
+    Un conjunto de fórmulas es inconsistente si y sólo si \<open>\<bottom>\<close> es
+    consecuencia lógica de dicho conjunto.
+  \end{lema}
+
+  Su formalización en Isabelle es la siguiente.\<close>
+
+lemma "\<not> sat \<Gamma> \<longleftrightarrow> \<Gamma> \<TTurnstile> \<bottom>" 
+  oops
+
+text\<open>
+  \comentario{Demostrar lema a mano.}
+
+  \begin{demostracion}
+    Vamos a probar la doble implicación como una cadena de
+    equivalencias. ...
+  \end{demostracion}
+
+  Procedamos con las pruebas en Isabelle/HOL. Como se puede observar,
+  hemos enunciado la doble implicación de distinta forma para reducir 
+  la demostración detallada, pues asumimos la propiedad reflexiva de 
+  la doble implicación.\<close>
 
 lemma "\<Gamma> \<TTurnstile> \<bottom> \<longleftrightarrow> \<not> sat \<Gamma>" 
 proof -
