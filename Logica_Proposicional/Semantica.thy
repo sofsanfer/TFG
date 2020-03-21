@@ -881,10 +881,30 @@ text \<open>Como podemos observar, en el enunciado de la derecha hemos
    es modelo de todos los elementos del conjunto vacío. Es decir, \<open>\<A>\<close>
    es modelo de todos los elementos de la lista vacía, como queríamos
    demostrar. 
+
+   Consideramos ahora la interpretación \<open>\<A>\<close> y el conjunto de fórmulas
+   \<open>Fs\<close> de modo que \<open>\<A>\<close> es modelo de \<open>Fs\<close> si y solo si es modelo de 
+   cada fórmula de \<open>Fs\<close>. Veamos ahora que se verifica la propiedad para
+   la lista \<open>F#Fs\<close> formada al añadir la fórmula \<open>F\<close>.
+   En primer lugar, si \<open>\<A>\<close> es modelo de la conjunción generalizada de
+   \<open>F#Fs\<close>, por definición de dicha conjunción, esto es equivalente a
+   que \<open>\<A>\<close> es modelo de la conjunción de \<open>F\<close> y la conjunción
+   generalizada de \<open>Fs\<close>. Según el valor de una fórmula dada una
+   interpretación, esto es a su vez equivalente a la conjunción de
+   "\<open>\<A>\<close> es modelo de \<open>F\<close>" y "\<open>\<A>\<close> es modelo de la conjunción 
+   generalizada de \<open>Fs\<close>". Aplicando la hipótesis de inducción sobre el 
+   segundo término de la conjunción, es equivalente a la conjunción de 
+   "\<open>\<A>\<close> es  modelo de \<open>F\<close>" y "\<open>\<A>\<close> es modelo de toda fórmula del 
+   conjunto formado por los elementos de \<open>Fs\<close>". Equivalentemente, \<open>\<A>\<close> 
+   es modelo de toda fórmula del conjunto formado por la unión de \<open>{F}\<close> 
+   y el conjunto de los elementos de \<open>Fs\<close>. Es decir, \<open>\<A>\<close> es modelo de 
+   toda fórmula del conjunto formado por los elementos de \<open>F#Fs\<close>, 
+   probando así el resultado.
   \end{demostracion}
 
-  \comentario{Demostrar los dos siguientes lemas de
-  conectivas generalizadas. Falta terminar cons de BigAnd.}\<close>
+  Veamos ahora su demostración detallada en Isabelle. Primero se
+  probarán los dos casos correspondientes a la estructura de listas por
+  separado.\<close>
 
 lemma BigAnd_semantics_nil: "\<A> \<Turnstile> \<^bold>\<And>[] \<longleftrightarrow> (\<forall>f \<in> set []. \<A> \<Turnstile> f)"
 proof - 
@@ -904,8 +924,15 @@ proof -
     by this
 qed
 
-text \<open>\comentario{Terminar los pendientes de BigAnd semantics cons y 
-  BigOr semantics cons.}\<close>
+text \<open>\comentario{DUDA: Bigprop1 es el enunciado de ball simps(7), un 
+  lema de Isabelle que debería permitir la demostración.
+  Sin embargo, da error. De hecho, ni siquiera puedo demostrar Bigprop1
+  usando dicho lema porque también da error.}\<close>
+
+find_theorems name: ball_simps
+
+lemma Bigprop1: "(\<forall>x\<in>{a} \<union> B. P x) = (P a \<and> (\<forall>x\<in>B. P x))"
+  by simp
 
 lemma BigAnd_semantics_cons: 
   assumes "\<A> \<Turnstile> \<^bold>\<And>Fs \<longleftrightarrow> (\<forall>f \<in> set Fs. \<A> \<Turnstile> f)"
@@ -917,8 +944,8 @@ proof -
     by (simp only: formula_semantics.simps(4))
   also have "\<dots> = (\<A> \<Turnstile> F \<and> (\<forall>f \<in> set Fs. \<A> \<Turnstile> f))"
     by (simp only: assms)
-  also have "\<dots> = (\<forall>f \<in> ({F} \<union> set Fs). \<A> \<Turnstile> f)" using [[simp_trace]]
-    by simp (*Pendiente: uso ball_simps(7)*)
+  also have "\<dots> = (\<forall>f \<in> ({F} \<union> set Fs). \<A> \<Turnstile> f)"
+    by (simp only: Bigprop1)
   also have "\<dots> = (\<forall>f \<in> set (F#Fs). \<A> \<Turnstile> f)"
     by (simp only: set_insert)
   finally show ?thesis
@@ -946,7 +973,51 @@ text \<open>Finalmente un resultado sobre la disyunción generalizada.
     Una interpretación es modelo de la disyunción generalizada de una 
     lista de fórmulas si y solo si es modelo de cada fórmula de la
     lista.
-  \end{lema}\<close>
+  \end{lema}
+
+  \comentario{Demostrar los dos siguientes lemas de
+  conectivas generalizadas.}
+
+  Su formalización en Isabelle es la siguiente.\<close>
+
+lemma "\<A> \<Turnstile> \<^bold>\<Or>Fs \<longleftrightarrow> (\<exists>f \<in> set Fs. \<A> \<Turnstile> f)" 
+  oops
+
+text \<open>Procedamos con la demostración del resultado.
+
+  \begin{demostracion}
+    La prueba sigue el esquema de inducción sobre la estructura de
+    listas. Vamos a probar los dos casos mediante cadenas de 
+    equivalencias.
+
+    Sea la lista vacía de fórmulas y una interpretación cualquiera
+    \<open>\<A>\<close>. Por definición de la disyunción generalizada, si \<open>\<A>\<close> es
+    modelo de la disyunción generalizada de la lista vacía,
+    equivalentemente tenemos que es modelo de \<open>\<bottom>\<close>, es decir, \<open>Falso\<close>.
+    Llegados a esta contradicción, en particular, es equivalente a
+    suponer que existe una fórmula en el conjunto vacío tal que \<open>\<A>\<close> es
+    modelo suyo.
+
+    Consideremos ahora la lista de fórmulas \<open>Fs\<close> y una interpretación
+    \<open>\<A>\<close> tal que es modelo de \<open>Fs\<close> si y solo si es modelo de cada
+    fórmula del conjunto formado por los elementos de \<open>Fs\<close>. Vamos a
+    probar el resultado para la lista \<open>F#Fs\<close> dada cualquier fórmula
+    \<open>F\<close>. Si \<open>\<A>\<close> es modelo de la disyunción generalizada de \<open>F#Fs\<close>, por
+    definición, es equivalente a la disyunción de "\<open>\<A>\<close> es modelo de
+    \<open>F\<close>" y "\<open>\<A>\<close> es modelo de la disyunción generalizada de \<open>Fs\<close>". 
+    Aplicando la hipótesis de inducción, tenemos equivalentemente la
+    disyunción de "\<open>\<A>\<close> es modelo de \<open>F\<close>" y "existe una fórmula
+    perteneciente al conjunto de elementos de \<open>Fs\<close> tal que \<open>\<A>\<close> es
+    modelo suyo". Por tanto, por propiedades de la disyunción, esto es 
+    equivalente a que exista una fórmula perteneciente a la unión de
+    \<open>{F}\<close> y el conjunto de los elementos de \<open>Fs\<close> que tiene a \<open>\<A>\<close> como 
+    modelo. Finalmente, tenemos que esto ocurre si y solo si
+    existe una fórmula del conjunto de los elementos de \<open>F#Fs\<close> tal que
+    \<open>\<A>\<close> sea modelo suyo, como queríamos demostrar.
+  \end{demostracion}
+
+  A continuación lo probamos de manera detallada con Isabelle/HOL, 
+  haciendo previamente cada paso por separado.\<close>
 
 lemma BigOr_semantics_nil: "\<A> \<Turnstile> \<^bold>\<Or>[] \<longleftrightarrow> (\<exists>f \<in> set []. \<A> \<Turnstile> f)" 
 proof -
@@ -962,6 +1033,16 @@ proof -
     by this
 qed
 
+text \<open>\comentario{DUDA: Análogamente, Bigprop2 es el enunciado de 
+  bex simps(5), un lema de Isabelle que debería permitir la 
+  demostración. Sin embargo, da error. De hecho, ni siquiera puedo 
+  demostrar Bigprop2 usando dicho lema porque también da error.}\<close>
+
+find_theorems name: bex_simps
+
+lemma Bigprop2: "(\<exists>x\<in>{a} \<union> B. P x) = (P a \<or> (\<exists>x\<in>B. P x))"
+  by simp
+
 lemma BigOr_semantics_cons: 
   assumes "\<A> \<Turnstile> \<^bold>\<Or>Fs \<longleftrightarrow> (\<exists>f \<in> set Fs. \<A> \<Turnstile> f)" 
   shows "\<A> \<Turnstile> \<^bold>\<Or>(F#Fs) \<longleftrightarrow> (\<exists>f \<in> set (F#Fs). \<A> \<Turnstile> f)" 
@@ -972,8 +1053,10 @@ proof -
     by (simp only: formula_semantics.simps(5))
   also have "\<dots> = (\<A> \<Turnstile> F \<or> (\<exists>f \<in> set Fs. \<A> \<Turnstile> f))"
     by (simp only: assms)
-  also have "\<dots> = (\<exists>f \<in> set (F#Fs). \<A> \<Turnstile> f)" using [[simp_trace]]
-    by simp (*Pendiente: (simp only: bex_simps(5))*)
+  also have "\<dots> = (\<exists>f \<in> ({F} \<union> set Fs). \<A> \<Turnstile> f)"
+    by (simp only: Bigprop2)
+  also have "\<dots> = (\<exists>f \<in> set (F#Fs). \<A> \<Turnstile> f)"
+    by (simp only: set_insert)
   finally show ?thesis
     by this
 qed
