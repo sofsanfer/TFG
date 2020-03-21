@@ -975,9 +975,6 @@ text \<open>Finalmente un resultado sobre la disyunción generalizada.
     lista.
   \end{lema}
 
-  \comentario{Demostrar los dos siguientes lemas de
-  conectivas generalizadas.}
-
   Su formalización en Isabelle es la siguiente.\<close>
 
 lemma "\<A> \<Turnstile> \<^bold>\<Or>Fs \<longleftrightarrow> (\<exists>f \<in> set Fs. \<A> \<Turnstile> f)" 
@@ -1181,8 +1178,7 @@ text \<open>Hagamos varias observaciones sobre esta definición. En primer
 lemma "\<not> sat \<Gamma> \<longleftrightarrow> \<Gamma> \<TTurnstile> \<bottom>" 
   oops
 
-text\<open>
-  \comentario{Demostrar lema a mano.}
+text\<open>Comencemos las demostraciones del resultado.
 
   \begin{demostracion}
     Vamos a probar la doble implicación mediante una cadena de
