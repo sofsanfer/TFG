@@ -599,7 +599,105 @@ lemma "\<forall>k \<in> atoms F. \<A>\<^sub>1 k = \<A>\<^sub>2 k \<Longrightarro
 
 text \<open>Vamos a probar el resultado.
 
-  \comentario{Añadir demostración a mano.}
+  \begin{demostracion}
+    La prueba sigue el esquema de inducción sobre la estructura de las
+    fórmulas. De este modo, procedamos con la demostración de cada
+    caso.
+
+    En primer lugar sea una fórmula atómica \<open>p\<close>, donde \<open>p\<close> es una 
+    variable proposicional cualquiera. Sean las interpretaciones
+    \<open>\<A>\<^sub>1\<close> y \<open>\<A>\<^sub>2\<close> tales que toman los mismos valores sobre el conjunto de
+    átomos de \<open>p\<close>. Veamos que el valor de \<open>p\<close> dada \<open>\<A>\<^sub>1\<close> coincide con
+    su valor dada \<open>\<A>\<^sub>2\<close>. Por definición, el valor de \<open>p\<close> dada la
+    interpretación \<open>\<A>\<^sub>1\<close> es \<open>\<A>\<^sub>1(p)\<close>. Como el conjunto de átomos de
+    \<open>p\<close> es \<open>{p}\<close>, se tiene por hipótesis que \<open>\<A>\<^sub>1(p) = \<A>\<^sub>2(p)\<close>.
+    Finalmente, aplicando la definición, esto es igual al valor de la 
+    fórmula \<open>p\<close> dada la interpretación \<open>\<A>\<^sub>2\<close>, como queríamos probar.
+
+    Consideremos ahora la fórmula \<open>\<bottom>\<close> y dos interpretaciones en las 
+    condiciones del enunciado. Es fácil observar que, como el valor de 
+    \<open>\<bottom>\<close> es \<open>Falso\<close> dada cualquier interpretación, se tiene en 
+    particular el resultado.
+
+    Sea una fórmula \<open>F\<close> tal que, si dos interpretaciones coinciden sobre
+    el conjunto de átomos de \<open>F\<close>, entonces el valor de \<open>F\<close> es el mismo
+    para ambas interpretaciones. Sean dos interpretaciones cualesquiera
+    \<open>\<A>\<^sub>1\<close> y \<open>\<A>\<^sub>2\<close> que toman los mismos valores sobre el conjunto de
+    átomos de \<open>\<not> F\<close>. Vamos a probar que el valor de \<open>\<not> F\<close> dada \<open>\<A>\<^sub>1\<close>
+    coincide con su valor dada \<open>\<A>\<^sub>2\<close>.
+    Observemos que, como el conjunto de átomos de \<open>F\<close> y \<open>\<not> F\<close>
+    coinciden, se tiene por hipótesis de inducción que el valor de \<open>F\<close>
+    dada \<open>\<A>\<^sub>1\<close> coincide con su valor dada \<open>\<A>\<^sub>2\<close>. Por otro lado, por
+    definición, el valor de \<open>\<not> F\<close> dada \<open>\<A>\<^sub>1\<close> es la negación del valor
+    de \<open>F\<close> dada \<open>\<A>\<^sub>1\<close>. Por la observación anterior, esto es igual a la
+    negación del valor de \<open>F\<close> dada \<open>\<A>\<^sub>2\<close> que, por definición, es el
+    valor de \<open>\<not> F\<close> dada \<open>\<A>\<^sub>2\<close>, probando así el resultado.
+
+    Consideremos las fórmulas \<open>F\<close> y \<open>G\<close> con las mismas hipótesis que
+    la fórmula del caso anterior. Sean las interpretaciones \<open>\<A>\<^sub>1\<close> y \<open>\<A>\<^sub>2\<close> 
+    tales que coinciden sobre el conjunto de átomos de \<open>F \<and> G\<close>. Vamos a
+    probar que el valor de \<open>F \<and> G\<close> dada \<open>\<A>\<^sub>1\<close> es el mismo que dada \<open>\<A>\<^sub>2\<close>.
+    Como el conjunto de átomos de \<open>F \<and> G\<close> es la unión del conjunto de
+    átomos de \<open>F\<close> y el conjunto de átomos de \<open>G\<close>, tenemos que \<open>\<A>\<^sub>1\<close> y 
+    \<open>\<A>\<^sub>2\<close> coinciden sobre los elementos de dicha unión. En particular,
+    coinciden sobre los elementos del conjunto de átomos de \<open>F\<close> y, por
+    hipótesis de inducción, tenemos que el valor de \<open>F\<close> dada \<open>\<A>\<^sub>1\<close> 
+    coincide con su valor dada \<open>\<A>\<^sub>2\<close>. Del mismo modo, las
+    interpretaciones anteriores coinciden también sobre los elementos
+    del conjunto de átomos de \<open>G\<close> luego, aplicando análogamente la 
+    hipótesis de inducción, tenemos que el valor de \<open>G\<close> es el mismo 
+    para las interpretaciones \<open>\<A>\<^sub>1\<close> y \<open>\<A>\<^sub>2\<close>. Veamos ahora que el valor
+    de \<open>F \<and> G\<close> también coincide para dichas interpretaciones.
+    Por definición, el valor de \<open>F \<and> G\<close> dada \<open>\<A>\<^sub>1\<close> es la conjunción
+    del valor de \<open>F\<close> dada \<open>\<A>\<^sub>1\<close> y el valor de \<open>G\<close> dada \<open>\<A>\<^sub>1\<close>. Por lo 
+    obtenido anteriormente por las hipótesis de inducción, tenemos que
+    esto es igual a la conjunción del valor de \<open>F\<close> dada \<open>\<A>\<^sub>2\<close> y el
+    valor de \<open>G\<close> dada \<open>\<A>\<^sub>2\<close>. Por último se tiene que esto es igual al
+    valor de \<open>F \<and> G\<close> dada \<open>\<A>\<^sub>2\<close> tras aplicar la definición.
+
+    Volvamos a considerar \<open>F\<close> y \<open>G\<close> en las condiciones anteriores y
+    dos interpretaciones \<open>\<A>\<^sub>1\<close> y \<open>\<A>\<^sub>2\<close> que coinciden sobre el
+    conjunto de átomos de \<open>F \<or> G\<close>. Vamos a probar que el valor de dicha
+    fórmula es el mismo para ambas interpretaciones.
+    De manera análoga al caso anterior, como el conjunto de átomos de
+    \<open>F \<or> G\<close> es la unión del conjunto de átomos de \<open>F\<close> y el conjunto de
+    átomos de \<open>G\<close>, tenemos que las interpretaciones coinciden sobre los
+    elementos de esta unión. En particular, coinciden sobre el conjunto
+    de átomos de \<open>F\<close>. Por tanto, por hipótesis de inducción, el valor
+    de \<open>F\<close> dada \<open>\<A>\<^sub>1\<close> coincide con su valor dada \<open>\<A>\<^sub>2\<close>. Igualmente 
+    obtenemos que las interpretaciones coinciden sobre el conjunto de
+    átomos de \<open>G\<close> y, aplicando de nuevo hipótesis de inducción, el 
+    valor de \<open>G\<close> es el mismo para ambas interpretaciones. 
+    Por otra parte, por definición tenemos que le valor de \<open>F \<or> G\<close> dada
+    la interpretación \<open>\<A>\<^sub>1\<close> es la disyunción entre el valor de \<open>F\<close> dada
+    \<open>\<A>\<^sub>1\<close> y el valor de \<open>G\<close> dada \<open>\<A>\<^sub>1\<close>. Por las observaciones
+    anteriores derivadas de las hipótesis de inducción, tenemos que
+    esto es igual a la disyunción entre el valor de \<open>F\<close> dada \<open>\<A>\<^sub>2\<close> y
+    el valor de \<open>G\<close> dada \<open>\<A>\<^sub>2\<close>. Por definición, esto es el valor de 
+    \<open>F \<or> G\<close> dada \<open>\<A>\<^sub>2\<close>, como queríamos demostrar.
+
+    Veamos el último caso de las fórmulas. Sean \<open>F\<close> y \<open>G\<close> fórmulas en 
+    las condiciones de los casos anteriores. Consideremos las
+    interpretaciones \<open>\<A>\<^sub>1\<close> y \<open>\<A>\<^sub>2\<close> que coinciden sobre los elementos
+    del conjunto de átomos de \<open>F \<rightarrow> G\<close>. Probemos que el valor de 
+    \<open>F \<rightarrow> G\<close> es el mismo para ambas interpretaciones.
+    Por definición, el conjunto de átomos de \<open>F \<rightarrow> G\<close> es la unión de los
+    conjuntos de átomos de \<open>F\<close> y \<open>G\<close>. Por tanto, dichas
+    interpretaciones coinciden sobre los elementos de dicha unión. 
+    Como hemos visto en casos anteriores, en particular coinciden sobre
+    los átomos de \<open>F\<close> luego, por hipótesis de inducción, el valor de 
+    \<open>F\<close> dada \<open>\<A>\<^sub>1\<close> coincide con su valor dada \<open>\<A>\<^sub>2\<close>. Análogamente, las
+    interpretaciones coinciden sobre los átomos de \<open>G\<close> y, por hipótesis
+    de inducción, el valor de \<open>G\<close> es el mismo para ambas
+    interpretaciones. Probemos que también coincide el valor de \<open>F \<rightarrow> G\<close>
+    para \<open>\<A>\<^sub>1\<close> y \<open>\<A>\<^sub>2\<close>.
+    Por definición, el valor de \<open>F \<rightarrow> G\<close> dada \<open>\<A>\<^sub>1\<close> es la implicación
+    entre el valor de \<open>F\<close> dada \<open>\<A>\<^sub>1\<close> y el valor de \<open>G\<close> dada \<open>\<A>\<^sub>1\<close>. De
+    esta manera, por las observaciones anteriores tenemos que esto es
+    igual a la implicación entre el valor de \<open>F\<close> dada \<open>\<A>\<^sub>2\<close> y el valor
+    de \<open>G\<close> dada \<open>\<A>\<^sub>2\<close>. Finalmente, por definición, esto es el valor de
+    \<open>F \<rightarrow> G\<close> dada la interpretación \<open>\<A>\<^sub>2\<close>, probando así el resultado.    
+  \end{demostracion}
 
   Probemos ahora el lema de forma detallada en Isabelle, haciendo cada
   caso de la estructura de las fórmulas por separado y empleando lemas
