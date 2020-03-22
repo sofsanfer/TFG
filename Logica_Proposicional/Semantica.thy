@@ -264,10 +264,11 @@ text\<open>Veamos ahora la prueba del lema.
   hipótesis de inducción, el valor de la fórmula \<open>F\<close> dada la 
   interpretación \<open>\<A>\<close> coincide con su valor dada la interpretación 
   \<open>\<A>'\<close>. Por otro lado, por definición tenemos que el valor de la 
-  fórmula \<open>\<not> F\<close> dada \<open>\<A>\<close> es \<open>\<not> \<I>\<^sub>\<A>(F)\<close>. Por lo visto anteriormente
-  según la hipótesis de inducción, esto es igual a \<open>\<not> \<I>\<^sub>\<A>\<^sub>'(F)\<close>. 
-  Por último, por definición es igual al valor de \<open>\<not> F\<close> dada \<open>\<A>'\<close>, 
-  como quería demostrar.
+  fórmula \<open>\<not> F\<close> dada \<open>\<A>\<close> es la negación del valor de \<open>F\<close> dada \<open>\<A>\<close>. 
+  Por lo visto anteriormente según la hipótesis de inducción, esto es 
+  igual a la negación del valor de \<open>F\<close> dada \<open>\<A>'\<close>. Por último, 
+  por definición, esto es igual al valor de \<open>\<not> F\<close> dada \<open>\<A>'\<close>, como 
+  quería demostrar.
 
   Sean ahora las fórmulas \<open>G\<close> y \<open>H\<close> tales que, para cada una, su valor
   por la interpretación \<open>\<A>\<close> coincide con su valor dada la
@@ -285,10 +286,12 @@ text\<open>Veamos ahora la prueba del lema.
   el valor de \<open>H\<close> es el mismo dadas las interpretaciones \<open>\<A>\<close> y \<open>\<A>'\<close>. 
   Aclaradas estas observaciones, se tiene por definición que el valor 
   de la fórmula \<open>G \<and> H\<close> dada la interpretación \<open>\<A>'\<close> es 
-  \<open>\<I>\<^sub>\<A>\<^sub>'(G) \<and> \<I>\<^sub>\<A>\<^sub>'(H)\<close>. Por lo demostrado anteriormente según las hipótesis
-  de inducción, esto es igual a \<open>\<I>\<^sub>\<A>(G) \<and> \<I>\<^sub>\<A>(H)\<close> que, por definición, es 
-  el valor de \<open>G \<and> H\<close> dada la interpretación \<open>\<A>\<close>. Por tanto, queda 
-  probada la equivalencia en este caso.
+  la conjunción del valor de \<open>G\<close> dada \<open>\<A>'\<close> y el valor de \<open>H\<close> dada \<open>\<A>'\<close>. 
+  Por lo demostrado anteriormente según las hipótesis de inducción, 
+  esto es igual a la conjunción del valor de \<open>G\<close> dada \<open>\<A>\<close> y el valor de 
+  \<open>H\<close> dada \<open>\<A>\<close>. Aplicando la definición, esto es el valor de \<open>G \<and> H\<close> 
+  dada la interpretación \<open>\<A>\<close>. Por tanto, queda probada la equivalencia 
+  en este caso.
 
   Sean las fórmulas \<open>G\<close> y \<open>H\<close> cumpliendo las hipótesis supuestas
   para el caso anterior. Veamos que el resultado se verifica para la
@@ -299,15 +302,19 @@ text\<open>Veamos ahora la prueba del lema.
   conjunto de átomos de \<open>G\<close>. Por tanto, aplicando la hipótesis de 
   inducción se tiene que el valor de \<open>G\<close> dada la interpretación \<open>\<A>\<close> 
   coincide con su valor dada la interpretación \<open>\<A>'\<close>. Análogamente 
-  ocurre para la fórmula \<open>H\<close> como vimos en el caso anterior.
-  Veamos la equivalencia. Por definición tenemos que el valor de la 
-  fórmula \<open>G \<or> H\<close> dada la interpretación \<open>\<A>'\<close> es \<open>\<I>\<^sub>\<A>\<^sub>'(G) \<or> \<I>\<^sub>\<A>\<^sub>'(H)\<close>. Por 
-  lo probado anteriormente según las hipótesis de inducicón, esto es 
-  igual a \<open>\<I>\<^sub>\<A>(G) \<or> \<I>\<^sub>\<A>(H)\<close> . Por definición, se verifica que es igual al 
-  valor de \<open>G \<or> H\<close> dada la interpretación \<open>\<A>\<close>, como queríamos 
-  demostrar.
+  ocurre para la fórmula \<open>H\<close> como vimos en el caso anterior, de modo
+  que \<open>A\<close> no pertenece al conjunto de átomos de \<open>H\<close>. Por tanto, por 
+  hipótesis de inducción, el valor de \<open>H\<close> es el mismo dada \<open>\<A>\<close> y \<open>\<A>'\<close>.
+  Veamos la equivalencia. 
+  Por definición tenemos que el valor de la fórmula \<open>G \<or> H\<close> dada la 
+  interpretación \<open>\<A>'\<close> es la disyunción entre el valor de \<open>G\<close> dada \<open>\<A>'\<close>
+  y el valor de \<open>H\<close> dada \<open>\<A>'\<close>. Por lo probado anteriormente según las 
+  hipótesis de inducicón, esto es igual a la disyunción entre el valor 
+  de \<open>G\<close> dada \<open>\<A>\<close> y el valor de \<open>H\<close> dada \<open>\<A>\<close>. Por definición, se 
+  verifica que es igual al valor de \<open>G \<or> H\<close> dada la interpretación \<open>\<A>\<close>, 
+  como queríamos demostrar.
 
-  Demostremos finalmente el último caso considerando las fórmulas \<open>G\<close> y
+  Probemos finalmente el último caso considerando las fórmulas \<open>G\<close> y
   \<open>H\<close> bajo las condiciones de los dos casos anteriores. Sea \<open>A\<close> una 
   variable proposicional que no pertenece al conjunto de átomos de 
   \<open>G \<rightarrow> H\<close>. Como dicho conjunto es la unión del conjunto de átomos de
@@ -316,10 +323,11 @@ text\<open>Veamos ahora la prueba del lema.
   es el mismo dadas las interpretaciones \<open>\<A>\<close> y \<open>\<A>'\<close>, y lo mismo ocurre 
   para \<open>H\<close>. Veamos ahora la cadena de equivalencias. Por definición 
   tenemos que el valor de la fórmula \<open>G \<rightarrow> H\<close> dada la interpretación 
-  \<open>\<A>'\<close> es \<open>\<I>\<^sub>\<A>\<^sub>'(G) \<rightarrow> \<I>\<^sub>\<A>\<^sub>'(H)\<close>. Análogamente a los casos anteriores por 
-  las hipótesis de inducción, esto es igual a \<open>\<I>\<^sub>\<A>(G) \<rightarrow> \<I>\<^sub>\<A>(H)\<close>. Por
-  definición, es igual al valor de \<open>G \<rightarrow> H\<close> dada la interpretación \<open>\<A>\<close>,
-  probando así la equivalencia.
+  \<open>\<A>'\<close> es la implicación del valor de \<open>G\<close> dada \<open>\<A>'\<close> y el valor de \<open>H\<close>
+  dada \<open>\<A>'\<close>. Análogamente a los casos anteriores por las hipótesis de 
+  inducción, esto es igual a la implicación del valor de \<open>G\<close> dada \<open>\<A>\<close> y 
+  el valor de \<open>H\<close> dada \<open>\<A>\<close>. Por definición, esto es igual al valor de 
+  \<open>G \<rightarrow> H\<close> dada la interpretación \<open>\<A>\<close>, probando así el resultado.
   \end{demostracion}
 
   Veamos a continuación la demostración detallada del lema en\\ 
