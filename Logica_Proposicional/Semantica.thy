@@ -55,7 +55,7 @@ type_synonym 'a valuation = "'a \<Rightarrow> bool"
 
   En Isabelle, dada una interpretación \<open>\<A>\<close> y una fórmula \<open>F\<close>, vamos a 
   definir \<open>\<I>\<^sub>\<A>(F)\<close> mediante la función \<open>formula_semantics \<A> F\<close>, 
-  notado como \<open>\<A> \<Turnstile> F\<close>.\<close>
+  notado como\\ \<open>\<A> \<Turnstile> F\<close>.\<close>
 
 primrec formula_semantics :: 
   "'a valuation \<Rightarrow> 'a formula \<Rightarrow> bool" (infix "\<Turnstile>" 51) where
@@ -114,8 +114,8 @@ text \<open>En los ejemplos anteriores se ha usado la notación para
   fórmula.
 
   \begin{definicion}
-  Una interpretación \<open>\<A>\<close> es modelo de una fórmula \<open>F\<close> si\\
-  \<open>\<I>\<^sub>\<A>(F) = True\<close>. 
+  Una interpretación es modelo de una fórmula si el valor de la
+  fórmula dada dicha interpretación es \<open>Verdadero\<close>. 
   \end{definicion}
 
   En Isabelle se formaliza de la siguiente manera.\<close>
@@ -218,11 +218,11 @@ text \<open>Una vez presentados los conceptos anteriores, mostremos el
   primer lema de la sección.
 
   \begin{lema}
-  Dadas una interpretación \<open>\<A>\<close> y una fórmula \<open>F\<close> de modo que \<open>A\<close>
+  Sea una interpretación \<open>\<A>\<close> y una fórmula \<open>F\<close> de modo que \<open>A\<close>
   es una variable proposicional que no pertenece al conjunto de átomos
-  de \<open>F\<close>. Sea la interpretación \<open>\<A>'\<close> la función que devuelve \<open>\<A>(q)\<close>
-  para cualquier variable proposicional \<open>q\<close> distinta de \<open>A\<close>, y \<open>V\<close> en 
-  caso contrario.
+  de \<open>F\<close>. Se define la interpretación \<open>\<A>'\<close> como la función que devuelve 
+  \<open>\<A>(q)\<close> para cualquier variable proposicional \<open>q\<close> distinta de \<open>A\<close>, y 
+  \<open>V\<close> en caso contrario.
 
   Entonces, la fórmula \<open>F\<close> tiene el mismo valor para las 
   interpretaciones \<open>\<A>\<close> y \<open>\<A>'\<close>.
@@ -335,7 +335,7 @@ text\<open>Veamos ahora la prueba del lema.
   probado el resultado para cada caso de la estructura de las fórmulas
   como es habitual. Además, se han empleado los lemas auxiliares 
   \<open>irrelevant_atom_atomic_l1\<close>, \<open>irrelevant_atom_not_l1\<close>,
-  \<open>irrelevant_atom_and_l1\<close>, \<open>irrelevant_atom_or_l1\<close> e 
+  \<open>irrelevant_atom_and_l1\<close>, \<open>irrelevant_atom_or_l1\<close> e\\ 
   \<open>irrelevant_atom_imp_l1\<close> para mostrar resultados sobre la no
   pertenencia a los conjuntos de átomos en cada caso. Es fácil observar 
   que no ha sido necesario el uso de lemas auxiliares en el caso de la 
@@ -592,7 +592,7 @@ lemma irrelevant_atom:
   "A \<notin> atoms F \<Longrightarrow> (\<A>(A := V)) \<Turnstile> F \<longleftrightarrow> \<A> \<Turnstile> F"
   by (induction F) simp_all
 
-text \<open>Procedamos con el siguiente resultado de la sección.
+text \<open>Procedamos con el siguiente lema de la sección.
 
   \begin{lema}
     Si dos interpretaciones coinciden sobre el conjunto de átomos de una 
@@ -665,8 +665,8 @@ text \<open>Vamos a probar el resultado.
 
     Volvamos a considerar \<open>F\<close> y \<open>G\<close> en las condiciones anteriores y
     dos interpretaciones \<open>\<A>\<^sub>1\<close> y \<open>\<A>\<^sub>2\<close> que coinciden sobre el
-    conjunto de átomos de \<open>F \<or> G\<close>. Vamos a probar que el valor de dicha
-    fórmula es el mismo para ambas interpretaciones.
+    conjunto de átomos de\\ \<open>F \<or> G\<close>. Vamos a probar que el valor de 
+    dicha fórmula es el mismo para ambas interpretaciones.
     De manera análoga al caso anterior, como el conjunto de átomos de
     \<open>F \<or> G\<close> es la unión del conjunto de átomos de \<open>F\<close> y el conjunto de
     átomos de \<open>G\<close>, tenemos que las interpretaciones coinciden sobre los
@@ -796,9 +796,9 @@ proof (rule ballI)
     by (simp only: assms)
 qed
 
-text \<open>Empleando dichos resultados veamos las demostraciones detalladas
-  de los tres últimos casos y, por último, la demostración detallada
-  del lema completo en Isabelle.\<close>
+text \<open>Empleando dichos resultados, veamos las demostraciones detalladas
+  de los tres últimos casos. Después se mostrará la demostración 
+  detallada del lema completo en Isabelle.\<close>
 
 lemma relevant_atoms_same_semantics_and: 
   assumes "\<forall>k \<in> atoms F. \<A>\<^sub>1 k = \<A>\<^sub>2 k \<Longrightarrow> \<A>\<^sub>1 \<Turnstile> F \<longleftrightarrow> \<A>\<^sub>2 \<Turnstile> F"
@@ -907,7 +907,7 @@ lemma relevant_atoms_same_semantics:
 
 section \<open>Semántica de fórmulas con conectivas generalizadas\<close>
 
-text \<open>Por último mostraremos varios resultados relativos a la semántica
+text \<open>Por último, mostraremos varios resultados relativos a la semántica
   de las fórmulas construidas con conectivas generalizadas.
 
   \begin{lema}
@@ -919,12 +919,12 @@ text \<open>Por último mostraremos varios resultados relativos a la semántica
 
   \begin{demostracion}
     Sea una interpretación cualquiera \<open>\<A>\<close>. Es obvio que, aplicando la
-    propiedad reflexiva de la implicación, tenemos que es \<open>Verdadero\<close>
-    semánticamente que valor de \<open>\<bottom>\<close> dada \<open>\<A>\<close> se implique a sí mismo. 
-    Por definición, se tiene que la implicación anterior es, a su vez, 
-    equivalente al valor de la fórmula \<open>\<bottom> \<rightarrow> \<bottom>\<close> dada la interpretación 
-    \<open>\<A>\<close>. Según la definición de \<open>\<top>\<close>, tenemos que esto es
-    equivalente al valor de la fórmula \<open>\<top>\<close> dada la interpretación \<open>\<A>\<close>.
+    propiedad reflexiva de la implicación, tenemos que \<open>Verdadero\<close> es
+    equivalente a suponer que valor de \<open>\<bottom>\<close> dada \<open>\<A>\<close> se implica a sí 
+    mismo. Por definición, se tiene que la implicación anterior es, a 
+    su vez, equivalente al valor de la fórmula \<open>\<bottom> \<rightarrow> \<bottom>\<close> dada la 
+    interpretación \<open>\<A>\<close>. Según la definición de \<open>\<top>\<close>, tenemos que esto es
+    igual al valor de la fórmula \<open>\<top>\<close> dada la interpretación \<open>\<A>\<close>.
     Finalmente, mediante esta cadena de equivalencias se observa que
     el valor de \<open>\<top>\<close> dada una interpretación \<open>\<A>\<close> cualquiera es 
     \<open>Verdadero\<close> como queríamos probar.    
@@ -963,15 +963,15 @@ lemma "\<A> \<Turnstile> \<^bold>\<And>Fs \<longleftrightarrow> (\<forall>f \<in
   oops
 
 text \<open>Como podemos observar, en el enunciado de la derecha hemos
-  empleado \<open>set\<close> para cambiar al tipo conjuntos la lista de fórmulas,
-  pues esto permite emplear el cuantificador universal.
+  empleado \<open>set\<close> para cambiar al tipo de los conjuntos la lista de 
+  fórmulas, pues esto permite emplear el cuantificador universal.
 
   Procedamos con la prueba del lema.
 
   \begin{demostracion}
-   La prueba se basa en el esquema de inducción sobre listas de
-   fórmulas. Para ello, demostraremos el resultado mediante cadenas de
-   equivalencias en los siguientes casos.
+   La prueba se basa en el esquema de inducción sobre listas. Para ello, 
+   demostraremos el resultado mediante cadenas de equivalencias en los 
+   siguientes casos.
 
    En primer lugar, lo probamos para la lista vacía de fórmulas. Sea la
    interpretación \<open>\<A>\<close> tal que es modelo de la conjunción generalizada
@@ -981,17 +981,18 @@ text \<open>Como podemos observar, en el enunciado de la derecha hemos
    tenemos que esto es equivalente a que \<open>\<A>\<close> no es modelo de \<open>\<bottom>\<close>.
    Análogamente, como sabemos que el valor de \<open>\<bottom>\<close> es \<open>Falso\<close> para 
    cualquier interpretación, se tiene que lo anterior es equivalente a
-   \<open>\<not> Falso\<close>, es decir, \<open>Verdad\<close>. Por otro lado, por propiedades
+   \<open>\<not> Falso\<close>, es decir, \<open>Verdadero\<close>. Por otro lado, por propiedades
    del conjunto vacío, se tiene que toda propiedad sobre sus elementos
    es verdadera. Por tanto, lo anterior es equivalente a decir que \<open>\<A>\<close> 
    es modelo de todos los elementos del conjunto vacío. Es decir, \<open>\<A>\<close>
    es modelo de todos los elementos de la lista vacía, como queríamos
    demostrar. 
 
-   Consideramos ahora la interpretación \<open>\<A>\<close> y el conjunto de fórmulas
-   \<open>Fs\<close> de modo que \<open>\<A>\<close> es modelo de \<open>Fs\<close> si y solo si es modelo de 
-   cada fórmula de \<open>Fs\<close>. Veamos ahora que se verifica la propiedad para
-   la lista \<open>F#Fs\<close> formada al añadir la fórmula \<open>F\<close>.
+   Consideramos ahora la interpretación \<open>\<A>\<close> y la lista de fórmulas
+   \<open>Fs\<close> de modo que \<open>\<A>\<close> es modelo de la conjunción generalizada de \<open>Fs\<close> 
+   si y solo si es modelo de cada fórmula de \<open>Fs\<close>. Veamos ahora que se 
+   verifica la propiedad para la lista \<open>F#Fs\<close> formada al añadir la 
+   fórmula \<open>F\<close>.
    En primer lugar, si \<open>\<A>\<close> es modelo de la conjunción generalizada de
    \<open>F#Fs\<close>, por definición de dicha conjunción, esto es equivalente a
    que \<open>\<A>\<close> es modelo de la conjunción de \<open>F\<close> y la conjunción
@@ -1073,12 +1074,12 @@ lemma BigAnd_semantics:
   "\<A> \<Turnstile> \<^bold>\<And>Fs \<longleftrightarrow> (\<forall>f \<in> set Fs. \<A> \<Turnstile> f)"
   by (induction Fs; simp)
 
-text \<open>Finalmente un resultado sobre la disyunción generalizada.
+text \<open>Finalmente, un resultado sobre la disyunción generalizada.
 
   \begin{lema}
     Una interpretación es modelo de la disyunción generalizada de una 
-    lista de fórmulas si y solo si es modelo de cada fórmula de la
-    lista.
+    lista de fórmulas si y solo si existe una fórmula en la lista de la
+    cual sea modelo.
   \end{lema}
 
   Su formalización en Isabelle es la siguiente.\<close>
@@ -1097,26 +1098,25 @@ text \<open>Procedamos con la demostración del resultado.
     \<open>\<A>\<close>. Por definición de la disyunción generalizada, si \<open>\<A>\<close> es
     modelo de la disyunción generalizada de la lista vacía,
     equivalentemente tenemos que es modelo de \<open>\<bottom>\<close>, es decir, \<open>Falso\<close>.
-    Llegados a esta contradicción, en particular, es equivalente a
-    suponer que existe una fórmula en el conjunto vacío tal que \<open>\<A>\<close> es
-    modelo suyo.
+    En particular, esto es equivalente a suponer que existe una fórmula 
+    en el conjunto vacío tal que \<open>\<A>\<close> es modelo suyo.
 
     Consideremos ahora la lista de fórmulas \<open>Fs\<close> y una interpretación
     \<open>\<A>\<close> tal que es modelo de \<open>Fs\<close> si y solo si es modelo de cada
     fórmula del conjunto formado por los elementos de \<open>Fs\<close>. Vamos a
     probar el resultado para la lista \<open>F#Fs\<close> dada cualquier fórmula
     \<open>F\<close>. Si \<open>\<A>\<close> es modelo de la disyunción generalizada de \<open>F#Fs\<close>, por
-    definición, es equivalente a la disyunción de "\<open>\<A>\<close> es modelo de
+    definición, es equivalente a la disyunción entre "\<open>\<A>\<close> es modelo de
     \<open>F\<close>" y "\<open>\<A>\<close> es modelo de la disyunción generalizada de \<open>Fs\<close>". 
     Aplicando la hipótesis de inducción, tenemos equivalentemente la
-    disyunción de "\<open>\<A>\<close> es modelo de \<open>F\<close>" y "existe una fórmula
+    disyunción entre "\<open>\<A>\<close> es modelo de \<open>F\<close>" y "existe una fórmula
     perteneciente al conjunto de elementos de \<open>Fs\<close> tal que \<open>\<A>\<close> es
     modelo suyo". Por tanto, por propiedades de la disyunción, esto es 
     equivalente a que exista una fórmula perteneciente a la unión de
     \<open>{F}\<close> y el conjunto de los elementos de \<open>Fs\<close> que tiene a \<open>\<A>\<close> como 
     modelo. Finalmente, tenemos que esto ocurre si y solo si
-    existe una fórmula del conjunto de los elementos de \<open>F#Fs\<close> tal que
-    \<open>\<A>\<close> sea modelo suyo, como queríamos demostrar.
+    existe una fórmula en el conjunto de los elementos de \<open>F#Fs\<close> de la 
+    cual \<open>\<A>\<close> sea modelo, como queríamos demostrar.
   \end{demostracion}
 
   A continuación lo probamos de manera detallada con Isabelle/HOL, 
@@ -1245,7 +1245,7 @@ text \<open>En particular, se puede definir un conjunto de fórmulas
 
 definition "fin_sat S \<equiv> (\<forall>s \<subseteq> S. finite s \<longrightarrow> sat s)"
 
-text \<open>Veamos la noción de consecuencia lógica.
+text \<open>Continuemos con la noción de consecuencia lógica.
 
   \begin{definicion}
     Una fórmula es consecuencia lógica de un conjunto de fórmulas si
@@ -1275,7 +1275,7 @@ text \<open>Hagamos varias observaciones sobre esta definición. En primer
   Llegamos así al último lema de la sección.
 
   \begin{lema}
-    Un conjunto de fórmulas es inconsistente si y sólo si \<open>\<bottom>\<close> es
+    Un conjunto de fórmulas es insatisfacible si y sólo si \<open>\<bottom>\<close> es
     consecuencia lógica de dicho conjunto.
   \end{lema}
 
