@@ -210,6 +210,10 @@ begin
   have "\<Turnstile> (Atom 5 \<^bold>\<or> (\<^bold>\<not> (Atom 5)))"
     by simp
 
+  have "\<Turnstile> \<top>"
+    unfolding Top_def 
+    by simp
+
 end
 
 text \<open>Una vez presentados los conceptos anteriores, mostremos el 
@@ -915,7 +919,9 @@ lemma relevant_atoms_same_semantics:
 section \<open>Semántica de fórmulas con conectivas generalizadas\<close>
 
 text \<open>Por último, mostraremos varios resultados relativos a la semántica
-  de las fórmulas construidas con conectivas generalizadas.
+  de las fórmulas construidas con conectivas generalizadas. En primer
+  lugar, veamos un resultado que aparece anteriormente como ejemplo de
+  tautología.
 
   \begin{lema}
     La fórmula \<open>\<top>\<close> es una tautología.
@@ -939,9 +945,6 @@ text \<open>Por último, mostraremos varios resultados relativos a la semántica
 
   En Isabelle se enuncia y demuestra de manera detallada como sigue.\<close>
 
-text \<open>\comentario{Poner este lema como ejemplo de tautología cuando se define fórmula
-válida o tautología, aunque se use en esta sección.}\<close>
-
 lemma "\<A> \<Turnstile> \<top>" 
 proof -
  have "\<A> \<Turnstile> \<bottom> \<longrightarrow> \<A> \<Turnstile> \<bottom>" 
@@ -951,14 +954,10 @@ proof -
  thus "\<A> \<Turnstile> \<top>" unfolding Top_def by this
 qed
 
-text \<open>Asimismo se muestra su demostración automática.\<close>
-  
-lemma top_semantics: 
-  "\<A> \<Turnstile> \<top>" 
-  unfolding Top_def 
-  by simp 
+text \<open>Su demostración automática se muestra anteriormente en los 
+  ejemplos de tautología.
 
-text \<open>Veamos ahora resultados relativos a la semántica de la conjunción
+  Veamos ahora resultados relativos a la semántica de la conjunción
   y disyunción generalizadas.
 
   \begin{lema}
