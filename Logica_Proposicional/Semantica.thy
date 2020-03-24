@@ -110,7 +110,7 @@ text \<open>En los ejemplos anteriores se ha usado la notación para
   devuelve el valor \<open>f x\<close>.
 
   A continuación veamos una serie de definiciones sobre fórmulas e 
-  interpretaciones, en primer lugar, la noción de modelo de una 
+  interpretaciones. En primer lugar, la noción de modelo de una 
   fórmula.
 
   \begin{definicion}
@@ -147,6 +147,13 @@ begin
     by (simp add: isModel_def)
 
 end
+
+text \<open>\comentario{Estos ejemplos ylos siguiente siguen siendo incorrectos. 
+Tienes que ponerlos igual que los ejemplos anteriores: estableciendo una 
+interpretación cualquiera en el tipo de los naturales y luego especificando 
+su valor para naturales concretos. Del mismo modo, las fórmulas que se usan 
+de ejemplos han de ser concretas, como ya habíamos comentado.}\<close>
+
 
 text \<open>Demos ahora la noción de fórmula satisfacible.
 
@@ -197,13 +204,16 @@ abbreviation valid ("\<Turnstile> _" 51) where
 
 text \<open>Por otro lado, podemos observar que se ha definido mediante el 
   tipo \<open>abbreviation\<close>, pues no se trata de una definición propiamente 
-  dicha, sino de un mecanismo en Isabelle/HOl para nombrar
+  dicha, sino de un mecanismo en Isabelle/HOL para nombrar
   ciertas macros sintácticas. En este caso, introduce una nueva notación 
   para una construcción compleja formada por un cuantificador 
   universal aplicado a uno de los argumentos de \<open>formula_semantics\<close>.
 
   Veamos un ejemplo clásico de tautología: el principio del tercio
   excluso.\<close>
+
+text \<open>\comentario{Anteriormente ya se ha usado abbreviation para una definición.
+No es necesario justificar su uso cada vez.}\<close>
 
 notepad
 begin
@@ -228,11 +238,21 @@ text \<open>Una vez presentados los conceptos anteriores, mostremos el
   interpretaciones \<open>\<A>\<close> y \<open>\<A>'\<close>.
   \end{lema}
 
+
   En Isabelle se formaliza de la siguiente manera empleando la notación
   de \<open>fun_upd\<close>.\<close> 
 
+text \<open>\comentario{El enunciado del lema no se entiende bien. Supongo que
+lo que quieres decir es que si una variable proposicional (A) no aparece en una
+fórmula (F), el valor de F en una interpretación  \<open>\<A>\<close> no depende del valor
+de la variable A en la interpretación  \<open>\<A>\<close>. Otra cuestión es cómo se 
+formalice en Isabelle.}\<close>
+
 lemma "A \<notin> atoms F \<Longrightarrow> (\<A>(A := V)) \<Turnstile> F \<longleftrightarrow> \<A> \<Turnstile> F"
   oops
+
+  text \<open>\comentario{En la demostración del lema queda raro que utilizas una letra mayúscula
+para un átomo A y minúscula para p}\<close>
 
 text\<open>Veamos ahora la prueba del lema.
 
@@ -340,6 +360,11 @@ text\<open>Veamos ahora la prueba del lema.
   pertenencia a los conjuntos de átomos en cada caso. Es fácil observar 
   que no ha sido necesario el uso de lemas auxiliares en el caso de la 
   fórmula \<open>\<bottom>\<close>, pues su conjunto de átomos es el vacío.\<close>
+
+text \<open>\comentario{En las demostraciones, suitituir expresiones del tipo 
+"el valor de F dada la interpretación \<open>\<A>\<close>" o análogas por 
+"el valor de F en la interpretación \<open>\<A>\<close>". Fíjate que se refiere al valor de verdad 
+de una fórmula {\bf en} una interpretación.}\<close>
 
 lemma irrelevant_atom_atomic_l1:
   assumes "A \<notin> atoms (Atom x)" 
@@ -772,6 +797,8 @@ text \<open>Para los casos de la fórmula \<open>\<bottom>\<close> y la negació
   lemas auxiliares para facilitar las demostraciones detalladas en 
   Isabelle de los casos correspondientes a las conectivas binarias.\<close>
 
+find_theorems "_  \<union> _ "
+
 lemma forall_union1: 
   assumes "\<forall>x \<in> A \<union> B. P x"
   shows "\<forall>x \<in> A. P x"
@@ -932,6 +959,9 @@ text \<open>Por último, mostraremos varios resultados relativos a la semántica
 
   En Isabelle se enuncia y demuestra de manera detallada como sigue.\<close>
 
+text \<open>\comentario{Poner este lema como ejemplo de tautología cuando se define fórmula
+válida o tautología, aunque se use en esta sección.}\<close>
+
 lemma "\<A> \<Turnstile> \<top>" 
 proof -
  have "\<A> \<Turnstile> \<bottom> \<longrightarrow> \<A> \<Turnstile> \<bottom>" 
@@ -959,8 +989,10 @@ text \<open>Veamos ahora resultados relativos a la semántica de la conjunción
 
   Su formalización en Isabelle es la siguiente.\<close>
 
-lemma "\<A> \<Turnstile> \<^bold>\<And>Fs \<longleftrightarrow> (\<forall>f \<in> set Fs. \<A> \<Turnstile> f)"
-  oops
+text \<open>\comentario{Se ha modificado el lema para solucionar el problema de
+ambigüedad que detectaba Isabelle. }\<close>
+
+
 
 text \<open>Como podemos observar, en el enunciado de la derecha hemos
   empleado \<open>set\<close> para cambiar al tipo de los conjuntos la lista de 
@@ -1013,9 +1045,10 @@ text \<open>Como podemos observar, en el enunciado de la derecha hemos
   probarán los dos casos correspondientes a la estructura de listas por
   separado.\<close>
 
-lemma BigAnd_semantics_nil: "\<A> \<Turnstile> \<^bold>\<And>[] \<longleftrightarrow> (\<forall>f \<in> set []. \<A> \<Turnstile> f)"
-proof - 
-  have "\<A> \<Turnstile> \<^bold>\<And>[] = \<A> \<Turnstile> (\<^bold>\<not>\<bottom>)"
+
+lemma BigAnd_semantics_nil: "(\<A> \<Turnstile> \<^bold>\<And>[]) \<longleftrightarrow> (\<forall>f \<in> set []. \<A> \<Turnstile> f)"
+proof-
+  have "(\<A> \<Turnstile> \<^bold>\<And>[]) = \<A> \<Turnstile> (\<^bold>\<not>\<bottom>)"
     by (simp only: BigAnd.simps(1))
   also have "\<dots> = (\<not> \<A> \<Turnstile> \<bottom>)"
     by (simp only: formula_semantics.simps(3))
@@ -1038,14 +1071,28 @@ text \<open>\comentario{DUDA: Bigprop1 es el enunciado de ball simps(7), un
 
 find_theorems name: ball_simps
 
-lemma Bigprop1: "(\<forall>x\<in>{a} \<union> B. P x) = (P a \<and> (\<forall>x\<in>B. P x))"
+declare[[show_types]]
+
+thm ball_simps(7)
+
+text \<open>\comentario{Este problema ya lo vimos al final de la teoría de sintaxis.
+La cuestión es que, en realidad \<open>{a} \<union> B\<close> es \<open>insert a B\<close>, como se puede ver
+con el lema  \<open>insert_is_Un\<close> , que ya se usó en dicha teoría.}\<close>
+
+
+lemma Bigprop1_v0: "(\<forall>x\<in>(insert a B). P x) = (P a \<and> (\<forall>x\<in>B. P x))"
+  by (simp only: ball_simps(7))
+
+thm insert_is_Un
+
+lemma Bigprop1: "(\<forall>x\<in>({a} \<union> B). P x) = (P a \<and> (\<forall>x\<in>B. P x))"
   by simp
 
 lemma BigAnd_semantics_cons: 
-  assumes "\<A> \<Turnstile> \<^bold>\<And>Fs \<longleftrightarrow> (\<forall>f \<in> set Fs. \<A> \<Turnstile> f)"
-  shows "\<A> \<Turnstile> \<^bold>\<And>(F#Fs) \<longleftrightarrow> (\<forall>f \<in> set (F#Fs). \<A> \<Turnstile> f)"
+  assumes "(\<A> \<Turnstile> \<^bold>\<And>Fs) \<longleftrightarrow> (\<forall>f \<in> set Fs. \<A> \<Turnstile> f)"
+  shows "(\<A> \<Turnstile> \<^bold>\<And>(F#Fs)) \<longleftrightarrow> (\<forall>f \<in> set (F#Fs). \<A> \<Turnstile> f)"
 proof -
-  have "\<A> \<Turnstile> \<^bold>\<And>(F#Fs) = \<A> \<Turnstile> F \<^bold>\<and> \<^bold>\<And>Fs"
+  have "(\<A> \<Turnstile> \<^bold>\<And>(F#Fs)) = \<A> \<Turnstile> F \<^bold>\<and> \<^bold>\<And>Fs"
     by (simp only: BigAnd.simps(2))
   also have "\<dots> = (\<A> \<Turnstile> F \<and> \<A> \<Turnstile> \<^bold>\<And>Fs)"
     by (simp only: formula_semantics.simps(4))
@@ -1059,7 +1106,7 @@ proof -
     by this
 qed
 
-lemma "\<A> \<Turnstile> \<^bold>\<And>Fs \<longleftrightarrow> (\<forall>f \<in> set Fs. \<A> \<Turnstile> f)"
+lemma "(\<A> \<Turnstile> \<^bold>\<And>Fs) \<longleftrightarrow> (\<forall>f \<in> set Fs. \<A> \<Turnstile> f)"
 proof (induction Fs)
   case Nil
   then show ?case by (rule BigAnd_semantics_nil)
@@ -1071,7 +1118,7 @@ qed
 text \<open>Su demostración automática es la siguiente.\<close>
 
 lemma BigAnd_semantics: 
-  "\<A> \<Turnstile> \<^bold>\<And>Fs \<longleftrightarrow> (\<forall>f \<in> set Fs. \<A> \<Turnstile> f)"
+  "(\<A> \<Turnstile> \<^bold>\<And>Fs) \<longleftrightarrow> (\<forall>f \<in> set Fs. \<A> \<Turnstile> f)"
   by (induction Fs; simp)
 
 text \<open>Finalmente, un resultado sobre la disyunción generalizada.
@@ -1084,7 +1131,7 @@ text \<open>Finalmente, un resultado sobre la disyunción generalizada.
 
   Su formalización en Isabelle es la siguiente.\<close>
 
-lemma "\<A> \<Turnstile> \<^bold>\<Or>Fs \<longleftrightarrow> (\<exists>f \<in> set Fs. \<A> \<Turnstile> f)" 
+lemma "(\<A> \<Turnstile> \<^bold>\<Or>Fs) \<longleftrightarrow> (\<exists>f \<in> set Fs. \<A> \<Turnstile> f)" 
   oops
 
 text \<open>Procedamos con la demostración del resultado.
@@ -1122,9 +1169,10 @@ text \<open>Procedamos con la demostración del resultado.
   A continuación lo probamos de manera detallada con Isabelle/HOL, 
   haciendo previamente cada paso por separado.\<close>
 
-lemma BigOr_semantics_nil: "\<A> \<Turnstile> \<^bold>\<Or>[] \<longleftrightarrow> (\<exists>f \<in> set []. \<A> \<Turnstile> f)" 
+
+lemma BigOr_semantics_nil: "(\<A> \<Turnstile> \<^bold>\<Or>[]) \<longleftrightarrow> (\<exists>f \<in> set []. \<A> \<Turnstile> f)" 
 proof -
-  have "\<A> \<Turnstile> \<^bold>\<Or>[] = \<A> \<Turnstile> \<bottom>"
+  have "(\<A> \<Turnstile> \<^bold>\<Or>[]) = \<A> \<Turnstile> \<bottom>"
     by (simp only: BigOr.simps(1))
   also have "\<dots> = False"
     by (simp only: formula_semantics.simps(2))
@@ -1141,16 +1189,23 @@ text \<open>\comentario{DUDA: Análogamente, Bigprop2 es el enunciado de
   demostración. Sin embargo, da error. De hecho, ni siquiera puedo 
   demostrar Bigprop2 usando dicho lema porque también da error.}\<close>
 
+text \<open>\comentario{Este problema ya lo vimos al final de la teoría de sintaxis.
+La cuestión es que, en realidad \<open>{a} \<union> B\<close> es \<open>insert a B\<close>, como se puede ver
+con el lema  \<open>insert_is_Un\<close> , que ya se usó en dicha teoría.}\<close>
+
 find_theorems name: bex_simps
+
+lemma Bigprop2_v0: "(\<exists>x\<in> insert a B. P x) = (P a \<or> (\<exists>x\<in>B. P x))"
+  by (simp only: bex_simps(5))
 
 lemma Bigprop2: "(\<exists>x\<in>{a} \<union> B. P x) = (P a \<or> (\<exists>x\<in>B. P x))"
   by simp
 
 lemma BigOr_semantics_cons: 
-  assumes "\<A> \<Turnstile> \<^bold>\<Or>Fs \<longleftrightarrow> (\<exists>f \<in> set Fs. \<A> \<Turnstile> f)" 
-  shows "\<A> \<Turnstile> \<^bold>\<Or>(F#Fs) \<longleftrightarrow> (\<exists>f \<in> set (F#Fs). \<A> \<Turnstile> f)" 
+  assumes "(\<A> \<Turnstile> \<^bold>\<Or>Fs) \<longleftrightarrow> (\<exists>f \<in> set Fs. \<A> \<Turnstile> f)" 
+  shows "(\<A> \<Turnstile> \<^bold>\<Or>(F#Fs)) \<longleftrightarrow> (\<exists>f \<in> set (F#Fs). \<A> \<Turnstile> f)" 
 proof -
-  have "\<A> \<Turnstile> \<^bold>\<Or>(F#Fs) = \<A> \<Turnstile> F \<^bold>\<or> \<^bold>\<Or>Fs"
+  have "(\<A> \<Turnstile> \<^bold>\<Or>(F#Fs)) = \<A> \<Turnstile> F \<^bold>\<or> \<^bold>\<Or>Fs"
     by (simp only: BigOr.simps(2))
   also have "\<dots> = (\<A> \<Turnstile> F \<or> \<A> \<Turnstile> \<^bold>\<Or>Fs)"
     by (simp only: formula_semantics.simps(5))
@@ -1167,7 +1222,7 @@ qed
 text \<open>\comentario{Añadir ball empty, list set, not False eq True,
  bex empty al glosario.}\<close>
 
-lemma "\<A> \<Turnstile> \<^bold>\<Or>Fs \<longleftrightarrow> (\<exists>f \<in> set Fs. \<A> \<Turnstile> f)" 
+lemma "(\<A> \<Turnstile> \<^bold>\<Or>Fs) \<longleftrightarrow> (\<exists>f \<in> set Fs. \<A> \<Turnstile> f)" 
 proof (induction Fs)
 case Nil
   then show ?case by (rule BigOr_semantics_nil)
@@ -1177,8 +1232,10 @@ then show ?case by (rule BigOr_semantics_cons)
 qed
 
 lemma BigOr_semantics: 
-  "\<A> \<Turnstile> \<^bold>\<Or>Fs \<longleftrightarrow> (\<exists>f \<in> set Fs. \<A> \<Turnstile> f)" 
+  "(\<A> \<Turnstile> \<^bold>\<Or>Fs) \<longleftrightarrow> (\<exists>f \<in> set Fs. \<A> \<Turnstile> f)" 
   by (induction Fs; simp)
+
+text \<open>\comentario{Corregido hasta aquí}\<close>
 
 section \<open>Semántica de conjuntos de fórmulas\<close>
     
