@@ -196,9 +196,9 @@ abbreviation valid ("\<Turnstile> _" 51) where
   "\<Turnstile> F \<equiv> \<forall>\<A>. \<A> \<Turnstile> F"
 
 text \<open>Por otro lado, podemos observar que se ha definido mediante el 
-  tipo \<open>abbreviation\<close>, introduciendo una nueva notación para una 
+  tipo \<open>abbreviation\<close>, introduciendo una nueva notación para la 
   construcción formada por un cuantificador universal aplicado 
-  a uno de los argumentos de \<open>formula_semantics\<close>.
+  al primer argumento de \<open>formula_semantics\<close>.
 
   Veamos un ejemplo clásico de tautología: el principio del tercio
   excluso.\<close>
@@ -247,36 +247,36 @@ text\<open>Veamos ahora la prueba del lema.
 
   Sea \<open>q\<close> una fórmula atómica cualquiera tal que \<open>p\<close> no pertenece
   al conjunto de sus átomos \<open>{q}\<close>. De este modo, se tiene \<open>q \<noteq> p\<close>. 
-  Por definición, el valor de la fórmula atómica \<open>q\<close> dada la 
+  Por definición, el valor de la fórmula atómica \<open>q\<close> en la 
   interpretación \<open>\<A>'\<close>, es \<open>\<A>'(q)\<close>. Como hemos visto que \<open>q \<noteq> p\<close>, 
   tenemos a su vez \<open>\<A>'(q) = \<A>(q)\<close> según la definición de \<open>\<A>'\<close>. A su
-  vez, \<open>\<A>(q)\<close> es el valor de la fórmula atómica \<open>q\<close> dada la 
+  vez, \<open>\<A>(q)\<close> es el valor de la fórmula atómica \<open>q\<close> en la 
   interpretación \<open>\<A>\<close>, luego se tiene finalmente que ambos valores
   coinciden. 
 
   Sea la fórmula \<open>\<bottom>\<close>. Por definición, el valor de dicha fórmula es 
-  \<open>Falso\<close> dada cualquier interpretación, luego se verifica el
+  \<open>Falso\<close> en cualquier interpretación, luego se verifica el
   resultado en particular.
 
   Sea \<open>F\<close> una fórmula tal que para cualquier variable que no pertenezca
-  al conjunto de sus átomos, entonces el valor de \<open>F\<close> dada la 
-  interpretación \<open>\<A>\<close> coincide con su valor dada la interpretación \<open>\<A>'\<close> 
+  al conjunto de sus átomos, entonces el valor de \<open>F\<close> en la 
+  interpretación \<open>\<A>\<close> coincide con su valor en la interpretación \<open>\<A>'\<close> 
   construida como se indica en el enunciado. Vamos a demostrar el 
   resultado para la fórmula \<open>\<not> F\<close> considerando una variable \<open>p\<close> 
   cualquiera que no pertenezca al conjunto de átomos de \<open>\<not> F\<close>. Como 
   los conjuntos de átomos de \<open>F\<close> y \<open>\<not> F\<close> son el mismo, entonces \<open>p\<close> 
   tampoco pertenece al conjunto de átomos de \<open>F\<close>. De este modo, por 
-  hipótesis de inducción, el valor de la fórmula \<open>F\<close> dada la 
-  interpretación \<open>\<A>\<close> coincide con su valor dada la interpretación 
+  hipótesis de inducción, el valor de la fórmula \<open>F\<close> en la 
+  interpretación \<open>\<A>\<close> coincide con su valor en la interpretación 
   \<open>\<A>'\<close>. Por otro lado, por definición tenemos que el valor de la 
-  fórmula \<open>\<not> F\<close> dada \<open>\<A>\<close> es la negación del valor de \<open>F\<close> dada \<open>\<A>\<close>. 
+  fórmula \<open>\<not> F\<close> en \<open>\<A>\<close> es la negación del valor de \<open>F\<close> en \<open>\<A>\<close>. 
   Por lo visto anteriormente según la hipótesis de inducción, esto es 
-  igual a la negación del valor de \<open>F\<close> dada \<open>\<A>'\<close>. Por último, 
-  por definición, esto es igual al valor de \<open>\<not> F\<close> dada \<open>\<A>'\<close>, como 
+  igual a la negación del valor de \<open>F\<close> en \<open>\<A>'\<close>. Por último, 
+  por definición, esto es igual al valor de \<open>\<not> F\<close> en \<open>\<A>'\<close>, como 
   quería demostrar.
 
   Sean ahora las fórmulas \<open>G\<close> y \<open>H\<close> tales que, para cada una, su valor
-  por la interpretación \<open>\<A>\<close> coincide con su valor dada la
+  en la interpretación \<open>\<A>\<close> coincide con su valor en la
   interpretación \<open>\<A>'\<close> construida como se indica en el enunciado a 
   partir de una variable que no pertenezca al conjunto de sus átomos. 
   Veamos que se verifica el resultado para la fórmula \<open>G \<and> H\<close>.
@@ -284,18 +284,18 @@ text\<open>Veamos ahora la prueba del lema.
   átomos de \<open>G \<and> H\<close>. Por definición, dicho conjunto es igual a la unión
   del conjunto de átomos de \<open>G\<close> y el conjunto de átomos de \<open>H\<close>.
   Por tanto, en particular \<open>p\<close> no pertenece al conjunto de átomos de
-  \<open>G\<close> y, por hipótesis de inducción, el valor de \<open>G\<close> dada la
-  interpretación \<open>\<A>\<close> coincide con su valor dada la
+  \<open>G\<close> y, por hipótesis de inducción, el valor de \<open>G\<close> en la
+  interpretación \<open>\<A>\<close> coincide con su valor en la
   interpretación \<open>\<A>'\<close>. Por el mismo motivo, \<open>p\<close> no pertenece al
   conjunto de átomos de \<open>H\<close> y, por hipótesis de inducción,
-  el valor de \<open>H\<close> es el mismo dadas las interpretaciones \<open>\<A>\<close> y \<open>\<A>'\<close>. 
+  el valor de \<open>H\<close> es el mismo en las interpretaciones \<open>\<A>\<close> y \<open>\<A>'\<close>. 
   Aclaradas estas observaciones, se tiene por definición que el valor 
-  de la fórmula \<open>G \<and> H\<close> dada la interpretación \<open>\<A>'\<close> es 
-  la conjunción del valor de \<open>G\<close> dada \<open>\<A>'\<close> y el valor de \<open>H\<close> dada \<open>\<A>'\<close>. 
+  de la fórmula \<open>G \<and> H\<close> en la interpretación \<open>\<A>'\<close> es 
+  la conjunción del valor de \<open>G\<close> en \<open>\<A>'\<close> y el valor de \<open>H\<close> en \<open>\<A>'\<close>. 
   Por lo demostrado anteriormente según las hipótesis de inducción, 
-  esto es igual a la conjunción del valor de \<open>G\<close> dada \<open>\<A>\<close> y el valor de 
-  \<open>H\<close> dada \<open>\<A>\<close>. Aplicando la definición, esto es el valor de \<open>G \<and> H\<close> 
-  dada la interpretación \<open>\<A>\<close>. Por tanto, queda probada la equivalencia 
+  esto es igual a la conjunción del valor de \<open>G\<close> en \<open>\<A>\<close> y el valor de 
+  \<open>H\<close> en \<open>\<A>\<close>. Aplicando la definición, esto es el valor de \<open>G \<and> H\<close> 
+  en la interpretación \<open>\<A>\<close>. Por tanto, queda probada la equivalencia 
   en este caso.
 
   Sean las fórmulas \<open>G\<close> y \<open>H\<close> cumpliendo las hipótesis supuestas
@@ -305,18 +305,18 @@ text\<open>Veamos ahora la prueba del lema.
   la unión de los conjuntos de átomos de \<open>G\<close> y \<open>H\<close>. Por tanto, como se
   ha probado en el caso anterior, tenemos que \<open>p\<close> no pertenece al
   conjunto de átomos de \<open>G\<close>. Por tanto, aplicando la hipótesis de 
-  inducción se tiene que el valor de \<open>G\<close> dada la interpretación \<open>\<A>\<close> 
-  coincide con su valor dada la interpretación \<open>\<A>'\<close>. Análogamente 
+  inducción se tiene que el valor de \<open>G\<close> en la interpretación \<open>\<A>\<close> 
+  coincide con su valor en la interpretación \<open>\<A>'\<close>. Análogamente 
   ocurre para la fórmula \<open>H\<close> como vimos en el caso anterior, de modo
   que \<open>p\<close> no pertenece al conjunto de átomos de \<open>H\<close>. Por tanto, por 
-  hipótesis de inducción, el valor de \<open>H\<close> es el mismo dada \<open>\<A>\<close> y \<open>\<A>'\<close>.
+  hipótesis de inducción, el valor de \<open>H\<close> es el mismo en \<open>\<A>\<close> y \<open>\<A>'\<close>.
   Veamos la equivalencia. 
-  Por definición tenemos que el valor de la fórmula \<open>G \<or> H\<close> dada la 
-  interpretación \<open>\<A>'\<close> es la disyunción entre el valor de \<open>G\<close> dada \<open>\<A>'\<close>
-  y el valor de \<open>H\<close> dada \<open>\<A>'\<close>. Por lo probado anteriormente según las 
+  Por definición tenemos que el valor de la fórmula \<open>G \<or> H\<close> en la 
+  interpretación \<open>\<A>'\<close> es la disyunción entre el valor de \<open>G\<close> en \<open>\<A>'\<close>
+  y el valor de \<open>H\<close> en \<open>\<A>'\<close>. Por lo probado anteriormente según las 
   hipótesis de inducicón, esto es igual a la disyunción entre el valor 
-  de \<open>G\<close> dada \<open>\<A>\<close> y el valor de \<open>H\<close> dada \<open>\<A>\<close>. Por definición, se 
-  verifica que es igual al valor de \<open>G \<or> H\<close> dada la interpretación \<open>\<A>\<close>, 
+  de \<open>G\<close> en \<open>\<A>\<close> y el valor de \<open>H\<close> en \<open>\<A>\<close>. Por definición, se 
+  verifica que es igual al valor de \<open>G \<or> H\<close> en la interpretación \<open>\<A>\<close>, 
   como queríamos demostrar.
 
   Probemos finalmente el último caso considerando las fórmulas \<open>G\<close> y
@@ -325,14 +325,14 @@ text\<open>Veamos ahora la prueba del lema.
   \<open>G \<rightarrow> H\<close>. Como dicho conjunto es la unión del conjunto de átomos de
   \<open>G\<close> y el de \<open>H\<close>, \<open>p\<close> no pertenece ni al conjunto de átomos de \<open>G\<close> ni
   al de \<open>H\<close>. Por lo tanto, por hipótesis de inducción, el valor de \<open>G\<close> 
-  es el mismo dadas las interpretaciones \<open>\<A>\<close> y \<open>\<A>'\<close>, y lo mismo ocurre 
+  es el mismo en las interpretaciones \<open>\<A>\<close> y \<open>\<A>'\<close>, y lo mismo ocurre 
   para \<open>H\<close>. Veamos ahora la cadena de equivalencias. Por definición 
-  tenemos que el valor de la fórmula \<open>G \<rightarrow> H\<close> dada la interpretación 
-  \<open>\<A>'\<close> es la implicación del valor de \<open>G\<close> dada \<open>\<A>'\<close> y el valor de \<open>H\<close>
-  dada \<open>\<A>'\<close>. Análogamente a los casos anteriores por las hipótesis de 
-  inducción, esto es igual a la implicación del valor de \<open>G\<close> dada \<open>\<A>\<close> y 
-  el valor de \<open>H\<close> dada \<open>\<A>\<close>. Por definición, esto es igual al valor de 
-  \<open>G \<rightarrow> H\<close> dada la interpretación \<open>\<A>\<close>, probando así el resultado.
+  tenemos que el valor de la fórmula \<open>G \<rightarrow> H\<close> en la interpretación 
+  \<open>\<A>'\<close> es la implicación del valor de \<open>G\<close> en \<open>\<A>'\<close> y el valor de \<open>H\<close>
+  en \<open>\<A>'\<close>. Análogamente a los casos anteriores por las hipótesis de 
+  inducción, esto es igual a la implicación del valor de \<open>G\<close> en \<open>\<A>\<close> y 
+  el valor de \<open>H\<close> en \<open>\<A>\<close>. Por definición, esto es igual al valor de 
+  \<open>G \<rightarrow> H\<close> en la interpretación \<open>\<A>\<close>, probando así el resultado.
   \end{demostracion}
 
   Veamos a continuación la demostración detallada del lema en\\ 
@@ -345,11 +345,6 @@ text\<open>Veamos ahora la prueba del lema.
   pertenencia a los conjuntos de átomos en cada caso. Es fácil observar 
   que no ha sido necesario el uso de lemas auxiliares en el caso de la 
   fórmula \<open>\<bottom>\<close>, pues su conjunto de átomos es el vacío.\<close>
-
-text \<open>\comentario{En las demostraciones, suitituir expresiones del tipo 
-"el valor de F dada la interpretación \<open>\<A>\<close>" o análogas por 
-"el valor de F en la interpretación \<open>\<A>\<close>". Fíjate que se refiere al valor de verdad 
-de una fórmula {\bf en} una interpretación.}\<close>
 
 lemma irrelevant_atom_atomic_l1:
   assumes "p \<notin> atoms (Atom x)" 
@@ -606,7 +601,7 @@ text \<open>Procedamos con el siguiente lema de la sección.
 
   \begin{lema}
     Si dos interpretaciones coinciden sobre el conjunto de átomos de una 
-    fórmula, entonces dicha fórmula tiene el mismo valor para ambas
+    fórmula, entonces dicha fórmula tiene el mismo valor en ambas
     interpretaciones. 
   \end{lema}
 
@@ -625,96 +620,96 @@ text \<open>Vamos a probar el resultado.
     En primer lugar sea una fórmula atómica \<open>p\<close>, donde \<open>p\<close> es una 
     variable proposicional cualquiera. Sean las interpretaciones
     \<open>\<A>\<^sub>1\<close> y \<open>\<A>\<^sub>2\<close> tales que toman los mismos valores sobre el conjunto de
-    átomos de \<open>p\<close>. Veamos que el valor de \<open>p\<close> dada \<open>\<A>\<^sub>1\<close> coincide con
-    su valor dada \<open>\<A>\<^sub>2\<close>. Por definición, el valor de \<open>p\<close> dada la
+    átomos de \<open>p\<close>. Veamos que el valor de \<open>p\<close> en \<open>\<A>\<^sub>1\<close> coincide con
+    su valor en \<open>\<A>\<^sub>2\<close>. Por definición, el valor de \<open>p\<close> en la
     interpretación \<open>\<A>\<^sub>1\<close> es \<open>\<A>\<^sub>1(p)\<close>. Como el conjunto de átomos de
     \<open>p\<close> es \<open>{p}\<close>, se tiene por hipótesis que \<open>\<A>\<^sub>1(p) = \<A>\<^sub>2(p)\<close>.
     Finalmente, aplicando la definición, esto es igual al valor de la 
-    fórmula \<open>p\<close> dada la interpretación \<open>\<A>\<^sub>2\<close>, como queríamos probar.
+    fórmula \<open>p\<close> en la interpretación \<open>\<A>\<^sub>2\<close>, como queríamos probar.
 
     Consideremos ahora la fórmula \<open>\<bottom>\<close> y dos interpretaciones en las 
     condiciones del enunciado. Es fácil observar que, como el valor de 
-    \<open>\<bottom>\<close> es \<open>Falso\<close> dada cualquier interpretación, se tiene en 
+    \<open>\<bottom>\<close> es \<open>Falso\<close> en cualquier interpretación, se tiene en 
     particular el resultado.
 
     Sea una fórmula \<open>F\<close> tal que, si dos interpretaciones coinciden sobre
     el conjunto de átomos de \<open>F\<close>, entonces el valor de \<open>F\<close> es el mismo
-    para ambas interpretaciones. Sean dos interpretaciones cualesquiera
+    en ambas interpretaciones. Sean dos interpretaciones cualesquiera
     \<open>\<A>\<^sub>1\<close> y \<open>\<A>\<^sub>2\<close> que toman los mismos valores sobre el conjunto de
-    átomos de \<open>\<not> F\<close>. Vamos a probar que el valor de \<open>\<not> F\<close> dada \<open>\<A>\<^sub>1\<close>
-    coincide con su valor dada \<open>\<A>\<^sub>2\<close>.
+    átomos de \<open>\<not> F\<close>. Vamos a probar que el valor de \<open>\<not> F\<close> en \<open>\<A>\<^sub>1\<close>
+    coincide con su valor en \<open>\<A>\<^sub>2\<close>.
     Observemos que, como el conjunto de átomos de \<open>F\<close> y \<open>\<not> F\<close>
     coinciden, se tiene por hipótesis de inducción que el valor de \<open>F\<close>
-    dada \<open>\<A>\<^sub>1\<close> coincide con su valor dada \<open>\<A>\<^sub>2\<close>. Por otro lado, por
-    definición, el valor de \<open>\<not> F\<close> dada \<open>\<A>\<^sub>1\<close> es la negación del valor
-    de \<open>F\<close> dada \<open>\<A>\<^sub>1\<close>. Por la observación anterior, esto es igual a la
-    negación del valor de \<open>F\<close> dada \<open>\<A>\<^sub>2\<close> que, por definición, es el
-    valor de \<open>\<not> F\<close> dada \<open>\<A>\<^sub>2\<close>, probando así el resultado.
+    en \<open>\<A>\<^sub>1\<close> coincide con su valor en \<open>\<A>\<^sub>2\<close>. Por otro lado, por
+    definición, el valor de \<open>\<not> F\<close> en \<open>\<A>\<^sub>1\<close> es la negación del valor
+    de \<open>F\<close> en \<open>\<A>\<^sub>1\<close>. Por la observación anterior, esto es igual a la
+    negación del valor de \<open>F\<close> en \<open>\<A>\<^sub>2\<close> que, por definición, es el
+    valor de \<open>\<not> F\<close> en \<open>\<A>\<^sub>2\<close>, probando así el resultado.
 
     Consideremos las fórmulas \<open>F\<close> y \<open>G\<close> con las mismas hipótesis que
     la fórmula del caso anterior. Sean las interpretaciones \<open>\<A>\<^sub>1\<close> y \<open>\<A>\<^sub>2\<close> 
     tales que coinciden sobre el conjunto de átomos de \<open>F \<and> G\<close>. Vamos a
-    probar que el valor de \<open>F \<and> G\<close> dada \<open>\<A>\<^sub>1\<close> es el mismo que dada \<open>\<A>\<^sub>2\<close>.
+    probar que el valor de \<open>F \<and> G\<close> en \<open>\<A>\<^sub>1\<close> es el mismo que en \<open>\<A>\<^sub>2\<close>.
     Como el conjunto de átomos de \<open>F \<and> G\<close> es la unión del conjunto de
     átomos de \<open>F\<close> y el conjunto de átomos de \<open>G\<close>, tenemos que \<open>\<A>\<^sub>1\<close> y 
     \<open>\<A>\<^sub>2\<close> coinciden sobre los elementos de dicha unión. En particular,
     coinciden sobre los elementos del conjunto de átomos de \<open>F\<close> y, por
-    hipótesis de inducción, tenemos que el valor de \<open>F\<close> dada \<open>\<A>\<^sub>1\<close> 
-    coincide con su valor dada \<open>\<A>\<^sub>2\<close>. Del mismo modo, las
+    hipótesis de inducción, tenemos que el valor de \<open>F\<close> en \<open>\<A>\<^sub>1\<close> 
+    coincide con su valor en \<open>\<A>\<^sub>2\<close>. Del mismo modo, las
     interpretaciones anteriores coinciden también sobre los elementos
     del conjunto de átomos de \<open>G\<close> luego, aplicando análogamente la 
     hipótesis de inducción, tenemos que el valor de \<open>G\<close> es el mismo 
-    para las interpretaciones \<open>\<A>\<^sub>1\<close> y \<open>\<A>\<^sub>2\<close>. Veamos ahora que el valor
-    de \<open>F \<and> G\<close> también coincide para dichas interpretaciones.
-    Por definición, el valor de \<open>F \<and> G\<close> dada \<open>\<A>\<^sub>1\<close> es la conjunción
-    del valor de \<open>F\<close> dada \<open>\<A>\<^sub>1\<close> y el valor de \<open>G\<close> dada \<open>\<A>\<^sub>1\<close>. Por lo 
+    en las interpretaciones \<open>\<A>\<^sub>1\<close> y \<open>\<A>\<^sub>2\<close>. Veamos ahora que el valor
+    de \<open>F \<and> G\<close> también coincide en dichas interpretaciones.
+    Por definición, el valor de \<open>F \<and> G\<close> en \<open>\<A>\<^sub>1\<close> es la conjunción
+    del valor de \<open>F\<close> en \<open>\<A>\<^sub>1\<close> y el valor de \<open>G\<close> en \<open>\<A>\<^sub>1\<close>. Por lo 
     obtenido anteriormente por las hipótesis de inducción, tenemos que
-    esto es igual a la conjunción del valor de \<open>F\<close> dada \<open>\<A>\<^sub>2\<close> y el
-    valor de \<open>G\<close> dada \<open>\<A>\<^sub>2\<close>. Por último se tiene que esto es igual al
-    valor de \<open>F \<and> G\<close> dada \<open>\<A>\<^sub>2\<close> tras aplicar la definición.
+    esto es igual a la conjunción del valor de \<open>F\<close> en \<open>\<A>\<^sub>2\<close> y el
+    valor de \<open>G\<close> en \<open>\<A>\<^sub>2\<close>. Por último se tiene que esto es igual al
+    valor de \<open>F \<and> G\<close> en \<open>\<A>\<^sub>2\<close> tras aplicar la definición.
 
     Volvamos a considerar \<open>F\<close> y \<open>G\<close> en las condiciones anteriores y
     dos interpretaciones \<open>\<A>\<^sub>1\<close> y \<open>\<A>\<^sub>2\<close> que coinciden sobre el
     conjunto de átomos de\\ \<open>F \<or> G\<close>. Vamos a probar que el valor de 
-    dicha fórmula es el mismo para ambas interpretaciones.
+    dicha fórmula es el mismo en ambas interpretaciones.
     De manera análoga al caso anterior, como el conjunto de átomos de
     \<open>F \<or> G\<close> es la unión del conjunto de átomos de \<open>F\<close> y el conjunto de
     átomos de \<open>G\<close>, tenemos que las interpretaciones coinciden sobre los
     elementos de esta unión. En particular, coinciden sobre el conjunto
     de átomos de \<open>F\<close>. Por tanto, por hipótesis de inducción, el valor
-    de \<open>F\<close> dada \<open>\<A>\<^sub>1\<close> coincide con su valor dada \<open>\<A>\<^sub>2\<close>. Igualmente 
+    de \<open>F\<close> en \<open>\<A>\<^sub>1\<close> coincide con su valor en \<open>\<A>\<^sub>2\<close>. Igualmente 
     obtenemos que las interpretaciones coinciden sobre el conjunto de
     átomos de \<open>G\<close> y, aplicando de nuevo hipótesis de inducción, el 
-    valor de \<open>G\<close> es el mismo para ambas interpretaciones. 
-    Por otra parte, por definición tenemos que le valor de \<open>F \<or> G\<close> dada
-    la interpretación \<open>\<A>\<^sub>1\<close> es la disyunción entre el valor de \<open>F\<close> dada
-    \<open>\<A>\<^sub>1\<close> y el valor de \<open>G\<close> dada \<open>\<A>\<^sub>1\<close>. Por las observaciones
+    valor de \<open>G\<close> es el mismo en ambas interpretaciones. 
+    Por otra parte, por definición tenemos que le valor de \<open>F \<or> G\<close> en
+    la interpretación \<open>\<A>\<^sub>1\<close> es la disyunción entre el valor de \<open>F\<close> en
+    \<open>\<A>\<^sub>1\<close> y el valor de \<open>G\<close> en \<open>\<A>\<^sub>1\<close>. Por las observaciones
     anteriores derivadas de las hipótesis de inducción, tenemos que
-    esto es igual a la disyunción entre el valor de \<open>F\<close> dada \<open>\<A>\<^sub>2\<close> y
-    el valor de \<open>G\<close> dada \<open>\<A>\<^sub>2\<close>. Por definición, esto es el valor de 
-    \<open>F \<or> G\<close> dada \<open>\<A>\<^sub>2\<close>, como queríamos demostrar.
+    esto es igual a la disyunción entre el valor de \<open>F\<close> en \<open>\<A>\<^sub>2\<close> y
+    el valor de \<open>G\<close> en \<open>\<A>\<^sub>2\<close>. Por definición, esto es el valor de 
+    \<open>F \<or> G\<close> en \<open>\<A>\<^sub>2\<close>, como queríamos demostrar.
 
     Veamos el último caso de las fórmulas. Sean \<open>F\<close> y \<open>G\<close> fórmulas en 
     las condiciones de los casos anteriores. Consideremos las
     interpretaciones \<open>\<A>\<^sub>1\<close> y \<open>\<A>\<^sub>2\<close> que coinciden sobre los elementos
     del conjunto de átomos de \<open>F \<rightarrow> G\<close>. Probemos que el valor de 
-    \<open>F \<rightarrow> G\<close> es el mismo para ambas interpretaciones.
+    \<open>F \<rightarrow> G\<close> es el mismo en ambas interpretaciones.
     Por definición, el conjunto de átomos de \<open>F \<rightarrow> G\<close> es la unión de los
     conjuntos de átomos de \<open>F\<close> y \<open>G\<close>. Por tanto, dichas
     interpretaciones coinciden sobre los elementos de dicha unión. 
     Como hemos visto en casos anteriores, en particular coinciden sobre
     los átomos de \<open>F\<close> luego, por hipótesis de inducción, el valor de 
-    \<open>F\<close> dada \<open>\<A>\<^sub>1\<close> coincide con su valor dada \<open>\<A>\<^sub>2\<close>. Análogamente, las
+    \<open>F\<close> en \<open>\<A>\<^sub>1\<close> coincide con su valor en \<open>\<A>\<^sub>2\<close>. Análogamente, las
     interpretaciones coinciden sobre los átomos de \<open>G\<close> y, por hipótesis
-    de inducción, el valor de \<open>G\<close> es el mismo para ambas
+    de inducción, el valor de \<open>G\<close> es el mismo en ambas
     interpretaciones. Probemos que también coincide el valor de \<open>F \<rightarrow> G\<close>
-    para \<open>\<A>\<^sub>1\<close> y \<open>\<A>\<^sub>2\<close>.
-    Por definición, el valor de \<open>F \<rightarrow> G\<close> dada \<open>\<A>\<^sub>1\<close> es la implicación
-    entre el valor de \<open>F\<close> dada \<open>\<A>\<^sub>1\<close> y el valor de \<open>G\<close> dada \<open>\<A>\<^sub>1\<close>. De
+    en \<open>\<A>\<^sub>1\<close> y \<open>\<A>\<^sub>2\<close>.
+    Por definición, el valor de \<open>F \<rightarrow> G\<close> en \<open>\<A>\<^sub>1\<close> es la implicación
+    entre el valor de \<open>F\<close> en \<open>\<A>\<^sub>1\<close> y el valor de \<open>G\<close> en \<open>\<A>\<^sub>1\<close>. De
     esta manera, por las observaciones anteriores tenemos que esto es
-    igual a la implicación entre el valor de \<open>F\<close> dada \<open>\<A>\<^sub>2\<close> y el valor
-    de \<open>G\<close> dada \<open>\<A>\<^sub>2\<close>. Finalmente, por definición, esto es el valor de
-    \<open>F \<rightarrow> G\<close> dada la interpretación \<open>\<A>\<^sub>2\<close>, probando así el resultado.    
+    igual a la implicación entre el valor de \<open>F\<close> en \<open>\<A>\<^sub>2\<close> y el valor
+    de \<open>G\<close> en \<open>\<A>\<^sub>2\<close>. Finalmente, por definición, esto es el valor de
+    \<open>F \<rightarrow> G\<close> en la interpretación \<open>\<A>\<^sub>2\<close>, probando así el resultado.    
   \end{demostracion}
 
   Probemos ahora el lema de forma detallada en Isabelle, haciendo cada
@@ -932,13 +927,13 @@ text \<open>Por último, mostraremos varios resultados relativos a la semántica
   \begin{demostracion}
     Sea una interpretación cualquiera \<open>\<A>\<close>. Es obvio que, aplicando la
     propiedad reflexiva de la implicación, tenemos que \<open>Verdadero\<close> es
-    equivalente a suponer que valor de \<open>\<bottom>\<close> dada \<open>\<A>\<close> se implica a sí 
+    equivalente a suponer que valor de \<open>\<bottom>\<close> en \<open>\<A>\<close> se implica a sí 
     mismo. Por definición, se tiene que la implicación anterior es, a 
-    su vez, equivalente al valor de la fórmula \<open>\<bottom> \<rightarrow> \<bottom>\<close> dada la 
+    su vez, equivalente al valor de la fórmula \<open>\<bottom> \<rightarrow> \<bottom>\<close> en la 
     interpretación \<open>\<A>\<close>. Según la definición de \<open>\<top>\<close>, tenemos que esto es
-    igual al valor de la fórmula \<open>\<top>\<close> dada la interpretación \<open>\<A>\<close>.
+    igual al valor de la fórmula \<open>\<top>\<close> en la interpretación \<open>\<A>\<close>.
     Finalmente, mediante esta cadena de equivalencias se observa que
-    el valor de \<open>\<top>\<close> dada una interpretación \<open>\<A>\<close> cualquiera es 
+    el valor de \<open>\<top>\<close> en una interpretación \<open>\<A>\<close> cualquiera es 
     \<open>Verdadero\<close> como queríamos probar.    
   \end{demostracion}
 
@@ -994,9 +989,9 @@ text \<open>Como podemos observar, en el enunciado de la derecha hemos
    interpretación \<open>\<A>\<close> tal que es modelo de la conjunción generalizada
    de la lista vacía. Por definición de la conjunción generalizada,
    \<open>\<A>\<close> es modelo de \<open>\<not> \<bottom>\<close>. Aplicando la definición del valor de una
-   fórmula dada una interpretación para el caso de la negación,
+   fórmula en una interpretación para el caso de la negación,
    tenemos que esto es equivalente a que \<open>\<A>\<close> no es modelo de \<open>\<bottom>\<close>.
-   Análogamente, como sabemos que el valor de \<open>\<bottom>\<close> es \<open>Falso\<close> para 
+   Análogamente, como sabemos que el valor de \<open>\<bottom>\<close> es \<open>Falso\<close> en 
    cualquier interpretación, se tiene que lo anterior es equivalente a
    \<open>\<not> Falso\<close>, es decir, \<open>Verdadero\<close>. Por otro lado, por propiedades
    del conjunto vacío, se tiene que toda propiedad sobre sus elementos
@@ -1013,7 +1008,7 @@ text \<open>Como podemos observar, en el enunciado de la derecha hemos
    En primer lugar, si \<open>\<A>\<close> es modelo de la conjunción generalizada de
    \<open>F#Fs\<close>, por definición de dicha conjunción, esto es equivalente a
    que \<open>\<A>\<close> es modelo de la conjunción de \<open>F\<close> y la conjunción
-   generalizada de \<open>Fs\<close>. Según el valor de una fórmula dada una
+   generalizada de \<open>Fs\<close>. Según el valor de una fórmula en una
    interpretación, esto es a su vez equivalente a la conjunción de
    "\<open>\<A>\<close> es modelo de \<open>F\<close>" y "\<open>\<A>\<close> es modelo de la conjunción 
    generalizada de \<open>Fs\<close>". Aplicando la hipótesis de inducción sobre el 
@@ -1231,8 +1226,8 @@ text \<open>Veamos definiciones y resultados relativos a la semántica de un
   fórmulas.
 
   \begin{definicion}
-  Una interpretación es modelo de un conjunto de fórmulas si es modelo
-  de todas las fórmulas del conjunto.
+    Una interpretación es modelo de un conjunto de fórmulas si es 
+    modelo de todas las fórmulas del conjunto.
   \end{definicion}
 
   Su formalización en Isabelle es la siguiente.\<close>
@@ -1275,10 +1270,10 @@ text\<open>Veamos la noción de satisfacibilidad para un conjunto de fórmulas.
 
 definition "sat S \<equiv> \<exists>\<A>. \<forall>F \<in> S. \<A> \<Turnstile> F"
 
-text \<open>Como ejemplo, es fácil observar que el conjunto de fórmulas 
-  utilizado en el ejemplo de modelSet es satisfacible. Además, 
-  cualquier conjunto de fórmulas que incluya una contradicción es no
-  satisfacible.
+text \<open>Por definición, se observa que el conjunto de fórmulas utilizado 
+  en el ejemplo de \<open>modelSet\<close> es satisfacible. Por otro lado, un 
+  ejemplo de conjunto de fórmulas no satisfacible es cualquiera que 
+  incluya una contradicción entre sus elementos.
   
   Por otra parte, en particular, se puede definir un conjunto de 
   fórmulas finitamente satisfacible.
@@ -1292,10 +1287,7 @@ text \<open>Como ejemplo, es fácil observar que el conjunto de fórmulas
 
 definition "fin_sat S \<equiv> (\<forall>s \<subseteq> S. finite s \<longrightarrow> sat s)"
 
-text \<open>Se observa que el conjunto de fórmulas del ejemplo anterior es,
-  en particular, finitamente satisfacible.
-
-  Continuemos con la noción de consecuencia lógica.
+text \<open>Continuemos con la noción de consecuencia lógica.
 
   \begin{definicion}
     Una fórmula es consecuencia lógica de un conjunto de fórmulas si
@@ -1317,8 +1309,8 @@ text \<open>Hagamos varias observaciones sobre esta definición. En primer
   modo, no tenemos que desplegar dichas definiciones en las 
   demostraciones detalladas y automáticas de los lemas posteriores. 
   Finalmente se puede observar la notación \<open>\<TTurnstile>\<close>. En la teoría clásica no 
-  se suele emplear una nueva notación ya que se diferencia por el 
-  contexto, mientras que en Isabelle/HOL es imprescindible.
+  se suele emplear una nueva notación, ya que se diferencia por el 
+  contexto. En Isabelle/HOL es imprescindible aclarar la diferencia.
 
   Mostremos algún ejemplo de fórmula que sea consecuencia lógica de
   un conjunto.\<close>
@@ -1354,12 +1346,12 @@ text\<open>Comencemos las demostraciones del resultado.
     consecuencia lógica de dicho conjunto. Por definición, esto es
     equivalente a decir que para toda interpretación, si esta modelo de
     \<open>\<Gamma>\<close>, entonces es a su vez modelo de \<open>\<bottom>\<close>. Por otro lado, el valor 
-    de \<open>\<bottom>\<close> es \<open>Falso\<close> para cualquier interpretación. Tenemos así que 
+    de \<open>\<bottom>\<close> es \<open>Falso\<close> en cualquier interpretación. Tenemos así que 
     para toda interpretación, si es modelo de \<open>\<Gamma>\<close>, entonces implica
     \<open>Falso\<close>. Es decir, por definición de negación, para toda 
     interpretación se verifica que esta no es modelo del conjunto. En 
     otras palabras, no existe una interpretación que sea modelo de \<open>\<Gamma>\<close>. 
-    Según la definición, esto es equivalente a decir que dicho conjunto 
+    Según la definición, esto es equivalente a que dicho conjunto 
     es insatisfacible, como queríamos demostrar.
   \end{demostracion}
 
