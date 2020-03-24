@@ -236,11 +236,8 @@ fórmula (F), el valor de F en una interpretación  \<open>\<A>\<close> no depen
 de la variable A en la interpretación  \<open>\<A>\<close>. Otra cuestión es cómo se 
 formalice en Isabelle.}\<close>
 
-lemma "A \<notin> atoms F \<Longrightarrow> (\<A>(A := V)) \<Turnstile> F \<longleftrightarrow> \<A> \<Turnstile> F"
+lemma "p \<notin> atoms F \<Longrightarrow> (\<A>(p := V)) \<Turnstile> F \<longleftrightarrow> \<A> \<Turnstile> F"
   oops
-
-  text \<open>\comentario{En la demostración del lema queda raro que utilizas una letra mayúscula
-para un átomo A y minúscula para p}\<close>
 
 text\<open>Veamos ahora la prueba del lema.
 
@@ -248,12 +245,12 @@ text\<open>Veamos ahora la prueba del lema.
   Vamos a probar el resultado por inducción en la estructura recursiva
   de las fórmulas. De este modo, demostremos los siguientes casos.
 
-  Sea \<open>p\<close> una fórmula atómica cualquiera tal que \<open>A\<close> no pertenece
-  al conjunto de sus átomos \<open>{p}\<close>. De este modo, se tiene \<open>p \<noteq> A\<close>. 
-  Por definición, el valor de la fórmula atómica \<open>p\<close> dada la 
-  interpretación \<open>\<A>'\<close>, es \<open>\<A>'(p)\<close>. Como hemos visto que \<open>p \<noteq> A\<close>, 
-  tenemos a su vez \<open>\<A>'(p) = \<A>(p)\<close> según la definición de \<open>\<A>'\<close>. A su
-  vez, \<open>\<A>(p)\<close> es el valor de la fórmula atómica \<open>p\<close> dada la 
+  Sea \<open>q\<close> una fórmula atómica cualquiera tal que \<open>p\<close> no pertenece
+  al conjunto de sus átomos \<open>{q}\<close>. De este modo, se tiene \<open>q \<noteq> p\<close>. 
+  Por definición, el valor de la fórmula atómica \<open>q\<close> dada la 
+  interpretación \<open>\<A>'\<close>, es \<open>\<A>'(q)\<close>. Como hemos visto que \<open>q \<noteq> p\<close>, 
+  tenemos a su vez \<open>\<A>'(q) = \<A>(q)\<close> según la definición de \<open>\<A>'\<close>. A su
+  vez, \<open>\<A>(q)\<close> es el valor de la fórmula atómica \<open>q\<close> dada la 
   interpretación \<open>\<A>\<close>, luego se tiene finalmente que ambos valores
   coinciden. 
 
@@ -265,9 +262,9 @@ text\<open>Veamos ahora la prueba del lema.
   al conjunto de sus átomos, entonces el valor de \<open>F\<close> dada la 
   interpretación \<open>\<A>\<close> coincide con su valor dada la interpretación \<open>\<A>'\<close> 
   construida como se indica en el enunciado. Vamos a demostrar el 
-  resultado para la fórmula \<open>\<not> F\<close> considerando una variable \<open>A\<close> 
+  resultado para la fórmula \<open>\<not> F\<close> considerando una variable \<open>p\<close> 
   cualquiera que no pertenezca al conjunto de átomos de \<open>\<not> F\<close>. Como 
-  los conjuntos de átomos de \<open>F\<close> y \<open>\<not> F\<close> son el mismo, entonces \<open>A\<close> 
+  los conjuntos de átomos de \<open>F\<close> y \<open>\<not> F\<close> son el mismo, entonces \<open>p\<close> 
   tampoco pertenece al conjunto de átomos de \<open>F\<close>. De este modo, por 
   hipótesis de inducción, el valor de la fórmula \<open>F\<close> dada la 
   interpretación \<open>\<A>\<close> coincide con su valor dada la interpretación 
@@ -283,13 +280,13 @@ text\<open>Veamos ahora la prueba del lema.
   interpretación \<open>\<A>'\<close> construida como se indica en el enunciado a 
   partir de una variable que no pertenezca al conjunto de sus átomos. 
   Veamos que se verifica el resultado para la fórmula \<open>G \<and> H\<close>.
-  Sea \<open>A\<close> una variable proposicional que no pertenece al conjunto de
+  Sea \<open>p\<close> una variable proposicional que no pertenece al conjunto de
   átomos de \<open>G \<and> H\<close>. Por definición, dicho conjunto es igual a la unión
   del conjunto de átomos de \<open>G\<close> y el conjunto de átomos de \<open>H\<close>.
-  Por tanto, en particular \<open>A\<close> no pertenece al conjunto de átomos de
+  Por tanto, en particular \<open>p\<close> no pertenece al conjunto de átomos de
   \<open>G\<close> y, por hipótesis de inducción, el valor de \<open>G\<close> dada la
   interpretación \<open>\<A>\<close> coincide con su valor dada la
-  interpretación \<open>\<A>'\<close>. Por el mismo motivo, \<open>A\<close> no pertenece al
+  interpretación \<open>\<A>'\<close>. Por el mismo motivo, \<open>p\<close> no pertenece al
   conjunto de átomos de \<open>H\<close> y, por hipótesis de inducción,
   el valor de \<open>H\<close> es el mismo dadas las interpretaciones \<open>\<A>\<close> y \<open>\<A>'\<close>. 
   Aclaradas estas observaciones, se tiene por definición que el valor 
@@ -303,15 +300,15 @@ text\<open>Veamos ahora la prueba del lema.
 
   Sean las fórmulas \<open>G\<close> y \<open>H\<close> cumpliendo las hipótesis supuestas
   para el caso anterior. Veamos que el resultado se verifica para la
-  fórmula \<open>G \<or> H\<close>. Sea \<open>A\<close> una variable proposicional que no pertenece
+  fórmula \<open>G \<or> H\<close>. Sea \<open>p\<close> una variable proposicional que no pertenece
   al conjunto de átomos de \<open>G \<or> H\<close>. Por definición, dicho conjunto es
   la unión de los conjuntos de átomos de \<open>G\<close> y \<open>H\<close>. Por tanto, como se
-  ha probado en el caso anterior, tenemos que \<open>A\<close> no pertenece al
+  ha probado en el caso anterior, tenemos que \<open>p\<close> no pertenece al
   conjunto de átomos de \<open>G\<close>. Por tanto, aplicando la hipótesis de 
   inducción se tiene que el valor de \<open>G\<close> dada la interpretación \<open>\<A>\<close> 
   coincide con su valor dada la interpretación \<open>\<A>'\<close>. Análogamente 
   ocurre para la fórmula \<open>H\<close> como vimos en el caso anterior, de modo
-  que \<open>A\<close> no pertenece al conjunto de átomos de \<open>H\<close>. Por tanto, por 
+  que \<open>p\<close> no pertenece al conjunto de átomos de \<open>H\<close>. Por tanto, por 
   hipótesis de inducción, el valor de \<open>H\<close> es el mismo dada \<open>\<A>\<close> y \<open>\<A>'\<close>.
   Veamos la equivalencia. 
   Por definición tenemos que el valor de la fórmula \<open>G \<or> H\<close> dada la 
@@ -323,10 +320,10 @@ text\<open>Veamos ahora la prueba del lema.
   como queríamos demostrar.
 
   Probemos finalmente el último caso considerando las fórmulas \<open>G\<close> y
-  \<open>H\<close> bajo las condiciones de los dos casos anteriores. Sea \<open>A\<close> una 
+  \<open>H\<close> bajo las condiciones de los dos casos anteriores. Sea \<open>p\<close> una 
   variable proposicional que no pertenece al conjunto de átomos de 
   \<open>G \<rightarrow> H\<close>. Como dicho conjunto es la unión del conjunto de átomos de
-  \<open>G\<close> y el de \<open>H\<close>, \<open>A\<close> no pertenece ni al conjunto de átomos de \<open>G\<close> ni
+  \<open>G\<close> y el de \<open>H\<close>, \<open>p\<close> no pertenece ni al conjunto de átomos de \<open>G\<close> ni
   al de \<open>H\<close>. Por lo tanto, por hipótesis de inducción, el valor de \<open>G\<close> 
   es el mismo dadas las interpretaciones \<open>\<A>\<close> y \<open>\<A>'\<close>, y lo mismo ocurre 
   para \<open>H\<close>. Veamos ahora la cadena de equivalencias. Por definición 
@@ -355,31 +352,31 @@ text \<open>\comentario{En las demostraciones, suitituir expresiones del tipo
 de una fórmula {\bf en} una interpretación.}\<close>
 
 lemma irrelevant_atom_atomic_l1:
-  assumes "A \<notin> atoms (Atom x)" 
-  shows "x \<noteq> A"
+  assumes "p \<notin> atoms (Atom x)" 
+  shows "x \<noteq> p"
 proof (rule notI)
-  assume "x = A"
-  then have "A \<in> {x}" 
+  assume "x = p"
+  then have "p \<in> {x}" 
     by (simp only: singleton_iff)
   also have "\<dots> = atoms (Atom x)"
     by (simp only: formula.set(1))
-  finally have "A \<in> atoms (Atom x)"
+  finally have "p \<in> atoms (Atom x)"
     by this 
   with assms show "False"  
     by (rule notE)
 qed
 
 lemma irrelevant_atom_atomic:
-  assumes "A \<notin> atoms (Atom x)" 
-  shows "(\<A>(A := V)) \<Turnstile> (Atom x) \<longleftrightarrow> \<A> \<Turnstile> (Atom x)"
+  assumes "p \<notin> atoms (Atom x)" 
+  shows "(\<A>(p := V)) \<Turnstile> (Atom x) \<longleftrightarrow> \<A> \<Turnstile> (Atom x)"
 proof -
-  have "x \<noteq> A"
+  have "x \<noteq> p"
     using assms
     by (rule irrelevant_atom_atomic_l1)
-  have "(\<A>(A := V)) \<Turnstile> (Atom x) = (\<A>(A := V)) x"
+  have "(\<A>(p := V)) \<Turnstile> (Atom x) = (\<A>(p := V)) x"
     by (simp only: formula_semantics.simps(1))
   also have "\<dots> = \<A> x"
-    using \<open>x \<noteq> A\<close>
+    using \<open>x \<noteq> p\<close>
     by (rule fun_upd_other)
   also have "\<dots> = \<A> \<Turnstile> (Atom x)"
     by (simp only: formula_semantics.simps(1))
@@ -388,197 +385,197 @@ proof -
 qed
 
 lemma irrelevant_atom_bot:
-  assumes "A \<notin> atoms \<bottom>" 
-  shows "(\<A>(A := V)) \<Turnstile> \<bottom> \<longleftrightarrow> \<A> \<Turnstile> \<bottom>"
+  assumes "p \<notin> atoms \<bottom>" 
+  shows "(\<A>(p := V)) \<Turnstile> \<bottom> \<longleftrightarrow> \<A> \<Turnstile> \<bottom>"
   by (simp only: formula_semantics.simps(2))
 
 lemma irrelevant_atom_not_l1:
-  assumes "A \<notin> atoms (\<^bold>\<not> F)"
-  shows   "A \<notin> atoms F"
+  assumes "p \<notin> atoms (\<^bold>\<not> F)"
+  shows   "p \<notin> atoms F"
 proof
-  assume "A \<in> atoms F"
-  then have "A \<in> atoms (\<^bold>\<not> F)"
+  assume "p \<in> atoms F"
+  then have "p \<in> atoms (\<^bold>\<not> F)"
     by (simp only: formula.set(3)) 
   with assms show False
     by (rule notE)
 qed
 
 lemma irrelevant_atom_not:
-  assumes "A \<notin> atoms F \<Longrightarrow> \<A>(A := V) \<Turnstile> F \<longleftrightarrow> \<A> \<Turnstile> F"
-          "A \<notin> atoms (\<^bold>\<not> F)"
- shows "\<A>(A := V) \<Turnstile> \<^bold>\<not> F \<longleftrightarrow> \<A> \<Turnstile> \<^bold>\<not> F"
+  assumes "p \<notin> atoms F \<Longrightarrow> \<A>(p := V) \<Turnstile> F \<longleftrightarrow> \<A> \<Turnstile> F"
+          "p \<notin> atoms (\<^bold>\<not> F)"
+ shows "\<A>(p := V) \<Turnstile> \<^bold>\<not> F \<longleftrightarrow> \<A> \<Turnstile> \<^bold>\<not> F"
 proof -
-  have "A \<notin> atoms F"
+  have "p \<notin> atoms F"
     using assms(2) by (rule irrelevant_atom_not_l1)
-  then have "\<A>(A := V) \<Turnstile> F \<longleftrightarrow> \<A> \<Turnstile> F"
+  then have "\<A>(p := V) \<Turnstile> F \<longleftrightarrow> \<A> \<Turnstile> F"
     by (rule assms(1))
-  have "\<A>(A := V) \<Turnstile> \<^bold>\<not> F = (\<not> \<A>(A := V) \<Turnstile> F)"
+  have "\<A>(p := V) \<Turnstile> \<^bold>\<not> F = (\<not> \<A>(p := V) \<Turnstile> F)"
     by (simp only: formula_semantics.simps(3))
   also have "\<dots> = (\<not> \<A> \<Turnstile> F)"
-    by (simp only: \<open>\<A>(A := V) \<Turnstile> F \<longleftrightarrow> \<A> \<Turnstile> F\<close>)
+    by (simp only: \<open>\<A>(p := V) \<Turnstile> F \<longleftrightarrow> \<A> \<Turnstile> F\<close>)
   also have "\<dots> = \<A> \<Turnstile> \<^bold>\<not> F"
     by (simp only: formula_semantics.simps(3))
-  finally show "\<A>(A := V) \<Turnstile> \<^bold>\<not> F \<longleftrightarrow> \<A> \<Turnstile> \<^bold>\<not> F"
+  finally show "\<A>(p := V) \<Turnstile> \<^bold>\<not> F \<longleftrightarrow> \<A> \<Turnstile> \<^bold>\<not> F"
     by this
 qed
 
 lemma irrelevant_atom_and_l1:
-  assumes "A \<notin> atoms (F \<^bold>\<and> G)"
-  shows   "A \<notin> atoms F"
+  assumes "p \<notin> atoms (F \<^bold>\<and> G)"
+  shows   "p \<notin> atoms F"
 proof 
-  assume "A \<in> atoms F"
-  then have "A \<in> atoms F \<union> atoms G"
+  assume "p \<in> atoms F"
+  then have "p \<in> atoms F \<union> atoms G"
     by (rule UnI1)
-  then have "A \<in> atoms (F \<^bold>\<and> G)"
+  then have "p \<in> atoms (F \<^bold>\<and> G)"
     by (simp only: formula.set(4))
   with assms show False 
     by (rule notE)
 qed
 
 lemma irrelevant_atom_and_l2:
-  assumes "A \<notin> atoms (F \<^bold>\<and> G)"
-  shows   "A \<notin> atoms G"
+  assumes "p \<notin> atoms (F \<^bold>\<and> G)"
+  shows   "p \<notin> atoms G"
 proof 
-  assume "A \<in> atoms G"
-  then have "A \<in> atoms F \<union> atoms G"
+  assume "p \<in> atoms G"
+  then have "p \<in> atoms F \<union> atoms G"
     by (rule UnI2)
-  then have "A \<in> atoms (F \<^bold>\<and> G)"
+  then have "p \<in> atoms (F \<^bold>\<and> G)"
     by (simp only: formula.set(4))
   with assms show False 
     by (rule notE)
 qed
 
 lemma irrelevant_atom_and:
-  assumes "A \<notin> atoms F \<Longrightarrow> \<A>(A := V) \<Turnstile> F \<longleftrightarrow> \<A> \<Turnstile> F"
-          "A \<notin> atoms G \<Longrightarrow> \<A>(A := V) \<Turnstile> G \<longleftrightarrow> \<A> \<Turnstile> G"
-          "A \<notin> atoms (F \<^bold>\<and> G)"
-  shows "\<A>(A := V) \<Turnstile> (F \<^bold>\<and> G) \<longleftrightarrow> \<A> \<Turnstile> (F \<^bold>\<and> G)"
+  assumes "p \<notin> atoms F \<Longrightarrow> \<A>(p := V) \<Turnstile> F \<longleftrightarrow> \<A> \<Turnstile> F"
+          "p \<notin> atoms G \<Longrightarrow> \<A>(p := V) \<Turnstile> G \<longleftrightarrow> \<A> \<Turnstile> G"
+          "p \<notin> atoms (F \<^bold>\<and> G)"
+  shows "\<A>(p := V) \<Turnstile> (F \<^bold>\<and> G) \<longleftrightarrow> \<A> \<Turnstile> (F \<^bold>\<and> G)"
 proof -
-  have "A \<notin> atoms F"
+  have "p \<notin> atoms F"
     using assms(3)
     by (rule irrelevant_atom_and_l1)
-  then have HF: "\<A>(A := V) \<Turnstile> F \<longleftrightarrow> \<A> \<Turnstile> F"
+  then have HF: "\<A>(p := V) \<Turnstile> F \<longleftrightarrow> \<A> \<Turnstile> F"
     by (rule assms(1))
-  have "A \<notin> atoms G"
+  have "p \<notin> atoms G"
     using assms(3)
     by (rule irrelevant_atom_and_l2)
-  then have HG: "\<A>(A := V) \<Turnstile> G \<longleftrightarrow> \<A> \<Turnstile> G"
+  then have HG: "\<A>(p := V) \<Turnstile> G \<longleftrightarrow> \<A> \<Turnstile> G"
     by (rule assms(2))
-  have "\<A>(A := V) \<Turnstile> (F \<^bold>\<and> G) = (\<A>(A := V) \<Turnstile> F \<and> \<A>(A := V) \<Turnstile> G)"
+  have "\<A>(p := V) \<Turnstile> (F \<^bold>\<and> G) = (\<A>(p := V) \<Turnstile> F \<and> \<A>(p := V) \<Turnstile> G)"
     by (simp only: formula_semantics.simps(4))
   also have "\<dots> = (\<A> \<Turnstile> F \<and> \<A> \<Turnstile> G)"
     by (simp only: HF HG)
   also have "\<dots> = \<A> \<Turnstile> (F \<^bold>\<and> G)"
     by (simp only: formula_semantics.simps(4))
-  finally show "\<A>(A := V) \<Turnstile> (F \<^bold>\<and> G) \<longleftrightarrow> \<A> \<Turnstile> (F \<^bold>\<and> G)"
+  finally show "\<A>(p := V) \<Turnstile> (F \<^bold>\<and> G) \<longleftrightarrow> \<A> \<Turnstile> (F \<^bold>\<and> G)"
     by this
 qed
 
 lemma irrelevant_atom_or_l1:
-  assumes "A \<notin> atoms (F \<^bold>\<or> G)"
-  shows   "A \<notin> atoms F"
+  assumes "p \<notin> atoms (F \<^bold>\<or> G)"
+  shows   "p \<notin> atoms F"
 proof 
-  assume "A \<in> atoms F"
-  then have "A \<in> atoms F \<union> atoms G"
+  assume "p \<in> atoms F"
+  then have "p \<in> atoms F \<union> atoms G"
     by (rule UnI1)
-  then have "A \<in> atoms (F \<^bold>\<or> G)"
+  then have "p \<in> atoms (F \<^bold>\<or> G)"
     by (simp only: formula.set(5))
   with assms show False 
     by (rule notE)
 qed
 
 lemma irrelevant_atom_or_l2:
-  assumes "A \<notin> atoms (F \<^bold>\<or> G)"
-  shows   "A \<notin> atoms G"
+  assumes "p \<notin> atoms (F \<^bold>\<or> G)"
+  shows   "p \<notin> atoms G"
 proof 
-  assume "A \<in> atoms G"
-  then have "A \<in> atoms F \<union> atoms G"
+  assume "p \<in> atoms G"
+  then have "p \<in> atoms F \<union> atoms G"
     by (rule UnI2)
-  then have "A \<in> atoms (F \<^bold>\<or> G)"
+  then have "p \<in> atoms (F \<^bold>\<or> G)"
     by (simp only: formula.set(5))
   with assms show False 
     by (rule notE)
 qed
 
 lemma irrelevant_atom_or:
-  assumes "A \<notin> atoms F \<Longrightarrow> \<A>(A := V) \<Turnstile> F \<longleftrightarrow> \<A> \<Turnstile> F"
-          "A \<notin> atoms G \<Longrightarrow> \<A>(A := V) \<Turnstile> G \<longleftrightarrow> \<A> \<Turnstile> G"
-          "A \<notin> atoms (F \<^bold>\<or> G)"
-  shows   "\<A>(A := V) \<Turnstile> (F \<^bold>\<or> G) \<longleftrightarrow> \<A> \<Turnstile> (F \<^bold>\<or> G)"
+  assumes "p \<notin> atoms F \<Longrightarrow> \<A>(p := V) \<Turnstile> F \<longleftrightarrow> \<A> \<Turnstile> F"
+          "p \<notin> atoms G \<Longrightarrow> \<A>(p := V) \<Turnstile> G \<longleftrightarrow> \<A> \<Turnstile> G"
+          "p \<notin> atoms (F \<^bold>\<or> G)"
+  shows   "\<A>(p := V) \<Turnstile> (F \<^bold>\<or> G) \<longleftrightarrow> \<A> \<Turnstile> (F \<^bold>\<or> G)"
 proof -
-  have "A \<notin> atoms F"
+  have "p \<notin> atoms F"
     using assms(3)
     by (rule irrelevant_atom_or_l1)
-  then have HF: "\<A>(A := V) \<Turnstile> F \<longleftrightarrow> \<A> \<Turnstile> F"
+  then have HF: "\<A>(p := V) \<Turnstile> F \<longleftrightarrow> \<A> \<Turnstile> F"
     by (rule assms(1))
-  have "A \<notin> atoms G"
+  have "p \<notin> atoms G"
     using assms(3)
     by (rule irrelevant_atom_or_l2)
-  then have HG: "\<A>(A := V) \<Turnstile> G \<longleftrightarrow> \<A> \<Turnstile> G"
+  then have HG: "\<A>(p := V) \<Turnstile> G \<longleftrightarrow> \<A> \<Turnstile> G"
     by (rule assms(2))
-  have "\<A>(A := V) \<Turnstile> (F \<^bold>\<or> G) = (\<A>(A := V) \<Turnstile> F \<or> \<A>(A := V) \<Turnstile> G)"
+  have "\<A>(p := V) \<Turnstile> (F \<^bold>\<or> G) = (\<A>(p := V) \<Turnstile> F \<or> \<A>(p := V) \<Turnstile> G)"
     by (simp only: formula_semantics.simps(5))
   also have "\<dots> = (\<A> \<Turnstile> F \<or> \<A> \<Turnstile> G)"
     by (simp only: HF HG)
   also have "\<dots> = \<A> \<Turnstile> (F \<^bold>\<or> G)"
     by (simp only: formula_semantics.simps(5))
-  finally show "\<A>(A := V) \<Turnstile> (F \<^bold>\<or> G) \<longleftrightarrow> \<A> \<Turnstile> (F \<^bold>\<or> G)"
+  finally show "\<A>(p := V) \<Turnstile> (F \<^bold>\<or> G) \<longleftrightarrow> \<A> \<Turnstile> (F \<^bold>\<or> G)"
     by this
 qed
 
 lemma irrelevant_atom_imp_l1:
-  assumes "A \<notin> atoms (F \<^bold>\<rightarrow> G)"
-  shows   "A \<notin> atoms F"
+  assumes "p \<notin> atoms (F \<^bold>\<rightarrow> G)"
+  shows   "p \<notin> atoms F"
 proof 
-  assume "A \<in> atoms F"
-  then have "A \<in> atoms F \<union> atoms G"
+  assume "p \<in> atoms F"
+  then have "p \<in> atoms F \<union> atoms G"
     by (rule UnI1)
-  then have "A \<in> atoms (F \<^bold>\<rightarrow> G)"
+  then have "p \<in> atoms (F \<^bold>\<rightarrow> G)"
     by (simp only: formula.set(6))
   with assms show False 
     by (rule notE)
 qed
 
 lemma irrelevant_atom_imp_l2:
-  assumes "A \<notin> atoms (F \<^bold>\<rightarrow> G)"
-  shows   "A \<notin> atoms G"
+  assumes "p \<notin> atoms (F \<^bold>\<rightarrow> G)"
+  shows   "p \<notin> atoms G"
 proof 
-  assume "A \<in> atoms G"
-  then have "A \<in> atoms F \<union> atoms G"
+  assume "p \<in> atoms G"
+  then have "p \<in> atoms F \<union> atoms G"
     by (rule UnI2)
-  then have "A \<in> atoms (F \<^bold>\<rightarrow> G)"
+  then have "p \<in> atoms (F \<^bold>\<rightarrow> G)"
     by (simp only: formula.set(6))
   with assms show False 
     by (rule notE)
 qed
 
 lemma irrelevant_atom_imp:
-  assumes "A \<notin> atoms F \<Longrightarrow> \<A>(A := V) \<Turnstile> F \<longleftrightarrow> \<A> \<Turnstile> F"
-          "A \<notin> atoms G \<Longrightarrow> \<A>(A := V) \<Turnstile> G \<longleftrightarrow> \<A> \<Turnstile> G"
-          "A \<notin> atoms (F \<^bold>\<rightarrow> G)"
-  shows "\<A>(A := V) \<Turnstile> (F \<^bold>\<rightarrow> G) \<longleftrightarrow> \<A> \<Turnstile> (F \<^bold>\<rightarrow> G)"
+  assumes "p \<notin> atoms F \<Longrightarrow> \<A>(p := V) \<Turnstile> F \<longleftrightarrow> \<A> \<Turnstile> F"
+          "p \<notin> atoms G \<Longrightarrow> \<A>(p := V) \<Turnstile> G \<longleftrightarrow> \<A> \<Turnstile> G"
+          "p \<notin> atoms (F \<^bold>\<rightarrow> G)"
+  shows "\<A>(p := V) \<Turnstile> (F \<^bold>\<rightarrow> G) \<longleftrightarrow> \<A> \<Turnstile> (F \<^bold>\<rightarrow> G)"
 proof -
-  have "A \<notin> atoms F"
+  have "p \<notin> atoms F"
     using assms(3)
     by (rule irrelevant_atom_imp_l1)
-  then have HF: "\<A>(A := V) \<Turnstile> F \<longleftrightarrow> \<A> \<Turnstile> F"
+  then have HF: "\<A>(p := V) \<Turnstile> F \<longleftrightarrow> \<A> \<Turnstile> F"
     by (rule assms(1))
-  have "A \<notin> atoms G"
+  have "p \<notin> atoms G"
     using assms(3)
     by (rule irrelevant_atom_imp_l2)
-  then have HG: "\<A>(A := V) \<Turnstile> G \<longleftrightarrow> \<A> \<Turnstile> G"
+  then have HG: "\<A>(p := V) \<Turnstile> G \<longleftrightarrow> \<A> \<Turnstile> G"
     by (rule assms(2))
-  have "\<A>(A := V) \<Turnstile> (F \<^bold>\<rightarrow> G) = (\<A>(A := V) \<Turnstile> F \<longrightarrow> \<A>(A := V) \<Turnstile> G)"
+  have "\<A>(p := V) \<Turnstile> (F \<^bold>\<rightarrow> G) = (\<A>(p := V) \<Turnstile> F \<longrightarrow> \<A>(p := V) \<Turnstile> G)"
     by (simp only: formula_semantics.simps(6))
   also have "\<dots> = (\<A> \<Turnstile> F \<longrightarrow> \<A> \<Turnstile> G)"
     by (simp only: HF HG)
   also have "\<dots> = \<A> \<Turnstile> (F \<^bold>\<rightarrow> G)"
     by (simp only: formula_semantics.simps(6))
-  finally show "\<A>(A := V) \<Turnstile> (F \<^bold>\<rightarrow> G) \<longleftrightarrow> \<A> \<Turnstile> (F \<^bold>\<rightarrow> G)"
+  finally show "\<A>(p := V) \<Turnstile> (F \<^bold>\<rightarrow> G) \<longleftrightarrow> \<A> \<Turnstile> (F \<^bold>\<rightarrow> G)"
     by this
 qed
 
-lemma "A \<notin> atoms F \<Longrightarrow> (\<A>(A := V)) \<Turnstile> F \<longleftrightarrow> \<A> \<Turnstile> F"
+lemma "p \<notin> atoms F \<Longrightarrow> (\<A>(p := V)) \<Turnstile> F \<longleftrightarrow> \<A> \<Turnstile> F"
 proof (induction F)
   case (Atom x)
   then show ?case by (rule irrelevant_atom_atomic)
@@ -602,7 +599,7 @@ qed
 text \<open>Por último, su demostración automática.\<close>
 
 lemma irrelevant_atom: 
-  "A \<notin> atoms F \<Longrightarrow> (\<A>(A := V)) \<Turnstile> F \<longleftrightarrow> \<A> \<Turnstile> F"
+  "p \<notin> atoms F \<Longrightarrow> (\<A>(p := V)) \<Turnstile> F \<longleftrightarrow> \<A> \<Turnstile> F"
   by (induction F) simp_all
 
 text \<open>Procedamos con el siguiente lema de la sección.
