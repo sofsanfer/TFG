@@ -127,23 +127,23 @@ text \<open>Veamos cuáles de las interpretaciones de los ejemplos anteriores
 
 notepad
 begin
-  fix p q r :: 'a
+  fix \<A> :: "nat valuation"
 
-  have "isModel (\<A> (p := True)) (Atom p)"
+  have "isModel (\<A> (1 := True)) (Atom 1)"
     by (simp add: isModel_def)
 
-  have "\<not> isModel (\<A> (p := True)) (\<^bold>\<not> (Atom p))"
+  have "\<not> isModel (\<A> (1 := True)) (\<^bold>\<not> (Atom 1))"
     by (simp add: isModel_def)
 
-  have "\<not> isModel (\<A> (p := True, q := False)) (\<^bold>\<not> (Atom p) \<^bold>\<and> (Atom q))"
+  have "\<not> isModel (\<A> (1 := True, 2 := False)) (\<^bold>\<not> (Atom 1) \<^bold>\<and> (Atom 2))"
     by (simp add: isModel_def)
 
-  have "\<not> isModel (\<A> (p := True, q := False, r := False)) 
-          (\<^bold>\<not> ((Atom p \<^bold>\<and> Atom q)) \<^bold>\<rightarrow> Atom r)"
+  have "\<not> isModel (\<A> (1 := True, 2 := False, 3 := False)) 
+          (\<^bold>\<not> ((Atom 1 \<^bold>\<and> Atom 2)) \<^bold>\<rightarrow> Atom 3)"
     by (simp add: isModel_def)
 
-  have "isModel (\<A> (p := True, q := False, r := True)) 
-          (\<^bold>\<not> ((Atom p \<^bold>\<or> Atom q)) \<^bold>\<rightarrow> Atom r)"
+  have "isModel (\<A> (1 := True, 2 := False, 3 := True)) 
+          (\<^bold>\<not> ((Atom 1 \<^bold>\<or> Atom 2)) \<^bold>\<rightarrow> Atom 3)"
     by (simp add: isModel_def)
 
 end
@@ -171,15 +171,15 @@ text \<open>Mostremos ejemplos de fórmulas satisfacibles y no satisfacibles.
 
 notepad
 begin
-  fix p :: 'a
+  fix \<A> :: "nat valuation"
 
-  have "satF (Atom p)"
+  have "satF (Atom 1)"
     by (meson formula_semantics.simps(1) satF_def)
 
-  have "satF (Atom p \<^bold>\<and> Atom q)" 
+  have "satF (Atom 1 \<^bold>\<and> Atom 3)" 
     using satF_def by force
 
-  have "\<not> satF (Atom p \<^bold>\<and> (\<^bold>\<not> (Atom p)))"
+  have "\<not> satF (Atom 2 \<^bold>\<and> (\<^bold>\<not> (Atom 2)))"
     using satF_def by force
 
 end
@@ -217,9 +217,9 @@ No es necesario justificar su uso cada vez.}\<close>
 
 notepad
 begin
-  fix p :: 'a
+  fix \<A> :: "nat valuation"
 
-  have "\<Turnstile> (Atom p \<^bold>\<or> (\<^bold>\<not> (Atom p)))"
+  have "\<Turnstile> (Atom 5 \<^bold>\<or> (\<^bold>\<not> (Atom 5)))"
     by simp
 
 end
@@ -1259,10 +1259,10 @@ text \<open>Continuando con los ejemplos anteriores, veamos una interpretación
 
 notepad
 begin
-  fix p :: 'a
+  fix \<A> :: "nat valuation"
 
-  have "isModelSet (\<A> (p := True))
-     {Atom p, (Atom p \<^bold>\<and> Atom p) \<^bold>\<rightarrow> Atom p}"
+  have "isModelSet (\<A> (4 := True))
+     {Atom 4, (Atom 4 \<^bold>\<and> Atom 4) \<^bold>\<rightarrow> Atom 4}"
     by (simp add: isModelSet_def)
 
 end
@@ -1288,10 +1288,15 @@ text\<open>Veamos la noción de satisfacibilidad para un conjunto de fórmulas.
 
   En Isabelle se formaliza de la siguiente manera.\<close>
 
-definition "sat S \<equiv> \<exists>\<A>. \<forall>F \<in> S. \<A> \<Turnstile> F" 
+definition "sat S \<equiv> \<exists>\<A>. \<forall>F \<in> S. \<A> \<Turnstile> F"
 
-text \<open>En particular, se puede definir un conjunto de fórmulas 
-  finitamente satisfacible.
+text \<open>Como ejemplo, es fácil observar que el conjunto de fórmulas 
+  utilizado en el ejemplo de modelSet es satisfacible. Además, 
+  cualquier conjunto de fórmulas que incluya una contradicción es no
+  satisfacible.
+  
+  Por otra parte, en particular, se puede definir un conjunto de 
+  fórmulas finitamente satisfacible.
 
   \begin{definicion}
     Un conjunto de fórmulas es finitamente satisfacible si todo
@@ -1302,7 +1307,10 @@ text \<open>En particular, se puede definir un conjunto de fórmulas
 
 definition "fin_sat S \<equiv> (\<forall>s \<subseteq> S. finite s \<longrightarrow> sat s)"
 
-text \<open>Continuemos con la noción de consecuencia lógica.
+text \<open>Se observa que el conjunto de fórmulas del ejemplo anterior es,
+  en particular, finitamente satisfacible.
+
+  Continuemos con la noción de consecuencia lógica.
 
   \begin{definicion}
     Una fórmula es consecuencia lógica de un conjunto de fórmulas si
@@ -1319,17 +1327,27 @@ definition entailment ::
   "\<Gamma> \<TTurnstile> F \<equiv> (\<forall>\<A>. ((\<forall>G \<in> \<Gamma>. \<A> \<Turnstile> G) \<longrightarrow> (\<A> \<Turnstile> F)))"
  
 text \<open>Hagamos varias observaciones sobre esta definición. En primer
-  lugar, hemos usado el tipo \<open>definition\<close> para renombrar una 
-  construcción no recursiva ya existente en Isabelle. Por otro
-  lado, no hemos empleado \<open>isModel\<close> ni \<open>isModelSet\<close> para su definición
-  ya que, de este modo, no tenemos que desplegar dichas definiciones 
-  en las demostraciones detalladas y automáticas de los lemas 
-  posteriores. Finalmente se puede observar la notación \<open>\<TTurnstile>\<close>. 
-  En la teoría clásica no se suele emplear una nueva notación ya que se
-  diferencia por el contexto, mientras que en Isabelle/HOL es 
-  imprescindible.
+  lugar, hemos usado el tipo \<open>definition\<close>. Por otro lado, no hemos 
+  empleado \<open>isModel\<close> ni \<open>isModelSet\<close> para su definición ya que, de este 
+  modo, no tenemos que desplegar dichas definiciones en las 
+  demostraciones detalladas y automáticas de los lemas posteriores. 
+  Finalmente se puede observar la notación \<open>\<TTurnstile>\<close>. En la teoría clásica no 
+  se suele emplear una nueva notación ya que se diferencia por el 
+  contexto, mientras que en Isabelle/HOL es imprescindible.
 
-  Llegamos así al último lema de la sección.
+  Mostremos algún ejemplo de fórmula que sea consecuencia lógica de
+  un conjunto.\<close>
+
+notepad
+begin
+  fix \<A> :: "nat valuation"
+
+  have "{Atom 1 \<^bold>\<rightarrow> Atom 2, Atom 2 \<^bold>\<rightarrow> Atom 3} \<TTurnstile> (Atom 1 \<^bold>\<rightarrow> Atom 3)"
+    by (simp add: entailment_def)
+
+end
+
+text \<open>Llegamos así al último lema de la sección.
 
   \begin{lema}
     Un conjunto de fórmulas es insatisfacible si y sólo si \<open>\<bottom>\<close> es
