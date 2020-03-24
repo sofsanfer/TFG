@@ -945,7 +945,7 @@ text \<open>Por último, mostraremos varios resultados relativos a la semántica
 
   En Isabelle se enuncia y demuestra de manera detallada como sigue.\<close>
 
-lemma "\<A> \<Turnstile> \<top>" 
+lemma top_semantics: "\<A> \<Turnstile> \<top>" 
 proof -
  have "\<A> \<Turnstile> \<bottom> \<longrightarrow> \<A> \<Turnstile> \<bottom>" 
    by (rule imp_refl)
@@ -968,10 +968,8 @@ text \<open>Su demostración automática se muestra anteriormente en los
 
   Su formalización en Isabelle es la siguiente.\<close>
 
-text \<open>\comentario{Se ha modificado el lema para solucionar el problema de
-ambigüedad que detectaba Isabelle. }\<close>
-
-
+lemma "(\<A> \<Turnstile> \<^bold>\<And>Fs) \<longleftrightarrow> (\<forall>f \<in> set Fs. \<A> \<Turnstile> f)"
+  oops
 
 text \<open>Como podemos observar, en el enunciado de la derecha hemos
   empleado \<open>set\<close> para cambiar al tipo de los conjuntos la lista de 
@@ -1024,7 +1022,6 @@ text \<open>Como podemos observar, en el enunciado de la derecha hemos
   probarán los dos casos correspondientes a la estructura de listas por
   separado.\<close>
 
-
 lemma BigAnd_semantics_nil: "(\<A> \<Turnstile> \<^bold>\<And>[]) \<longleftrightarrow> (\<forall>f \<in> set []. \<A> \<Turnstile> f)"
 proof-
   have "(\<A> \<Turnstile> \<^bold>\<And>[]) = \<A> \<Turnstile> (\<^bold>\<not>\<bottom>)"
@@ -1043,11 +1040,6 @@ proof-
     by this
 qed
 
-text \<open>\comentario{DUDA: Bigprop1 es el enunciado de ball simps(7), un 
-  lema de Isabelle que debería permitir la demostración.
-  Sin embargo, da error. De hecho, ni siquiera puedo demostrar Bigprop1
-  usando dicho lema porque también da error.}\<close>
-
 find_theorems name: ball_simps
 
 declare[[show_types]]
@@ -1058,6 +1050,7 @@ text \<open>\comentario{Este problema ya lo vimos al final de la teoría de sint
 La cuestión es que, en realidad \<open>{a} \<union> B\<close> es \<open>insert a B\<close>, como se puede ver
 con el lema  \<open>insert_is_Un\<close> , que ya se usó en dicha teoría.}\<close>
 
+text \<open>\comentario{Aclarar Bigprop1.}\<close>
 
 lemma Bigprop1_v0: "(\<forall>x\<in>(insert a B). P x) = (P a \<and> (\<forall>x\<in>B. P x))"
   by (simp only: ball_simps(7))
@@ -1065,7 +1058,8 @@ lemma Bigprop1_v0: "(\<forall>x\<in>(insert a B). P x) = (P a \<and> (\<forall>x
 thm insert_is_Un
 
 lemma Bigprop1: "(\<forall>x\<in>({a} \<union> B). P x) = (P a \<and> (\<forall>x\<in>B. P x))"
-  by simp
+  by (simp only: ball_simps(7)
+                 insert_is_Un[THEN sym])
 
 lemma BigAnd_semantics_cons: 
   assumes "(\<A> \<Turnstile> \<^bold>\<And>Fs) \<longleftrightarrow> (\<forall>f \<in> set Fs. \<A> \<Turnstile> f)"
@@ -1148,7 +1142,6 @@ text \<open>Procedamos con la demostración del resultado.
   A continuación lo probamos de manera detallada con Isabelle/HOL, 
   haciendo previamente cada paso por separado.\<close>
 
-
 lemma BigOr_semantics_nil: "(\<A> \<Turnstile> \<^bold>\<Or>[]) \<longleftrightarrow> (\<exists>f \<in> set []. \<A> \<Turnstile> f)" 
 proof -
   have "(\<A> \<Turnstile> \<^bold>\<Or>[]) = \<A> \<Turnstile> \<bottom>"
@@ -1163,11 +1156,6 @@ proof -
     by this
 qed
 
-text \<open>\comentario{DUDA: Análogamente, Bigprop2 es el enunciado de 
-  bex simps(5), un lema de Isabelle que debería permitir la 
-  demostración. Sin embargo, da error. De hecho, ni siquiera puedo 
-  demostrar Bigprop2 usando dicho lema porque también da error.}\<close>
-
 text \<open>\comentario{Este problema ya lo vimos al final de la teoría de sintaxis.
 La cuestión es que, en realidad \<open>{a} \<union> B\<close> es \<open>insert a B\<close>, como se puede ver
 con el lema  \<open>insert_is_Un\<close> , que ya se usó en dicha teoría.}\<close>
@@ -1178,7 +1166,10 @@ lemma Bigprop2_v0: "(\<exists>x\<in> insert a B. P x) = (P a \<or> (\<exists>x\<
   by (simp only: bex_simps(5))
 
 lemma Bigprop2: "(\<exists>x\<in>{a} \<union> B. P x) = (P a \<or> (\<exists>x\<in>B. P x))"
-  by simp
+  by (simp only: bex_simps(5)
+                 insert_is_Un[THEN sym])
+
+text\<open>\comentario{Aclarar Bigprop2.}\<close>
 
 lemma BigOr_semantics_cons: 
   assumes "(\<A> \<Turnstile> \<^bold>\<Or>Fs) \<longleftrightarrow> (\<exists>f \<in> set Fs. \<A> \<Turnstile> f)" 
