@@ -148,13 +148,6 @@ begin
 
 end
 
-text \<open>\comentario{Estos ejemplos ylos siguiente siguen siendo incorrectos. 
-Tienes que ponerlos igual que los ejemplos anteriores: estableciendo una 
-interpretación cualquiera en el tipo de los naturales y luego especificando 
-su valor para naturales concretos. Del mismo modo, las fórmulas que se usan 
-de ejemplos han de ser concretas, como ya habíamos comentado.}\<close>
-
-
 text \<open>Demos ahora la noción de fórmula satisfacible.
 
   \begin{definicion}
@@ -203,17 +196,12 @@ abbreviation valid ("\<Turnstile> _" 51) where
   "\<Turnstile> F \<equiv> \<forall>\<A>. \<A> \<Turnstile> F"
 
 text \<open>Por otro lado, podemos observar que se ha definido mediante el 
-  tipo \<open>abbreviation\<close>, pues no se trata de una definición propiamente 
-  dicha, sino de un mecanismo en Isabelle/HOL para nombrar
-  ciertas macros sintácticas. En este caso, introduce una nueva notación 
-  para una construcción compleja formada por un cuantificador 
-  universal aplicado a uno de los argumentos de \<open>formula_semantics\<close>.
+  tipo \<open>abbreviation\<close>, introduciendo una nueva notación para una 
+  construcción formada por un cuantificador universal aplicado 
+  a uno de los argumentos de \<open>formula_semantics\<close>.
 
   Veamos un ejemplo clásico de tautología: el principio del tercio
   excluso.\<close>
-
-text \<open>\comentario{Anteriormente ya se ha usado abbreviation para una definición.
-No es necesario justificar su uso cada vez.}\<close>
 
 notepad
 begin
