@@ -1040,26 +1040,27 @@ proof-
     by this
 qed
 
-find_theorems name: ball_simps
-
-declare[[show_types]]
-
-thm ball_simps(7)
-
-text \<open>\comentario{Este problema ya lo vimos al final de la teoría de sintaxis.
-La cuestión es que, en realidad \<open>{a} \<union> B\<close> es \<open>insert a B\<close>, como se puede ver
-con el lema  \<open>insert_is_Un\<close> , que ya se usó en dicha teoría.}\<close>
-
-text \<open>\comentario{Aclarar Bigprop1.}\<close>
-
-lemma Bigprop1_v0: "(\<forall>x\<in>(insert a B). P x) = (P a \<and> (\<forall>x\<in>B. P x))"
-  by (simp only: ball_simps(7))
-
-thm insert_is_Un
+text \<open>Para el caso de la lista formada añadiendo un elemento, vamos a
+  emplear el siguiente lema auxiliar\<close>
 
 lemma Bigprop1: "(\<forall>x\<in>({a} \<union> B). P x) = (P a \<and> (\<forall>x\<in>B. P x))"
   by (simp only: ball_simps(7)
                  insert_is_Un[THEN sym])
+
+text \<open>Se trata de una adaptación del séptimo apartado del lema 
+  \<open>ball_simps\<close> en Isabelle, para adecuarlo a nuestro caso particular. 
+
+  \begin{itemize}
+    \item[] \<open>(\<forall>x\<in>insert a B. P x) \<longleftrightarrow> (P a \<and> (\<forall>x\<in>B. P x))\<close> 
+        \hspace{3cm} \<open>(ball_simps(7))\<close>
+  \end{itemize}
+
+  Para ello, empleamos el lema \<open>insert_is_Un\<close> seguido de \<open>[THEN sym]\<close>
+  como hemos hecho anteriormente.
+
+  Procedamos, así, con la demostración del caso del lema 
+  correspondiente. Por último, mostraremos también su demostración
+  detallada completa.\<close>
 
 lemma BigAnd_semantics_cons: 
   assumes "(\<A> \<Turnstile> \<^bold>\<And>Fs) \<longleftrightarrow> (\<forall>f \<in> set Fs. \<A> \<Turnstile> f)"
@@ -1156,20 +1157,27 @@ proof -
     by this
 qed
 
-text \<open>\comentario{Este problema ya lo vimos al final de la teoría de sintaxis.
-La cuestión es que, en realidad \<open>{a} \<union> B\<close> es \<open>insert a B\<close>, como se puede ver
-con el lema  \<open>insert_is_Un\<close> , que ya se usó en dicha teoría.}\<close>
-
-find_theorems name: bex_simps
-
-lemma Bigprop2_v0: "(\<exists>x\<in> insert a B. P x) = (P a \<or> (\<exists>x\<in>B. P x))"
-  by (simp only: bex_simps(5))
+text \<open>Para el segundo caso de las listas emplearemos el siguiente lema
+  auxiliar.\<close>
 
 lemma Bigprop2: "(\<exists>x\<in>{a} \<union> B. P x) = (P a \<or> (\<exists>x\<in>B. P x))"
   by (simp only: bex_simps(5)
                  insert_is_Un[THEN sym])
 
-text\<open>\comentario{Aclarar Bigprop2.}\<close>
+text\<open>De forma similar al resultado sobre conjunción generalizada, se 
+  trata de una modificación del quinto apartado del lema \<open>bex_simps\<close> en 
+  Isabelle para adaptarlo al caso particular. 
+
+  \begin{itemize}
+    \item[] \<open>(\<exists>x\<in>insert a B. P x) \<longleftrightarrow> (P a \<or> (\<exists>x\<in>B. P x))\<close> 
+        \hspace{3cm} \<open>(bex_simps(5))\<close>
+  \end{itemize}
+  
+  Para modificarlo, empleamos análogamente el lema \<open>insert_is_Un\<close>
+  seguido de \<open>[THEN sym]\<close>, procediendo de manera similar a los casos 
+  en los que se ha usado con anterioridad.
+  
+  Seguimos, así, con la demostración detallada del lema.\<close>
 
 lemma BigOr_semantics_cons: 
   assumes "(\<A> \<Turnstile> \<^bold>\<Or>Fs) \<longleftrightarrow> (\<exists>f \<in> set Fs. \<A> \<Turnstile> f)" 
