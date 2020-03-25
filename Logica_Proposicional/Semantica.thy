@@ -220,28 +220,19 @@ text \<open>Una vez presentados los conceptos anteriores, mostremos el
   primer lema de la sección.
 
   \begin{lema}
-  Sea una interpretación \<open>\<A>\<close> y una fórmula \<open>F\<close> de modo que \<open>A\<close>
-  es una variable proposicional que no pertenece al conjunto de átomos
-  de \<open>F\<close>. Se define la interpretación \<open>\<A>'\<close> como la función que devuelve 
-  \<open>\<A>(q)\<close> para cualquier variable proposicional \<open>q\<close> distinta de \<open>A\<close>, y 
-  \<open>V\<close> en caso contrario.
-
-  Entonces, la fórmula \<open>F\<close> tiene el mismo valor para las 
-  interpretaciones \<open>\<A>\<close> y \<open>\<A>'\<close>.
+  Sea una fórmula \<open>F\<close> de modo que \<open>p\<close> es una variable proposicional que 
+  no pertenece a su conjunto de átomos. Entonces, el valor de \<open>F\<close> en 
+  una interpretación no depende del valor de la variable \<open>p\<close> en dicha 
+  interpretación.
   \end{lema}
-
 
   En Isabelle se formaliza de la siguiente manera empleando la notación
   de \<open>fun_upd\<close>.\<close> 
 
-text \<open>\comentario{El enunciado del lema no se entiende bien. Supongo que
-lo que quieres decir es que si una variable proposicional (A) no aparece en una
-fórmula (F), el valor de F en una interpretación  \<open>\<A>\<close> no depende del valor
-de la variable A en la interpretación  \<open>\<A>\<close>. Otra cuestión es cómo se 
-formalice en Isabelle.}\<close>
-
 lemma "p \<notin> atoms F \<Longrightarrow> (\<A>(p := V)) \<Turnstile> F \<longleftrightarrow> \<A> \<Turnstile> F"
   oops
+
+text \<open>\comentario{Falta corregir demostración.}\<close>
 
 text\<open>Veamos ahora la prueba del lema.
 
