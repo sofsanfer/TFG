@@ -232,13 +232,19 @@ text \<open>Una vez presentados los conceptos anteriores, mostremos el
 lemma "p \<notin> atoms F \<Longrightarrow> (\<A>(p := V)) \<Turnstile> F \<longleftrightarrow> \<A> \<Turnstile> F"
   oops
 
-text \<open>\comentario{Falta corregir demostración.}\<close>
-
 text\<open>Veamos ahora la prueba del lema.
 
   \begin{demostracion}
   Vamos a probar el resultado por inducción en la estructura recursiva
-  de las fórmulas. De este modo, demostremos los siguientes casos.
+  de las fórmulas. Para ello, dada una interpretación cualquier \<open>\<A>\<close> y 
+  una variable \<open>p\<close> que no pertenece al conjunto de átomos de una 
+  fórmula, definimos la interpretación \<open>\<A>'\<close> como aquella que devuelve
+  \<open>\<A>(q)\<close> para cualquier variable \<open>q\<close> distinta de \<open>p\<close>, y un valor 
+  cualquiera \<open>V\<close> en caso contrario. Para demostrar que el valor de una 
+  fórmula en una interpretación no depende del valor de \<open>p\<close> en dicha 
+  interpretación, basta probar que el valor de la fórmula en \<open>\<A>\<close> 
+  coincide con su valor en \<open>\<A>'\<close> según la definición dada anteriormente. 
+  Demostremos los siguientes casos.
 
   Sea \<open>q\<close> una fórmula atómica cualquiera tal que \<open>p\<close> no pertenece
   al conjunto de sus átomos \<open>{q}\<close>. De este modo, se tiene \<open>q \<noteq> p\<close>. 
