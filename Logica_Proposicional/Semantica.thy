@@ -920,6 +920,10 @@ text \<open>Por último, mostraremos varios resultados relativos a la semántica
   lugar, veamos un resultado que aparece anteriormente como ejemplo de
   tautología.
 
+\comentario{Poner este lema como ejemplo de tautología cuando se define fórmula
+válida o tautología, aunque se use en esta sección. No tiene sentido al comienzo 
+de la sesión de conectivas generalizadas.}
+
   \begin{lema}
     La fórmula \<open>\<top>\<close> es una tautología.
   \end{lema}
@@ -1210,7 +1214,7 @@ lemma BigOr_semantics:
   "(\<A> \<Turnstile> \<^bold>\<Or>Fs) \<longleftrightarrow> (\<exists>f \<in> set Fs. \<A> \<Turnstile> f)" 
   by (induction Fs; simp)
 
-text \<open>\comentario{Corregido hasta aquí}\<close>
+
 
 section \<open>Semántica de conjuntos de fórmulas\<close>
     
@@ -1289,7 +1293,7 @@ text \<open>Continuemos con la noción de consecuencia lógica.
     todos los modelos del conjunto son modelos de la fórmula.
   \end{definicion}
 
-  Teniendo en cuenta la definicón de modelo de una fórmula y modelo de
+  Teniendo en cuenta la definición de modelo de una fórmula y modelo de
   un conjunto de fórmulas, su formalización en Isabelle es la 
   siguiente.\<close>
 
@@ -1350,10 +1354,9 @@ text\<open>Comencemos las demostraciones del resultado.
     es insatisfacible, como queríamos demostrar.
   \end{demostracion}
 
-  Procedamos con las pruebas en Isabelle/HOL. Como se puede observar,
-  hemos enunciado la doble implicación de distinta forma para reducir 
-  la demostración detallada, pues asumimos la propiedad reflexiva de 
-  la doble implicación.\<close>
+\comentario{La demostración en lenguaje natural no se entiende bien.}
+
+  Procedamos con las pruebas en Isabelle/HOL.\<close>
 
 lemma "\<Gamma> \<TTurnstile> \<bottom> \<longleftrightarrow> \<not> sat \<Gamma>" 
 proof -
@@ -1370,6 +1373,8 @@ proof -
   finally show ?thesis
     by this
 qed
+
+text \<open>\comentario{Hay revisar los cortes de línea.}\<close>
 
 text \<open>Finalmente su demostración automática es la siguiente.\<close>
 
