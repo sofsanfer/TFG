@@ -189,7 +189,8 @@ text \<open>Como podemos observar, \<open>isModel\<close> y \<open>satF\<close> 
   \end{definicion}
 
   Es decir, una tautología es una fórmula que es verdadera para 
-  cualquier interpretación. En Isabelle se formaliza de la siguiente 
+  cualquier interpretación. En otras palabras, toda interpretación es
+  modelo de dicha fórmula. En Isabelle se formaliza de la siguiente
   manera.\<close>
 
 abbreviation valid ("\<Turnstile> _" 51) where
@@ -210,14 +211,47 @@ begin
   have "\<Turnstile> (Atom 5 \<^bold>\<or> (\<^bold>\<not> (Atom 5)))"
     by simp
 
-  have "\<Turnstile> \<top>"
-    unfolding Top_def 
-    by simp
-
 end
 
-text \<open>Una vez presentados los conceptos anteriores, mostremos el 
-  primer lema de la sección.
+text \<open>Otro ejemplo de tautología se muestra con el siguiente lema.
+
+  \begin{lema}
+    La fórmula \<open>\<top>\<close> es una tautología.
+  \end{lema}
+ 
+  Veamos su prueba.
+
+  \begin{demostracion}
+    Sea una interpretación cualquiera \<open>\<A>\<close>. Es obvio que, aplicando la
+    propiedad reflexiva de la implicación, tenemos que \<open>Verdadero\<close> es
+    equivalente a suponer que valor de \<open>\<bottom>\<close> en \<open>\<A>\<close> se implica a sí 
+    mismo. Por definición, se tiene que la implicación anterior es, a 
+    su vez, equivalente al valor de la fórmula \<open>\<bottom> \<rightarrow> \<bottom>\<close> en la 
+    interpretación \<open>\<A>\<close>. Según la definición de \<open>\<top>\<close>, tenemos que esto es
+    igual al valor de la fórmula \<open>\<top>\<close> en la interpretación \<open>\<A>\<close>.
+    Finalmente, mediante esta cadena de equivalencias se observa que
+    el valor de \<open>\<top>\<close> en una interpretación \<open>\<A>\<close> cualquiera es 
+    \<open>Verdadero\<close> como queríamos probar.    
+  \end{demostracion}
+
+  En Isabelle se enuncia y demuestra de manera detallada como sigue.\<close>
+
+lemma  "\<A> \<Turnstile> \<top>" 
+proof -
+ have "\<A> \<Turnstile> \<bottom> \<longrightarrow> \<A> \<Turnstile> \<bottom>" 
+   by (rule imp_refl)
+ then have "\<A> \<Turnstile> (\<bottom> \<^bold>\<rightarrow> \<bottom>)"
+   by (simp only: formula_semantics.simps(6))
+ thus "\<A> \<Turnstile> \<top>" unfolding Top_def by this
+qed
+
+text \<open>Se demuestra automáticamente como sigue.\<close>
+
+lemma top_semantics: "\<A> \<Turnstile> \<top>"
+  unfolding Top_def by simp
+
+text \<open>Una vez presentados los conceptos y ejemplos anteriores, 
+  continuemos con el siguiente resultado de la sección.
 
   \begin{lema}
   Sea una fórmula \<open>F\<close> de modo que \<open>p\<close> es una variable proposicional que 
@@ -915,51 +949,8 @@ lemma relevant_atoms_same_semantics:
 
 section \<open>Semántica de fórmulas con conectivas generalizadas\<close>
 
-text \<open>Por último, mostraremos varios resultados relativos a la semántica
-  de las fórmulas construidas con conectivas generalizadas. En primer
-  lugar, veamos un resultado que aparece anteriormente como ejemplo de
-  tautología.
-
-\comentario{Poner este lema como ejemplo de tautología cuando se define fórmula
-válida o tautología, aunque se use en esta sección. No tiene sentido al comienzo 
-de la sesión de conectivas generalizadas.}
-
-  \begin{lema}
-    La fórmula \<open>\<top>\<close> es una tautología.
-  \end{lema}
-
-  En otras palabras, toda interpretación es modelo de la fórmula \<open>\<top>\<close>. 
-  Veamos su prueba.
-
-  \begin{demostracion}
-    Sea una interpretación cualquiera \<open>\<A>\<close>. Es obvio que, aplicando la
-    propiedad reflexiva de la implicación, tenemos que \<open>Verdadero\<close> es
-    equivalente a suponer que valor de \<open>\<bottom>\<close> en \<open>\<A>\<close> se implica a sí 
-    mismo. Por definición, se tiene que la implicación anterior es, a 
-    su vez, equivalente al valor de la fórmula \<open>\<bottom> \<rightarrow> \<bottom>\<close> en la 
-    interpretación \<open>\<A>\<close>. Según la definición de \<open>\<top>\<close>, tenemos que esto es
-    igual al valor de la fórmula \<open>\<top>\<close> en la interpretación \<open>\<A>\<close>.
-    Finalmente, mediante esta cadena de equivalencias se observa que
-    el valor de \<open>\<top>\<close> en una interpretación \<open>\<A>\<close> cualquiera es 
-    \<open>Verdadero\<close> como queríamos probar.    
-  \end{demostracion}
-
-  En Isabelle se enuncia y demuestra de manera detallada como sigue.\<close>
-
-lemma top_semantics: "\<A> \<Turnstile> \<top>" 
-proof -
- have "\<A> \<Turnstile> \<bottom> \<longrightarrow> \<A> \<Turnstile> \<bottom>" 
-   by (rule imp_refl)
- then have "\<A> \<Turnstile> (\<bottom> \<^bold>\<rightarrow> \<bottom>)"
-   by (simp only: formula_semantics.simps(6))
- thus "\<A> \<Turnstile> \<top>" unfolding Top_def by this
-qed
-
-text \<open>Su demostración automática se muestra anteriormente en los 
-  ejemplos de tautología.
-
-  Veamos ahora resultados relativos a la semántica de la conjunción
-  y disyunción generalizadas.
+text \<open>En este apartado mostraremos varios resultados relativos a la 
+  semántica de las fórmulas construidas con conectivas generalizadas.
 
   \begin{lema}
     Una interpretación es modelo de la conjunción generalizada de una 
