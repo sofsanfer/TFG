@@ -1315,13 +1315,13 @@ end
 text \<open>Llegamos así al último lema de la sección.
 
   \begin{lema}
-    Un conjunto de fórmulas es insatisfacible si y sólo si \<open>\<bottom>\<close> es
-    consecuencia lógica de dicho conjunto.
+    \<open>\<bottom>\<close> es consecuencia lógica de un conjunto si y solo si el conjunto
+    es insatisfacible.
   \end{lema}
 
   Su formalización en Isabelle es la siguiente.\<close>
 
-lemma "\<not> sat \<Gamma> \<longleftrightarrow> \<Gamma> \<TTurnstile> \<bottom>" 
+lemma "\<Gamma> \<TTurnstile> \<bottom> \<longleftrightarrow> \<not> sat \<Gamma>" 
   oops
 
 text\<open>Comencemos las demostraciones del resultado.
@@ -1332,18 +1332,15 @@ text\<open>Comencemos las demostraciones del resultado.
 
     Sea un conjunto de fórmulas \<open>\<Gamma>\<close> tal que la fórmula \<open>\<bottom>\<close> es
     consecuencia lógica de dicho conjunto. Por definición, esto es
-    equivalente a decir que para toda interpretación, si esta modelo de
-    \<open>\<Gamma>\<close>, entonces es a su vez modelo de \<open>\<bottom>\<close>. Por otro lado, el valor 
-    de \<open>\<bottom>\<close> es \<open>Falso\<close> en cualquier interpretación. Tenemos así que 
-    para toda interpretación, si es modelo de \<open>\<Gamma>\<close>, entonces implica
-    \<open>Falso\<close>. Es decir, por definición de negación, para toda 
-    interpretación se verifica que esta no es modelo del conjunto. En 
-    otras palabras, no existe una interpretación que sea modelo de \<open>\<Gamma>\<close>. 
-    Según la definición, esto es equivalente a que dicho conjunto 
-    es insatisfacible, como queríamos demostrar.
+    equivalente a que toda interpretación que sea modelo de
+    \<open>\<Gamma>\<close> es, a su vez, modelo de \<open>\<bottom>\<close>. Como el valor de \<open>\<bottom>\<close> es \<open>Falso\<close> 
+    en cualquier interpretación, ninguna interpretación es modelo suyo. 
+    Por tanto, por la hipótesis inicial, se verifica que ninguna 
+    interpretación es modelo del conjunto \<open>\<Gamma>\<close>. Es decir, no existe 
+    ninguna interpretación que sea modelo de dicho conjunto. Según la 
+    definición, esto es equivalente a que el conjunto \<open>\<Gamma>\<close> es 
+    insatisfacible, como queríamos demostrar.
   \end{demostracion}
-
-\comentario{La demostración en lenguaje natural no se entiende bien.}
 
   Procedamos con las pruebas en Isabelle/HOL.\<close>
 
