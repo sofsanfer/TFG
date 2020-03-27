@@ -1355,6 +1355,8 @@ proof -
     by this
 qed
 
+text \<open>\comentario{Hay revisar los cortes de línea.}\<close>
+
 text \<open>Finalmente su demostración automática es la siguiente.\<close>
 
 lemma entail_sat: 
