@@ -77,6 +77,8 @@ subsubsection \<open>Simplificadores (2.3.4)\<close>
 
 text \<open>
   \begin{itemize}
+    \item (p.50) @{thm[mode=Rule] not_False_eq_True[no_vars]} 
+      \hfill (@{text not_False_eq_True})
     \item (p.53) @{thm[mode=Rule] not_ex[no_vars]} 
       \hfill (@{text not_ex})
   \end{itemize}\<close>
@@ -114,6 +116,10 @@ text \<open>
   \begin{itemize}
     \item (p.167) @{thm[mode=Rule] empty_subsetI[no_vars]} 
       \hfill (@{text empty_subsetI})
+    \item (p.167) @{thm[mode=Rule] ball_empty[no_vars]} 
+      \hfill (@{text ball_empty})
+    \item (p.167) @{thm[mode=Rule] bex_empty[no_vars]} 
+      \hfill (@{text bex_empty})
   \end{itemize}\<close>
 
 subsubsection \<open>Unión binaria (7.3.8)\<close>
@@ -217,7 +223,7 @@ text \<open>
 
 section \<open>Conjuntos finitos (18)\<close>
 
-text \<open>A continuación se muestran resultamos relativos a la teoría 
+text \<open>A continuación se muestran resultados relativos a la teoría 
   \href{https://n9.cl/x86r}{FiniteSet.thy}.\<close> 
 
 subsection \<open>Predicado de conjuntos finitos (18.1)\<close>
@@ -234,6 +240,28 @@ text\<open>
   \begin{itemize}
     \item (p.422) @{thm[mode=Rule] finite_UnI[no_vars]} 
       \hfill (@{text finite_UnI})
+  \end{itemize}\<close>
+
+section \<open>El tipo de datos de la listas finitas (66)\<close>
+
+text \<open>En esta sección se muestran resultados sobre listas finitas 
+  dentro de la teoría de listas de Isabelle 
+  \href{http://bit.ly/2se9Oy0}{List.thy}\<close>
+
+text\<open>  
+  \begin{itemize}
+    \item (p.1169) @{thm[mode=Rule] list.set[no_vars]} 
+      \hfill (@{text list.set})
+  \end{itemize}\<close>
+
+subsection \<open>Funciones básicas de procesamiento de listas (66.1)\<close>
+
+subsubsection \<open>Función \<open>set\<close>\<close>
+
+text\<open>  
+  \begin{itemize}
+    \item (p.1195) @{thm[mode=Rule] set_append[no_vars]} 
+      \hfill (@{text set_append})
   \end{itemize}\<close>
 
 (*<*)

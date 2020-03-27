@@ -189,7 +189,8 @@ text \<open>Como podemos observar, \<open>isModel\<close> y \<open>satF\<close> 
   \end{definicion}
 
   Es decir, una tautología es una fórmula que es verdadera para 
-  cualquier interpretación. En Isabelle se formaliza de la siguiente 
+  cualquier interpretación. En otras palabras, toda interpretación es
+  modelo de dicha fórmula. En Isabelle se formaliza de la siguiente
   manera.\<close>
 
 abbreviation valid ("\<Turnstile> _" 51) where
@@ -210,14 +211,47 @@ begin
   have "\<Turnstile> (Atom 5 \<^bold>\<or> (\<^bold>\<not> (Atom 5)))"
     by simp
 
-  have "\<Turnstile> \<top>"
-    unfolding Top_def 
-    by simp
-
 end
 
-text \<open>Una vez presentados los conceptos anteriores, mostremos el 
-  primer lema de la sección.
+text \<open>Otro ejemplo de tautología se muestra con el siguiente lema.
+
+  \begin{lema}
+    La fórmula \<open>\<top>\<close> es una tautología.
+  \end{lema}
+ 
+  Veamos su prueba.
+
+  \begin{demostracion}
+    Sea una interpretación cualquiera \<open>\<A>\<close>. Es obvio que, aplicando la
+    propiedad reflexiva de la implicación, tenemos que \<open>Verdadero\<close> es
+    equivalente a suponer que valor de \<open>\<bottom>\<close> en \<open>\<A>\<close> se implica a sí 
+    mismo. Por definición, se tiene que la implicación anterior es, a 
+    su vez, equivalente al valor de la fórmula \<open>\<bottom> \<rightarrow> \<bottom>\<close> en la 
+    interpretación \<open>\<A>\<close>. Según la definición de \<open>\<top>\<close>, tenemos que esto es
+    igual al valor de la fórmula \<open>\<top>\<close> en la interpretación \<open>\<A>\<close>.
+    Finalmente, mediante esta cadena de equivalencias se observa que
+    el valor de \<open>\<top>\<close> en una interpretación \<open>\<A>\<close> cualquiera es 
+    \<open>Verdadero\<close> como queríamos probar.    
+  \end{demostracion}
+
+  En Isabelle se enuncia y demuestra de manera detallada como sigue.\<close>
+
+lemma  "\<A> \<Turnstile> \<top>" 
+proof -
+ have "\<A> \<Turnstile> \<bottom> \<longrightarrow> \<A> \<Turnstile> \<bottom>" 
+   by (rule imp_refl)
+ then have "\<A> \<Turnstile> (\<bottom> \<^bold>\<rightarrow> \<bottom>)"
+   by (simp only: formula_semantics.simps(6))
+ thus "\<A> \<Turnstile> \<top>" unfolding Top_def by this
+qed
+
+text \<open>Se demuestra automáticamente como sigue.\<close>
+
+lemma top_semantics: "\<A> \<Turnstile> \<top>"
+  unfolding Top_def by simp
+
+text \<open>Una vez presentados los conceptos y ejemplos anteriores, 
+  continuemos con el siguiente resultado de la sección.
 
   \begin{lema}
   Sea una fórmula \<open>F\<close> de modo que \<open>p\<close> es una variable proposicional que 
@@ -651,7 +685,7 @@ text \<open>Vamos a probar el resultado.
     la fórmula del caso anterior. Sean las interpretaciones \<open>\<A>\<^sub>1\<close> y \<open>\<A>\<^sub>2\<close> 
     tales que coinciden sobre el conjunto de átomos de \<open>F \<and> G\<close>. Vamos a
     probar que el valor de \<open>F \<and> G\<close> en \<open>\<A>\<^sub>1\<close> es el mismo que en \<open>\<A>\<^sub>2\<close>.
-    Como el conjunto de átomos de \<open>F \<and> G\<close> es la unión del conjunto de
+    Como el conjunto de átomos de\\ \<open>F \<and> G\<close> es la unión del conjunto de
     átomos de \<open>F\<close> y el conjunto de átomos de \<open>G\<close>, tenemos que \<open>\<A>\<^sub>1\<close> y 
     \<open>\<A>\<^sub>2\<close> coinciden sobre los elementos de dicha unión. En particular,
     coinciden sobre los elementos del conjunto de átomos de \<open>F\<close> y, por
@@ -661,7 +695,7 @@ text \<open>Vamos a probar el resultado.
     del conjunto de átomos de \<open>G\<close> luego, aplicando análogamente la 
     hipótesis de inducción, tenemos que el valor de \<open>G\<close> es el mismo 
     en las interpretaciones \<open>\<A>\<^sub>1\<close> y \<open>\<A>\<^sub>2\<close>. Veamos ahora que el valor
-    de \<open>F \<and> G\<close> también coincide en dichas interpretaciones.
+    de\\ \<open>F \<and> G\<close> también coincide en dichas interpretaciones.
     Por definición, el valor de \<open>F \<and> G\<close> en \<open>\<A>\<^sub>1\<close> es la conjunción
     del valor de \<open>F\<close> en \<open>\<A>\<^sub>1\<close> y el valor de \<open>G\<close> en \<open>\<A>\<^sub>1\<close>. Por lo 
     obtenido anteriormente por las hipótesis de inducción, tenemos que
@@ -777,8 +811,6 @@ text \<open>Para los casos de la fórmula \<open>\<bottom>\<close> y la negació
   \<open>\<not> F\<close> coincide con el de \<open>F\<close>. Finalmente, introducimos los siguientes 
   lemas auxiliares para facilitar las demostraciones detalladas en 
   Isabelle de los casos correspondientes a las conectivas binarias.\<close>
-
-find_theorems "_  \<union> _ "
 
 lemma forall_union1: 
   assumes "\<forall>x \<in> A \<union> B. P x"
@@ -915,51 +947,8 @@ lemma relevant_atoms_same_semantics:
 
 section \<open>Semántica de fórmulas con conectivas generalizadas\<close>
 
-text \<open>Por último, mostraremos varios resultados relativos a la semántica
-  de las fórmulas construidas con conectivas generalizadas. En primer
-  lugar, veamos un resultado que aparece anteriormente como ejemplo de
-  tautología.
-
-\comentario{Poner este lema como ejemplo de tautología cuando se define fórmula
-válida o tautología, aunque se use en esta sección. No tiene sentido al comienzo 
-de la sesión de conectivas generalizadas.}
-
-  \begin{lema}
-    La fórmula \<open>\<top>\<close> es una tautología.
-  \end{lema}
-
-  En otras palabras, toda interpretación es modelo de la fórmula \<open>\<top>\<close>. 
-  Veamos su prueba.
-
-  \begin{demostracion}
-    Sea una interpretación cualquiera \<open>\<A>\<close>. Es obvio que, aplicando la
-    propiedad reflexiva de la implicación, tenemos que \<open>Verdadero\<close> es
-    equivalente a suponer que valor de \<open>\<bottom>\<close> en \<open>\<A>\<close> se implica a sí 
-    mismo. Por definición, se tiene que la implicación anterior es, a 
-    su vez, equivalente al valor de la fórmula \<open>\<bottom> \<rightarrow> \<bottom>\<close> en la 
-    interpretación \<open>\<A>\<close>. Según la definición de \<open>\<top>\<close>, tenemos que esto es
-    igual al valor de la fórmula \<open>\<top>\<close> en la interpretación \<open>\<A>\<close>.
-    Finalmente, mediante esta cadena de equivalencias se observa que
-    el valor de \<open>\<top>\<close> en una interpretación \<open>\<A>\<close> cualquiera es 
-    \<open>Verdadero\<close> como queríamos probar.    
-  \end{demostracion}
-
-  En Isabelle se enuncia y demuestra de manera detallada como sigue.\<close>
-
-lemma top_semantics: "\<A> \<Turnstile> \<top>" 
-proof -
- have "\<A> \<Turnstile> \<bottom> \<longrightarrow> \<A> \<Turnstile> \<bottom>" 
-   by (rule imp_refl)
- then have "\<A> \<Turnstile> (\<bottom> \<^bold>\<rightarrow> \<bottom>)"
-   by (simp only: formula_semantics.simps(6))
- thus "\<A> \<Turnstile> \<top>" unfolding Top_def by this
-qed
-
-text \<open>Su demostración automática se muestra anteriormente en los 
-  ejemplos de tautología.
-
-  Veamos ahora resultados relativos a la semántica de la conjunción
-  y disyunción generalizadas.
+text \<open>En este apartado mostraremos varios resultados relativos a la 
+  semántica de las fórmulas construidas con conectivas generalizadas.
 
   \begin{lema}
     Una interpretación es modelo de la conjunción generalizada de una 
@@ -986,7 +975,7 @@ text \<open>Como podemos observar, en el enunciado de la derecha hemos
    En primer lugar, lo probamos para la lista vacía de fórmulas. Sea la
    interpretación \<open>\<A>\<close> tal que es modelo de la conjunción generalizada
    de la lista vacía. Por definición de la conjunción generalizada,
-   \<open>\<A>\<close> es modelo de \<open>\<not> \<bottom>\<close>. Aplicando la definición del valor de una
+   \<open>\<A>\<close> es modelo de\\ \<open>\<not> \<bottom>\<close>. Aplicando la definición del valor de una
    fórmula en una interpretación para el caso de la negación,
    tenemos que esto es equivalente a que \<open>\<A>\<close> no es modelo de \<open>\<bottom>\<close>.
    Análogamente, como sabemos que el valor de \<open>\<bottom>\<close> es \<open>Falso\<close> en 
@@ -1042,7 +1031,7 @@ proof-
 qed
 
 text \<open>Para el caso de la lista formada añadiendo un elemento, vamos a
-  emplear el siguiente lema auxiliar\<close>
+  emplear el siguiente lema auxiliar.\<close>
 
 lemma Bigprop1: "(\<forall>x\<in>({a} \<union> B). P x) = (P a \<and> (\<forall>x\<in>B. P x))"
   by (simp only: ball_simps(7)
@@ -1094,7 +1083,7 @@ text \<open>Su demostración automática es la siguiente.\<close>
 
 lemma BigAnd_semantics: 
   "(\<A> \<Turnstile> \<^bold>\<And>Fs) \<longleftrightarrow> (\<forall>f \<in> set Fs. \<A> \<Turnstile> f)"
-  by (induction Fs; simp)
+  by (induction Fs) simp_all
 
 text \<open>Finalmente, un resultado sobre la disyunción generalizada.
 
@@ -1198,9 +1187,6 @@ proof -
     by this
 qed
 
-text \<open>\comentario{Añadir ball empty, list set, not False eq True,
- bex empty al glosario.}\<close>
-
 lemma "(\<A> \<Turnstile> \<^bold>\<Or>Fs) \<longleftrightarrow> (\<exists>f \<in> set Fs. \<A> \<Turnstile> f)" 
 proof (induction Fs)
 case Nil
@@ -1212,9 +1198,7 @@ qed
 
 lemma BigOr_semantics: 
   "(\<A> \<Turnstile> \<^bold>\<Or>Fs) \<longleftrightarrow> (\<exists>f \<in> set Fs. \<A> \<Turnstile> f)" 
-  by (induction Fs; simp)
-
-
+  by (induction Fs) simp_all
 
 section \<open>Semántica de conjuntos de fórmulas\<close>
     
@@ -1326,13 +1310,13 @@ end
 text \<open>Llegamos así al último lema de la sección.
 
   \begin{lema}
-    Un conjunto de fórmulas es insatisfacible si y sólo si \<open>\<bottom>\<close> es
-    consecuencia lógica de dicho conjunto.
+    \<open>\<bottom>\<close> es consecuencia lógica de un conjunto si y solo si el conjunto
+    es insatisfacible.
   \end{lema}
 
   Su formalización en Isabelle es la siguiente.\<close>
 
-lemma "\<not> sat \<Gamma> \<longleftrightarrow> \<Gamma> \<TTurnstile> \<bottom>" 
+lemma "\<Gamma> \<TTurnstile> \<bottom> \<longleftrightarrow> \<not> sat \<Gamma>" 
   oops
 
 text\<open>Comencemos las demostraciones del resultado.
@@ -1343,18 +1327,15 @@ text\<open>Comencemos las demostraciones del resultado.
 
     Sea un conjunto de fórmulas \<open>\<Gamma>\<close> tal que la fórmula \<open>\<bottom>\<close> es
     consecuencia lógica de dicho conjunto. Por definición, esto es
-    equivalente a decir que para toda interpretación, si esta modelo de
-    \<open>\<Gamma>\<close>, entonces es a su vez modelo de \<open>\<bottom>\<close>. Por otro lado, el valor 
-    de \<open>\<bottom>\<close> es \<open>Falso\<close> en cualquier interpretación. Tenemos así que 
-    para toda interpretación, si es modelo de \<open>\<Gamma>\<close>, entonces implica
-    \<open>Falso\<close>. Es decir, por definición de negación, para toda 
-    interpretación se verifica que esta no es modelo del conjunto. En 
-    otras palabras, no existe una interpretación que sea modelo de \<open>\<Gamma>\<close>. 
-    Según la definición, esto es equivalente a que dicho conjunto 
-    es insatisfacible, como queríamos demostrar.
+    equivalente a que toda interpretación que sea modelo de
+    \<open>\<Gamma>\<close> es, a su vez, modelo de \<open>\<bottom>\<close>. Como el valor de \<open>\<bottom>\<close> es \<open>Falso\<close> 
+    en cualquier interpretación, ninguna interpretación es modelo suyo. 
+    Por tanto, por la hipótesis inicial, se verifica que ninguna 
+    interpretación es modelo del conjunto \<open>\<Gamma>\<close>. Es decir, no existe 
+    ninguna interpretación que sea modelo de dicho conjunto. Según la 
+    definición, esto es equivalente a que el conjunto \<open>\<Gamma>\<close> es 
+    insatisfacible, como queríamos demostrar.
   \end{demostracion}
-
-\comentario{La demostración en lenguaje natural no se entiende bien.}
 
   Procedamos con las pruebas en Isabelle/HOL.\<close>
 
