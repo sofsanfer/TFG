@@ -685,7 +685,7 @@ text \<open>Vamos a probar el resultado.
     la fórmula del caso anterior. Sean las interpretaciones \<open>\<A>\<^sub>1\<close> y \<open>\<A>\<^sub>2\<close> 
     tales que coinciden sobre el conjunto de átomos de \<open>F \<and> G\<close>. Vamos a
     probar que el valor de \<open>F \<and> G\<close> en \<open>\<A>\<^sub>1\<close> es el mismo que en \<open>\<A>\<^sub>2\<close>.
-    Como el conjunto de átomos de \<open>F \<and> G\<close> es la unión del conjunto de
+    Como el conjunto de átomos de\\ \<open>F \<and> G\<close> es la unión del conjunto de
     átomos de \<open>F\<close> y el conjunto de átomos de \<open>G\<close>, tenemos que \<open>\<A>\<^sub>1\<close> y 
     \<open>\<A>\<^sub>2\<close> coinciden sobre los elementos de dicha unión. En particular,
     coinciden sobre los elementos del conjunto de átomos de \<open>F\<close> y, por
@@ -695,7 +695,7 @@ text \<open>Vamos a probar el resultado.
     del conjunto de átomos de \<open>G\<close> luego, aplicando análogamente la 
     hipótesis de inducción, tenemos que el valor de \<open>G\<close> es el mismo 
     en las interpretaciones \<open>\<A>\<^sub>1\<close> y \<open>\<A>\<^sub>2\<close>. Veamos ahora que el valor
-    de \<open>F \<and> G\<close> también coincide en dichas interpretaciones.
+    de\\ \<open>F \<and> G\<close> también coincide en dichas interpretaciones.
     Por definición, el valor de \<open>F \<and> G\<close> en \<open>\<A>\<^sub>1\<close> es la conjunción
     del valor de \<open>F\<close> en \<open>\<A>\<^sub>1\<close> y el valor de \<open>G\<close> en \<open>\<A>\<^sub>1\<close>. Por lo 
     obtenido anteriormente por las hipótesis de inducción, tenemos que
@@ -977,7 +977,7 @@ text \<open>Como podemos observar, en el enunciado de la derecha hemos
    En primer lugar, lo probamos para la lista vacía de fórmulas. Sea la
    interpretación \<open>\<A>\<close> tal que es modelo de la conjunción generalizada
    de la lista vacía. Por definición de la conjunción generalizada,
-   \<open>\<A>\<close> es modelo de \<open>\<not> \<bottom>\<close>. Aplicando la definición del valor de una
+   \<open>\<A>\<close> es modelo de\\ \<open>\<not> \<bottom>\<close>. Aplicando la definición del valor de una
    fórmula en una interpretación para el caso de la negación,
    tenemos que esto es equivalente a que \<open>\<A>\<close> no es modelo de \<open>\<bottom>\<close>.
    Análogamente, como sabemos que el valor de \<open>\<bottom>\<close> es \<open>Falso\<close> en 
@@ -1033,7 +1033,7 @@ proof-
 qed
 
 text \<open>Para el caso de la lista formada añadiendo un elemento, vamos a
-  emplear el siguiente lema auxiliar\<close>
+  emplear el siguiente lema auxiliar.\<close>
 
 lemma Bigprop1: "(\<forall>x\<in>({a} \<union> B). P x) = (P a \<and> (\<forall>x\<in>B. P x))"
   by (simp only: ball_simps(7)
@@ -1359,8 +1359,6 @@ proof -
   finally show ?thesis
     by this
 qed
-
-text \<open>comentario{Hay revisar los cortes de línea.}\<close>
 
 text \<open>Finalmente su demostración automática es la siguiente.\<close>
 
