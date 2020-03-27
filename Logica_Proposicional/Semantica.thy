@@ -812,8 +812,6 @@ text \<open>Para los casos de la fórmula \<open>\<bottom>\<close> y la negació
   lemas auxiliares para facilitar las demostraciones detalladas en 
   Isabelle de los casos correspondientes a las conectivas binarias.\<close>
 
-find_theorems "_  \<union> _ "
-
 lemma forall_union1: 
   assumes "\<forall>x \<in> A \<union> B. P x"
   shows "\<forall>x \<in> A. P x"
@@ -1085,7 +1083,7 @@ text \<open>Su demostración automática es la siguiente.\<close>
 
 lemma BigAnd_semantics: 
   "(\<A> \<Turnstile> \<^bold>\<And>Fs) \<longleftrightarrow> (\<forall>f \<in> set Fs. \<A> \<Turnstile> f)"
-  by (induction Fs; simp)
+  by (induction Fs) simp_all
 
 text \<open>Finalmente, un resultado sobre la disyunción generalizada.
 
@@ -1189,9 +1187,6 @@ proof -
     by this
 qed
 
-text \<open>\comentario{Añadir ball empty, list set, not False eq True,
- bex empty al glosario.}\<close>
-
 lemma "(\<A> \<Turnstile> \<^bold>\<Or>Fs) \<longleftrightarrow> (\<exists>f \<in> set Fs. \<A> \<Turnstile> f)" 
 proof (induction Fs)
 case Nil
@@ -1203,7 +1198,7 @@ qed
 
 lemma BigOr_semantics: 
   "(\<A> \<Turnstile> \<^bold>\<Or>Fs) \<longleftrightarrow> (\<exists>f \<in> set Fs. \<A> \<Turnstile> f)" 
-  by (induction Fs; simp)
+  by (induction Fs) simp_all
 
 section \<open>Semántica de conjuntos de fórmulas\<close>
     
