@@ -583,6 +583,47 @@ lemma Hintikka_l9:
  "Hintikka S \<Longrightarrow> (\<^bold>\<not>(F \<^bold>\<rightarrow> G) \<in> S \<longrightarrow> F \<in> S \<and> \<^bold>\<not> G \<in> S)"
   by (smt Hintikka_def) 
 
+find_theorems "_ \<longrightarrow> _ \<Longrightarrow> \<not> _ \<longrightarrow> \<not> _" (*rule not_mono*)
+
+lemma Hintikka_l10_atom: 
+  assumes "Hintikka S" 
+  shows "\<^bold>\<not> (Atom x) \<in> S \<longrightarrow> (Atom x) \<notin> S"
+proof -
+  have "Atom x \<in> S \<longrightarrow> \<^bold>\<not> (Atom x) \<notin> S"
+    using assms by (rule Hintikka_l2)
+  then have "\<not> (\<^bold>\<not> (Atom x) \<notin> S) \<longrightarrow> \<not> (Atom x \<in> S)"
+    by (rule not_mono)
+  then have "\<not>\<not>(\<^bold>\<not> (Atom x) \<in> S) \<longrightarrow> Atom x \<notin> S"
+    by this
+  thus ?thesis
+    by simp (*Pendiente - rule notnotD*)
+qed
+
+lemma Hintikka_l10_bot: 
+  assumes "Hintikka S" 
+  shows "\<^bold>\<not> \<bottom> \<in> S \<longrightarrow> \<bottom> \<notin> S"
+proof (rule impI)
+  assume "\<^bold>\<not> \<bottom> \<in> S" 
+  oops
+
+lemma Hintikka_l10_not: 
+  assumes "Hintikka S" 
+          "\<^bold>\<not> F \<in> S \<longrightarrow> F \<notin> S"
+        shows "\<^bold>\<not> (\<^bold>\<not> F) \<in> S \<longrightarrow> \<^bold>\<not> F \<notin> S"
+proof (rule impI)
+  assume H:"\<^bold>\<not> (\<^bold>\<not> F) \<in> S"
+  have "\<^bold>\<not> (\<^bold>\<not> F) \<in> S \<longrightarrow> F \<in> S"
+    using assms(1) by (rule Hintikka_l6)
+  then have I:"F \<in> S"
+    using H by (rule mp)
+  have "\<not> (F \<notin> S) \<longrightarrow> \<not>(\<^bold>\<not> F \<in> S)"
+    using assms(2) by (rule not_mono)
+  then have "F \<in> S \<longrightarrow> \<^bold>\<not> F \<notin> S"
+    by simp (*Pendiente*)
+  thus "\<^bold>\<not> F \<notin> S"
+    using I by (rule mp)
+qed
+
 lemma Hintikka_l10_detallada: 
   assumes "Hintikka S" 
   shows "\<^bold>\<not> F \<in> S \<longrightarrow> F \<notin> S"
