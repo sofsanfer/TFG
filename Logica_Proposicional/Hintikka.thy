@@ -591,7 +591,7 @@ proof -
     by (rule not_mono)
   then have "\<not>\<not>(\<^bold>\<not> (Atom x) \<in> S) \<longrightarrow> Atom x \<notin> S"
     by this
-  thus ?thesis using 
+  thus ?thesis
     by simp (*Pendiente - rule notnotD*)
 qed
 
@@ -614,13 +614,16 @@ proof (rule impI)
     using assms(1) by (rule Hintikka_l6)
   then have I:"F \<in> S"
     using H by (rule mp)
-  have "\<not> (F \<notin> S) \<longrightarrow> \<not>(\<^bold>\<not> F \<in> S)"
+  have "\<not> \<not> (F \<in> S) \<longrightarrow> \<^bold>\<not> F \<notin> S"
     using assms(2) by (rule not_mono)
   then have "F \<in> S \<longrightarrow> \<^bold>\<not> F \<notin> S"
     by simp (*Pendiente*)
   thus "\<^bold>\<not> F \<notin> S"
     using I by (rule mp)
 qed
+
+text \<open>\comentario{No entiendo por qué en estos casos que he dejado 
+  como pendiente no permite usar rule notnotD}\<close>
 
 lemma Hintikka_l10_and: 
   assumes "Hintikka S" 
@@ -689,7 +692,7 @@ proof (rule impI)
   thus "G \<^bold>\<or> H \<notin> S"
     using I by (rule mp)
 qed
-
+find_theorems name: notnot
 lemma Hintikka_l10_imp: 
   assumes "Hintikka S" 
           "\<^bold>\<not> G \<in> S \<longrightarrow> G \<notin> S"
@@ -703,16 +706,52 @@ proof (rule impI)
     using H by (rule mp)
   then have C1:"G \<in> S"
     by (rule conjunct1)
+  have "\<not> \<not> (G \<in> S) \<longrightarrow> \<^bold>\<not> G \<notin> S"
+    using assms(2) by (rule not_mono)
+  then have "G \<in> S \<longrightarrow> \<^bold>\<not> G \<notin> S"
+    by simp (*Pendiente*)
+  then have I1:"\<^bold>\<not> G \<notin> S"
+    using C1 by (rule mp)
   have C2:"\<^bold>\<not> H \<in> S"
     using C by (rule conjunct2)
-  have "H \<notin> S"
+  have I2:"H \<notin> S"
     using assms(3) C2 by (rule mp)
-  oops
+  have I:"\<not> (\<^bold>\<not> G \<in> S \<or> H \<in> S)"
+    using I1 I2 by simp (*Pendiente*)
+  have "(G \<^bold>\<rightarrow> H \<in> S \<longrightarrow> \<^bold>\<not>G \<in> S \<or> H \<in> S)"
+    using assms(1) by (rule Hintikka_l5)
+  then have "\<not> (\<^bold>\<not> G \<in> S \<or> H \<in> S) \<longrightarrow> G \<^bold>\<rightarrow> H \<notin> S"
+    by (rule not_mono)
+  thus "G \<^bold>\<rightarrow> H \<notin> S"
+    using I by (rule mp)
+qed
 
-lemma Hintikka_l10_detallada: 
+(*lemma Hintikka_l10_detallada: 
   assumes "Hintikka S" 
   shows "\<^bold>\<not> F \<in> S \<longrightarrow> F \<notin> S"
-  oops
+proof (induct F)
+case (Atom x)
+  then show ?case
+    using assms by (rule Hintikka_l10_atom)
+next
+  case Bot
+  then show ?case
+    using assms by (rule Hintikka_l10_bot)
+next
+  case (Not F)
+  then show ?case by (rule Hintikka_l10_not)
+next
+  case (And F1 F2)
+then show ?case by (rule Hintikka_l10_and)
+next
+  case (Or F1 F2)
+  then show ?case by (rule Hintikka_l10_or)
+next
+  case (Imp F1 F2)
+  then show ?case by (rule Hintikka_l10_imp)
+qed*)
+
+text \<open>\comentario{No entiendo el error en Hintikka l10 detallada.}\<close>
 
 lemma Hintikka_l10: 
  "Hintikka S \<Longrightarrow> (\<^bold>\<not> F \<in> S \<longrightarrow> F \<notin> S)"
@@ -724,17 +763,20 @@ lemma Hintikka_l10:
   apply (smt Hintikka_def)
   using Hintikka_l5 Hintikka_l9 by blast
 
+(*definition interpretacionAsoc :: 
+   "('a formula) set \<Rightarrow> 'a valuation" where
+    "interpretacionAsoc S  \<equiv> \<lambda>k. Atom k \<in> S"*)
 
 lemma Hl2_1_detallada:
   assumes  "Hintikka S"
   shows "\<And>x. (Atom x \<in> S \<longrightarrow> isModel (interpretacionAsoc S) (Atom x)) \<and>
          (\<^bold>\<not> (Atom x) \<in> S \<longrightarrow> \<not> isModel (interpretacionAsoc S) (Atom x))"
-proof
+proof (rule conjI)
   show " \<And>x. Atom x \<in> S \<longrightarrow> isModel (interpretacionAsoc S) (Atom x)" 
   proof
     fix x
     assume "Atom x \<in> S"
-    hence "(interpretacionAsoc S) \<Turnstile> (Atom x)"
+    hence "(interpretacionAsoc S) \<Turnstile> (Atom x)" using [[simp_trace]]
       by (simp add: interpretacionAsoc_def)
     thus "isModel (interpretacionAsoc S) (Atom x)"
       by (simp only: isModel_def)
