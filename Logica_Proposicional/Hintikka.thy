@@ -692,7 +692,9 @@ proof (rule impI)
   thus "G \<^bold>\<or> H \<notin> S"
     using I by (rule mp)
 qed
+
 find_theorems name: notnot
+
 lemma Hintikka_l10_imp: 
   assumes "Hintikka S" 
           "\<^bold>\<not> G \<in> S \<longrightarrow> G \<notin> S"
@@ -776,8 +778,10 @@ proof (rule conjI)
   proof
     fix x
     assume "Atom x \<in> S"
-    hence "(interpretacionAsoc S) \<Turnstile> (Atom x)" using [[simp_trace]]
-      by (simp add: interpretacionAsoc_def)
+    hence "(interpretacionAsoc S) x"
+      by (simp only: interpretacionAsoc_def)
+    hence "(interpretacionAsoc S) \<Turnstile> (Atom x)"
+      by (simp only: formula_semantics.simps(1))
     thus "isModel (interpretacionAsoc S) (Atom x)"
       by (simp only: isModel_def)
   qed
@@ -786,11 +790,17 @@ next
   "\<And>x. \<^bold>\<not> (Atom x) \<in> S \<longrightarrow> \<not> isModel (interpretacionAsoc S) (Atom x)" 
   proof
     fix x
-    assume " \<^bold>\<not>  (Atom x) \<in> S" 
-    hence "Atom x \<notin> S" using assms 
-      by (simp add: \<open>\<^bold>\<not> (Atom x) \<in> S\<close> Hintikka_l10)
-    thus "\<not> isModel (interpretacionAsoc S) (Atom x)"
-      by (simp add: isModel_def interpretacionAsoc_def)
+    assume I:" \<^bold>\<not> (Atom x) \<in> S" 
+    have "\<^bold>\<not> (Atom x) \<in> S \<longrightarrow> Atom x \<notin> S"
+      using assms by (rule Hintikka_l10)
+    then have "\<not> (Atom x \<in> S)"
+      using I by (rule mp)
+    hence "\<not> ((interpretacionAsoc S) x)" 
+      by (simp add: interpretacionAsoc_def) (*Pendiente*)
+    hence "\<not> ((interpretacionAsoc S) \<Turnstile> (Atom x))"
+      by simp (*(simp only: formula_semantics.simps(1)) Pendiente*)
+    thus "\<not> isModel (interpretacionAsoc S) (Atom x)" 
+      by (simp add: isModel_def) (*Pendiente*)
   qed
 qed
 
@@ -799,6 +809,42 @@ lemma Hl2_1:
   shows "\<And>x. (Atom x \<in> S \<longrightarrow> isModel (interpretacionAsoc S) (Atom x)) \<and>
          (\<^bold>\<not> (Atom x) \<in> S \<longrightarrow> \<not> isModel (interpretacionAsoc S) (Atom x))"
   by (simp add: Hintikka_l10 assms isModel_def interpretacionAsoc_def)
+
+lemma auxAtoms:
+  assumes "Hintikka S"
+          "F \<in> S"
+          "x \<in> atoms F"
+        shows "Atom x \<in> S"
+  oops
+
+(*lemma Hl2_3:
+  assumes "Hintikka S"
+  shows " \<And>F. (F \<in> S \<longrightarrow> isModel (interpretacionAsoc S) F) \<and>
+         (\<^bold>\<not> F \<in> S \<longrightarrow> \<not> isModel (interpretacionAsoc S) F) \<Longrightarrow>
+         (\<^bold>\<not> F \<in> S \<longrightarrow> isModel (interpretacionAsoc S) (\<^bold>\<not> F)) \<and>
+         (\<^bold>\<not> (\<^bold>\<not> F) \<in> S \<longrightarrow> \<not> isModel (interpretacionAsoc S) (\<^bold>\<not> F))"
+proof (rule conjI)
+  show "\<And>F. F \<in> S \<longrightarrow> isModel (interpretacionAsoc S) F" 
+  proof
+    fix F
+    assume "F \<in> S"
+    hence "(interpretacionAsoc S) \<Turnstile> F" 
+      oops
+    thus "isModel (interpretacionAsoc S) F" by auto
+      by (simp only: isModel_def)
+  qed
+next 
+  show 
+  "\<And>x. \<^bold>\<not> F \<in> S \<longrightarrow> \<not> isModel (interpretacionAsoc S) F" 
+  proof
+    fix x
+    assume " \<^bold>\<not>  (Atom x) \<in> S" 
+    hence "Atom x \<notin> S" using assms 
+      by (simp add: \<open>\<^bold>\<not> (Atom x) \<in> S\<close> Hintikka_l10)
+    thus "\<not> isModel (interpretacionAsoc S) (Atom x)"
+      by (simp add: isModel_def interpretacionAsoc_def)
+  qed
+qed*)
 
 lemma Hl2_3:
   assumes "Hintikka S"
