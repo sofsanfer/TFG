@@ -810,41 +810,69 @@ lemma Hl2_1:
          (\<^bold>\<not> (Atom x) \<in> S \<longrightarrow> \<not> isModel (interpretacionAsoc S) (Atom x))"
   by (simp add: Hintikka_l10 assms isModel_def interpretacionAsoc_def)
 
-lemma auxAtoms:
+lemma Hl2_3_detallada_C1_atom:
   assumes "Hintikka S"
-          "F \<in> S"
-          "x \<in> atoms F"
-        shows "Atom x \<in> S"
+  shows "(Atom x) \<in> S \<longrightarrow> isModel (interpretacionAsoc S) (Atom x)"
+  using assms by (simp add: Hl2_1_detallada) (*Pendiente*)
+    
+lemma Hl2_3_detallada_C1_bot:
+  assumes "Hintikka S"
+  shows "\<bottom> \<in> S \<longrightarrow> isModel (interpretacionAsoc S) \<bottom>"
+proof (rule impI)
+  assume H:"\<bottom> \<in> S"
+  have "\<bottom> \<notin> S"
+    using assms by (rule Hintikka_l1)
+  thus "isModel (interpretacionAsoc S) \<bottom>"
+    using H by (rule notE)
+qed
+
+(*lemma Hl2_3_detallada_C1_not:
+  assumes "Hintikka S"
+          "F \<in> S \<longrightarrow> isModel (interpretacionAsoc S) F"
+        shows "\<^bold>\<not> F \<in> S \<longrightarrow> isModel (interpretacionAsoc S) (\<^bold>\<not> F)"
+proof (rule impI)
+  assume "\<^bold>\<not> F \<in> S"
+  have "\<^bold>\<not> F \<in> S \<longrightarrow> F \<notin> S"
+    using assms(1) by (rule Hintikka_l10)
+  then have "F \<notin> S"
+    using \<open>\<^bold>\<not> F \<in> S\<close> by (rule mp)
+  have "\<not> (isModel (interpretacionAsoc S) F) \<longrightarrow> F \<notin> S"
+    using assms(2) by (rule not_mono)
+  then have *)
+
+lemma Hl2_3_detallada_C1_and:
+  assumes "Hintikka S"
+          "G \<in> S \<longrightarrow> isModel (interpretacionAsoc S) G"
+          "H \<in> S \<longrightarrow> isModel (interpretacionAsoc S) H"
+  shows "G \<^bold>\<and> H \<in> S \<longrightarrow> isModel (interpretacionAsoc S) (G \<^bold>\<and> H)"
   oops
 
-(*lemma Hl2_3:
+lemma Hl2_3_detallada_C1_or:
+  assumes "Hintikka S"
+          "G \<in> S \<longrightarrow> isModel (interpretacionAsoc S) G"
+          "H \<in> S \<longrightarrow> isModel (interpretacionAsoc S) H"
+  shows "G \<^bold>\<or> H \<in> S \<longrightarrow> isModel (interpretacionAsoc S) (G \<^bold>\<or> H)"
+  oops
+
+lemma Hl2_3_detallada_C1_imp:
+  assumes "Hintikka S"
+          "G \<in> S \<longrightarrow> isModel (interpretacionAsoc S) G"
+          "H \<in> S \<longrightarrow> isModel (interpretacionAsoc S) H"
+  shows "G \<^bold>\<rightarrow> H \<in> S \<longrightarrow> isModel (interpretacionAsoc S) (G \<^bold>\<rightarrow> H)"
+  oops
+
+lemma Hl2_3_detallada_C1:
+  assumes "Hintikka S"
+  shows "\<And>F. F \<in> S \<longrightarrow> isModel (interpretacionAsoc S) F"
+  oops
+
+lemma Hl2_3_detallada:
   assumes "Hintikka S"
   shows " \<And>F. (F \<in> S \<longrightarrow> isModel (interpretacionAsoc S) F) \<and>
          (\<^bold>\<not> F \<in> S \<longrightarrow> \<not> isModel (interpretacionAsoc S) F) \<Longrightarrow>
          (\<^bold>\<not> F \<in> S \<longrightarrow> isModel (interpretacionAsoc S) (\<^bold>\<not> F)) \<and>
          (\<^bold>\<not> (\<^bold>\<not> F) \<in> S \<longrightarrow> \<not> isModel (interpretacionAsoc S) (\<^bold>\<not> F))"
-proof (rule conjI)
-  show "\<And>F. F \<in> S \<longrightarrow> isModel (interpretacionAsoc S) F" 
-  proof
-    fix F
-    assume "F \<in> S"
-    hence "(interpretacionAsoc S) \<Turnstile> F" 
-      oops
-    thus "isModel (interpretacionAsoc S) F" by auto
-      by (simp only: isModel_def)
-  qed
-next 
-  show 
-  "\<And>x. \<^bold>\<not> F \<in> S \<longrightarrow> \<not> isModel (interpretacionAsoc S) F" 
-  proof
-    fix x
-    assume " \<^bold>\<not>  (Atom x) \<in> S" 
-    hence "Atom x \<notin> S" using assms 
-      by (simp add: \<open>\<^bold>\<not> (Atom x) \<in> S\<close> Hintikka_l10)
-    thus "\<not> isModel (interpretacionAsoc S) (Atom x)"
-      by (simp add: isModel_def interpretacionAsoc_def)
-  qed
-qed*)
+  oops
 
 lemma Hl2_3:
   assumes "Hintikka S"
