@@ -765,6 +765,9 @@ lemma Hintikka_l10:
   apply (smt Hintikka_def)
   using Hintikka_l5 Hintikka_l9 by blast
 
+text \<open>\comentario{Hasta aquí solo tengo las dudas anteriores. Sigo
+  trabajando en sucio en las siguientes líneas.}\<close>
+
 (*definition interpretacionAsoc :: 
    "('a formula) set \<Rightarrow> 'a valuation" where
     "interpretacionAsoc S  \<equiv> \<lambda>k. Atom k \<in> S"*)
