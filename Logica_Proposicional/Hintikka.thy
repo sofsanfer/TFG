@@ -879,6 +879,16 @@ lemma Hl2_3:
          (\<^bold>\<not> (\<^bold>\<not> F) \<in> S \<longrightarrow> \<not> isModel (interpretacionAsoc S) (\<^bold>\<not> F))"
   using Hintikka_l6 assms isModel_def formula_semantics.simps(3) by blast
 
+lemma Hl2_4_detallada:
+  assumes "Hintikka S"
+          "(F1 \<in> S \<longrightarrow> isModel (interpretacionAsoc S) F1) \<and>
+           (\<^bold>\<not> F1 \<in> S \<longrightarrow> \<not> isModel (interpretacionAsoc S) F1)" 
+          "(F2 \<in> S \<longrightarrow> isModel (interpretacionAsoc S) F2) \<and>
+           (\<^bold>\<not> F2 \<in> S \<longrightarrow> \<not> isModel (interpretacionAsoc S) F2)"
+  shows "(F1 \<^bold>\<and> F2 \<in> S \<longrightarrow> isModel (interpretacionAsoc S) (F1 \<^bold>\<and> F2)) \<and>
+       (\<^bold>\<not> (F1 \<^bold>\<and> F2) \<in> S \<longrightarrow> \<not> isModel (interpretacionAsoc S) (F1 \<^bold>\<and> F2))"
+  oops
+
 lemma Hl2_4:
   assumes "Hintikka S"
   shows "\<And>F1 F2.
@@ -890,6 +900,16 @@ lemma Hl2_4:
        (\<^bold>\<not> (F1 \<^bold>\<and> F2) \<in> S \<longrightarrow> \<not> isModel (interpretacionAsoc S) (F1 \<^bold>\<and> F2))"
   by (meson Hintikka_l3 Hintikka_l7 assms isModel_def formula_semantics.simps(4))
 
+lemma Hl2_5_detallada:
+  assumes "Hintikka S"
+          "(F1 \<in> S \<longrightarrow> isModel (interpretacionAsoc S) F1) \<and>
+           (\<^bold>\<not> F1 \<in> S \<longrightarrow> \<not> isModel (interpretacionAsoc S) F1)" 
+          "(F2 \<in> S \<longrightarrow> isModel (interpretacionAsoc S) F2) \<and>
+           (\<^bold>\<not> F2 \<in> S \<longrightarrow> \<not> isModel (interpretacionAsoc S) F2)"
+  shows "(F1 \<^bold>\<or> F2 \<in> S \<longrightarrow> isModel (interpretacionAsoc S) (F1 \<^bold>\<or> F2)) \<and>
+       (\<^bold>\<not> (F1 \<^bold>\<or> F2) \<in> S \<longrightarrow> \<not> isModel (interpretacionAsoc S) (F1 \<^bold>\<or> F2))"
+  oops
+
 lemma Hl2_5:
   assumes "Hintikka S"
   shows "\<And>F1 F2.
@@ -900,6 +920,16 @@ lemma Hl2_5:
        (F1 \<^bold>\<or> F2 \<in> S \<longrightarrow> isModel (interpretacionAsoc S) (F1 \<^bold>\<or> F2)) \<and>
        (\<^bold>\<not> (F1 \<^bold>\<or> F2) \<in> S \<longrightarrow> \<not> isModel (interpretacionAsoc S) (F1 \<^bold>\<or> F2))"
   by (smt Hintikka_def assms isModel_def formula_semantics.simps(5))
+
+lemma Hl2_6_detallada:
+  assumes "Hintikka S"
+          "(F1 \<in> S \<longrightarrow> isModel (interpretacionAsoc S) F1) \<and>
+           (\<^bold>\<not> F1 \<in> S \<longrightarrow> \<not> isModel (interpretacionAsoc S) F1)" 
+          "(F2 \<in> S \<longrightarrow> isModel (interpretacionAsoc S) F2) \<and>
+           (\<^bold>\<not> F2 \<in> S \<longrightarrow> \<not> isModel (interpretacionAsoc S) F2)"
+  shows "(F1 \<^bold>\<rightarrow> F2 \<in> S \<longrightarrow> isModel (interpretacionAsoc S) (F1 \<^bold>\<rightarrow> F2)) \<and>
+       (\<^bold>\<not> (F1 \<^bold>\<rightarrow> F2) \<in> S \<longrightarrow> \<not> isModel (interpretacionAsoc S) (F1 \<^bold>\<rightarrow> F2))"
+  oops
 
 lemma Hl2_6:
   assumes "Hintikka S"
