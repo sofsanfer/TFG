@@ -887,7 +887,78 @@ lemma Hl2_3_detallada:
            (\<^bold>\<not> F2 \<in> S \<longrightarrow> \<not> isModel (interpretacionAsoc S) F2)"
   shows "(F1 \<^bold>\<and> F2 \<in> S \<longrightarrow> isModel (interpretacionAsoc S) (F1 \<^bold>\<and> F2)) \<and>
        (\<^bold>\<not> (F1 \<^bold>\<and> F2) \<in> S \<longrightarrow> \<not> isModel (interpretacionAsoc S) (F1 \<^bold>\<and> F2))"
-  oops
+proof (rule conjI)
+  show "F1 \<^bold>\<and> F2 \<in> S \<longrightarrow> isModel (interpretacionAsoc S) (F1 \<^bold>\<and> F2)"
+  proof (rule impI)
+    assume "F1 \<^bold>\<and> F2 \<in> S"
+    have "F1 \<^bold>\<and> F2 \<in> S \<longrightarrow> F1 \<in> S \<and> F2 \<in> S"
+      using assms(1) by (rule Hintikka_l3)
+    then have C:"F1 \<in> S \<and> F2 \<in> S"
+      using \<open>F1 \<^bold>\<and> F2 \<in> S\<close> by (rule mp)
+    then have C1:"F1 \<in> S" 
+      by (rule conjunct1)
+    have "F1 \<in> S \<longrightarrow> isModel (interpretacionAsoc S) F1"
+      using assms(2) by (rule conjunct1)
+    then have H1:"isModel (interpretacionAsoc S) F1"
+      using C1 by (rule mp)
+    then have I1:"(interpretacionAsoc S) \<Turnstile> F1"
+      by (simp add: isModel_def) (*Pendiente*)
+    have C2:"F2 \<in> S"
+      using C by (rule conjunct2)
+    have "F2 \<in> S \<longrightarrow> isModel (interpretacionAsoc S) F2"
+      using assms(3) by (rule conjunct1)
+    then have H2:"isModel (interpretacionAsoc S) F2"
+      using C2 by (rule mp)
+    then have I2:"(interpretacionAsoc S) \<Turnstile> F2"
+      by (simp add: isModel_def) (*Pendiente*)
+    have "((interpretacionAsoc S) \<Turnstile> F1) \<and> ((interpretacionAsoc S) \<Turnstile> F2)"
+      using I1 I2 by (rule conjI)
+    then have "(interpretacionAsoc S) \<Turnstile> (F1 \<^bold>\<and> F2)"
+      by (simp only: formula_semantics.simps(4))
+    thus "isModel (interpretacionAsoc S) (F1 \<^bold>\<and> F2)"
+      by (simp add: isModel_def) (*Pendiente*)
+  qed
+next
+  show "\<^bold>\<not> (F1 \<^bold>\<and> F2) \<in> S \<longrightarrow> \<not> isModel (interpretacionAsoc S) (F1 \<^bold>\<and> F2)"
+  proof (rule impI)
+    assume "\<^bold>\<not> (F1 \<^bold>\<and> F2) \<in> S"
+    have "\<^bold>\<not> (F1 \<^bold>\<and> F2) \<in> S \<longrightarrow> \<^bold>\<not> F1 \<in> S \<or> \<^bold>\<not> F2 \<in> S"
+      using assms(1) by (rule Hintikka_l7)
+    then have "\<^bold>\<not> F1 \<in> S \<or> \<^bold>\<not> F2 \<in> S"
+      using \<open>\<^bold>\<not> (F1 \<^bold>\<and> F2) \<in> S\<close> by (rule mp)
+    then show "\<not> isModel (interpretacionAsoc S) (F1 \<^bold>\<and> F2)"
+    proof (rule disjE)
+      assume "\<^bold>\<not> F1 \<in> S"
+      have "\<^bold>\<not> F1 \<in> S \<longrightarrow> \<not> isModel (interpretacionAsoc S) F1"
+        using assms(2) by (rule conjunct2)
+      then have "\<not> isModel (interpretacionAsoc S) F1"
+        using \<open>\<^bold>\<not> F1 \<in> S\<close> by (rule mp)
+      then have "\<not> ((interpretacionAsoc S) \<Turnstile> F1)"
+        by (simp add: isModel_def) (*Pendiente*)
+      then have "\<not> ((interpretacionAsoc S) \<Turnstile> F1 \<and> (interpretacionAsoc S) \<Turnstile> F2)" 
+        by simp (*Pendiente*)
+      then have "\<not> ((interpretacionAsoc S) \<Turnstile> (F1 \<^bold>\<and> F2))"
+        by simp (*Pendiente: (simp only: formula_semantics.simps(4))*)
+      thus "\<not> isModel (interpretacionAsoc S) (F1 \<^bold>\<and> F2)"
+        by (simp add: isModel_def) (*Pendiente*)
+    next
+      assume "\<^bold>\<not> F2 \<in> S"
+      have "\<^bold>\<not> F2 \<in> S \<longrightarrow> \<not> isModel (interpretacionAsoc S) F2"
+        using assms(3) by (rule conjunct2)
+      then have "\<not> isModel (interpretacionAsoc S) F2"
+        using \<open>\<^bold>\<not> F2 \<in> S\<close> by (rule mp)
+      then have "\<not> ((interpretacionAsoc S) \<Turnstile> F2)"
+        by (simp add: isModel_def) (*Pendiente*)
+      then have "\<not> ((interpretacionAsoc S) \<Turnstile> F1 \<and> (interpretacionAsoc S) \<Turnstile> F2)" 
+        by simp (*Pendiente*)
+      then have "\<not> ((interpretacionAsoc S) \<Turnstile> (F1 \<^bold>\<and> F2))"
+        by simp (*Pendiente: (simp only: formula_semantics.simps(4))*)
+      thus "\<not> isModel (interpretacionAsoc S) (F1 \<^bold>\<and> F2)"
+        by (simp add: isModel_def) (*Pendiente*)
+    qed
+  qed
+qed
+
 
 lemma Hl2_3:
   assumes "Hintikka S"
@@ -1000,6 +1071,8 @@ proof-
   thus  "isModelSet (interpretacionAsoc S) S"
     by (simp only: modelSet)
 qed 
+
+text \<open>\comentario{Buscar qué lema es satAlt.}\<close>
 
 (*theorem lemaDeHintikkas_det:
   assumes "Hintikka S"
