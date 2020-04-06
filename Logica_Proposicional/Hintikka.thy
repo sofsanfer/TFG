@@ -605,12 +605,10 @@ lemma Hintikka_l10_atom:
 proof -
   have "Atom x \<in> S \<longrightarrow> \<^bold>\<not> (Atom x) \<notin> S"
     using assms by (rule Hintikka_l2)
-  then have "\<not> (\<^bold>\<not> (Atom x) \<notin> S) \<longrightarrow> \<not> (Atom x \<in> S)"
-    by (rule not_mono)
   then have "\<not>\<not>(\<^bold>\<not> (Atom x) \<in> S) \<longrightarrow> Atom x \<notin> S"
-    by this
+    by (rule not_mono)
   thus ?thesis
-    by simp (*Pendiente - rule notnotD*)
+    by (simp add: notnotD) (*Pendiente - rule notnotD*)
 qed
 
 lemma Hintikka_l10_bot: 
@@ -627,17 +625,17 @@ lemma Hintikka_l10_not:
           "\<^bold>\<not> F \<in> S \<longrightarrow> F \<notin> S"
         shows "\<^bold>\<not> (\<^bold>\<not> F) \<in> S \<longrightarrow> \<^bold>\<not> F \<notin> S"
 proof (rule impI)
-  assume H:"\<^bold>\<not> (\<^bold>\<not> F) \<in> S"
+  assume "\<^bold>\<not> (\<^bold>\<not> F) \<in> S"
   have "\<^bold>\<not> (\<^bold>\<not> F) \<in> S \<longrightarrow> F \<in> S"
     using assms(1) by (rule Hintikka_l6)
-  then have I:"F \<in> S"
-    using H by (rule mp)
-  have "\<not> \<not> (F \<in> S) \<longrightarrow> \<^bold>\<not> F \<notin> S"
+  then have "F \<in> S"
+    using \<open>\<^bold>\<not> (\<^bold>\<not> F) \<in> S\<close> by (rule mp)
+  have "\<not> (F \<notin> S) \<longrightarrow> \<^bold>\<not> F \<notin> S"
     using assms(2) by (rule not_mono)
   then have "F \<in> S \<longrightarrow> \<^bold>\<not> F \<notin> S"
     by simp (*Pendiente*)
   thus "\<^bold>\<not> F \<notin> S"
-    using I by (rule mp)
+    using \<open>F \<in> S\<close> by (rule mp)
 qed
 
 text \<open>\comentario{No entiendo por qué en estos casos que he dejado 
@@ -649,36 +647,32 @@ lemma Hintikka_l10_and:
           "\<^bold>\<not> H \<in> S \<longrightarrow> H \<notin> S"
   shows "\<^bold>\<not> (G \<^bold>\<and> H) \<in> S \<longrightarrow> (G \<^bold>\<and> H) \<notin> S"
 proof (rule impI)
-  assume H:"\<^bold>\<not> (G \<^bold>\<and> H) \<in> S"
-  have "\<^bold>\<not> (G \<^bold>\<and> H) \<in> S \<longrightarrow> (\<^bold>\<not> G \<in> S \<or> \<^bold>\<not> H \<in> S)"
+  assume "\<^bold>\<not> (G \<^bold>\<and> H) \<in> S"
+  have "\<^bold>\<not> (G \<^bold>\<and> H) \<in> S \<longrightarrow> \<^bold>\<not> G \<in> S \<or> \<^bold>\<not> H \<in> S"
     using assms(1) by (rule Hintikka_l7)
   then have "\<^bold>\<not> G \<in> S \<or> \<^bold>\<not> H \<in> S"
-    using H by (rule mp)
-  then show "(G \<^bold>\<and> H) \<notin> S"
+    using \<open>\<^bold>\<not> (G \<^bold>\<and> H) \<in> S\<close> by (rule mp)
+  then show "G \<^bold>\<and> H \<notin> S"
   proof (rule disjE)
-    assume H1:"\<^bold>\<not> G \<in> S"
+    assume "\<^bold>\<not> G \<in> S"
     have "G \<notin> S"
-      using assms(2) H1 by (rule mp)
-    then have I1:"\<not> (G \<in> S \<and> H \<in> S)" 
+      using assms(2) \<open>\<^bold>\<not> G \<in> S\<close> by (rule mp)
+    then have "\<not> (G \<in> S \<and> H \<in> S)" 
       by simp (*Pendiente*)
     have "(G \<^bold>\<and> H \<in> S \<longrightarrow> G \<in> S \<and> H \<in> S)"
       using assms(1) by (rule Hintikka_l3)
-    then have "\<not>(G \<in> S \<and> H \<in> S) \<longrightarrow> \<not>(G \<^bold>\<and> H \<in> S)"
-      by (rule not_mono)
     thus "G \<^bold>\<and> H \<notin> S"
-      using I1 by (rule mp)
+      using \<open>\<not> (G \<in> S \<and> H \<in> S)\<close>  by (rule mt)
   next
-    assume H2:"\<^bold>\<not> H \<in> S"
+    assume "\<^bold>\<not> H \<in> S"
     have "H \<notin> S"
-      using assms(3) H2 by (rule mp)
-    then have I2:"\<not> (G \<in> S \<and> H \<in> S)" 
+      using assms(3) \<open>\<^bold>\<not> H \<in> S\<close> by (rule mp)
+    then have "\<not> (G \<in> S \<and> H \<in> S)" 
       by simp (*Pendiente*)
     have "(G \<^bold>\<and> H \<in> S \<longrightarrow> G \<in> S \<and> H \<in> S)"
       using assms(1) by (rule Hintikka_l3)
-    then have "\<not>(G \<in> S \<and> H \<in> S) \<longrightarrow> \<not>(G \<^bold>\<and> H \<in> S)"
-      by (rule not_mono)
     thus "G \<^bold>\<and> H \<notin> S"
-      using I2 by (rule mp)
+      using \<open>\<not> (G \<in> S \<and> H \<in> S)\<close> by (rule mt)
   qed
 qed
 
@@ -688,27 +682,27 @@ lemma Hintikka_l10_or:
           "\<^bold>\<not> H \<in> S \<longrightarrow> H \<notin> S"
   shows "\<^bold>\<not> (G \<^bold>\<or> H) \<in> S \<longrightarrow> (G \<^bold>\<or> H) \<notin> S"
 proof (rule impI)
-  assume H:"\<^bold>\<not> (G \<^bold>\<or> H) \<in> S"
+  assume "\<^bold>\<not> (G \<^bold>\<or> H) \<in> S"
   have "\<^bold>\<not> (G \<^bold>\<or> H) \<in> S \<longrightarrow> (\<^bold>\<not> G \<in> S \<and> \<^bold>\<not> H \<in> S)"
     using assms(1) by (rule Hintikka_l8)
   then have C:"\<^bold>\<not> G \<in> S \<and> \<^bold>\<not> H \<in> S"
-    using H by (rule mp)
-  then have C1:"\<^bold>\<not> G \<in> S"
+    using \<open>\<^bold>\<not> (G \<^bold>\<or> H) \<in> S\<close> by (rule mp)
+  then have "\<^bold>\<not> G \<in> S"
     by (rule conjunct1)
-  have C2:"\<^bold>\<not> H \<in> S"
+  have "G \<notin> S" 
+    using assms(2) \<open>\<^bold>\<not> G \<in> S\<close> by (rule mp) 
+  have "\<^bold>\<not> H \<in> S"
     using C by (rule conjunct2)
-  have NC1:"G \<notin> S" 
-    using assms(2) C1 by (rule mp)
-  have NC2:"H \<notin> S" 
-    using assms(3) C2 by (rule mp)
-  have I:"\<not> (G \<in> S \<or> H \<in> S)"
-    using NC1 NC2 by simp (*Pendiente*)
+  have "H \<notin> S" 
+    using assms(3) \<open>\<^bold>\<not> H \<in> S\<close> by (rule mp)
+  have "\<not> (G \<in> S \<or> H \<in> S)"
+    using \<open>G \<notin> S\<close> \<open>H \<notin> S\<close> by simp (*Pendiente*)
   have "(G \<^bold>\<or> H \<in> S \<longrightarrow> G \<in> S \<or> H \<in> S)"
     using assms(1) by (rule Hintikka_l4)
   then have "\<not> (G \<in> S \<or> H \<in> S) \<longrightarrow> \<not> (G \<^bold>\<or> H \<in> S)"
     by (rule not_mono)
   thus "G \<^bold>\<or> H \<notin> S"
-    using I by (rule mp)
+    using \<open>\<not> (G \<in> S \<or> H \<in> S)\<close> by (rule mp)
 qed
 
 find_theorems name: notnot
@@ -719,31 +713,29 @@ lemma Hintikka_l10_imp:
           "\<^bold>\<not> H \<in> S \<longrightarrow> H \<notin> S"
   shows "\<^bold>\<not> (G \<^bold>\<rightarrow> H) \<in> S \<longrightarrow> (G \<^bold>\<rightarrow> H) \<notin> S"
 proof (rule impI)
-  assume H:"\<^bold>\<not> (G \<^bold>\<rightarrow> H) \<in> S"
+  assume "\<^bold>\<not> (G \<^bold>\<rightarrow> H) \<in> S"
   have "\<^bold>\<not> (G \<^bold>\<rightarrow> H) \<in> S \<longrightarrow> (G \<in> S \<and> \<^bold>\<not> H \<in> S)"
     using assms(1) by (rule Hintikka_l9)
   then have C:"G \<in> S \<and> \<^bold>\<not> H \<in> S"
-    using H by (rule mp)
-  then have C1:"G \<in> S"
+    using \<open>\<^bold>\<not> (G \<^bold>\<rightarrow> H) \<in> S\<close> by (rule mp)
+  then have "G \<in> S"
     by (rule conjunct1)
   have "\<not> \<not> (G \<in> S) \<longrightarrow> \<^bold>\<not> G \<notin> S"
     using assms(2) by (rule not_mono)
   then have "G \<in> S \<longrightarrow> \<^bold>\<not> G \<notin> S"
     by simp (*Pendiente*)
-  then have I1:"\<^bold>\<not> G \<notin> S"
-    using C1 by (rule mp)
-  have C2:"\<^bold>\<not> H \<in> S"
+  then have "\<^bold>\<not> G \<notin> S"
+    using \<open>G \<in> S\<close> by (rule mp)
+  have "\<^bold>\<not> H \<in> S"
     using C by (rule conjunct2)
-  have I2:"H \<notin> S"
-    using assms(3) C2 by (rule mp)
-  have I:"\<not> (\<^bold>\<not> G \<in> S \<or> H \<in> S)"
-    using I1 I2 by simp (*Pendiente*)
+  have "H \<notin> S"
+    using assms(3) \<open>\<^bold>\<not> H \<in> S\<close> by (rule mp)
+  have "\<not> (\<^bold>\<not> G \<in> S \<or> H \<in> S)"
+    using \<open>\<^bold>\<not> G \<notin> S\<close> \<open>H \<notin> S\<close> by simp (*Pendiente*)
   have "(G \<^bold>\<rightarrow> H \<in> S \<longrightarrow> \<^bold>\<not>G \<in> S \<or> H \<in> S)"
     using assms(1) by (rule Hintikka_l5)
-  then have "\<not> (\<^bold>\<not> G \<in> S \<or> H \<in> S) \<longrightarrow> G \<^bold>\<rightarrow> H \<notin> S"
-    by (rule not_mono)
   thus "G \<^bold>\<rightarrow> H \<notin> S"
-    using I by (rule mp)
+    using \<open>\<not> (\<^bold>\<not> G \<in> S \<or> H \<in> S)\<close> by (rule mt)
 qed
 
 (*lemma Hintikka_l10_detallada: 
@@ -812,7 +804,7 @@ next
       using assms by (rule Hintikka_l10)
     then have "\<not> (Atom x \<in> S)"
       using I by (rule mp)
-    hence "\<not> ((interpretacionAsoc S) x)" 
+    hence "\<not> ((interpretacionAsoc S) x)"
       by (simp add: interpretacionAsoc_def) (*Pendiente*)
     hence "\<not> ((interpretacionAsoc S) \<Turnstile> (Atom x))"
       by simp (*(simp only: formula_semantics.simps(1)) Pendiente*)
@@ -838,10 +830,10 @@ proof (rule conjI)
   proof (rule impI)
     fix F
     assume "\<^bold>\<not> F \<in> S"
-    have C1: "\<^bold>\<not> F \<in> S \<longrightarrow> \<not> isModel (interpretacionAsoc S) F"
+    have "\<^bold>\<not> F \<in> S \<longrightarrow> \<not> isModel (interpretacionAsoc S) F"
       using assms(2) by (rule conjunct2)
-    have "\<not> isModel (interpretacionAsoc S) F"
-      using C1 \<open>\<^bold>\<not> F \<in> S\<close> by (rule mp)
+    then have "\<not> isModel (interpretacionAsoc S) F"
+      using  \<open>\<^bold>\<not> F \<in> S\<close> by (rule mp)
     then have "\<not> (interpretacionAsoc S) \<Turnstile> F"
       by (simp add: isModel_def) (*Pendiente*)
     then have "(interpretacionAsoc S) \<Turnstile> (\<^bold>\<not> F)"
@@ -854,15 +846,15 @@ next
   proof (rule impI)
     fix F
     assume "\<^bold>\<not> (\<^bold>\<not> F) \<in> S"
-    have C2: "F \<in> S \<longrightarrow> isModel (interpretacionAsoc S) F" 
-      using assms(2) by (rule conjunct1)
     have "\<^bold>\<not> (\<^bold>\<not> F) \<in> S \<longrightarrow> F \<in> S" 
       using assms(1) by (rule Hintikka_l6)
     then have "F \<in> S"
       using \<open>\<^bold>\<not> (\<^bold>\<not> F) \<in> S\<close> by (rule mp)
-    have "isModel (interpretacionAsoc S) F"
-      using C2 \<open>F \<in> S\<close> by (rule mp)
-    then have "\<not>\<not> isModel (interpretacionAsoc S) F"
+    have "F \<in> S \<longrightarrow> isModel (interpretacionAsoc S) F" 
+      using assms(2) by (rule conjunct1)
+    then have "isModel (interpretacionAsoc S) F"
+      using \<open>F \<in> S\<close> by (rule mp)
+    then have "\<not> (\<not> isModel (interpretacionAsoc S) F)"
       by (rule notnotI)
     then have "\<not> (\<not> (interpretacionAsoc S) \<Turnstile> F)"
       by (simp add: isModel_def) (*Pendiente*)
@@ -898,28 +890,28 @@ proof (rule conjI)
       using assms(1) by (rule Hintikka_l3)
     then have C:"F1 \<in> S \<and> F2 \<in> S"
       using \<open>F1 \<^bold>\<and> F2 \<in> S\<close> by (rule mp)
-    then have C1:"F1 \<in> S" 
+    then have "F1 \<in> S" 
       by (rule conjunct1)
     have "F1 \<in> S \<longrightarrow> isModel (interpretacionAsoc S) F1"
       using assms(2) by (rule conjunct1)
-    then have H1:"isModel (interpretacionAsoc S) F1"
-      using C1 by (rule mp)
+    then have "isModel (interpretacionAsoc S) F1"
+      using \<open>F1 \<in> S\<close> by (rule mp)
     then have I1:"(interpretacionAsoc S) \<Turnstile> F1"
-      by (simp add: isModel_def) (*Pendiente*)
-    have C2:"F2 \<in> S"
+      by (simp only: isModel_def)
+    have "F2 \<in> S"
       using C by (rule conjunct2)
     have "F2 \<in> S \<longrightarrow> isModel (interpretacionAsoc S) F2"
       using assms(3) by (rule conjunct1)
-    then have H2:"isModel (interpretacionAsoc S) F2"
-      using C2 by (rule mp)
+    then have "isModel (interpretacionAsoc S) F2"
+      using \<open>F2 \<in> S\<close> by (rule mp)
     then have I2:"(interpretacionAsoc S) \<Turnstile> F2"
-      by (simp add: isModel_def) (*Pendiente*)
+      by (simp only: isModel_def) 
     have "((interpretacionAsoc S) \<Turnstile> F1) \<and> ((interpretacionAsoc S) \<Turnstile> F2)"
       using I1 I2 by (rule conjI)
     then have "(interpretacionAsoc S) \<Turnstile> (F1 \<^bold>\<and> F2)"
       by (simp only: formula_semantics.simps(4))
     thus "isModel (interpretacionAsoc S) (F1 \<^bold>\<and> F2)"
-      by (simp add: isModel_def) (*Pendiente*)
+      by (simp only: isModel_def) 
   qed
 next
   show "\<And>F1 F2. \<^bold>\<not> (F1 \<^bold>\<and> F2) \<in> S \<longrightarrow> \<not> isModel (interpretacionAsoc S) (F1 \<^bold>\<and> F2)"
@@ -1077,7 +1069,26 @@ lemma Hl2_5_detallada:
            (\<^bold>\<not> F2 \<in> S \<longrightarrow> \<not> isModel (interpretacionAsoc S) F2)"
   shows "\<And>F1 F2. (F1 \<^bold>\<rightarrow> F2 \<in> S \<longrightarrow> isModel (interpretacionAsoc S) (F1 \<^bold>\<rightarrow> F2)) 
       \<and> (\<^bold>\<not> (F1 \<^bold>\<rightarrow> F2) \<in> S \<longrightarrow> \<not> isModel (interpretacionAsoc S) (F1 \<^bold>\<rightarrow> F2))"
-  oops
+proof (rule conjI)
+  show "\<And>F1 F2. F1 \<^bold>\<rightarrow> F2 \<in> S \<longrightarrow> isModel (interpretacionAsoc S) (F1 \<^bold>\<rightarrow> F2)"
+  proof (rule impI)
+    fix F1 F2
+    assume "F1 \<^bold>\<rightarrow> F2 \<in> S"
+    have "F1 \<^bold>\<rightarrow> F2 \<in> S \<longrightarrow> \<^bold>\<not> F1 \<in> S \<or> F2 \<in> S"
+      using assms(1) by (rule Hintikka_l5)
+    then have "\<^bold>\<not> F1 \<in> S \<or> F2 \<in> S"
+      using \<open>F1 \<^bold>\<rightarrow> F2 \<in> S\<close> by (rule mp)
+    show "isModel (interpretacionAsoc S) (F1 \<^bold>\<rightarrow> F2)"
+    proof (rule disjE)
+      assume "\<^bold>\<not> F1 \<in> S"
+      have "\<^bold>\<not> F1 \<in> S \<longrightarrow> \<not> isModel (interpretacionAsoc S) F1"
+        using assms(2) by (rule conjunct2)
+      then have "\<not> isModel (interpretacionAsoc S) F1"
+        using \<open>\<^bold>\<not> F1 \<in> S\<close> by (rule mp)
+      then have "\<not> (interpretacionAsoc S) \<Turnstile> F1"
+        by (simp add: isModel_def) (*Pendiente*)
+      oops
+
 
 lemma Hl2_5:
   assumes "Hintikka S"
