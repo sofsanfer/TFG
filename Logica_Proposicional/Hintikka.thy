@@ -1159,7 +1159,6 @@ next
   qed
 qed
 
-
 lemma Hl2_5:
   assumes "Hintikka S"
   shows " \<And>F1 F2.
@@ -1183,7 +1182,28 @@ proof (induct F)
 next
   show " (\<bottom> \<in> S \<longrightarrow> isModel (interpretacionAsoc S) \<bottom>) \<and>
     (\<^bold>\<not> \<bottom> \<in> S \<longrightarrow> \<not> isModel (interpretacionAsoc S) \<bottom>)" 
-    by (simp add: Hintikka_l1 assms isModel_def) (*Pendiente*)
+  proof (rule conjI)
+    show "\<bottom> \<in> S \<longrightarrow> isModel (interpretacionAsoc S) \<bottom>"
+    proof (rule impI)
+      assume "\<bottom> \<in> S"
+      have "\<bottom> \<notin> S" 
+        using assms by (rule Hintikka_l1)
+      thus "isModel (interpretacionAsoc S) \<bottom>"
+        using \<open>\<bottom> \<in> S\<close> by (rule notE)
+    qed
+  next
+    show "\<^bold>\<not> \<bottom> \<in> S \<longrightarrow> \<not> isModel (interpretacionAsoc S) \<bottom>"
+    proof (rule impI)
+      assume "\<^bold>\<not> \<bottom> \<in> S"
+      have "\<bottom> \<notin> S"
+        using assms by (rule Hintikka_l1)
+      then have "\<not> (interpretacionAsoc S) \<Turnstile> \<bottom>"
+        by simp (*Pendiente*)
+      thus "\<not> isModel (interpretacionAsoc S) \<bottom>"
+        by (simp add: isModel_def) (*Pendiente*)
+    qed
+  qed
+    (*by (simp add: Hintikka_l1 assms isModel_def)*) (*Pendiente*)
 next
   fix F
   show "(F \<in> S \<longrightarrow> isModel (interpretacionAsoc S) F) \<and>
