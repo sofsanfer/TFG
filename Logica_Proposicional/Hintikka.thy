@@ -1172,7 +1172,7 @@ lemma Hl2_5:
 
 lemma Hintikkas_lemma_l2:
   assumes "Hintikka S"
-  shows " (F \<in>S \<longrightarrow> isModel (interpretacionAsoc S) F)
+  shows "(F \<in> S \<longrightarrow> isModel (interpretacionAsoc S) F)
            \<and> (\<^bold>\<not> F \<in> S \<longrightarrow> (\<not>(isModel (interpretacionAsoc S) F)))"
 proof (induct F)
   fix x
@@ -1244,9 +1244,16 @@ lemma Hintikka_modelo:
   assumes "Hintikka S"
   shows "isModelSet (interpretacionAsoc S) S"
 proof-
-  have " \<forall>F. (F\<in> S \<longrightarrow> isModel (interpretacionAsoc S) F)"
-    by (simp add: Hintikkas_lemma_l2 assms) (*Pendiente*)
-  thus  "isModelSet (interpretacionAsoc S) S"
+  have "\<forall>F. (F\<in> S \<longrightarrow> isModel (interpretacionAsoc S) F)"
+  proof (rule allI)
+    fix F
+    have "(F \<in> S \<longrightarrow> isModel (interpretacionAsoc S) F)
+           \<and> (\<^bold>\<not> F \<in> S \<longrightarrow> (\<not>(isModel (interpretacionAsoc S) F)))"
+      using assms by (rule Hintikkas_lemma_l2)
+    thus "F \<in> S \<longrightarrow> isModel (interpretacionAsoc S) F"
+      by (rule conjunct1)
+  qed
+  thus "isModelSet (interpretacionAsoc S) S"
     by (simp only: modelSet)
 qed 
 
