@@ -601,14 +601,17 @@ lemma notnotI: "P \<Longrightarrow> \<not>\<not> P"
 
 lemma Hintikka_l10_atom: 
   assumes "Hintikka S" 
-  shows "\<^bold>\<not> (Atom x) \<in> S \<longrightarrow> (Atom x) \<notin> S"
-proof -
+  shows "\<^bold>\<not> (Atom x) \<in> S \<longrightarrow> Atom x \<notin> S"
+proof (rule impI)
+  assume "\<^bold>\<not> (Atom x) \<in> S"
+  then have "\<not>(\<^bold>\<not> (Atom x) \<notin> S)"
+    by (rule notnotI)
   have "Atom x \<in> S \<longrightarrow> \<^bold>\<not> (Atom x) \<notin> S"
     using assms by (rule Hintikka_l2)
-  then have "\<not>\<not>(\<^bold>\<not> (Atom x) \<in> S) \<longrightarrow> Atom x \<notin> S"
+  then have "\<not>(\<^bold>\<not> (Atom x) \<notin> S) \<longrightarrow> Atom x \<notin> S"
     by (rule not_mono)
-  thus ?thesis
-    by (simp add: notnotD) (*Pendiente - rule notnotD*)
+  thus "Atom x \<notin> S"
+    using \<open>\<not> (\<^bold>\<not> (Atom x) \<notin> S) \<close>by (rule mp)
 qed
 
 lemma Hintikka_l10_bot: 
@@ -630,12 +633,12 @@ proof (rule impI)
     using assms(1) by (rule Hintikka_l6)
   then have "F \<in> S"
     using \<open>\<^bold>\<not> (\<^bold>\<not> F) \<in> S\<close> by (rule mp)
+  then have "\<not> (F \<notin> S)"
+    by (rule notnotI)
   have "\<not> (F \<notin> S) \<longrightarrow> \<^bold>\<not> F \<notin> S"
     using assms(2) by (rule not_mono)
-  then have "F \<in> S \<longrightarrow> \<^bold>\<not> F \<notin> S"
-    by simp (*Pendiente*)
   thus "\<^bold>\<not> F \<notin> S"
-    using \<open>F \<in> S\<close> by (rule mp)
+    using \<open>\<not> (F \<notin> S)\<close> by (rule mp)
 qed
 
 text \<open>\comentario{No entiendo por qué en estos casos que he dejado 
