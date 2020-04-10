@@ -644,6 +644,10 @@ qed
 text \<open>\comentario{No entiendo por qué en estos casos que he dejado 
   como pendiente no permite usar rule notnotD}\<close>
 
+find_theorems -name: conj disj
+find_theorems "\<lbrakk>\<not>_; \<not>_\<rbrakk> \<Longrightarrow> \<not>(_ \<and> _)"
+find_theorems "\<not> _ \<and> \<not> _ = (\<not> (_ \<and> _))"
+
 lemma Hintikka_l10_and: 
   assumes "Hintikka S" 
           "\<^bold>\<not> G \<in> S \<longrightarrow> G \<notin> S"
@@ -658,10 +662,18 @@ proof (rule impI)
   then show "G \<^bold>\<and> H \<notin> S"
   proof (rule disjE)
     assume "\<^bold>\<not> G \<in> S"
-    have "G \<notin> S"
+    have "\<not> (G \<in> S)"
       using assms(2) \<open>\<^bold>\<not> G \<in> S\<close> by (rule mp)
-    then have "\<not> (G \<in> S \<and> H \<in> S)" 
-      by simp (*Pendiente*)
+    have "\<not> (G \<in> S \<and> H \<in> S)"
+    proof (rule ccontr)
+      assume "\<not> \<not> (G \<in> S \<and> H \<in> S)"
+      then have "G \<in> S \<and> H \<in> S"
+        by (rule notnotD)
+      then have "G \<in> S"
+        by (rule conjunct1)
+      show "False"
+        using \<open>G \<notin> S\<close> \<open>G \<in> S\<close> by (rule notE)
+    qed
     have "(G \<^bold>\<and> H \<in> S \<longrightarrow> G \<in> S \<and> H \<in> S)"
       using assms(1) by (rule Hintikka_l3)
     thus "G \<^bold>\<and> H \<notin> S"
@@ -670,8 +682,16 @@ proof (rule impI)
     assume "\<^bold>\<not> H \<in> S"
     have "H \<notin> S"
       using assms(3) \<open>\<^bold>\<not> H \<in> S\<close> by (rule mp)
-    then have "\<not> (G \<in> S \<and> H \<in> S)" 
-      by simp (*Pendiente*)
+    have "\<not> (G \<in> S \<and> H \<in> S)" 
+    proof (rule ccontr)
+      assume "\<not> \<not> (G \<in> S \<and> H \<in> S)"
+      then have "G \<in> S \<and> H \<in> S"
+        by (rule notnotD)
+      then have "H \<in> S"
+        by (rule conjunct2)
+      show "False"
+        using \<open>H \<notin> S\<close> \<open>H \<in> S\<close> by (rule notE)
+    qed
     have "(G \<^bold>\<and> H \<in> S \<longrightarrow> G \<in> S \<and> H \<in> S)"
       using assms(1) by (rule Hintikka_l3)
     thus "G \<^bold>\<and> H \<notin> S"
