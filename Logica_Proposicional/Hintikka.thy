@@ -846,6 +846,19 @@ lemma Hl2_1:
          (\<^bold>\<not> (Atom x) \<in> S \<longrightarrow> \<not> isModel (interpretacionAsoc S) (Atom x))"
   by (simp add: Hintikka_l10 assms isModel_def interpretacionAsoc_def) 
 
+lemma negDef:
+  assumes "(\<not> isModel (interpretacionAsoc S) F)" 
+  shows "(\<not> (interpretacionAsoc S) \<Turnstile> F)"
+proof -
+  have "isModel (interpretacionAsoc S) F = (interpretacionAsoc S) \<Turnstile> F"
+    by (simp only: isModel_def)
+  then have "(\<not> isModel (interpretacionAsoc S) F) = 
+ (\<not> (interpretacionAsoc S) \<Turnstile> F)" 
+    by (rule arg_cong)
+  thus ?thesis 
+    using assms by simp (*Pendiente*)
+qed
+
 lemma Hl2_2_detallada:
   assumes "Hintikka S"
           "\<And>F. (F \<in> S \<longrightarrow> isModel (interpretacionAsoc S) F) \<and>
@@ -859,10 +872,10 @@ proof (rule conjI)
     assume "\<^bold>\<not> F \<in> S"
     have "\<^bold>\<not> F \<in> S \<longrightarrow> \<not> isModel (interpretacionAsoc S) F"
       using assms(2) by (rule conjunct2)
-    then have "\<not> isModel (interpretacionAsoc S) F"
+    then have "(\<not> isModel (interpretacionAsoc S) F)"
       using  \<open>\<^bold>\<not> F \<in> S\<close> by (rule mp)
     then have "\<not> (interpretacionAsoc S) \<Turnstile> F"
-      by (simp add: isModel_def) (*Pendiente*)
+      by (rule negDef)
     then have "(interpretacionAsoc S) \<Turnstile> (\<^bold>\<not> F)"
       by simp (*(simp only: formula_semantics.simps(3)) Pendiente*)
     thus "isModel (interpretacionAsoc S) (\<^bold>\<not> F)"
@@ -957,7 +970,7 @@ next
       then have "\<not> isModel (interpretacionAsoc S) F1"
         using \<open>\<^bold>\<not> F1 \<in> S\<close> by (rule mp)
       then have "\<not> ((interpretacionAsoc S) \<Turnstile> F1)"
-        by (simp add: isModel_def) (*Pendiente*)
+        by (rule negDef)
       then have "\<not> ((interpretacionAsoc S) \<Turnstile> F1 \<and> (interpretacionAsoc S) \<Turnstile> F2)" 
         by simp (*Pendiente*)
       then have "\<not> ((interpretacionAsoc S) \<Turnstile> (F1 \<^bold>\<and> F2))"
@@ -971,7 +984,7 @@ next
       then have "\<not> isModel (interpretacionAsoc S) F2"
         using \<open>\<^bold>\<not> F2 \<in> S\<close> by (rule mp)
       then have "\<not> ((interpretacionAsoc S) \<Turnstile> F2)"
-        by (simp add: isModel_def) (*Pendiente*)
+        by (rule negDef)
       then have "\<not> ((interpretacionAsoc S) \<Turnstile> F1 \<and> (interpretacionAsoc S) \<Turnstile> F2)" 
         by simp (*Pendiente*)
       then have "\<not> ((interpretacionAsoc S) \<Turnstile> (F1 \<^bold>\<and> F2))"
@@ -1058,7 +1071,7 @@ next
     then have "\<not> isModel (interpretacionAsoc S) F1"
       using \<open>\<^bold>\<not> F1 \<in> S\<close> by (rule mp)
     then have D1:"\<not> (interpretacionAsoc S) \<Turnstile> F1"
-      by (simp add: isModel_def) (*Pendiente*)
+      by (rule negDef)
     have "\<^bold>\<not> F2 \<in> S"
       using C by (rule conjunct2)
     have "\<^bold>\<not> F2 \<in> S \<longrightarrow> \<not> isModel (interpretacionAsoc S) F2"
@@ -1066,7 +1079,7 @@ next
     then have "\<not> isModel (interpretacionAsoc S) F2"
       using \<open>\<^bold>\<not> F2 \<in> S\<close> by (rule mp)
     then have D2:"\<not> (interpretacionAsoc S) \<Turnstile> F2"
-      by (simp add: isModel_def) (*Pendiente*)
+      by (rule negDef)
     have "\<not> ((interpretacionAsoc S) \<Turnstile> F1 \<or> (interpretacionAsoc S) \<Turnstile> F2)"
       using D1 D2 by simp (*Pendiente*)
     then have "\<not> (interpretacionAsoc S) \<Turnstile> (F1 \<^bold>\<or> F2)"
@@ -1113,7 +1126,7 @@ proof (rule conjI)
       then have "\<not> isModel (interpretacionAsoc S) F1"
         using \<open>\<^bold>\<not> F1 \<in> S\<close> by (rule mp)
       then have N1:"\<not> (interpretacionAsoc S) \<Turnstile> F1"
-        by (simp add: isModel_def) (*Pendiente*)
+        by (rule negDef)
       have "(interpretacionAsoc S) \<Turnstile> F1 \<longrightarrow> (interpretacionAsoc S) \<Turnstile> F2"
       proof (rule impI)
         assume N2:"(interpretacionAsoc S) \<Turnstile> F1"
@@ -1168,12 +1181,12 @@ next
     then have "\<not> isModel (interpretacionAsoc S) F2"
       using \<open>\<^bold>\<not> F2 \<in> S\<close> by (rule mp)
     then have N1:"\<not> (interpretacionAsoc S) \<Turnstile> F2"
-      by (simp add: isModel_def) (*Pendiente*)
+      by (rule negDef)
     have "\<not> ((interpretacionAsoc S) \<Turnstile> F1 \<longrightarrow> (interpretacionAsoc S) \<Turnstile> F2)"
     proof (rule ccontr)
       assume "\<not>\<not> ((interpretacionAsoc S) \<Turnstile> F1 \<longrightarrow> (interpretacionAsoc S) \<Turnstile> F2)"
       then have "(interpretacionAsoc S) \<Turnstile> F1 \<longrightarrow> (interpretacionAsoc S) \<Turnstile> F2"
-        by simp (*Pendiente*)
+        by (rule notnotD)
       then have N2:"(interpretacionAsoc S) \<Turnstile> F2"
         using \<open>(interpretacionAsoc S) \<Turnstile> F1\<close> by (rule mp)
       show "False" 
