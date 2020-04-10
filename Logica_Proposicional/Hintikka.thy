@@ -827,10 +827,14 @@ next
       using assms by (rule Hintikka_l10)
     then have "\<not> (Atom x \<in> S)"
       using I by (rule mp)
-    hence "\<not> ((interpretacionAsoc S) x)"
-      by (simp add: interpretacionAsoc_def) (*Pendiente*)
-    hence "\<not> ((interpretacionAsoc S) \<Turnstile> (Atom x))"
-      by simp (*(simp only: formula_semantics.simps(1)) Pendiente*)
+    have IntEq1:"Atom x \<in> S = (interpretacionAsoc S) x"
+      by (simp only: interpretacionAsoc_def)
+    then have "\<not> ((interpretacionAsoc S) x)"
+      using \<open>\<not> (Atom x \<in> S)\<close> by (rule subst)
+    have IntEq2:"(interpretacionAsoc S) x = (interpretacionAsoc S) \<Turnstile> (Atom x)"
+      by (simp only: formula_semantics.simps(1))
+    then have "\<not> ((interpretacionAsoc S) \<Turnstile> (Atom x))"
+      using \<open>\<not> ((interpretacionAsoc S) x)\<close> by (rule subst)
     thus "\<not> isModel (interpretacionAsoc S) (Atom x)" 
       by (simp add: isModel_def) (*Pendiente*)
   qed
