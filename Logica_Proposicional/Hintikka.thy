@@ -743,12 +743,12 @@ proof (rule impI)
     using \<open>\<^bold>\<not> (G \<^bold>\<rightarrow> H) \<in> S\<close> by (rule mp)
   then have "G \<in> S"
     by (rule conjunct1)
+  then have "\<not> \<not> G \<in> S"
+    by (rule notnotI)
   have "\<not> \<not> (G \<in> S) \<longrightarrow> \<^bold>\<not> G \<notin> S"
     using assms(2) by (rule not_mono)
-  then have "G \<in> S \<longrightarrow> \<^bold>\<not> G \<notin> S"
-    by simp (*Pendiente*)
   then have "\<^bold>\<not> G \<notin> S"
-    using \<open>G \<in> S\<close> by (rule mp)
+    using \<open>\<not>\<not> G \<in> S\<close> by (rule mp)
   have "\<^bold>\<not> H \<in> S"
     using C by (rule conjunct2)
   have "H \<notin> S"
