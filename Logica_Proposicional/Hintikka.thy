@@ -584,9 +584,6 @@ lemma Hintikka_l10:
   apply (smt Hintikka_def)
   using Hintikka_l5 Hintikka_l9 by blast
 
-text \<open>\comentario{Hasta aquí solo tengo las dudas anteriores. Sigo
-  trabajando en sucio en las siguientes líneas.}\<close>
-
 lemma Hl2_1_detallada:
   assumes  "Hintikka S"
   shows "\<And>x. (Atom x \<in> S \<longrightarrow> isModel (interpretacionAsoc S) (Atom x)) \<and>
@@ -598,7 +595,7 @@ proof (rule conjI)
     assume "Atom x \<in> S"
     hence "(interpretacionAsoc S) x"
       by (simp only: interpretacionAsoc_def)
-    hence "(interpretacionAsoc S) \<Turnstile> (Atom x)"
+    hence "interpretacionAsoc S \<Turnstile> Atom x"
       by (simp only: formula_semantics.simps(1))
     thus "isModel (interpretacionAsoc S) (Atom x)"
       by (simp only: isModel_def)
@@ -608,11 +605,11 @@ next
   "\<And>x. \<^bold>\<not> (Atom x) \<in> S \<longrightarrow> \<not> isModel (interpretacionAsoc S) (Atom x)" 
   proof (rule impI)
     fix x
-    assume I:" \<^bold>\<not> (Atom x) \<in> S" 
+    assume "\<^bold>\<not> (Atom x) \<in> S" 
     have "\<^bold>\<not> (Atom x) \<in> S \<longrightarrow> Atom x \<notin> S"
       using assms by (rule Hintikka_l10)
-    then have "\<not> (Atom x \<in> S)"
-      using I by (rule mp)
+    then have "Atom x \<notin> S"
+      using \<open>\<^bold>\<not> (Atom x) \<in> S\<close> by (rule mp)
     have IntEq1:"Atom x \<in> S = (interpretacionAsoc S) x"
       by (simp only: interpretacionAsoc_def)
     then have "\<not> ((interpretacionAsoc S) x)"
@@ -1029,7 +1026,6 @@ next
         by (simp add: isModel_def) (*Pendiente*)
     qed
   qed
-    (*by (simp add: Hintikka_l1 assms isModel_def)*) (*Pendiente*)
 next
   fix F
   show "(F \<in> S \<longrightarrow> isModel (interpretacionAsoc S) F) \<and>
@@ -1069,7 +1065,7 @@ qed
 lemma Hintikka_modelo:
   assumes "Hintikka S"
   shows "isModelSet (interpretacionAsoc S) S"
-proof-
+proof -
   have "\<forall>F. (F\<in> S \<longrightarrow> isModel (interpretacionAsoc S) F)"
   proof (rule allI)
     fix F
