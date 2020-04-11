@@ -403,10 +403,8 @@ proof (rule impI)
     using \<open>\<^bold>\<not> (\<^bold>\<not> F) \<in> S\<close> by (rule mp)
   then have "\<not> (F \<notin> S)"
     by (rule notnotI)
-  have "\<not> (F \<notin> S) \<longrightarrow> \<^bold>\<not> F \<notin> S"
-    using assms(2) by (rule not_mono)
-  thus "\<^bold>\<not> F \<notin> S"
-    using \<open>\<not> (F \<notin> S)\<close> by (rule mp)
+  show "\<^bold>\<not> F \<notin> S"
+    using assms(2) \<open>\<not> (F \<notin> S)\<close> by (rule mt)
 qed
 
 text \<open>\comentario{No entiendo por qué en estos casos que he dejado 
