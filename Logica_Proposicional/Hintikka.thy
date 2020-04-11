@@ -392,19 +392,21 @@ proof (rule impI)
 qed
 
 lemma Hintikka_l10_not: 
-  assumes "Hintikka S" 
-          "\<^bold>\<not> F \<in> S \<longrightarrow> F \<notin> S"
+  assumes "Hintikka S \<Longrightarrow> \<^bold>\<not> F \<in> S \<longrightarrow> F \<notin> S"
+          "Hintikka S"
         shows "\<^bold>\<not> (\<^bold>\<not> F) \<in> S \<longrightarrow> \<^bold>\<not> F \<notin> S"
 proof (rule impI)
   assume "\<^bold>\<not> (\<^bold>\<not> F) \<in> S"
   have "\<^bold>\<not> (\<^bold>\<not> F) \<in> S \<longrightarrow> F \<in> S"
-    using assms(1) by (rule Hintikka_l6)
+    using assms(2) by (rule Hintikka_l6)
   then have "F \<in> S"
     using \<open>\<^bold>\<not> (\<^bold>\<not> F) \<in> S\<close> by (rule mp)
   then have "\<not> (F \<notin> S)"
     by (rule notnotI)
-  show "\<^bold>\<not> F \<notin> S"
-    using assms(2) \<open>\<not> (F \<notin> S)\<close> by (rule mt)
+  have "\<^bold>\<not> F \<in> S \<longrightarrow> F \<notin> S"
+    using assms by this
+  thus "\<^bold>\<not> F \<notin> S"
+    using \<open>\<not> (F \<notin> S)\<close> by (rule mt)
 qed
 
 lemma notConj1: 
@@ -430,35 +432,39 @@ proof (rule notI)
 qed
 
 lemma Hintikka_l10_and: 
-  assumes "Hintikka S" 
-          "\<^bold>\<not> G \<in> S \<longrightarrow> G \<notin> S"
-          "\<^bold>\<not> H \<in> S \<longrightarrow> H \<notin> S"
+  assumes "Hintikka S \<Longrightarrow> \<^bold>\<not> G \<in> S \<longrightarrow> G \<notin> S"
+          "Hintikka S \<Longrightarrow> \<^bold>\<not> H \<in> S \<longrightarrow> H \<notin> S"
+          "Hintikka S"
   shows "\<^bold>\<not> (G \<^bold>\<and> H) \<in> S \<longrightarrow> (G \<^bold>\<and> H) \<notin> S"
 proof (rule impI)
   assume "\<^bold>\<not> (G \<^bold>\<and> H) \<in> S"
   have "\<^bold>\<not> (G \<^bold>\<and> H) \<in> S \<longrightarrow> \<^bold>\<not> G \<in> S \<or> \<^bold>\<not> H \<in> S"
-    using assms(1) by (rule Hintikka_l7)
+    using assms(3) by (rule Hintikka_l7)
   then have "\<^bold>\<not> G \<in> S \<or> \<^bold>\<not> H \<in> S"
     using \<open>\<^bold>\<not> (G \<^bold>\<and> H) \<in> S\<close> by (rule mp)
   then show "G \<^bold>\<and> H \<notin> S"
   proof (rule disjE)
     assume "\<^bold>\<not> G \<in> S"
-    have "G \<notin> S"
-      using assms(2) \<open>\<^bold>\<not> G \<in> S\<close> by (rule mp)
+    have "\<^bold>\<not> G \<in> S \<longrightarrow> G \<notin> S"
+      using assms(1) assms(3) by this
+    then have "G \<notin> S"
+      using \<open>\<^bold>\<not> G \<in> S\<close> by (rule mp)
     then have "\<not> (G \<in> S \<and> H \<in> S)"
       by (rule notConj1)
     have "G \<^bold>\<and> H \<in> S \<longrightarrow> G \<in> S \<and> H \<in> S"
-      using assms(1) by (rule Hintikka_l3)
+      using assms(3) by (rule Hintikka_l3)
     thus "G \<^bold>\<and> H \<notin> S"
       using \<open>\<not> (G \<in> S \<and> H \<in> S)\<close>  by (rule mt)
   next
     assume "\<^bold>\<not> H \<in> S"
-    have "H \<notin> S"
-      using assms(3) \<open>\<^bold>\<not> H \<in> S\<close> by (rule mp)
+    have "\<^bold>\<not> H \<in> S \<longrightarrow> H \<notin> S"
+      using assms(2) assms(3) by this
+    then have "H \<notin> S"
+      using \<open>\<^bold>\<not> H \<in> S\<close> by (rule mp)
     then have "\<not> (G \<in> S \<and> H \<in> S)" 
       by (rule notConj2)
     have "G \<^bold>\<and> H \<in> S \<longrightarrow> G \<in> S \<and> H \<in> S"
-      using assms(1) by (rule Hintikka_l3)
+      using assms(3) by (rule Hintikka_l3)
     thus "G \<^bold>\<and> H \<notin> S"
       using \<open>\<not> (G \<in> S \<and> H \<in> S)\<close> by (rule mt)
   qed
@@ -483,87 +489,90 @@ proof (rule notI)
 qed
 
 lemma Hintikka_l10_or: 
-  assumes "Hintikka S" 
-          "\<^bold>\<not> G \<in> S \<longrightarrow> G \<notin> S"
-          "\<^bold>\<not> H \<in> S \<longrightarrow> H \<notin> S"
+  assumes "Hintikka S \<Longrightarrow> \<^bold>\<not> G \<in> S \<longrightarrow> G \<notin> S"
+          "Hintikka S \<Longrightarrow> \<^bold>\<not> H \<in> S \<longrightarrow> H \<notin> S"
+          "Hintikka S"
   shows "\<^bold>\<not> (G \<^bold>\<or> H) \<in> S \<longrightarrow> (G \<^bold>\<or> H) \<notin> S"
 proof (rule impI)
   assume "\<^bold>\<not> (G \<^bold>\<or> H) \<in> S"
   have "\<^bold>\<not> (G \<^bold>\<or> H) \<in> S \<longrightarrow> (\<^bold>\<not> G \<in> S \<and> \<^bold>\<not> H \<in> S)"
-    using assms(1) by (rule Hintikka_l8)
+    using assms(3) by (rule Hintikka_l8)
   then have C:"\<^bold>\<not> G \<in> S \<and> \<^bold>\<not> H \<in> S"
     using \<open>\<^bold>\<not> (G \<^bold>\<or> H) \<in> S\<close> by (rule mp)
   then have "\<^bold>\<not> G \<in> S"
     by (rule conjunct1)
-  have "G \<notin> S" 
-    using assms(2) \<open>\<^bold>\<not> G \<in> S\<close> by (rule mp) 
+  have "\<^bold>\<not> G \<in> S \<longrightarrow> G \<notin> S"
+    using assms(1) assms(3) by this
+  then have "G \<notin> S" 
+    using \<open>\<^bold>\<not> G \<in> S\<close> by (rule mp) 
   have "\<^bold>\<not> H \<in> S"
     using C by (rule conjunct2)
-  have "H \<notin> S" 
-    using assms(3) \<open>\<^bold>\<not> H \<in> S\<close> by (rule mp)
+  have "\<^bold>\<not> H \<in> S \<longrightarrow> H \<notin> S"
+    using assms(2) assms(3) by this
+  then have "H \<notin> S" 
+    using \<open>\<^bold>\<not> H \<in> S\<close> by (rule mp)
   have "\<not> (G \<in> S \<or> H \<in> S)"
     using \<open>G \<notin> S\<close> \<open>H \<notin> S\<close> by (rule notDisj)
   have "(G \<^bold>\<or> H \<in> S \<longrightarrow> G \<in> S \<or> H \<in> S)"
-    using assms(1) by (rule Hintikka_l4)
+    using assms(3) by (rule Hintikka_l4)
   thus "G \<^bold>\<or> H \<notin> S"
     using \<open>\<not> (G \<in> S \<or> H \<in> S)\<close> by (rule mt)
 qed
 
 lemma Hintikka_l10_imp: 
-  assumes "Hintikka S" 
-          "\<^bold>\<not> G \<in> S \<longrightarrow> G \<notin> S"
-          "\<^bold>\<not> H \<in> S \<longrightarrow> H \<notin> S"
+  assumes "Hintikka S \<Longrightarrow> \<^bold>\<not> G \<in> S \<longrightarrow> G \<notin> S"
+          "Hintikka S \<Longrightarrow> \<^bold>\<not> H \<in> S \<longrightarrow> H \<notin> S"
+          "Hintikka S"
   shows "\<^bold>\<not> (G \<^bold>\<rightarrow> H) \<in> S \<longrightarrow> (G \<^bold>\<rightarrow> H) \<notin> S"
 proof (rule impI)
   assume "\<^bold>\<not> (G \<^bold>\<rightarrow> H) \<in> S"
   have "\<^bold>\<not> (G \<^bold>\<rightarrow> H) \<in> S \<longrightarrow> (G \<in> S \<and> \<^bold>\<not> H \<in> S)"
-    using assms(1) by (rule Hintikka_l9)
+    using assms(3) by (rule Hintikka_l9)
   then have C:"G \<in> S \<and> \<^bold>\<not> H \<in> S"
     using \<open>\<^bold>\<not> (G \<^bold>\<rightarrow> H) \<in> S\<close> by (rule mp)
   then have "G \<in> S"
     by (rule conjunct1)
   then have "\<not> (G \<notin> S)"
     by (rule notnotI)
-  have "\<^bold>\<not> G \<notin> S"
-    using assms(2) \<open>\<not> (G \<notin> S)\<close> by (rule mt)
+  have "\<^bold>\<not> G \<in> S \<longrightarrow> G \<notin> S"
+    using assms(1) assms(3) by this
+  then have "\<^bold>\<not> G \<notin> S"
+    using \<open>\<not> (G \<notin> S)\<close> by (rule mt)
   have "\<^bold>\<not> H \<in> S"
     using C by (rule conjunct2)
-  have "H \<notin> S"
-    using assms(3) \<open>\<^bold>\<not> H \<in> S\<close> by (rule mp)
+  have "\<^bold>\<not> H \<in> S \<longrightarrow> H \<notin> S"
+    using assms(2) assms(3) by this
+  then have "H \<notin> S"
+    using \<open>\<^bold>\<not> H \<in> S\<close> by (rule mp)
   have "\<not> (\<^bold>\<not> G \<in> S \<or> H \<in> S)"
     using \<open>\<^bold>\<not> G \<notin> S\<close> \<open>H \<notin> S\<close> by (rule notDisj)
   have "G \<^bold>\<rightarrow> H \<in> S \<longrightarrow> \<^bold>\<not> G \<in> S \<or> H \<in> S"
-    using assms(1) by (rule Hintikka_l5)
+    using assms(3) by (rule Hintikka_l5)
   thus "G \<^bold>\<rightarrow> H \<notin> S"
     using \<open>\<not> (\<^bold>\<not> G \<in> S \<or> H \<in> S)\<close> by (rule mt)
 qed
 
-(*lemma Hintikka_l10_detallada: 
-  assumes "Hintikka S" 
-  shows "\<^bold>\<not> F \<in> S \<longrightarrow> F \<notin> S"
+lemma Hintikka_l10_detallada: 
+  "Hintikka S \<Longrightarrow> \<^bold>\<not> F \<in> S \<longrightarrow> F \<notin> S"
 proof (induct F)
 case (Atom x)
-  then show ?case
-    using assms by (rule Hintikka_l10_atom)
+  then show ?case by (rule Hintikka_l10_atom)
 next
   case Bot
-  then show ?case
-    using assms by (rule Hintikka_l10_bot)
+  then show ?case by (rule Hintikka_l10_bot)
 next
   case (Not F)
   then show ?case by (rule Hintikka_l10_not)
 next
   case (And F1 F2)
-then show ?case by (rule Hintikka_l10_and)
+  then show ?case by (rule Hintikka_l10_and)
 next
   case (Or F1 F2)
   then show ?case by (rule Hintikka_l10_or)
 next
   case (Imp F1 F2)
   then show ?case by (rule Hintikka_l10_imp)
-qed*)
-
-text \<open>\comentario{No entiendo el error en Hintikka l10 detallada.}\<close>
+qed
 
 lemma Hintikka_l10: 
  "Hintikka S \<Longrightarrow> (\<^bold>\<not> F \<in> S \<longrightarrow> F \<notin> S)"
