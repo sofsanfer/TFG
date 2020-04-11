@@ -522,19 +522,17 @@ proof (rule impI)
     using \<open>\<^bold>\<not> (G \<^bold>\<rightarrow> H) \<in> S\<close> by (rule mp)
   then have "G \<in> S"
     by (rule conjunct1)
-  then have "\<not> \<not> G \<in> S"
+  then have "\<not> (G \<notin> S)"
     by (rule notnotI)
-  have "\<not> \<not> (G \<in> S) \<longrightarrow> \<^bold>\<not> G \<notin> S"
-    using assms(2) by (rule not_mono)
-  then have "\<^bold>\<not> G \<notin> S"
-    using \<open>\<not>\<not> G \<in> S\<close> by (rule mp)
+  have "\<^bold>\<not> G \<notin> S"
+    using assms(2) \<open>\<not> (G \<notin> S)\<close> by (rule mt)
   have "\<^bold>\<not> H \<in> S"
     using C by (rule conjunct2)
   have "H \<notin> S"
     using assms(3) \<open>\<^bold>\<not> H \<in> S\<close> by (rule mp)
   have "\<not> (\<^bold>\<not> G \<in> S \<or> H \<in> S)"
-    using \<open>\<^bold>\<not> G \<notin> S\<close> \<open>H \<notin> S\<close> by simp (*Pendiente*)
-  have "(G \<^bold>\<rightarrow> H \<in> S \<longrightarrow> \<^bold>\<not>G \<in> S \<or> H \<in> S)"
+    using \<open>\<^bold>\<not> G \<notin> S\<close> \<open>H \<notin> S\<close> by (rule notDisj)
+  have "G \<^bold>\<rightarrow> H \<in> S \<longrightarrow> \<^bold>\<not> G \<in> S \<or> H \<in> S"
     using assms(1) by (rule Hintikka_l5)
   thus "G \<^bold>\<rightarrow> H \<notin> S"
     using \<open>\<not> (\<^bold>\<not> G \<in> S \<or> H \<in> S)\<close> by (rule mt)
