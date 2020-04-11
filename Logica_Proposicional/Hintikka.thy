@@ -1052,8 +1052,11 @@ next
         using assms by (rule Hintikka_l1)
       then have "\<not> (interpretacionAsoc S) \<Turnstile> \<bottom>"
         by simp (*Pendiente*)
-      thus "\<not> isModel (interpretacionAsoc S) \<bottom>"
-        by (simp add: isModel_def) (*Pendiente*)
+      also have "(\<not> (interpretacionAsoc S) \<Turnstile> \<bottom>) = 
+              (\<not> isModel (interpretacionAsoc S) \<bottom>)"
+        by (simp only: isModel_def)
+      finally show "\<not> isModel (interpretacionAsoc S) \<bottom>"
+        by this
     qed
   qed
 next
