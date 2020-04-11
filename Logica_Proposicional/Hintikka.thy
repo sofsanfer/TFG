@@ -590,7 +590,7 @@ lemma Hl2_1_detallada:
          (\<^bold>\<not> (Atom x) \<in> S \<longrightarrow> \<not> isModel (interpretacionAsoc S) (Atom x))"
 proof (rule conjI)
   show "\<And>x. Atom x \<in> S \<longrightarrow> isModel (interpretacionAsoc S) (Atom x)" 
-  proof (rule impI)
+  proof
     fix x
     assume "Atom x \<in> S"
     hence "(interpretacionAsoc S) x"
@@ -697,7 +697,7 @@ lemma Hl2_3_detallada:
        (\<^bold>\<not> (F1 \<^bold>\<and> F2) \<in> S \<longrightarrow> \<not> isModel (interpretacionAsoc S) (F1 \<^bold>\<and> F2))"
 proof (rule conjI)
   show "\<And>F1 F2. F1 \<^bold>\<and> F2 \<in> S \<longrightarrow> isModel (interpretacionAsoc S) (F1 \<^bold>\<and> F2)"
-  proof (rule impI)
+  proof 
     fix F1 F2
     assume "F1 \<^bold>\<and> F2 \<in> S"
     have "F1 \<^bold>\<and> F2 \<in> S \<longrightarrow> F1 \<in> S \<and> F2 \<in> S"
@@ -729,7 +729,7 @@ proof (rule conjI)
   qed
 next
   show "\<And>F1 F2. \<^bold>\<not> (F1 \<^bold>\<and> F2) \<in> S \<longrightarrow> \<not> isModel (interpretacionAsoc S) (F1 \<^bold>\<and> F2)"
-  proof (rule impI)
+  proof
     fix F1 F2
     assume "\<^bold>\<not> (F1 \<^bold>\<and> F2) \<in> S"
     have "\<^bold>\<not> (F1 \<^bold>\<and> F2) \<in> S \<longrightarrow> \<^bold>\<not> F1 \<in> S \<or> \<^bold>\<not> F2 \<in> S"
@@ -743,32 +743,47 @@ next
         using assms(2) by (rule conjunct2)
       then have "\<not> isModel (interpretacionAsoc S) F1"
         using \<open>\<^bold>\<not> F1 \<in> S\<close> by (rule mp)
-      then have "\<not> ((interpretacionAsoc S) \<Turnstile> F1)"
-        by (simp add: isModel_def) (*Pendiente*)
-      then have "\<not> ((interpretacionAsoc S) \<Turnstile> F1 \<and> (interpretacionAsoc S) \<Turnstile> F2)" 
-        by simp (*Pendiente*)
-      then have "\<not> ((interpretacionAsoc S) \<Turnstile> (F1 \<^bold>\<and> F2))"
-        by simp (*Pendiente: (simp only: formula_semantics.simps(4))*)
-      thus "\<not> isModel (interpretacionAsoc S) (F1 \<^bold>\<and> F2)"
-        by (simp add: isModel_def) (*Pendiente*)
+      also have "(\<not> isModel (interpretacionAsoc S) F1) = 
+            (\<not> (interpretacionAsoc S) \<Turnstile> F1)"
+        by (simp only: isModel_def)
+      finally have "\<not> (interpretacionAsoc S) \<Turnstile> F1"
+        by this
+      then have "\<not> ((interpretacionAsoc S) \<Turnstile> F1 \<and> 
+            (interpretacionAsoc S) \<Turnstile> F2)" 
+        by (rule notConj1)
+      also have "(\<not> ((interpretacionAsoc S) \<Turnstile> F1 \<and> 
+          (interpretacionAsoc S) \<Turnstile> F2)) = 
+          (\<not> ((interpretacionAsoc S) \<Turnstile> (F1 \<^bold>\<and> F2)))"
+        by (simp only: formula_semantics.simps(4))
+      also have "\<dots> = (\<not> isModel (interpretacionAsoc S) (F1 \<^bold>\<and> F2))"
+        by (simp only: isModel_def)
+      finally show "\<not> isModel (interpretacionAsoc S) (F1 \<^bold>\<and> F2)"
+        by this
     next
       assume "\<^bold>\<not> F2 \<in> S"
       have "\<^bold>\<not> F2 \<in> S \<longrightarrow> \<not> isModel (interpretacionAsoc S) F2"
         using assms(3) by (rule conjunct2)
       then have "\<not> isModel (interpretacionAsoc S) F2"
         using \<open>\<^bold>\<not> F2 \<in> S\<close> by (rule mp)
-      then have "\<not> ((interpretacionAsoc S) \<Turnstile> F2)"
-        by (simp add: isModel_def) (*Pendiente*)
-      then have "\<not> ((interpretacionAsoc S) \<Turnstile> F1 \<and> (interpretacionAsoc S) \<Turnstile> F2)" 
-        by simp (*Pendiente*)
-      then have "\<not> ((interpretacionAsoc S) \<Turnstile> (F1 \<^bold>\<and> F2))"
-        by simp (*Pendiente: (simp only: formula_semantics.simps(4))*)
-      thus "\<not> isModel (interpretacionAsoc S) (F1 \<^bold>\<and> F2)"
-        by (simp add: isModel_def) (*Pendiente*)
+      also have "(\<not> isModel (interpretacionAsoc S) F2) = 
+            (\<not> (interpretacionAsoc S) \<Turnstile> F2)"
+        by (simp only: isModel_def)
+      finally have "\<not> (interpretacionAsoc S) \<Turnstile> F2"
+        by this
+      then have "\<not> ((interpretacionAsoc S) \<Turnstile> F1 \<and> 
+            (interpretacionAsoc S) \<Turnstile> F2)" 
+        by (rule notConj2)
+      also have "(\<not> ((interpretacionAsoc S) \<Turnstile> F1 \<and> 
+          (interpretacionAsoc S) \<Turnstile> F2)) = 
+          (\<not> ((interpretacionAsoc S) \<Turnstile> (F1 \<^bold>\<and> F2)))"
+        by (simp only: formula_semantics.simps(4))
+      also have "\<dots> = (\<not> isModel (interpretacionAsoc S) (F1 \<^bold>\<and> F2))"
+        by (simp only: isModel_def)
+      finally show "\<not> isModel (interpretacionAsoc S) (F1 \<^bold>\<and> F2)"
+        by this
     qed
   qed
 qed
-
 
 lemma Hl2_3:
   assumes "Hintikka S"
