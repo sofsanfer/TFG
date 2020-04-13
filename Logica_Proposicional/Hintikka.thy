@@ -193,7 +193,7 @@ proof (rule impI)
   \<and> (\<forall>F G. \<^bold>\<not>(F \<^bold>\<or> G) \<in> S \<longrightarrow> \<^bold>\<not> F \<in> S \<and> \<^bold>\<not> G \<in> S)
   \<and> (\<forall>F G. \<^bold>\<not>(F \<^bold>\<rightarrow> G) \<in> S \<longrightarrow> F \<in> S \<and> \<^bold>\<not> G \<in> S)"
    using assms by (rule auxEq)
-  then have "\<forall>F G. F \<^bold>\<or> G \<in> S \<longrightarrow> F \<in> S \<or> G \<in> S"
+  then have "\<forall>F G. F \<^bold>\<or> G \<in> S \<longrightarrow> F \<in> S \<or> G \<in> S" 
     by (iprover intro: conjunct2 conjunct1) (*?*)
   then have "\<forall>G. F \<^bold>\<or> G \<in> S \<longrightarrow> F \<in> S \<or> G \<in> S"
     by (rule allE)
@@ -1112,9 +1112,9 @@ proof -
     by (simp only: modelSet)
 qed 
 
-text \<open>\comentario{Buscar qué lema es satAlt.}\<close>
+text \<open>\comentario{El lema satAlt está añadido en la teoría Semantica.thy.}\<close>
 
-(*theorem lemaDeHintikkas_det:
+theorem lemaDeHintikkas_det:
   assumes "Hintikka S"
   shows "sat S"
 proof-
@@ -1126,7 +1126,7 @@ qed
 theorem lemaDeHintikkas:
   assumes "Hintikka S"
   shows "sat S"
-  using Hintikka_modelo assms satAlt by blast*)
+  using Hintikka_modelo assms satAlt by blast
 
 
 (*<*)

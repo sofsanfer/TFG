@@ -1253,6 +1253,12 @@ text\<open>Veamos la noción de satisfacibilidad para un conjunto de fórmulas.
 
 definition "sat S \<equiv> \<exists>\<A>. \<forall>F \<in> S. \<A> \<Turnstile> F"
 
+text \<open>\comentario{Añadir este lema en lenguaje natural.}\<close>
+lemma satAlt:
+ "sat S  \<equiv> \<exists>\<A>. isModelSet \<A> S"
+  by (smt isModelSet_def sat_def)
+
+
 text \<open>Por definición, se observa que el conjunto de fórmulas utilizado 
   en el ejemplo de \<open>modelSet\<close> es satisfacible. Por otro lado, un 
   ejemplo de conjunto de fórmulas no satisfacible es cualquiera que 
