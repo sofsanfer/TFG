@@ -1252,6 +1252,7 @@ definition "sat S \<equiv> \<exists>\<A>. \<forall>F \<in> S. \<A> \<Turnstile> 
 text \<open>En otras palabras, la satisfacibilidad de un conjunto de fórmulas 
   depende de la existencia de una interpretación que sea modelo de dicho 
   conjunto, es decir, que sea modelo de todas las fórmulas del conjunto.
+  
   El siguiente lema muestra una forma alternativa de definir
   un conjunto de fórmulas satisfacible en Isabelle empleando 
   \<open>isModelSet\<close> y \<open>sat\<close>, según la observación anterior.\<close>
