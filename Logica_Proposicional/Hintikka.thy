@@ -10,27 +10,9 @@ section\<open>Lema de Hintikka\<close>
 
 text \<open>We follow the proofs by Melvin Fitting~\cite{fitting1990first}.\<close>
 
-
-text \<open>
-Estas definiciones que están comentadas las había realizado yo en la semántica
-de las fórmulas proposicionales. Tú tienes las mismas definiciones con otro
-nombre. Tienes que adaptar esta teoría a los nombres que tienes ya definidos
-y detallar todas las demostraciones. 
-
-definition \<open>esModelo A F \<equiv> A \<Turnstile> F\<close>
-
-definition \<open>esModeloConj A S \<equiv> \<forall>F. (F\<in> S \<longrightarrow> A \<Turnstile> F)\<close>
-
-lemma modeloConjAlt:
-  \<open>esModeloConj A S \<equiv> \<forall>F. (F\<in> S \<longrightarrow> esModelo A F)
-  by (simp add: esModeloConj_def esModelo_def)\<close>
-
-\<close>
-
 text\<open>La teoría consiste en:
 (+) Definir conjunto de Hintikka.
-(+) Probar que todo conjunto de Hiktikka es consistente (satisfacible)
-\<close>
+(+) Probar que todo conjunto de Hiktikka es consistente (satisfacible)\<close>
 
 text \<open> Definición: S es conjunto de Hintikka.\<close>
 
@@ -46,7 +28,7 @@ definition "Hintikka S \<equiv>
   \<and> (\<forall>F G. \<^bold>\<not>(F \<^bold>\<rightarrow> G) \<in> S \<longrightarrow> F \<in> S \<and> \<^bold>\<not> G \<in> S)
 )"
 
-text\<open> Ejemplo:\<close>
+text \<open>Ejemplo:\<close>
 
 notepad
 begin
@@ -165,7 +147,7 @@ proof (rule impI)
   \<and> (\<forall>F G. \<^bold>\<not>(F \<^bold>\<rightarrow> G) \<in> S \<longrightarrow> F \<in> S \<and> \<^bold>\<not> G \<in> S)"
    using assms by (rule auxEq)
   then have "\<forall>F G. F \<^bold>\<and> G \<in> S \<longrightarrow> F \<in> S \<and> G \<in> S"
-    by (iprover intro: conjunct2 conjunct1) (*?*)
+    by (iprover intro: conjunct2 conjunct1) 
   then have "\<forall> G. F \<^bold>\<and> G \<in> S \<longrightarrow> F \<in> S \<and> G \<in> S"
     by (rule allE)
   then have "F \<^bold>\<and> G \<in> S \<longrightarrow> F \<in> S \<and> G \<in> S"
@@ -194,7 +176,7 @@ proof (rule impI)
   \<and> (\<forall>F G. \<^bold>\<not>(F \<^bold>\<rightarrow> G) \<in> S \<longrightarrow> F \<in> S \<and> \<^bold>\<not> G \<in> S)"
    using assms by (rule auxEq)
   then have "\<forall>F G. F \<^bold>\<or> G \<in> S \<longrightarrow> F \<in> S \<or> G \<in> S" 
-    by (iprover intro: conjunct2 conjunct1) (*?*)
+    by (iprover intro: conjunct2 conjunct1)
   then have "\<forall>G. F \<^bold>\<or> G \<in> S \<longrightarrow> F \<in> S \<or> G \<in> S"
     by (rule allE)
   then have "F \<^bold>\<or> G \<in> S \<longrightarrow> F \<in> S \<or> G \<in> S"
@@ -223,7 +205,7 @@ proof (rule impI)
   \<and> (\<forall>F G. \<^bold>\<not>(F \<^bold>\<rightarrow> G) \<in> S \<longrightarrow> F \<in> S \<and> \<^bold>\<not> G \<in> S)"
    using assms by (rule auxEq)
   then have "\<forall>F G. F \<^bold>\<rightarrow> G \<in> S \<longrightarrow> \<^bold>\<not>F \<in> S \<or> G \<in> S"
-    by (iprover intro: conjunct2 conjunct1) (*?*)
+    by (iprover intro: conjunct2 conjunct1)
   then have "\<forall>G. F \<^bold>\<rightarrow> G \<in> S \<longrightarrow> \<^bold>\<not>F \<in> S \<or> G \<in> S"
     by (rule allE)
   then have "F \<^bold>\<rightarrow> G \<in> S \<longrightarrow> \<^bold>\<not>F \<in> S \<or> G \<in> S"
@@ -252,7 +234,7 @@ proof (rule impI)
   \<and> (\<forall>F G. \<^bold>\<not>(F \<^bold>\<rightarrow> G) \<in> S \<longrightarrow> F \<in> S \<and> \<^bold>\<not> G \<in> S)"
    using assms by (rule auxEq)
   then have "\<forall>F. \<^bold>\<not> (\<^bold>\<not>F) \<in> S \<longrightarrow> F \<in> S"
-    by (iprover intro: conjunct2 conjunct1) (*?*)
+    by (iprover intro: conjunct2 conjunct1)
   then have "\<^bold>\<not> (\<^bold>\<not>F) \<in> S \<longrightarrow> F \<in> S"
     by (rule allE)
   thus "F \<in> S"
@@ -279,7 +261,7 @@ proof (rule impI)
   \<and> (\<forall>F G. \<^bold>\<not>(F \<^bold>\<rightarrow> G) \<in> S \<longrightarrow> F \<in> S \<and> \<^bold>\<not> G \<in> S)"
    using assms by (rule auxEq)
   then have "\<forall>F G. \<^bold>\<not>(F \<^bold>\<and> G) \<in> S \<longrightarrow> \<^bold>\<not> F \<in> S \<or> \<^bold>\<not> G \<in> S"
-    by (iprover intro: conjunct2 conjunct1) (*?*)
+    by (iprover intro: conjunct2 conjunct1)
   then have "\<forall>G. \<^bold>\<not>(F \<^bold>\<and> G) \<in> S \<longrightarrow> \<^bold>\<not> F \<in> S \<or> \<^bold>\<not> G \<in> S"
     by (rule allE)
   then have "\<^bold>\<not>(F \<^bold>\<and> G) \<in> S \<longrightarrow> \<^bold>\<not> F \<in> S \<or> \<^bold>\<not> G \<in> S"
@@ -308,7 +290,7 @@ proof (rule impI)
   \<and> (\<forall>F G. \<^bold>\<not>(F \<^bold>\<rightarrow> G) \<in> S \<longrightarrow> F \<in> S \<and> \<^bold>\<not> G \<in> S)"
    using assms by (rule auxEq)
   then have "\<forall>F G. \<^bold>\<not>(F \<^bold>\<or> G) \<in> S \<longrightarrow> \<^bold>\<not> F \<in> S \<and> \<^bold>\<not> G \<in> S"
-    by (iprover intro: conjunct2 conjunct1) (*?*)
+    by (iprover intro: conjunct2 conjunct1)
   then have "\<forall>G. \<^bold>\<not>(F \<^bold>\<or> G) \<in> S \<longrightarrow> \<^bold>\<not> F \<in> S \<and> \<^bold>\<not> G \<in> S"
     by (rule allE)
   then have "\<^bold>\<not>(F \<^bold>\<or> G) \<in> S \<longrightarrow> \<^bold>\<not> F \<in> S \<and> \<^bold>\<not> G \<in> S"
@@ -337,7 +319,7 @@ proof (rule impI)
   \<and> (\<forall>F G. \<^bold>\<not>(F \<^bold>\<rightarrow> G) \<in> S \<longrightarrow> F \<in> S \<and> \<^bold>\<not> G \<in> S)"
    using assms by (rule auxEq)
   then have "\<forall>F G. \<^bold>\<not>(F \<^bold>\<rightarrow> G) \<in> S \<longrightarrow> F \<in> S \<and> \<^bold>\<not> G \<in> S"
-    by (iprover intro: conjunct2) (*?*)
+    by (iprover intro: conjunct2)
   then have "\<forall>G. \<^bold>\<not>(F \<^bold>\<rightarrow> G) \<in> S \<longrightarrow> F \<in> S \<and> \<^bold>\<not> G \<in> S"
     by (rule allE)
   then have "\<^bold>\<not>(F \<^bold>\<rightarrow> G) \<in> S \<longrightarrow> F \<in> S \<and> \<^bold>\<not> G \<in> S"
@@ -349,11 +331,6 @@ qed
 lemma Hintikka_l9: 
  "Hintikka S \<Longrightarrow> \<^bold>\<not>(F \<^bold>\<rightarrow> G) \<in> S \<longrightarrow> F \<in> S \<and> \<^bold>\<not> G \<in> S"
   by (smt Hintikka_def) 
-
-text \<open>\comentario{DUDA: no me carga al usarn(simp only: ... ) al
-  al reiterar el uso de la regla conjunct2. Además, tampoco me carga con
-  intro, creo que no entiendo cómo funciona. Me funciona añadiendo el
-  método de demostración iprover delante, pero no sin usarlo.}\<close>
 
 lemma mt: 
   assumes "F \<longrightarrow> G" 
@@ -1050,8 +1027,12 @@ next
       assume "\<^bold>\<not> \<bottom> \<in> S"
       have "\<bottom> \<notin> S"
         using assms by (rule Hintikka_l1)
-      then have "\<not> (interpretacionAsoc S) \<Turnstile> \<bottom>"
-        by simp (*Pendiente*)
+      have "\<not> (interpretacionAsoc S) \<Turnstile> \<bottom>"
+      proof (rule notI)
+        assume "interpretacionAsoc S \<Turnstile> \<bottom>"
+        thus "False"
+          by (simp only: formula_semantics.simps(2))
+      qed
       also have "(\<not> (interpretacionAsoc S) \<Turnstile> \<bottom>) = 
               (\<not> isModel (interpretacionAsoc S) \<bottom>)"
         by (simp only: isModel_def)
@@ -1112,15 +1093,16 @@ proof -
     by (simp only: modelSet)
 qed 
 
-text \<open>\comentario{El lema satAlt está añadido en la teoría Semantica.thy.}\<close>
-
-theorem lemaDeHintikkas_det:
+theorem lemaDeHintikkas_detallada:
   assumes "Hintikka S"
   shows "sat S"
-proof-
+proof -
   have "isModelSet (interpretacionAsoc S) S"
     using assms by (rule Hintikka_modelo)
-  thus "sat S" using satAlt by blast
+  then have "\<exists>\<A>. isModelSet \<A> S"
+    by (simp only: exI)
+  thus "sat S" 
+    by (simp only: satAlt)
 qed
 
 theorem lemaDeHintikkas:
