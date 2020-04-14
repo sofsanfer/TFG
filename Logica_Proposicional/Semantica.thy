@@ -1215,7 +1215,7 @@ text \<open>Veamos definiciones y resultados relativos a la semántica de un
 
   Su formalización en Isabelle es la siguiente.\<close>
 
-definition "isModelSet \<A> S \<equiv> \<forall>F. (F\<in> S \<longrightarrow> \<A> \<Turnstile> F)"
+definition "isModelSet \<A> S \<equiv> \<forall>F. (F \<in> S \<longrightarrow> \<A> \<Turnstile> F)"
 
 text \<open>Continuando con los ejemplos anteriores, veamos una interpretación
   que es modelo de un conjunto de fórmulas.\<close>
@@ -1236,7 +1236,7 @@ text \<open>El siguiente resultado relaciona los conceptos de modelo de
   de \<open>isModel\<close> e\\ \<open>isModelSet\<close>.\<close>
 
 lemma modelSet:
-  "isModelSet \<A> S \<equiv> \<forall>F. (F\<in> S \<longrightarrow> isModel \<A> F)" 
+  "isModelSet \<A> S \<equiv> \<forall>F. (F \<in> S \<longrightarrow> isModel \<A> F)" 
   by (simp only: isModelSet_def isModel_def)
 
 text\<open>Veamos la noción de satisfacibilidad para un conjunto de fórmulas.
@@ -1245,23 +1245,89 @@ text\<open>Veamos la noción de satisfacibilidad para un conjunto de fórmulas.
     Un conjunto de fórmulas es satisfacible si tiene algún modelo.
   \end{definicion}
 
-  En otras palabras, la satisfacibilidad de un conjunto de fórmulas 
-  depende de la existencia de una interpretación que sea modelo de dicho 
-  conjunto, es decir, que sea modelo de todas las fórmulas del conjunto.
-
   En Isabelle se formaliza de la siguiente manera.\<close>
 
 definition "sat S \<equiv> \<exists>\<A>. \<forall>F \<in> S. \<A> \<Turnstile> F"
 
-text \<open>\comentario{Añadir este lema en lenguaje natural.}\<close>
+text \<open>En otras palabras, la satisfacibilidad de un conjunto de fórmulas 
+  depende de la existencia de una interpretación que sea modelo de dicho 
+  conjunto, es decir, que sea modelo de todas las fórmulas del conjunto.
+  El siguiente lema muestra una forma alternativa de definir
+  un conjunto de fórmulas satisfacible en Isabelle empleando 
+  \<open>isModelSet\<close> y \<open>sat\<close>, según la observación anterior.\<close>
+
+lemma "sat S \<equiv> \<exists>\<A>. isModelSet \<A> S"
+  oops
+
+text \<open>Veamos sus demostraciones detallada y automática. Para ello, 
+  introducimos inicialmente el lema auxiliar \<open>forall_set\<close>.\<close>
+
+lemma forall_set:
+  "(\<forall>x. (x \<in> A \<longrightarrow> P x)) = (\<forall>x \<in> A. P x)"
+proof (rule iffI)
+  assume H1:"\<forall>x. (x \<in> A \<longrightarrow> P x)"
+  show "\<forall>x \<in> A. P x"
+  proof (rule ballI)
+    fix x
+    have "x \<in> A \<longrightarrow> P x"
+      using H1 by (rule allE)
+    thus "x \<in> A \<Longrightarrow> P x"
+      by (rule mp)
+  qed
+next
+  assume H2: "\<forall>x \<in> A. P x"
+  show "\<forall>x. (x \<in> A \<longrightarrow> P x)"
+  proof (rule allI)
+    fix x
+    show "x \<in> A \<longrightarrow> P x"
+    proof (rule impI)
+      assume "x \<in> A"
+      show "P x" 
+        using H2 \<open>x \<in> A\<close> by (rule bspec)
+    qed
+  qed
+qed
+
+lemma "sat S \<equiv> \<exists>\<A>. isModelSet \<A> S"
+proof -
+  have "sat S = (\<exists>\<A>. isModelSet \<A> S)"
+  proof (rule iffI)
+    assume H1:"\<exists>\<A>. isModelSet \<A> S"
+    obtain "\<A>" where "isModelSet \<A> S"
+      using H1 by (rule exE)
+    then have "\<forall>F. (F \<in> S \<longrightarrow> \<A> \<Turnstile> F)"
+      by (simp only: isModelSet_def)
+    then have "\<forall>F \<in> S. \<A> \<Turnstile> F"
+      by (simp only: forall_set)
+    then have "\<exists>\<A>. \<forall>F \<in> S. \<A> \<Turnstile> F" 
+      by (simp only: exI)
+    thus "sat S"
+      by (simp only: sat_def)
+  next
+    assume "sat S"
+    then have H2:"\<exists>\<A>. \<forall>F \<in> S. \<A> \<Turnstile> F"
+      by (simp only: sat_def)
+    obtain "\<A>" where "\<forall>F \<in> S. \<A> \<Turnstile> F"
+      using H2 by (rule exE)
+    then have "\<forall>F. (F \<in> S \<longrightarrow> \<A> \<Turnstile> F)"
+      by (simp only: forall_set)
+    then have "isModelSet \<A> S"
+      by (simp only: isModelSet_def)
+    thus "\<exists>\<A>. isModelSet \<A> S"
+      by (simp only: exI)
+  qed
+  thus "sat S  \<equiv> \<exists>\<A>. isModelSet \<A> S"
+    by (simp only: atomize_eq)
+qed
+
 lemma satAlt:
- "sat S  \<equiv> \<exists>\<A>. isModelSet \<A> S"
+ "sat S \<equiv> \<exists>\<A>. isModelSet \<A> S"
   by (smt isModelSet_def sat_def)
 
-
-text \<open>Por definición, se observa que el conjunto de fórmulas utilizado 
+text \<open>Mostremos algunos ejemplos de conjuncto satisfacible. Por 
+  definición, se observa que el conjunto de fórmulas utilizado 
   en el ejemplo de \<open>modelSet\<close> es satisfacible. Por otro lado, un 
-  ejemplo de conjunto de fórmulas no satisfacible es cualquiera que 
+  caso de conjunto de fórmulas no satisfacible es cualquiera que 
   incluya una contradicción entre sus elementos.
   
   Por otra parte, en particular, se puede definir un conjunto de 
