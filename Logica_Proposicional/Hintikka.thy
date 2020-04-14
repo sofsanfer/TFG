@@ -6,15 +6,44 @@ theory Hintikka
 begin
 (*>*)
 
-section\<open>Lema de Hintikka\<close>
+section \<open>Conjuntos de Hintikka y propiedades básicas\<close>
 
-text \<open>We follow the proofs by Melvin Fitting~\cite{fitting1990first}.\<close>
+text \<open>En esta sección presentaremos un tipo de conjuntos de fórmulas:
+  los conjuntos de Hintikka. Probaremos finalmente que todo conjunto 
+  de Hintikka es satisfacible.
 
-text\<open>La teoría consiste en:
-(+) Definir conjunto de Hintikka.
-(+) Probar que todo conjunto de Hiktikka es consistente (satisfacible)\<close>
+  \begin{definicion}
+  Se llama \<open>conjunto de Hintikka\<close> a todo conjunto de fórmulas que
+  verifica las siguientes condiciones:
+    \begin{itemize}
+      \item \<open>\<bottom>\<close> no pertenece al conjunto.
+      \item Si una fórmula atómica pertenece al conjunto, entonces su
+        negación no pertenece al conjunto.
+      \item Sean \<open>F\<close> y \<open>G\<close> dos fórmulas cualesquiera, si \<open>F \<and> G\<close> 
+        pertenece al conjunto, entonces \<open>F\<close> y \<open>G\<close> pertenecen al
+        conjunto.
+      \item Sean \<open>F\<close> y \<open>G\<close> dos fórmulas cualesquiera, si \<open>F \<or> G\<close> 
+        pertenece al conjunto, entonces \<open>F\<close> pertenece al conjunto o \<open>G\<close>
+        pertenece al conjunto.
+      \item Sean \<open>F\<close> y \<open>G\<close> dos fórmulas cualesquiera, si \<open>F \<rightarrow> G\<close> 
+        pertenece al conjunto, entonces \<open>\<not> F\<close> pertenece al conjunto o 
+        \<open>G\<close> pertenece al conjunto.
+      \item Sea \<open>F\<close> una fórmula cualquiera, si \<open>\<not>(\<not> F)\<close> pertenece al 
+        conjunto, entonces \<open>F\<close> pertenece al conjunto.
+      \item Sean \<open>F\<close> y \<open>G\<close> dos fórmulas cualesquiera, si \<open>\<not>(F \<and> G)\<close> 
+        pertenece al conjunto, entonces \<open>\<not> F\<close> pertenece al conjunto o 
+        \<open>\<not> G\<close> pertenece al conjunto.
+      \item Sean \<open>F\<close> y \<open>G\<close> dos fórmulas cualesquiera, si \<open>\<not>(F \<or> G)\<close> 
+        pertenece al conjunto, entonces \<open>\<not> F\<close> y \<open>\<not> G\<close> pertenecen al
+        conjunto.
+      \item Sean \<open>F\<close> y \<open>G\<close> dos fórmulas cualesquiera, si \<open>\<not>(F \<rightarrow> G)\<close> 
+        pertenece al conjunto, entonces \<open>F\<close> y \<open>\<not> G\<close> pertenecen al
+        conjunto.
+    \end{itemize}  
+  \end{definicion}
 
-text \<open> Definición: S es conjunto de Hintikka.\<close>
+  En Isabelle se formaliza mediante el tipo \<open>definition\<close> de la siguiente
+  manera.\<close>
 
 definition "Hintikka S \<equiv> 
 ( \<bottom> \<notin> S
@@ -28,7 +57,8 @@ definition "Hintikka S \<equiv>
   \<and> (\<forall>F G. \<^bold>\<not>(F \<^bold>\<rightarrow> G) \<in> S \<longrightarrow> F \<in> S \<and> \<^bold>\<not> G \<in> S)
 )"
 
-text \<open>Ejemplo:\<close>
+text \<open>Mostremos a continuación un ejemplo de conjunto de fórmulas que
+  sea de Hintikka.\<close>
 
 notepad
 begin
@@ -40,11 +70,30 @@ begin
 
 end
 
-text \<open>Teorema: Todo conjunto de Hintikka es consistente.\<close>
+text \<open>Veamos en contraposición un conjunto de fórmulas que no sea
+  de Hintikka.\<close>
 
-definition interpretacionAsoc :: 
-   "('a formula) set \<Rightarrow> 'a valuation" where
-    "interpretacionAsoc S  \<equiv> \<lambda>k. Atom k \<in> S"
+notepad
+begin
+
+  have "\<not> Hintikka {Atom 0 \<^bold>\<and> ((\<^bold>\<not> (Atom 1)) \<^bold>\<rightarrow> Atom 2), 
+                 ((\<^bold>\<not> (Atom 1)) \<^bold>\<rightarrow> Atom 2), 
+                 Atom 0, \<^bold>\<not>(\<^bold>\<not> (Atom 1)), Atom 1, \<^bold>\<not>(Atom 1)}"
+    unfolding Hintikka_def by auto
+
+end
+
+text \<open>Es fácil observar que el conjunto no cumple la segunda condición
+  de la definición sobre las fórmulas atómicas.
+
+  A continuación vamos a presentar una serie de lemas auxiliares
+  derivados de la definición de conjunto de Hintikka que nos facilitarán
+  posteriormente las demostraciones en Isabelle/HOL.
+
+  El primer lema expresa que, dado un conjunto de Hintikka,
+  dicho conjunto verifica las nueve condiciones de la definición 
+  anterior. Se trata de un resultado que posteriormente nos ayudará
+  a probar los nueve siguientes lemas auxiliares.\<close>
 
 lemma auxEq: 
   assumes "Hintikka S"
@@ -72,7 +121,13 @@ proof -
     using assms by (rule iffD1)
 qed
 
-lemma Hintikka_l1_detallada:
+text \<open>Asimismo presentaremos nueve lemas correspondientes a cada
+  condición de la definición de conjunto de Hintikka. De este modo,
+  dado un conjunto de Hintikka, entonces cumple por separado cada 
+  condición señalada anteriormente. Veamos las demostraciones detalladas 
+  y automáticas en\\ Isabelle/HOL de cada lema auxiliar.\<close>
+
+lemma
   assumes "Hintikka S" 
   shows "\<bottom> \<notin> S"
 proof -
@@ -93,7 +148,7 @@ lemma Hintikka_l1:
  "Hintikka S \<Longrightarrow> \<bottom> \<notin> S"
   using Hintikka_def by blast
 
-lemma Hintikka_l2_detallada:
+lemma
   assumes "Hintikka S" 
   shows "Atom k \<in> S \<longrightarrow> \<^bold>\<not> (Atom k) \<notin> S"
 proof (rule impI)
@@ -131,7 +186,7 @@ lemma Hintikka_l2:
  "Hintikka S \<Longrightarrow>  (Atom k \<in> S \<longrightarrow> \<^bold>\<not> (Atom k) \<notin> S)"
   by (smt Hintikka_def)
 
-lemma Hintikka_l3_detallada: 
+lemma 
   assumes "Hintikka S"
   shows "F \<^bold>\<and> G \<in> S \<longrightarrow> F \<in> S \<and> G \<in> S"
 proof (rule impI)
@@ -160,7 +215,7 @@ lemma Hintikka_l3:
  "Hintikka S \<Longrightarrow>  (F \<^bold>\<and> G \<in> S \<longrightarrow> F \<in> S \<and> G \<in> S)"
   by (smt Hintikka_def)
 
-lemma Hintikka_l4_detallada: 
+lemma
   assumes "Hintikka S"
   shows "F \<^bold>\<or> G \<in> S \<longrightarrow> F \<in> S \<or> G \<in> S"
 proof (rule impI)
@@ -189,7 +244,7 @@ lemma Hintikka_l4:
  "Hintikka S \<Longrightarrow>  (F \<^bold>\<or> G \<in> S \<longrightarrow> F \<in> S \<or> G \<in> S)"
   by (smt Hintikka_def)
 
-lemma Hintikka_l5_detallada: 
+lemma
   assumes "Hintikka S" 
   shows "F \<^bold>\<rightarrow> G \<in> S \<longrightarrow> \<^bold>\<not>F \<in> S \<or> G \<in> S"
 proof (rule impI)
@@ -218,7 +273,7 @@ lemma Hintikka_l5:
  "Hintikka S \<Longrightarrow>   (F \<^bold>\<rightarrow> G \<in> S \<longrightarrow> \<^bold>\<not>F \<in> S \<or> G \<in> S)"
   by (smt Hintikka_def)
 
-lemma Hintikka_l6_detallada:
+lemma
   assumes "Hintikka S"
   shows "(\<^bold>\<not> (\<^bold>\<not>F) \<in> S \<longrightarrow> F \<in> S)"
 proof (rule impI)
@@ -245,7 +300,7 @@ lemma Hintikka_l6:
  "Hintikka S \<Longrightarrow> \<^bold>\<not> (\<^bold>\<not>F) \<in> S \<longrightarrow> F \<in> S"
   by (smt Hintikka_def)
 
-lemma Hintikka_l7_detallada: 
+lemma 
   assumes "Hintikka S" 
   shows "\<^bold>\<not>(F \<^bold>\<and> G) \<in> S \<longrightarrow> \<^bold>\<not> F \<in> S \<or> \<^bold>\<not> G \<in> S"
 proof (rule impI)
@@ -274,7 +329,7 @@ lemma Hintikka_l7:
  "Hintikka S \<Longrightarrow> \<^bold>\<not>(F \<^bold>\<and> G) \<in> S \<longrightarrow> \<^bold>\<not> F \<in> S \<or> \<^bold>\<not> G \<in> S"
   by (smt Hintikka_def)
 
-lemma Hintikka_l8_detallada: 
+lemma
   assumes "Hintikka S" 
   shows "\<^bold>\<not>(F \<^bold>\<or> G) \<in> S \<longrightarrow> \<^bold>\<not> F \<in> S \<and> \<^bold>\<not> G \<in> S"
 proof (rule impI)
@@ -303,7 +358,7 @@ lemma Hintikka_l8:
  "Hintikka S \<Longrightarrow> ( \<^bold>\<not>(F \<^bold>\<or> G) \<in> S \<longrightarrow> \<^bold>\<not> F \<in> S \<and> \<^bold>\<not> G \<in> S)"
   by (smt Hintikka_def)
 
-lemma Hintikka_l9_detallada: 
+lemma 
   assumes "Hintikka S" 
   shows "\<^bold>\<not>(F \<^bold>\<rightarrow> G) \<in> S \<longrightarrow> F \<in> S \<and> \<^bold>\<not> G \<in> S"
 proof (rule impI)
@@ -330,8 +385,21 @@ qed
 
 lemma Hintikka_l9: 
  "Hintikka S \<Longrightarrow> \<^bold>\<not>(F \<^bold>\<rightarrow> G) \<in> S \<longrightarrow> F \<in> S \<and> \<^bold>\<not> G \<in> S"
-  by (smt Hintikka_def) 
+  by (smt Hintikka_def)
 
+text \<open>\comentario{Explicar iprover intro.}\<close>
+
+text \<open>Finalmente, veamos un último resultado derivado de las condiciones
+  exigidas a los conjuntos de Hintikka.
+
+  \begin{lema}
+    Sea un conjunto de Hintikka y \<open>F\<close> una fórmula cualquiera.
+    Si \<open>\<not> F\<close> pertenece al conjunto, entonces \<open>F\<close> no pertenece al
+    conjunto.
+  \end{lema}\<close>
+
+text \<open>\comentario{Me he quedado por aquí en la redacción.}\<close>
+ 
 lemma mt: 
   assumes "F \<longrightarrow> G" 
           "\<not> G"
@@ -560,6 +628,15 @@ lemma Hintikka_l10:
   using Hintikka_l3 Hintikka_l7 apply blast
   apply (smt Hintikka_def)
   using Hintikka_l5 Hintikka_l9 by blast
+
+section \<open>Lema de Hintikka\<close>
+
+text \<open>Teorema: Todo conjunto de Hintikka es consistente.\<close>
+
+definition interpretacionAsoc :: 
+   "('a formula) set \<Rightarrow> 'a valuation" where
+    "interpretacionAsoc S  \<equiv> \<lambda>k. Atom k \<in> S"
+
 
 lemma Hl2_1_detallada:
   assumes  "Hintikka S"
