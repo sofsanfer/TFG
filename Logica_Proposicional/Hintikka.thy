@@ -6,7 +6,7 @@ theory Hintikka
 begin
 (*>*)
 
-section \<open>Conjuntos de Hintikka y propiedades básicas\<close>
+section \<open>Conjuntos de Hintikka y propiedades\\ básicas\<close>
 
 text \<open>En esta sección presentaremos un tipo de conjuntos de fórmulas:
   los conjuntos de Hintikka. Probaremos finalmente que todo conjunto 
@@ -16,7 +16,7 @@ text \<open>En esta sección presentaremos un tipo de conjuntos de fórmulas:
   Se llama \<open>conjunto de Hintikka\<close> a todo conjunto de fórmulas que
   verifica las siguientes condiciones para todo par de fórmulas
   \<open>F\<close> y \<open>G\<close>:
-    \begin{itemize}
+    \begin{enumerate}
       \item \<open>\<bottom>\<close> no pertenece al conjunto.
       \item Si una fórmula atómica \<open>p\<close> pertenece al conjunto, entonces 
         \<open>\<not> p\<close> no pertenece al conjunto.
@@ -29,19 +29,19 @@ text \<open>En esta sección presentaremos un tipo de conjuntos de fórmulas:
       \item Si \<open>\<not>(\<not> F)\<close> pertenece al conjunto, entonces \<open>F\<close> pertenece 
         al conjunto.
       \item Si \<open>\<not>(F \<and> G)\<close> pertenece al conjunto, entonces \<open>\<not> F\<close> 
-        pertenece al conjunto o \<open>\<not> G\<close> pertenece al conjunto.
+        pertenece al conjunto o\\ \<open>\<not> G\<close> pertenece al conjunto.
       \item Si \<open>\<not>(F \<or> G)\<close> pertenece al conjunto, entonces \<open>\<not> F\<close> y \<open>\<not> G\<close> 
         pertenecen al conjunto.
       \item Si \<open>\<not>(F \<rightarrow> G)\<close> pertenece al conjunto, entonces \<open>F\<close> y \<open>\<not> G\<close> 
         pertenecen al conjunto.
-    \end{itemize}  
+    \end{enumerate}  
   \end{definicion}
 
   En Isabelle se formaliza mediante el tipo \<open>definition\<close> de la siguiente
   manera.\<close>
 
 definition "Hintikka S \<equiv> 
-( \<bottom> \<notin> S
+(\<bottom> \<notin> S
   \<and> (\<forall>k. Atom k \<in> S \<longrightarrow> \<^bold>\<not> (Atom k) \<in> S \<longrightarrow> False)
   \<and> (\<forall>F G. F \<^bold>\<and> G \<in> S \<longrightarrow> F \<in> S \<and> G \<in> S)
   \<and> (\<forall>F G. F \<^bold>\<or> G \<in> S \<longrightarrow> F \<in> S \<or> G \<in> S)
@@ -49,8 +49,7 @@ definition "Hintikka S \<equiv>
   \<and> (\<forall>F. \<^bold>\<not> (\<^bold>\<not>F) \<in> S \<longrightarrow> F \<in> S)
   \<and> (\<forall>F G. \<^bold>\<not>(F \<^bold>\<and> G) \<in> S \<longrightarrow> \<^bold>\<not> F \<in> S \<or> \<^bold>\<not> G \<in> S)
   \<and> (\<forall>F G. \<^bold>\<not>(F \<^bold>\<or> G) \<in> S \<longrightarrow> \<^bold>\<not> F \<in> S \<and> \<^bold>\<not> G \<in> S)
-  \<and> (\<forall>F G. \<^bold>\<not>(F \<^bold>\<rightarrow> G) \<in> S \<longrightarrow> F \<in> S \<and> \<^bold>\<not> G \<in> S)
-)"
+  \<and> (\<forall>F G. \<^bold>\<not>(F \<^bold>\<rightarrow> G) \<in> S \<longrightarrow> F \<in> S \<and> \<^bold>\<not> G \<in> S))"
 
 text \<open>Mostremos a continuación un ejemplo de conjunto de fórmulas que
   sea de Hintikka.\<close>
@@ -450,11 +449,11 @@ text \<open>En este caso, la regla \<open>contrapos_pn\<close> de la teoría
     La prueba se realiza por inducción sobre la estructura de las 
     fórmulas proposicionales. Veamos los distintos casos.
 
-    En primer lugar, consideremos \<open>p\<close> una fórmula atómica cualquiera y 
+    En primer lugar, consideremos una fórmula atómica cualquiera \<open>p\<close> y 
     \<open>S\<close> un conjunto de Hintikka. Queremos probar que si \<open>\<not> p\<close> pertenece 
     al conjunto, entonces \<open>p\<close> no pertenece al conjunto. Supongamos, 
     pues, que \<open>\<not> p\<close> pertenece a \<open>S\<close>. Entonces, introduciendo la doble 
-    negación, esto implica la negación de \<open>\<not> p\<close> no pertenece a \<open>S\<close>. Por 
+    negación, obtenemos la negación de \<open>\<not> p\<close> no pertenece a \<open>S\<close>. Por 
     otro lado, como hemos supuesto que \<open>S\<close> es un conjunto de Hintikka, 
     verifica la segunda condición para \<open>p\<close>: si \<open>p\<close> pertenece a \<open>S\<close>,
     entonces \<open>\<not> p\<close> no pertenece a \<open>S\<close>. Como anteriormente habíamos
@@ -462,7 +461,7 @@ text \<open>En este caso, la regla \<open>contrapos_pn\<close> de la teoría
     lógica de \<open>modus tollens\<close>, se tiene por tanto que \<open>p\<close> no pertenece
     al conjunto.
 
-    Sea la fórmula \<open>\<bottom>\<close> y \<open>S\<close> un conjunto de Hintikka. Probemos que si
+    Sea la fórmula \<open>\<bottom>\<close> y \<open>S\<close> un conjunto de Hintikka. Probemos que si\\
     \<open>\<not> \<bottom>\<close> pertenece a \<open>S\<close>, entonces \<open>\<bottom>\<close> no pertenece a \<open>S\<close>. Para ello,
     suponemos inicialmente que \<open>\<not> \<bottom>\<close> pertenece a \<open>S\<close>. Como \<open>S\<close> es un 
     conjunto de Hintikka por hipótesis, sabemos que verifica la primera
@@ -470,7 +469,7 @@ text \<open>En este caso, la regla \<open>contrapos_pn\<close> de la teoría
     como queríamos demostrar.
 
     Consideremos \<open>S\<close> un conjunto de Hintikka. Sea \<open>F\<close> una fórmula
-    cualquiera tal que para todo conjunto de Hintikka, verifica que si
+    cualquiera tal que para todo conjunto de Hintikka verifica que si
     \<open>\<not> F\<close> pertenece al conjunto, entonces \<open>F\<close> no pertenece al conjunto.
     Vamos a probar que si \<open>\<not> (\<not> F)\<close> pertenece a \<open>S\<close>, entonces \<open>\<not> F\<close>
     no pertenece a \<open>S\<close>.
@@ -484,8 +483,54 @@ text \<open>En este caso, la regla \<open>contrapos_pn\<close> de la teoría
     hipótesis de inducción se verifica que si \<open>\<not> F\<close> pertenece a \<open>S\<close>, 
     entonces \<open>F\<close> no pertenece a \<open>S\<close>. Como anteriormente obtuvimos la
     negación de \<open>F\<close> no pertenece a \<open>S\<close>, por la regla lógica del \<open>modus
-    tollens\<close>, llegamos finalmente a \<open>\<not> F\<close> no pertenece a \<open>S\<close>.    
-  \end{demostracion}\<close>
+    tollens\<close>, llegamos finalmente a que \<open>\<not> F\<close> no pertenece a \<open>S\<close>.
+
+    Sea \<open>S\<close> un conjunto de Hintikka. Consideremos la fórmula \<open>G\<close> tal
+    que, para cualquier conjunto de Hintikka, si \<open>\<not> G\<close> pertenece al
+    conjunto, entonces \<open>G\<close> no pertenece al conjunto. Sea también la
+    fórmula \<open>H\<close> que verifica análogamente para cualquier conjunto de 
+    Hintikka que, si \<open>\<not> H\<close> pertenece al conjunto, entonces \<open>H\<close> no 
+    pertenece al conjunto. Queremos probar que si \<open>\<not> (G \<and> H)\<close> pertenece
+    a \<open>S\<close>, entonces \<open>G \<and> H\<close> no pertenece a \<open>S\<close>.\\
+    Para ello, suponemos inicialmente que \<open>\<not> (G \<and> H)\<close> pertenece a \<open>S\<close>.
+    Como \<open>S\<close> es un conjunto de Hintikka, por la séptima condición de la 
+    definición, tenemos que si \<open>\<not> (G \<and> H)\<close> pertenece a \<open>S\<close>, entonces 
+    \<open>\<not> G\<close> pertenece a \<open>S\<close> o \<open>\<not> H\<close> pertenece \<open>S\<close>. Como habíamos supuesto 
+    inicialmente que\\ \<open>\<not> (G \<and> H)\<close> pertenece a \<open>S\<close>, por la anterior 
+    tenemos que \<open>\<not> G\<close> pertenece a \<open>S\<close> o \<open>\<not> H\<close> pertenece a \<open>S\<close>. De este
+    modo, voy a probar que \<open>G \<and> H\<close> no pertenece a \<open>S\<close> por la
+    eliminación de la disyunción anterior.\\
+    En primer lugar, supongamos que \<open>\<not> G\<close> pertenece a \<open>S\<close>. Entonces,
+    como \<open>S\<close> es un conjunto de Hintikka, por hipótesis de inducción 
+    tenemos que, si\\ \<open>\<not> G\<close> pertenece a \<open>S\<close>, entonces \<open>G\<close> no pertenece 
+    a \<open>S\<close>. Como habíamos supuesto que \<open>\<not> G\<close> pertenece a \<open>S\<close>, por lo
+    anterior obtenemos que \<open>G\<close> no pertenece a \<open>S\<close>. Por propiedades de
+    la conjunción, se observa fácilmente que si \<open>G\<close> no pertenece a
+    \<open>S\<close>, entonces no es cierto que \<open>G\<close> y \<open>H\<close> pertenezcan ambas a \<open>S\<close>.
+    Por otro lado, como \<open>S\<close> es un conjunto de Hintikka, cumple también 
+    la condición tercera de la definición para \<open>G\<close> y \<open>H\<close>: si \<open>G \<and> H\<close>
+    pertenece a \<open>S\<close>, entonces \<open>G\<close> y \<open>H\<close> pertenecen ambas a \<open>S\<close>. Como 
+    anteriormente obtubimos que no es cierto que \<open>G\<close> y \<open>H\<close> pertenezcan
+    a \<open>S\<close>, por la regla de \<open>modus tollens\<close> obtenemos finalmente que
+    \<open>G \<and> H\<close> no pertenece a \<open>S\<close>.\\
+    En segundo lugar, supongamos que \<open>\<not> H\<close> pertenece a \<open>S\<close>. Vamos a
+    probar análogamente que \<open>G \<and> H\<close> no pertenece a \<open>S\<close>. Por hipótesis
+    de inducción, como \<open>S\<close> es un conjunto de Hintikka, tenemos que si
+    \<open>\<not> H\<close> pertenece a \<open>S\<close>, entonces \<open>H\<close> no pertenece a \<open>S\<close>. Como en
+    este caso hemos supuesto que\\ \<open>\<not> H\<close> pertenece a \<open>S\<close>, por lo 
+    anterior obtenemos que \<open>H\<close> no pertenece a \<open>S\<close>. Razonando igual que 
+    en el caso anterior con respecto a la conjunción, como \<open>H\<close> no 
+    pertenece a \<open>S\<close>, entonces no es cierto que \<open>G\<close> y \<open>H\<close> pertenezcan 
+    ambas a \<open>S\<close>. Por otra parte, como \<open>S\<close> es un conjunto de Hintikka, 
+    verifica la condición tercera de la definición para \<open>G\<close> y \<open>H\<close>: si 
+    \<open>G \<and> H\<close> pertenece a \<open>S\<close>, entonces \<open>G\<close> y \<open>H\<close> pertenecen ambas a \<open>S\<close>. 
+    Por lo tanto, como no es cierto que \<open>G\<close> y \<open>H\<close> pertenezcan ambas a 
+    \<open>S\<close>, por la regla del \<open>modus tollens\<close> se demuestra finalmente que 
+    \<open>G \<and> H\<close> no pertenece a \<open>S\<close>. 
+  \end{demostracion}
+
+  \comentario{Voy por aquí en la redacción. Falta terminar la
+  demostración anterior a mano.}\<close>
 
 lemma Hintikka_l10_atom: 
   assumes "Hintikka S" 
