@@ -14,31 +14,26 @@ text \<open>En esta sección presentaremos un tipo de conjuntos de fórmulas:
 
   \begin{definicion}
   Se llama \<open>conjunto de Hintikka\<close> a todo conjunto de fórmulas que
-  verifica las siguientes condiciones:
+  verifica las siguientes condiciones para todo par de fórmulas
+  \<open>F\<close> y \<open>G\<close>:
     \begin{itemize}
       \item \<open>\<bottom>\<close> no pertenece al conjunto.
-      \item Si una fórmula atómica pertenece al conjunto, entonces su
-        negación no pertenece al conjunto.
-      \item Sean \<open>F\<close> y \<open>G\<close> dos fórmulas cualesquiera, si \<open>F \<and> G\<close> 
-        pertenece al conjunto, entonces \<open>F\<close> y \<open>G\<close> pertenecen al
-        conjunto.
-      \item Sean \<open>F\<close> y \<open>G\<close> dos fórmulas cualesquiera, si \<open>F \<or> G\<close> 
-        pertenece al conjunto, entonces \<open>F\<close> pertenece al conjunto o \<open>G\<close>
-        pertenece al conjunto.
-      \item Sean \<open>F\<close> y \<open>G\<close> dos fórmulas cualesquiera, si \<open>F \<rightarrow> G\<close> 
-        pertenece al conjunto, entonces \<open>\<not> F\<close> pertenece al conjunto o 
-        \<open>G\<close> pertenece al conjunto.
-      \item Sea \<open>F\<close> una fórmula cualquiera, si \<open>\<not>(\<not> F)\<close> pertenece al 
-        conjunto, entonces \<open>F\<close> pertenece al conjunto.
-      \item Sean \<open>F\<close> y \<open>G\<close> dos fórmulas cualesquiera, si \<open>\<not>(F \<and> G)\<close> 
-        pertenece al conjunto, entonces \<open>\<not> F\<close> pertenece al conjunto o 
-        \<open>\<not> G\<close> pertenece al conjunto.
-      \item Sean \<open>F\<close> y \<open>G\<close> dos fórmulas cualesquiera, si \<open>\<not>(F \<or> G)\<close> 
-        pertenece al conjunto, entonces \<open>\<not> F\<close> y \<open>\<not> G\<close> pertenecen al
-        conjunto.
-      \item Sean \<open>F\<close> y \<open>G\<close> dos fórmulas cualesquiera, si \<open>\<not>(F \<rightarrow> G)\<close> 
-        pertenece al conjunto, entonces \<open>F\<close> y \<open>\<not> G\<close> pertenecen al
-        conjunto.
+      \item Si una fórmula atómica \<open>p\<close> pertenece al conjunto, entonces 
+        \<open>\<not> p\<close> no pertenece al conjunto.
+      \item Si \<open>F \<and> G\<close> pertenece al conjunto, entonces \<open>F\<close> y \<open>G\<close> 
+        pertenecen al conjunto.
+      \item Si \<open>F \<or> G\<close> pertenece al conjunto, entonces \<open>F\<close> pertenece al 
+        conjunto o \<open>G\<close> pertenece al conjunto.
+      \item Si \<open>F \<rightarrow> G\<close> pertenece al conjunto, entonces \<open>\<not> F\<close> pertenece 
+        al conjunto o \<open>G\<close> pertenece al conjunto.
+      \item Si \<open>\<not>(\<not> F)\<close> pertenece al conjunto, entonces \<open>F\<close> pertenece 
+        al conjunto.
+      \item Si \<open>\<not>(F \<and> G)\<close> pertenece al conjunto, entonces \<open>\<not> F\<close> 
+        pertenece al conjunto o \<open>\<not> G\<close> pertenece al conjunto.
+      \item Si \<open>\<not>(F \<or> G)\<close> pertenece al conjunto, entonces \<open>\<not> F\<close> y \<open>\<not> G\<close> 
+        pertenecen al conjunto.
+      \item Si \<open>\<not>(F \<rightarrow> G)\<close> pertenece al conjunto, entonces \<open>F\<close> y \<open>\<not> G\<close> 
+        pertenecen al conjunto.
     \end{itemize}  
   \end{definicion}
 
@@ -70,8 +65,9 @@ begin
 
 end
 
-text \<open>Veamos en contraposición un conjunto de fórmulas que no sea
-  de Hintikka.\<close>
+text \<open>En contraposición, el siguiente conjunto de fórmulas no es
+  de Hintikka, pues no cumple la segunda condición de la definición 
+  anterior.\<close>
 
 notepad
 begin
@@ -83,10 +79,7 @@ begin
 
 end
 
-text \<open>Es fácil observar que el conjunto no cumple la segunda condición
-  de la definición sobre las fórmulas atómicas.
-
-  A continuación vamos a presentar una serie de lemas auxiliares
+text \<open>A continuación vamos a presentar una serie de lemas auxiliares
   derivados de la definición de conjunto de Hintikka que nos facilitarán
   posteriormente las demostraciones en Isabelle/HOL.
 
@@ -389,17 +382,32 @@ lemma Hintikka_l9:
 
 text \<open>\comentario{Explicar iprover intro.}\<close>
 
-text \<open>Finalmente, veamos un último resultado derivado de las condiciones
+text \<open>Finalmente, veamos un resultado derivado de las condiciones
   exigidas a los conjuntos de Hintikka.
 
   \begin{lema}
     Sea un conjunto de Hintikka y \<open>F\<close> una fórmula cualquiera.
     Si \<open>\<not> F\<close> pertenece al conjunto, entonces \<open>F\<close> no pertenece al
     conjunto.
-  \end{lema}\<close>
+  \end{lema}
 
-text \<open>\comentario{Me he quedado por aquí en la redacción.}\<close>
- 
+  Su formalización en Isabelle es la siguiente.\<close>
+
+lemma "Hintikka S \<Longrightarrow> (\<^bold>\<not> F \<in> S \<longrightarrow> F \<notin> S)"
+  oops
+
+text \<open>Para la demostración del siguiente lema, vamos a utilizar las
+  reglas lógicas \<open>modus tollens\<close> e \<open>introducción a la doble negación\<close>. 
+
+  \begin{teorema}[Modus tollens]
+   Si un enunciado implica otro y tenemos que el segundo es falso, 
+   entonces el primero es también falso.
+  \end{teorema}
+
+  Esta regla no está definida en Isabelle, de modo que las vamos a 
+  introducir a continuación como lema auxiliar. Además, mostraremos
+  su prueba detallada usando otras reglas sí definidas en Isabelle/HOL.\<close>
+
 lemma mt: 
   assumes "F \<longrightarrow> G" 
           "\<not> G"
@@ -411,8 +419,73 @@ proof -
     using assms(2) by (rule mp)
 qed
 
-lemma notnotI: "P \<Longrightarrow> \<not>\<not> P"
-  by auto
+text \<open>Por otro lado, veamos la \<open>introducción de la doble negación\<close>.
+
+  \begin{teorema}[Introducción de la doble negación]
+   Si un enunciado es verdadero, entonces no es cierto que ese
+   enunciado no sea verdadero.
+  \end{teorema}
+
+  En Isabelle se formaliza y demuestra de la siguiente manera.\<close>
+
+lemma notnotI: "A \<Longrightarrow> \<not>\<not> A"
+  by (rule contrapos_pn)
+
+text \<open>En este caso, la regla \<open>contrapos_pn\<close> de la teoría
+  \href{http://bit.ly/38iFKlA}{HOL.thy} prueba el resultado de manera
+  directa.
+
+  \begin{itemize}
+    \item[] @{thm[mode=Rule] contrapos_pn[no_vars]} 
+      \hfill (@{text contrapos_pn})
+  \end{itemize}
+
+  Es fácil observar que \<open>notnotI\<close> se trata de un caso particular de
+  \<open>contrapos_pn\<close> en el que \<open>Q \<equiv> A\<close> y \<open>P \<equiv> \<not> A\<close>. 
+
+  Una vez realizadas las aclaraciones anteriores, procedamos con la
+  demostración del lema.
+
+  \begin{demostracion}
+    La prueba se realiza por inducción sobre la estructura de las 
+    fórmulas proposicionales. Veamos los distintos casos.
+
+    En primer lugar, consideremos \<open>p\<close> una fórmula atómica cualquiera y 
+    \<open>S\<close> un conjunto de Hintikka. Queremos probar que si \<open>\<not> p\<close> pertenece 
+    al conjunto, entonces \<open>p\<close> no pertenece al conjunto. Supongamos, 
+    pues, que \<open>\<not> p\<close> pertenece a \<open>S\<close>. Entonces, introduciendo la doble 
+    negación, esto implica la negación de \<open>\<not> p\<close> no pertenece a \<open>S\<close>. Por 
+    otro lado, como hemos supuesto que \<open>S\<close> es un conjunto de Hintikka, 
+    verifica la segunda condición para \<open>p\<close>: si \<open>p\<close> pertenece a \<open>S\<close>,
+    entonces \<open>\<not> p\<close> no pertenece a \<open>S\<close>. Como anteriormente habíamos
+    supuesto la negación de \<open>\<not> p\<close> no pertenece a \<open>S\<close>, por la regla
+    lógica de \<open>modus tollens\<close>, se tiene por tanto que \<open>p\<close> no pertenece
+    al conjunto.
+
+    Sea la fórmula \<open>\<bottom>\<close> y \<open>S\<close> un conjunto de Hintikka. Probemos que si
+    \<open>\<not> \<bottom>\<close> pertenece a \<open>S\<close>, entonces \<open>\<bottom>\<close> no pertenece a \<open>S\<close>. Para ello,
+    suponemos inicialmente que \<open>\<not> \<bottom>\<close> pertenece a \<open>S\<close>. Como \<open>S\<close> es un 
+    conjunto de Hintikka por hipótesis, sabemos que verifica la primera
+    condición de la definición, de modo que \<open>\<bottom>\<close> no pertenece a \<open>S\<close>, 
+    como queríamos demostrar.
+
+    Consideremos \<open>S\<close> un conjunto de Hintikka. Sea \<open>F\<close> una fórmula
+    cualquiera tal que para todo conjunto de Hintikka, verifica que si
+    \<open>\<not> F\<close> pertenece al conjunto, entonces \<open>F\<close> no pertenece al conjunto.
+    Vamos a probar que si \<open>\<not> (\<not> F)\<close> pertenece a \<open>S\<close>, entonces \<open>\<not> F\<close>
+    no pertenece a \<open>S\<close>.
+    Para ello, suponemos inicialmente que \<open>\<not> (\<not> F)\<close> pertenece a \<open>S\<close>. 
+    Como \<open>S\<close> es un conjunto de Hintikka por hipótesis, tenemos que
+    verifica la sexta condición de la definición para \<open>F\<close>: si \<open>\<not> (\<not> F)\<close>
+    pertenece a \<open>S\<close>, entonces \<open>F\<close> pertenece a \<open>S\<close>. Por tanto, obtenemos
+    de la primera suposición que \<open>F\<close> pertenece a \<open>S\<close>. Introduciendo la
+    doble negación, es equivalente a la negación de \<open>F\<close> no pertenece a
+    \<open>S\<close>. Por otra parte, al ser \<open>S\<close> un conjunto de Hintikka, por 
+    hipótesis de inducción se verifica que si \<open>\<not> F\<close> pertenece a \<open>S\<close>, 
+    entonces \<open>F\<close> no pertenece a \<open>S\<close>. Como anteriormente obtuvimos la
+    negación de \<open>F\<close> no pertenece a \<open>S\<close>, por la regla lógica del \<open>modus
+    tollens\<close>, llegamos finalmente a \<open>\<not> F\<close> no pertenece a \<open>S\<close>.    
+  \end{demostracion}\<close>
 
 lemma Hintikka_l10_atom: 
   assumes "Hintikka S" 
@@ -1186,7 +1259,6 @@ theorem lemaDeHintikkas:
   assumes "Hintikka S"
   shows "sat S"
   using Hintikka_modelo assms satAlt by blast
-
 
 (*<*)
 end
