@@ -791,8 +791,7 @@ proof (rule impI)
     using \<open>\<not> (\<^bold>\<not> G \<in> S \<or> H \<in> S)\<close> by (rule mt)
 qed
 
-lemma Hintikka_l10_detallada: 
-  "Hintikka S \<Longrightarrow> \<^bold>\<not> F \<in> S \<longrightarrow> F \<notin> S"
+lemma "Hintikka S \<Longrightarrow> \<^bold>\<not> F \<in> S \<longrightarrow> F \<notin> S"
 proof (induct F)
 case (Atom x)
   then show ?case by (rule Hintikka_l10_atom)
@@ -827,14 +826,20 @@ lemma Hintikka_l10:
 
 section \<open>Lema de Hintikka\<close>
 
-text \<open>Teorema: Todo conjunto de Hintikka es consistente.\<close>
+text \<open>Una vez definida la noción de conjunto de Hintikka y conocidas las
+  propiedades que se deducen de ella, veamos el resultado más importante
+  sobre este tipo de conjuntos.
+
+  \begin{teorema}[Lema de Hintikka]
+    Todo conjunto de Hintikka es satisfacible.
+  \end{teorema}\<close>
 
 definition interpretacionAsoc :: 
    "('a formula) set \<Rightarrow> 'a valuation" where
     "interpretacionAsoc S  \<equiv> \<lambda>k. Atom k \<in> S"
 
 
-lemma Hl2_1_detallada:
+lemma
   assumes  "Hintikka S"
   shows "\<And>x. (Atom x \<in> S \<longrightarrow> isModel (interpretacionAsoc S) (Atom x)) \<and>
          (\<^bold>\<not> (Atom x) \<in> S \<longrightarrow> \<not> isModel (interpretacionAsoc S) (Atom x))"
@@ -877,7 +882,7 @@ lemma Hl2_1:
          (\<^bold>\<not> (Atom x) \<in> S \<longrightarrow> \<not> isModel (interpretacionAsoc S) (Atom x))"
   by (simp add: Hintikka_l10 assms isModel_def interpretacionAsoc_def) 
 
-lemma Hl2_2_detallada:
+lemma
   assumes "Hintikka S"
           "\<And>F. (F \<in> S \<longrightarrow> isModel (interpretacionAsoc S) F) \<and>
          (\<^bold>\<not> F \<in> S \<longrightarrow> \<not> isModel (interpretacionAsoc S) F)"
@@ -937,7 +942,7 @@ lemma Hl2_2:
          (\<^bold>\<not> (\<^bold>\<not> F) \<in> S \<longrightarrow> \<not> isModel (interpretacionAsoc S) (\<^bold>\<not> F))"
   using Hintikka_l6 assms isModel_def formula_semantics.simps(3) by blast
 
-lemma Hl2_3_detallada:
+lemma
   assumes "Hintikka S"
           "\<And>F1. (F1 \<in> S \<longrightarrow> isModel (interpretacionAsoc S) F1) \<and>
            (\<^bold>\<not> F1 \<in> S \<longrightarrow> \<not> isModel (interpretacionAsoc S) F1)" 
@@ -1046,7 +1051,7 @@ lemma Hl2_3:
        (\<^bold>\<not> (F1 \<^bold>\<and> F2) \<in> S \<longrightarrow> \<not> isModel (interpretacionAsoc S) (F1 \<^bold>\<and> F2))"
   by (meson Hintikka_l3 Hintikka_l7 assms isModel_def formula_semantics.simps(4))
 
-lemma Hl2_4_detallada:
+lemma
   assumes "Hintikka S"
           "\<And>F1. (F1 \<in> S \<longrightarrow> isModel (interpretacionAsoc S) F1) \<and>
            (\<^bold>\<not> F1 \<in> S \<longrightarrow> \<not> isModel (interpretacionAsoc S) F1)" 
@@ -1150,7 +1155,7 @@ lemma Hl2_4:
        (\<^bold>\<not> (F1 \<^bold>\<or> F2) \<in> S \<longrightarrow> \<not> isModel (interpretacionAsoc S) (F1 \<^bold>\<or> F2))"
   by (smt Hintikka_def assms isModel_def formula_semantics.simps(5))
 
-lemma Hl2_5_detallada:
+lemma
   assumes "Hintikka S"
           "\<And>F1. (F1 \<in> S \<longrightarrow> isModel (interpretacionAsoc S) F1) \<and>
            (\<^bold>\<not> F1 \<in> S \<longrightarrow> \<not> isModel (interpretacionAsoc S) F1)" 
@@ -1349,7 +1354,7 @@ next
     using assms by (rule Hl2_5)
 qed
 
-lemma Hintikka_modelo:
+lemma Hintikka_model:
   assumes "Hintikka S"
   shows "isModelSet (interpretacionAsoc S) S"
 proof -
@@ -1366,22 +1371,22 @@ proof -
     by (simp only: modelSet)
 qed 
 
-theorem lemaDeHintikkas_detallada:
+theorem
   assumes "Hintikka S"
   shows "sat S"
 proof -
   have "isModelSet (interpretacionAsoc S) S"
-    using assms by (rule Hintikka_modelo)
+    using assms by (rule Hintikka_model)
   then have "\<exists>\<A>. isModelSet \<A> S"
     by (simp only: exI)
   thus "sat S" 
     by (simp only: satAlt)
 qed
 
-theorem lemaDeHintikkas:
+theorem Hintikkaslemma:
   assumes "Hintikka S"
   shows "sat S"
-  using Hintikka_modelo assms satAlt by blast
+  using Hintikka_model assms satAlt by blast
 
 (*<*)
 end
