@@ -527,6 +527,37 @@ text \<open>En este caso, la regla \<open>contrapos_pn\<close> de la teoría
     Por lo tanto, como no es cierto que \<open>G\<close> y \<open>H\<close> pertenezcan ambas a 
     \<open>S\<close>, por la regla del \<open>modus tollens\<close> se demuestra finalmente que 
     \<open>G \<and> H\<close> no pertenece a \<open>S\<close>. 
+
+    Sea el conjunto de Hintikka \<open>S\<close>. Consideremos la fórmula \<open>G\<close> tal
+    que dado un conjunto de Hintikka cualquiera, si \<open>\<not> G\<close> pertenece a
+    dicho conjunto, entonces \<open>G\<close> no pertenece a él. Del mismo modo se
+    considera otra fórmula \<open>H\<close> verificando para cualquier conjunto de 
+    Hintikka que, si \<open>\<not> H\<close> pertenece al conjunto, entonces \<open>H\<close> no 
+    pertence a él. Queremos probar que si \<open>\<not> (G \<or> H)\<close> pertenece a \<open>S\<close>,
+    entonces \<open>G \<or> H\<close> no pertenece a \<open>S\<close>.\\
+    Supongamos inicialmente que \<open>\<not> (G \<or> H)\<close> pertence a \<open>S\<close>. Como \<open>S\<close>
+    es un conjunto de Hintikka, en particular verifica la condición 
+    octava de su definición: si \<open>\<not> (G \<or> H)\<close> pertence \<open>S\<close>, entonces 
+    \<open>\<not> G\<close> y \<open>\<not> H\<close> están también en el conjunto. Luego, por la
+    suposición inicial, obtenemos que tanto \<open>\<not> G\<close> como \<open>\<not> H\<close> están en 
+    \<open>S\<close>. En particular, \<open>\<not> G\<close> está en \<open>S\<close>. Como \<open>S\<close> es conjunto de 
+    Hintikka, por hipótesis de inducción tenemos que si \<open>\<not> G\<close> pertence
+    a \<open>S\<close>, entonces \<open>G\<close> no pertenece al conjunto. Por tanto, como
+    \<open>\<not> G\<close> está en \<open>S\<close>, obtenemos así que \<open>G\<close> no está en el conjunto.
+    Por otra parte, \<open>\<not> H\<close> también está en \<open>S\<close> como vimos
+    anteriormente. Al ser \<open>S\<close> un conjunto de Hintikka, aplicando la
+    hipótesis de inducción tenemos que si \<open>\<not> H\<close> está en \<open>S\<close>, entonces
+    \<open>H\<close> no pertenece al conjunto. Por tanto, tenemos así que \<open>H\<close> no 
+    está en \<open>S\<close>. Recopilando lo anterior, hemos llegado a que ni
+    \<open>G\<close> ni \<open>H\<close> están en el conjunto. Es fácil observar que esto implica,
+    en particular, que no es cierto que \<open>G\<close> esté en \<open>S\<close> o \<open>H\<close> esté en 
+    \<open>S\<close>. De nuevo, al ser \<open>S\<close> conjunto de Hintikka, verifica la
+    condición cuarta de la definición para \<open>G\<close> y \<open>H\<close>: si \<open>G \<or> H\<close> 
+    pertenece a \<open>S\<close>, entonces \<open>G\<close> pertenece a \<open>S\<close> o \<open>H\<close> pertenece a
+    \<open>S\<close>. Como deducimos de lo anterior que no es cierto que \<open>G\<close>
+    pertenezca a \<open>S\<close> o \<open>H\<close> pertenezca a \<open>S\<close>, por la regla del 
+    \<open>modus tollens\<close> obtenemos finalmente que \<open>G \<or> H\<close> no pertenece a \<open>S\<close>.
+  
   \end{demostracion}
 
   \comentario{Voy por aquí en la redacción. Falta terminar la
@@ -598,7 +629,7 @@ lemma Hintikka_l10_and:
   assumes "Hintikka S \<Longrightarrow> \<^bold>\<not> G \<in> S \<longrightarrow> G \<notin> S"
           "Hintikka S \<Longrightarrow> \<^bold>\<not> H \<in> S \<longrightarrow> H \<notin> S"
           "Hintikka S"
-  shows "\<^bold>\<not> (G \<^bold>\<and> H) \<in> S \<longrightarrow> (G \<^bold>\<and> H) \<notin> S"
+  shows "\<^bold>\<not> (G \<^bold>\<and> H) \<in> S \<longrightarrow> G \<^bold>\<and> H \<notin> S"
 proof (rule impI)
   assume "\<^bold>\<not> (G \<^bold>\<and> H) \<in> S"
   have "\<^bold>\<not> (G \<^bold>\<and> H) \<in> S \<longrightarrow> \<^bold>\<not> G \<in> S \<or> \<^bold>\<not> H \<in> S"
@@ -655,7 +686,7 @@ lemma Hintikka_l10_or:
   assumes "Hintikka S \<Longrightarrow> \<^bold>\<not> G \<in> S \<longrightarrow> G \<notin> S"
           "Hintikka S \<Longrightarrow> \<^bold>\<not> H \<in> S \<longrightarrow> H \<notin> S"
           "Hintikka S"
-  shows "\<^bold>\<not> (G \<^bold>\<or> H) \<in> S \<longrightarrow> (G \<^bold>\<or> H) \<notin> S"
+  shows "\<^bold>\<not> (G \<^bold>\<or> H) \<in> S \<longrightarrow> G \<^bold>\<or> H \<notin> S"
 proof (rule impI)
   assume "\<^bold>\<not> (G \<^bold>\<or> H) \<in> S"
   have "\<^bold>\<not> (G \<^bold>\<or> H) \<in> S \<longrightarrow> (\<^bold>\<not> G \<in> S \<and> \<^bold>\<not> H \<in> S)"
@@ -686,7 +717,7 @@ lemma Hintikka_l10_imp:
   assumes "Hintikka S \<Longrightarrow> \<^bold>\<not> G \<in> S \<longrightarrow> G \<notin> S"
           "Hintikka S \<Longrightarrow> \<^bold>\<not> H \<in> S \<longrightarrow> H \<notin> S"
           "Hintikka S"
-  shows "\<^bold>\<not> (G \<^bold>\<rightarrow> H) \<in> S \<longrightarrow> (G \<^bold>\<rightarrow> H) \<notin> S"
+  shows "\<^bold>\<not> (G \<^bold>\<rightarrow> H) \<in> S \<longrightarrow> G \<^bold>\<rightarrow> H \<notin> S"
 proof (rule impI)
   assume "\<^bold>\<not> (G \<^bold>\<rightarrow> H) \<in> S"
   have "\<^bold>\<not> (G \<^bold>\<rightarrow> H) \<in> S \<longrightarrow> (G \<in> S \<and> \<^bold>\<not> H \<in> S)"
@@ -738,7 +769,7 @@ next
 qed
 
 lemma Hintikka_l10: 
- "Hintikka S \<Longrightarrow> (\<^bold>\<not> F \<in> S \<longrightarrow> F \<notin> S)"
+ "Hintikka S \<Longrightarrow> \<^bold>\<not> F \<in> S \<longrightarrow> F \<notin> S"
   apply (induct F)
   apply (meson Hintikka_l2)
   apply (simp add: Hintikka_l1)
