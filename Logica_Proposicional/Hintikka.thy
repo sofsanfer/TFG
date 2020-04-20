@@ -844,32 +844,33 @@ text \<open>Una vez definida la noción de conjunto de Hintikka y conocidas las
     asociada a S\<close> como aquella que, dada una variable proposicional,
     devuelve \<open>Verdadero\<close> si su correspondiente fórmula atómica pertence 
     al conjunto, y \<open>Falso\<close> en caso contrario.
-  \end{definicion}\<close>
+  \end{definicion}
 
-definition interpretacionAsoc :: 
+  Su formalización en Isabelle/HOL es la siguiente.\<close>
+
+definition setValuation :: 
    "('a formula) set \<Rightarrow> 'a valuation" where
-    "interpretacionAsoc S  \<equiv> \<lambda>k. Atom k \<in> S"
-
+    "setValuation S  \<equiv> \<lambda>k. Atom k \<in> S"
 
 lemma
   assumes  "Hintikka S"
-  shows "\<And>x. (Atom x \<in> S \<longrightarrow> isModel (interpretacionAsoc S) (Atom x)) \<and>
-         (\<^bold>\<not> (Atom x) \<in> S \<longrightarrow> \<not> isModel (interpretacionAsoc S) (Atom x))"
+  shows "\<And>x. (Atom x \<in> S \<longrightarrow> isModel (setValuation S) (Atom x)) \<and>
+         (\<^bold>\<not> (Atom x) \<in> S \<longrightarrow> \<not> isModel (setValuation S) (Atom x))"
 proof (rule conjI)
-  show "\<And>x. Atom x \<in> S \<longrightarrow> isModel (interpretacionAsoc S) (Atom x)" 
+  show "\<And>x. Atom x \<in> S \<longrightarrow> isModel (setValuation S) (Atom x)" 
   proof
     fix x
     assume "Atom x \<in> S"
-    hence "(interpretacionAsoc S) x"
-      by (simp only: interpretacionAsoc_def)
-    hence "interpretacionAsoc S \<Turnstile> Atom x"
+    hence "(setValuation S) x"
+      by (simp only: setValuation_def)
+    hence "setValuation S \<Turnstile> Atom x"
       by (simp only: formula_semantics.simps(1))
-    thus "isModel (interpretacionAsoc S) (Atom x)"
+    thus "isModel (setValuation S) (Atom x)"
       by (simp only: isModel_def)
   qed
 next 
   show 
-  "\<And>x. \<^bold>\<not> (Atom x) \<in> S \<longrightarrow> \<not> isModel (interpretacionAsoc S) (Atom x)" 
+  "\<And>x. \<^bold>\<not> (Atom x) \<in> S \<longrightarrow> \<not> isModel (setValuation S) (Atom x)" 
   proof
     fix x
     assume "\<^bold>\<not> (Atom x) \<in> S" 
@@ -877,50 +878,49 @@ next
       using assms by (rule Hintikka_l10)
     then have "Atom x \<notin> S"
       using \<open>\<^bold>\<not> (Atom x) \<in> S\<close> by (rule mp)
-    also have "(\<not> (Atom x \<in> S)) = (\<not> (interpretacionAsoc S) x)"
-      by (simp only: interpretacionAsoc_def)
-    also have "\<dots> = (\<not> ((interpretacionAsoc S) \<Turnstile> (Atom x)))"
+    also have "(\<not> (Atom x \<in> S)) = (\<not> (setValuation S) x)"
+      by (simp only: setValuation_def)
+    also have "\<dots> = (\<not> ((setValuation S) \<Turnstile> (Atom x)))"
       by (simp only: formula_semantics.simps(1))
-    also have "\<dots> = (\<not> isModel (interpretacionAsoc S) (Atom x))" 
+    also have "\<dots> = (\<not> isModel (setValuation S) (Atom x))" 
       by (simp only: isModel_def)
-    finally show "\<not> isModel (interpretacionAsoc S) (Atom x)"
+    finally show "\<not> isModel (setValuation S) (Atom x)"
       by this
   qed
 qed
 
 lemma Hl2_1:
   assumes  "Hintikka S"
-  shows "\<And>x. (Atom x \<in> S \<longrightarrow> isModel (interpretacionAsoc S) (Atom x)) \<and>
-         (\<^bold>\<not> (Atom x) \<in> S \<longrightarrow> \<not> isModel (interpretacionAsoc S) (Atom x))"
-  by (simp add: Hintikka_l10 assms isModel_def interpretacionAsoc_def) 
+  shows "\<And>x. (Atom x \<in> S \<longrightarrow> isModel (setValuation S) (Atom x)) \<and>
+         (\<^bold>\<not> (Atom x) \<in> S \<longrightarrow> \<not> isModel (setValuation S) (Atom x))"
+  by (simp add: Hintikka_l10 assms isModel_def setValuation_def) 
 
 lemma
   assumes "Hintikka S"
-          "\<And>F. (F \<in> S \<longrightarrow> isModel (interpretacionAsoc S) F) \<and>
-         (\<^bold>\<not> F \<in> S \<longrightarrow> \<not> isModel (interpretacionAsoc S) F)"
-  shows "\<And>F. (\<^bold>\<not> F \<in> S \<longrightarrow> isModel (interpretacionAsoc S) (\<^bold>\<not> F)) \<and>
-         (\<^bold>\<not> (\<^bold>\<not> F) \<in> S \<longrightarrow> \<not> isModel (interpretacionAsoc S) (\<^bold>\<not> F))"
+          "\<And>F. (F \<in> S \<longrightarrow> isModel (setValuation S) F) \<and>
+         (\<^bold>\<not> F \<in> S \<longrightarrow> \<not> isModel (setValuation S) F)"
+  shows "\<And>F. (\<^bold>\<not> F \<in> S \<longrightarrow> isModel (setValuation S) (\<^bold>\<not> F)) \<and>
+         (\<^bold>\<not> (\<^bold>\<not> F) \<in> S \<longrightarrow> \<not> isModel (setValuation S) (\<^bold>\<not> F))"
 proof (rule conjI) 
-  show "\<And>F. \<^bold>\<not> F \<in> S \<longrightarrow> isModel (interpretacionAsoc S) (\<^bold>\<not> F)"
+  show "\<And>F. \<^bold>\<not> F \<in> S \<longrightarrow> isModel (setValuation S) (\<^bold>\<not> F)"
   proof 
     fix F
     assume "\<^bold>\<not> F \<in> S"
-    have "\<^bold>\<not> F \<in> S \<longrightarrow> \<not> isModel (interpretacionAsoc S) F"
+    have "\<^bold>\<not> F \<in> S \<longrightarrow> \<not> isModel (setValuation S) F"
       using assms(2) by (rule conjunct2)
-    then have "\<not> isModel (interpretacionAsoc S) F"
+    then have "\<not> isModel (setValuation S) F"
       using  \<open>\<^bold>\<not> F \<in> S\<close> by (rule mp)
-    also have "(\<not> isModel (interpretacionAsoc S) F) = 
-           (\<not> (interpretacionAsoc S) \<Turnstile> F)"
+    also have "(\<not> isModel (setValuation S) F) = (\<not> (setValuation S) \<Turnstile> F)"
       by (simp only: isModel_def)
-    also have "\<dots> = (interpretacionAsoc S) \<Turnstile> (\<^bold>\<not> F)"
+    also have "\<dots> = setValuation S \<Turnstile> (\<^bold>\<not> F)"
       by (simp only: formula_semantics.simps(3))
-    also have "\<dots> = isModel (interpretacionAsoc S) (\<^bold>\<not> F)"
+    also have "\<dots> = isModel (setValuation S) (\<^bold>\<not> F)"
       by (simp only: isModel_def)
-    finally show "isModel (interpretacionAsoc S) (\<^bold>\<not> F)"
+    finally show "isModel (setValuation S) (\<^bold>\<not> F)"
       by this
   qed
 next
-  show "\<And>F. \<^bold>\<not> (\<^bold>\<not> F) \<in> S \<longrightarrow> \<not> isModel (interpretacionAsoc S) (\<^bold>\<not> F)"
+  show "\<And>F. \<^bold>\<not> (\<^bold>\<not> F) \<in> S \<longrightarrow> \<not> isModel (setValuation S) (\<^bold>\<not> F)"
   proof
     fix F
     assume "\<^bold>\<not> (\<^bold>\<not> F) \<in> S"
@@ -928,42 +928,41 @@ next
       using assms(1) by (rule Hintikka_l6)
     then have "F \<in> S"
       using \<open>\<^bold>\<not> (\<^bold>\<not> F) \<in> S\<close> by (rule mp)
-    have "F \<in> S \<longrightarrow> isModel (interpretacionAsoc S) F" 
+    have "F \<in> S \<longrightarrow> isModel (setValuation S) F" 
       using assms(2) by (rule conjunct1)
-    then have "isModel (interpretacionAsoc S) F"
+    then have "isModel (setValuation S) F"
       using \<open>F \<in> S\<close> by (rule mp)
-    then have "(\<not> (\<not> isModel (interpretacionAsoc S) F))"
+    then have "(\<not> (\<not> isModel (setValuation S) F))"
       by (rule notnotI)
-    also have "(\<not> (\<not> isModel (interpretacionAsoc S) F)) = 
-        (\<not> (\<not> (interpretacionAsoc S) \<Turnstile> F))"
+    also have "(\<not> (\<not> isModel (setValuation S) F)) = (\<not> (\<not> (setValuation S) \<Turnstile> F))"
       by (simp only: isModel_def)
-    also have "\<dots> = (\<not> (interpretacionAsoc S) \<Turnstile> (\<^bold>\<not> F))"
+    also have "\<dots> = (\<not> (setValuation S) \<Turnstile> (\<^bold>\<not> F))"
       by (simp only: formula_semantics.simps(3))
-    also have "\<dots> = (\<not> isModel (interpretacionAsoc S) (\<^bold>\<not> F))"
+    also have "\<dots> = (\<not> isModel (setValuation S) (\<^bold>\<not> F))"
       by (simp only: isModel_def)
-    finally show "\<not> isModel (interpretacionAsoc S) (\<^bold>\<not> F)"
+    finally show "\<not> isModel (setValuation S) (\<^bold>\<not> F)"
       by this
   qed
 qed
 
 lemma Hl2_2:
   assumes "Hintikka S"
-  shows " \<And>F. (F \<in> S \<longrightarrow> isModel (interpretacionAsoc S) F) \<and>
-         (\<^bold>\<not> F \<in> S \<longrightarrow> \<not> isModel (interpretacionAsoc S) F) \<Longrightarrow>
-         (\<^bold>\<not> F \<in> S \<longrightarrow> isModel (interpretacionAsoc S) (\<^bold>\<not> F)) \<and>
-         (\<^bold>\<not> (\<^bold>\<not> F) \<in> S \<longrightarrow> \<not> isModel (interpretacionAsoc S) (\<^bold>\<not> F))"
+  shows " \<And>F. (F \<in> S \<longrightarrow> isModel (setValuation S) F) \<and>
+         (\<^bold>\<not> F \<in> S \<longrightarrow> \<not> isModel (setValuation S) F) \<Longrightarrow>
+         (\<^bold>\<not> F \<in> S \<longrightarrow> isModel (setValuation S) (\<^bold>\<not> F)) \<and>
+         (\<^bold>\<not> (\<^bold>\<not> F) \<in> S \<longrightarrow> \<not> isModel (setValuation S) (\<^bold>\<not> F))"
   using Hintikka_l6 assms isModel_def formula_semantics.simps(3) by blast
 
 lemma
   assumes "Hintikka S"
-          "\<And>F1. (F1 \<in> S \<longrightarrow> isModel (interpretacionAsoc S) F1) \<and>
-           (\<^bold>\<not> F1 \<in> S \<longrightarrow> \<not> isModel (interpretacionAsoc S) F1)" 
-          "\<And>F2. (F2 \<in> S \<longrightarrow> isModel (interpretacionAsoc S) F2) \<and>
-           (\<^bold>\<not> F2 \<in> S \<longrightarrow> \<not> isModel (interpretacionAsoc S) F2)"
-  shows "\<And>F1 F2. (F1 \<^bold>\<and> F2 \<in> S \<longrightarrow> isModel (interpretacionAsoc S) (F1 \<^bold>\<and> F2)) \<and>
-       (\<^bold>\<not> (F1 \<^bold>\<and> F2) \<in> S \<longrightarrow> \<not> isModel (interpretacionAsoc S) (F1 \<^bold>\<and> F2))"
+          "\<And>F1. (F1 \<in> S \<longrightarrow> isModel (setValuation S) F1) \<and>
+           (\<^bold>\<not> F1 \<in> S \<longrightarrow> \<not> isModel (setValuation S) F1)" 
+          "\<And>F2. (F2 \<in> S \<longrightarrow> isModel (setValuation S) F2) \<and>
+           (\<^bold>\<not> F2 \<in> S \<longrightarrow> \<not> isModel (setValuation S) F2)"
+  shows "\<And>F1 F2. (F1 \<^bold>\<and> F2 \<in> S \<longrightarrow> isModel (setValuation S) (F1 \<^bold>\<and> F2)) \<and>
+       (\<^bold>\<not> (F1 \<^bold>\<and> F2) \<in> S \<longrightarrow> \<not> isModel (setValuation S) (F1 \<^bold>\<and> F2))"
 proof (rule conjI)
-  show "\<And>F1 F2. F1 \<^bold>\<and> F2 \<in> S \<longrightarrow> isModel (interpretacionAsoc S) (F1 \<^bold>\<and> F2)"
+  show "\<And>F1 F2. F1 \<^bold>\<and> F2 \<in> S \<longrightarrow> isModel (setValuation S) (F1 \<^bold>\<and> F2)"
   proof 
     fix F1 F2
     assume "F1 \<^bold>\<and> F2 \<in> S"
@@ -973,29 +972,29 @@ proof (rule conjI)
       using \<open>F1 \<^bold>\<and> F2 \<in> S\<close> by (rule mp)
     then have "F1 \<in> S" 
       by (rule conjunct1)
-    have "F1 \<in> S \<longrightarrow> isModel (interpretacionAsoc S) F1"
+    have "F1 \<in> S \<longrightarrow> isModel (setValuation S) F1"
       using assms(2) by (rule conjunct1)
-    then have "isModel (interpretacionAsoc S) F1"
+    then have "isModel (setValuation S) F1"
       using \<open>F1 \<in> S\<close> by (rule mp)
-    then have I1:"(interpretacionAsoc S) \<Turnstile> F1"
+    then have I1:"(setValuation S) \<Turnstile> F1"
       by (simp only: isModel_def)
     have "F2 \<in> S"
       using C by (rule conjunct2)
-    have "F2 \<in> S \<longrightarrow> isModel (interpretacionAsoc S) F2"
+    have "F2 \<in> S \<longrightarrow> isModel (setValuation S) F2"
       using assms(3) by (rule conjunct1)
-    then have "isModel (interpretacionAsoc S) F2"
+    then have "isModel (setValuation S) F2"
       using \<open>F2 \<in> S\<close> by (rule mp)
-    then have I2:"(interpretacionAsoc S) \<Turnstile> F2"
+    then have I2:"(setValuation S) \<Turnstile> F2"
       by (simp only: isModel_def) 
-    have "((interpretacionAsoc S) \<Turnstile> F1) \<and> ((interpretacionAsoc S) \<Turnstile> F2)"
+    have "((setValuation S) \<Turnstile> F1) \<and> ((setValuation S) \<Turnstile> F2)"
       using I1 I2 by (rule conjI)
-    then have "(interpretacionAsoc S) \<Turnstile> (F1 \<^bold>\<and> F2)"
+    then have "(setValuation S) \<Turnstile> (F1 \<^bold>\<and> F2)"
       by (simp only: formula_semantics.simps(4))
-    thus "isModel (interpretacionAsoc S) (F1 \<^bold>\<and> F2)"
+    thus "isModel (setValuation S) (F1 \<^bold>\<and> F2)"
       by (simp only: isModel_def) 
   qed
 next
-  show "\<And>F1 F2. \<^bold>\<not> (F1 \<^bold>\<and> F2) \<in> S \<longrightarrow> \<not> isModel (interpretacionAsoc S) (F1 \<^bold>\<and> F2)"
+  show "\<And>F1 F2. \<^bold>\<not> (F1 \<^bold>\<and> F2) \<in> S \<longrightarrow> \<not> isModel (setValuation S) (F1 \<^bold>\<and> F2)"
   proof
     fix F1 F2
     assume "\<^bold>\<not> (F1 \<^bold>\<and> F2) \<in> S"
@@ -1003,50 +1002,44 @@ next
       using assms(1) by (rule Hintikka_l7)
     then have "\<^bold>\<not> F1 \<in> S \<or> \<^bold>\<not> F2 \<in> S"
       using \<open>\<^bold>\<not> (F1 \<^bold>\<and> F2) \<in> S\<close> by (rule mp)
-    then show "\<not> isModel (interpretacionAsoc S) (F1 \<^bold>\<and> F2)"
+    then show "\<not> isModel (setValuation S) (F1 \<^bold>\<and> F2)"
     proof (rule disjE)
       assume "\<^bold>\<not> F1 \<in> S"
-      have "\<^bold>\<not> F1 \<in> S \<longrightarrow> \<not> isModel (interpretacionAsoc S) F1"
+      have "\<^bold>\<not> F1 \<in> S \<longrightarrow> \<not> isModel (setValuation S) F1"
         using assms(2) by (rule conjunct2)
-      then have "\<not> isModel (interpretacionAsoc S) F1"
+      then have "\<not> isModel (setValuation S) F1"
         using \<open>\<^bold>\<not> F1 \<in> S\<close> by (rule mp)
-      also have "(\<not> isModel (interpretacionAsoc S) F1) = 
-            (\<not> (interpretacionAsoc S) \<Turnstile> F1)"
+      also have "(\<not> isModel (setValuation S) F1) = (\<not> (setValuation S) \<Turnstile> F1)"
         by (simp only: isModel_def)
-      finally have "\<not> (interpretacionAsoc S) \<Turnstile> F1"
+      finally have "\<not> (setValuation S) \<Turnstile> F1"
         by this
-      then have "\<not> ((interpretacionAsoc S) \<Turnstile> F1 \<and> 
-            (interpretacionAsoc S) \<Turnstile> F2)" 
+      then have "\<not> ((setValuation S) \<Turnstile> F1 \<and> (setValuation S) \<Turnstile> F2)" 
         by (rule notConj1)
-      also have "(\<not> ((interpretacionAsoc S) \<Turnstile> F1 \<and> 
-          (interpretacionAsoc S) \<Turnstile> F2)) = 
-          (\<not> ((interpretacionAsoc S) \<Turnstile> (F1 \<^bold>\<and> F2)))"
+      also have "(\<not> ((setValuation S) \<Turnstile> F1 \<and> (setValuation S) \<Turnstile> F2)) = 
+          (\<not> ((setValuation S) \<Turnstile> F1 \<^bold>\<and> F2))"
         by (simp only: formula_semantics.simps(4))
-      also have "\<dots> = (\<not> isModel (interpretacionAsoc S) (F1 \<^bold>\<and> F2))"
+      also have "\<dots> = (\<not> isModel (setValuation S) (F1 \<^bold>\<and> F2))"
         by (simp only: isModel_def)
-      finally show "\<not> isModel (interpretacionAsoc S) (F1 \<^bold>\<and> F2)"
+      finally show "(\<not> isModel (setValuation S) (F1 \<^bold>\<and> F2))"
         by this
     next
       assume "\<^bold>\<not> F2 \<in> S"
-      have "\<^bold>\<not> F2 \<in> S \<longrightarrow> \<not> isModel (interpretacionAsoc S) F2"
+      have "\<^bold>\<not> F2 \<in> S \<longrightarrow> \<not> isModel (setValuation S) F2"
         using assms(3) by (rule conjunct2)
-      then have "\<not> isModel (interpretacionAsoc S) F2"
+      then have "\<not> isModel (setValuation S) F2"
         using \<open>\<^bold>\<not> F2 \<in> S\<close> by (rule mp)
-      also have "(\<not> isModel (interpretacionAsoc S) F2) = 
-            (\<not> (interpretacionAsoc S) \<Turnstile> F2)"
+      also have "(\<not> isModel (setValuation S) F2) = (\<not> (setValuation S) \<Turnstile> F2)"
         by (simp only: isModel_def)
-      finally have "\<not> (interpretacionAsoc S) \<Turnstile> F2"
+      finally have "\<not> (setValuation S) \<Turnstile> F2"
         by this
-      then have "\<not> ((interpretacionAsoc S) \<Turnstile> F1 \<and> 
-            (interpretacionAsoc S) \<Turnstile> F2)" 
+      then have "\<not> ((setValuation S) \<Turnstile> F1 \<and> (setValuation S) \<Turnstile> F2)" 
         by (rule notConj2)
-      also have "(\<not> ((interpretacionAsoc S) \<Turnstile> F1 \<and> 
-          (interpretacionAsoc S) \<Turnstile> F2)) = 
-          (\<not> ((interpretacionAsoc S) \<Turnstile> (F1 \<^bold>\<and> F2)))"
+      also have "(\<not> ((setValuation S) \<Turnstile> F1 \<and> (setValuation S) \<Turnstile> F2)) = 
+          (\<not> ((setValuation S) \<Turnstile> (F1 \<^bold>\<and> F2)))"
         by (simp only: formula_semantics.simps(4))
-      also have "\<dots> = (\<not> isModel (interpretacionAsoc S) (F1 \<^bold>\<and> F2))"
+      also have "\<dots> = (\<not> isModel (setValuation S) (F1 \<^bold>\<and> F2))"
         by (simp only: isModel_def)
-      finally show "\<not> isModel (interpretacionAsoc S) (F1 \<^bold>\<and> F2)"
+      finally show "\<not> isModel (setValuation S) (F1 \<^bold>\<and> F2)"
         by this
     qed
   qed
@@ -1055,24 +1048,24 @@ qed
 lemma Hl2_3:
   assumes "Hintikka S"
   shows "\<And>F1 F2.
-       (F1 \<in> S \<longrightarrow> isModel (interpretacionAsoc S) F1) \<and>
-       (\<^bold>\<not> F1 \<in> S \<longrightarrow> \<not> isModel (interpretacionAsoc S) F1) \<Longrightarrow>
-       (F2 \<in> S \<longrightarrow> isModel (interpretacionAsoc S) F2) \<and>
-       (\<^bold>\<not> F2 \<in> S \<longrightarrow> \<not> isModel (interpretacionAsoc S) F2) \<Longrightarrow>
-       (F1 \<^bold>\<and> F2 \<in> S \<longrightarrow> isModel (interpretacionAsoc S) (F1 \<^bold>\<and> F2)) \<and>
-       (\<^bold>\<not> (F1 \<^bold>\<and> F2) \<in> S \<longrightarrow> \<not> isModel (interpretacionAsoc S) (F1 \<^bold>\<and> F2))"
+       (F1 \<in> S \<longrightarrow> isModel (setValuation S) F1) \<and>
+       (\<^bold>\<not> F1 \<in> S \<longrightarrow> \<not> isModel (setValuation S) F1) \<Longrightarrow>
+       (F2 \<in> S \<longrightarrow> isModel (setValuation S) F2) \<and>
+       (\<^bold>\<not> F2 \<in> S \<longrightarrow> \<not> isModel (setValuation S) F2) \<Longrightarrow>
+       (F1 \<^bold>\<and> F2 \<in> S \<longrightarrow> isModel (setValuation S) (F1 \<^bold>\<and> F2)) \<and>
+       (\<^bold>\<not> (F1 \<^bold>\<and> F2) \<in> S \<longrightarrow> \<not> isModel (setValuation S) (F1 \<^bold>\<and> F2))"
   by (meson Hintikka_l3 Hintikka_l7 assms isModel_def formula_semantics.simps(4))
 
 lemma
   assumes "Hintikka S"
-          "\<And>F1. (F1 \<in> S \<longrightarrow> isModel (interpretacionAsoc S) F1) \<and>
-           (\<^bold>\<not> F1 \<in> S \<longrightarrow> \<not> isModel (interpretacionAsoc S) F1)" 
-          "\<And>F2. (F2 \<in> S \<longrightarrow> isModel (interpretacionAsoc S) F2) \<and>
-           (\<^bold>\<not> F2 \<in> S \<longrightarrow> \<not> isModel (interpretacionAsoc S) F2)"
-  shows "\<And>F1 F2. (F1 \<^bold>\<or> F2 \<in> S \<longrightarrow> isModel (interpretacionAsoc S) (F1 \<^bold>\<or> F2)) 
-  \<and> (\<^bold>\<not> (F1 \<^bold>\<or> F2) \<in> S \<longrightarrow> \<not> isModel (interpretacionAsoc S) (F1 \<^bold>\<or> F2))"
+          "\<And>F1. (F1 \<in> S \<longrightarrow> isModel (setValuation S) F1) \<and>
+           (\<^bold>\<not> F1 \<in> S \<longrightarrow> \<not> isModel (setValuation S) F1)" 
+          "\<And>F2. (F2 \<in> S \<longrightarrow> isModel (setValuation S) F2) \<and>
+           (\<^bold>\<not> F2 \<in> S \<longrightarrow> \<not> isModel (setValuation S) F2)"
+  shows "\<And>F1 F2. (F1 \<^bold>\<or> F2 \<in> S \<longrightarrow> isModel (setValuation S) (F1 \<^bold>\<or> F2)) 
+  \<and> (\<^bold>\<not> (F1 \<^bold>\<or> F2) \<in> S \<longrightarrow> \<not> isModel (setValuation S) (F1 \<^bold>\<or> F2))"
 proof (rule conjI)
-  show "\<And> F1 F2. F1 \<^bold>\<or> F2 \<in> S \<longrightarrow> isModel (interpretacionAsoc S) (F1 \<^bold>\<or> F2)"
+  show "\<And> F1 F2. F1 \<^bold>\<or> F2 \<in> S \<longrightarrow> isModel (setValuation S) (F1 \<^bold>\<or> F2)"
   proof
     fix F1 F2
     assume "F1 \<^bold>\<or> F2 \<in> S"
@@ -1080,39 +1073,39 @@ proof (rule conjI)
       using assms(1) by (rule Hintikka_l4)
     then have "F1 \<in> S \<or> F2 \<in> S"
       using \<open>F1 \<^bold>\<or> F2 \<in> S\<close> by (rule mp)
-    then show "isModel (interpretacionAsoc S) (F1 \<^bold>\<or> F2)"
+    then show "isModel (setValuation S) (F1 \<^bold>\<or> F2)"
     proof (rule disjE)
       assume "F1 \<in> S"
-      have "F1 \<in> S \<longrightarrow> isModel (interpretacionAsoc S) F1"
+      have "F1 \<in> S \<longrightarrow> isModel (setValuation S) F1"
         using assms(2) by (rule conjunct1)
-      then have "isModel (interpretacionAsoc S) F1" 
+      then have "isModel (setValuation S) F1" 
         using \<open>F1 \<in> S\<close> by (rule mp)
-      then have "(interpretacionAsoc S) \<Turnstile> F1"
+      then have "(setValuation S) \<Turnstile> F1"
         by (simp only: isModel_def)
-      then have "(interpretacionAsoc S) \<Turnstile> F1 \<or> (interpretacionAsoc S) \<Turnstile> F2"
+      then have "(setValuation S) \<Turnstile> F1 \<or> (setValuation S) \<Turnstile> F2"
         by (rule disjI1)
-      then have "(interpretacionAsoc S) \<Turnstile> (F1 \<^bold>\<or> F2)"
+      then have "(setValuation S) \<Turnstile> (F1 \<^bold>\<or> F2)"
         by (simp only: formula_semantics.simps(5))
-      thus "isModel (interpretacionAsoc S) (F1 \<^bold>\<or> F2)"
+      thus "isModel (setValuation S) (F1 \<^bold>\<or> F2)"
         by (simp only: isModel_def)
     next
       assume "F2 \<in> S"
-      have "F2 \<in> S \<longrightarrow> isModel (interpretacionAsoc S) F2"
+      have "F2 \<in> S \<longrightarrow> isModel (setValuation S) F2"
         using assms(3) by (rule conjunct1)
-      then have "isModel (interpretacionAsoc S) F2" 
+      then have "isModel (setValuation S) F2" 
         using \<open>F2 \<in> S\<close> by (rule mp)
-      then have "(interpretacionAsoc S) \<Turnstile> F2"
+      then have "(setValuation S) \<Turnstile> F2"
         by (simp only: isModel_def)
-      then have "(interpretacionAsoc S) \<Turnstile> F1 \<or> (interpretacionAsoc S) \<Turnstile> F2"
+      then have "(setValuation S) \<Turnstile> F1 \<or> (setValuation S) \<Turnstile> F2"
         by (rule disjI2)
-      then have "(interpretacionAsoc S) \<Turnstile> (F1 \<^bold>\<or> F2)"
+      then have "(setValuation S) \<Turnstile> (F1 \<^bold>\<or> F2)"
         by (simp only: formula_semantics.simps(5))
-      thus "isModel (interpretacionAsoc S) (F1 \<^bold>\<or> F2)"
+      thus "isModel (setValuation S) (F1 \<^bold>\<or> F2)"
         by (simp only: isModel_def)
     qed
   qed
 next
-  show "\<And>F1 F2. \<^bold>\<not> (F1 \<^bold>\<or> F2) \<in> S \<longrightarrow> \<not> isModel (interpretacionAsoc S) (F1 \<^bold>\<or> F2)"
+  show "\<And>F1 F2. \<^bold>\<not> (F1 \<^bold>\<or> F2) \<in> S \<longrightarrow> \<not> isModel (setValuation S) (F1 \<^bold>\<or> F2)"
   proof (rule impI)
     fix F1 F2
     assume "\<^bold>\<not> (F1 \<^bold>\<or> F2) \<in> S"
@@ -1122,35 +1115,33 @@ next
       using \<open>\<^bold>\<not> (F1 \<^bold>\<or> F2) \<in> S\<close> by (rule mp)
     then have "\<^bold>\<not> F1 \<in> S"
       by (rule conjunct1)
-    have "\<^bold>\<not> F1 \<in> S \<longrightarrow> \<not> isModel (interpretacionAsoc S) F1"
+    have "\<^bold>\<not> F1 \<in> S \<longrightarrow> \<not> isModel (setValuation S) F1"
       using assms(2) by (rule conjunct2)
-    then have "\<not> isModel (interpretacionAsoc S) F1"
+    then have "\<not> isModel (setValuation S) F1"
       using \<open>\<^bold>\<not> F1 \<in> S\<close> by (rule mp)
-    also have "(\<not> isModel (interpretacionAsoc S) F1) = 
-         (\<not> (interpretacionAsoc S) \<Turnstile> F1)"
+    also have "(\<not> isModel (setValuation S) F1) = 
+         (\<not> (setValuation S) \<Turnstile> F1)"
       by (simp only: isModel_def)
-    finally have D1:"\<not> (interpretacionAsoc S) \<Turnstile> F1"
+    finally have D1:"\<not> (setValuation S) \<Turnstile> F1"
       by this
     have "\<^bold>\<not> F2 \<in> S"
       using C by (rule conjunct2)
-    have "\<^bold>\<not> F2 \<in> S \<longrightarrow> \<not> isModel (interpretacionAsoc S) F2"
+    have "\<^bold>\<not> F2 \<in> S \<longrightarrow> \<not> isModel (setValuation S) F2"
       using assms(3) by (rule conjunct2)
-    then have "\<not> isModel (interpretacionAsoc S) F2"
+    then have "\<not> isModel (setValuation S) F2"
       using \<open>\<^bold>\<not> F2 \<in> S\<close> by (rule mp)
-    also have "(\<not> isModel (interpretacionAsoc S) F2) = 
-         (\<not> (interpretacionAsoc S) \<Turnstile> F2)"
+    also have "(\<not> isModel (setValuation S) F2) = (\<not> (setValuation S) \<Turnstile> F2)"
       by (simp only: isModel_def)
-    finally have D2:"\<not> (interpretacionAsoc S) \<Turnstile> F2"
+    finally have D2:"\<not> (setValuation S) \<Turnstile> F2"
       by this
-    have "\<not> ((interpretacionAsoc S) \<Turnstile> F1 \<or> (interpretacionAsoc S) \<Turnstile> F2)"
+    have "\<not> ((setValuation S) \<Turnstile> F1 \<or> (setValuation S) \<Turnstile> F2)"
       using D1 D2 by (rule notDisj)
-    also have "(\<not> ((interpretacionAsoc S) \<Turnstile> F1 \<or> 
-         (interpretacionAsoc S) \<Turnstile> F2)) = 
-          (\<not> (interpretacionAsoc S) \<Turnstile> (F1 \<^bold>\<or> F2))"
+    also have "(\<not> ((setValuation S) \<Turnstile> F1 \<or> (setValuation S) \<Turnstile> F2)) = 
+          (\<not> (setValuation S) \<Turnstile> (F1 \<^bold>\<or> F2))"
       by (simp only: formula_semantics.simps(5))
-    also have "\<dots> = (\<not> isModel (interpretacionAsoc S) (F1 \<^bold>\<or> F2))"
+    also have "\<dots> = (\<not> isModel (setValuation S) (F1 \<^bold>\<or> F2))"
       by (simp only: isModel_def)
-    finally show "\<not> isModel (interpretacionAsoc S) (F1 \<^bold>\<or> F2)"
+    finally show "\<not> isModel (setValuation S) (F1 \<^bold>\<or> F2)"
       by this
   qed
 qed
@@ -1159,24 +1150,24 @@ qed
 lemma Hl2_4:
   assumes "Hintikka S"
   shows "\<And>F1 F2.
-       (F1 \<in> S \<longrightarrow> isModel (interpretacionAsoc S) F1) \<and>
-       (\<^bold>\<not> F1 \<in> S \<longrightarrow> \<not> isModel (interpretacionAsoc S) F1) \<Longrightarrow>
-       (F2 \<in> S \<longrightarrow> isModel (interpretacionAsoc S) F2) \<and>
-       (\<^bold>\<not> F2 \<in> S \<longrightarrow> \<not> isModel (interpretacionAsoc S) F2) \<Longrightarrow>
-       (F1 \<^bold>\<or> F2 \<in> S \<longrightarrow> isModel (interpretacionAsoc S) (F1 \<^bold>\<or> F2)) \<and>
-       (\<^bold>\<not> (F1 \<^bold>\<or> F2) \<in> S \<longrightarrow> \<not> isModel (interpretacionAsoc S) (F1 \<^bold>\<or> F2))"
+       (F1 \<in> S \<longrightarrow> isModel (setValuation S) F1) \<and>
+       (\<^bold>\<not> F1 \<in> S \<longrightarrow> \<not> isModel (setValuation S) F1) \<Longrightarrow>
+       (F2 \<in> S \<longrightarrow> isModel (setValuation S) F2) \<and>
+       (\<^bold>\<not> F2 \<in> S \<longrightarrow> \<not> isModel (setValuation S) F2) \<Longrightarrow>
+       (F1 \<^bold>\<or> F2 \<in> S \<longrightarrow> isModel (setValuation S) (F1 \<^bold>\<or> F2)) \<and>
+       (\<^bold>\<not> (F1 \<^bold>\<or> F2) \<in> S \<longrightarrow> \<not> isModel (setValuation S) (F1 \<^bold>\<or> F2))"
   by (smt Hintikka_def assms isModel_def formula_semantics.simps(5))
 
 lemma
   assumes "Hintikka S"
-          "\<And>F1. (F1 \<in> S \<longrightarrow> isModel (interpretacionAsoc S) F1) \<and>
-           (\<^bold>\<not> F1 \<in> S \<longrightarrow> \<not> isModel (interpretacionAsoc S) F1)" 
-          "\<And>F2. (F2 \<in> S \<longrightarrow> isModel (interpretacionAsoc S) F2) \<and>
-           (\<^bold>\<not> F2 \<in> S \<longrightarrow> \<not> isModel (interpretacionAsoc S) F2)"
-  shows "\<And>F1 F2. (F1 \<^bold>\<rightarrow> F2 \<in> S \<longrightarrow> isModel (interpretacionAsoc S) (F1 \<^bold>\<rightarrow> F2)) 
-      \<and> (\<^bold>\<not> (F1 \<^bold>\<rightarrow> F2) \<in> S \<longrightarrow> \<not> isModel (interpretacionAsoc S) (F1 \<^bold>\<rightarrow> F2))"
+          "\<And>F1. (F1 \<in> S \<longrightarrow> isModel (setValuation S) F1) \<and>
+           (\<^bold>\<not> F1 \<in> S \<longrightarrow> \<not> isModel (setValuation S) F1)" 
+          "\<And>F2. (F2 \<in> S \<longrightarrow> isModel (setValuation S) F2) \<and>
+           (\<^bold>\<not> F2 \<in> S \<longrightarrow> \<not> isModel (setValuation S) F2)"
+  shows "\<And>F1 F2. (F1 \<^bold>\<rightarrow> F2 \<in> S \<longrightarrow> isModel (setValuation S) (F1 \<^bold>\<rightarrow> F2)) 
+      \<and> (\<^bold>\<not> (F1 \<^bold>\<rightarrow> F2) \<in> S \<longrightarrow> \<not> isModel (setValuation S) (F1 \<^bold>\<rightarrow> F2))"
 proof (rule conjI)
-  show "\<And>F1 F2. F1 \<^bold>\<rightarrow> F2 \<in> S \<longrightarrow> isModel (interpretacionAsoc S) (F1 \<^bold>\<rightarrow> F2)"
+  show "\<And>F1 F2. F1 \<^bold>\<rightarrow> F2 \<in> S \<longrightarrow> isModel (setValuation S) (F1 \<^bold>\<rightarrow> F2)"
   proof (rule impI)
     fix F1 F2
     assume "F1 \<^bold>\<rightarrow> F2 \<in> S"
@@ -1184,51 +1175,49 @@ proof (rule conjI)
       using assms(1) by (rule Hintikka_l5)
     then have "\<^bold>\<not> F1 \<in> S \<or> F2 \<in> S"
       using \<open>F1 \<^bold>\<rightarrow> F2 \<in> S\<close> by (rule mp)
-    then show "isModel (interpretacionAsoc S) (F1 \<^bold>\<rightarrow> F2)"
+    then show "isModel (setValuation S) (F1 \<^bold>\<rightarrow> F2)"
     proof (rule disjE)
       assume "\<^bold>\<not> F1 \<in> S"
-      have "\<^bold>\<not> F1 \<in> S \<longrightarrow> \<not> isModel (interpretacionAsoc S) F1"
+      have "\<^bold>\<not> F1 \<in> S \<longrightarrow> \<not> isModel (setValuation S) F1"
         using assms(2) by (rule conjunct2)
-      then have "\<not> isModel (interpretacionAsoc S) F1"
+      then have "\<not> isModel (setValuation S) F1"
         using \<open>\<^bold>\<not> F1 \<in> S\<close> by (rule mp)
-      also have "(\<not> isModel (interpretacionAsoc S) F1) = 
-            (\<not> (interpretacionAsoc S) \<Turnstile> F1)"
+      also have "(\<not> isModel (setValuation S) F1) = (\<not> (setValuation S) \<Turnstile> F1)"
         by (simp only: isModel_def)
-      finally have "\<not> (interpretacionAsoc S) \<Turnstile> F1"
+      finally have "\<not> (setValuation S) \<Turnstile> F1"
         by this
-      have "(interpretacionAsoc S) \<Turnstile> F1 \<longrightarrow> (interpretacionAsoc S) \<Turnstile> F2"
+      have "(setValuation S) \<Turnstile> F1 \<longrightarrow> (setValuation S) \<Turnstile> F2"
       proof (rule impI)
-        assume "(interpretacionAsoc S) \<Turnstile> F1"
-        show "(interpretacionAsoc S) \<Turnstile> F2"
-          using \<open>\<not> (interpretacionAsoc S) \<Turnstile> F1\<close> 
-                \<open>(interpretacionAsoc S) \<Turnstile> F1\<close> by (rule notE) 
+        assume "(setValuation S) \<Turnstile> F1"
+        show "(setValuation S) \<Turnstile> F2"
+          using \<open>\<not> (setValuation S) \<Turnstile> F1\<close> \<open>(setValuation S) \<Turnstile> F1\<close> by (rule notE) 
       qed
-      then have "(interpretacionAsoc S) \<Turnstile> (F1 \<^bold>\<rightarrow> F2)"
+      then have "(setValuation S) \<Turnstile> (F1 \<^bold>\<rightarrow> F2)"
         by (simp only: formula_semantics.simps(6))
       thus ?thesis
         by (simp only: isModel_def)
     next
       assume "F2 \<in> S"
-      have "F2 \<in> S \<longrightarrow> isModel (interpretacionAsoc S) F2"
+      have "F2 \<in> S \<longrightarrow> isModel (setValuation S) F2"
         using assms(3) by (rule conjunct1)
-      then have "isModel (interpretacionAsoc S) F2"
+      then have "isModel (setValuation S) F2"
         using \<open>F2 \<in> S\<close> by (rule mp)
-      then have "(interpretacionAsoc S) \<Turnstile> F2"
+      then have "(setValuation S) \<Turnstile> F2"
         by (simp only: isModel_def)
-      have "(interpretacionAsoc S) \<Turnstile> F1 \<longrightarrow> (interpretacionAsoc S) \<Turnstile> F2"
+      have "(setValuation S) \<Turnstile> F1 \<longrightarrow> (setValuation S) \<Turnstile> F2"
       proof (rule impI)
-        assume "(interpretacionAsoc S) \<Turnstile> F1"
-        show "(interpretacionAsoc S) \<Turnstile> F2"
-          using \<open>(interpretacionAsoc S) \<Turnstile> F2\<close> by this 
+        assume "(setValuation S) \<Turnstile> F1"
+        show "(setValuation S) \<Turnstile> F2"
+          using \<open>(setValuation S) \<Turnstile> F2\<close> by this 
       qed
-      then have "(interpretacionAsoc S) \<Turnstile> (F1 \<^bold>\<rightarrow> F2)"
+      then have "(setValuation S) \<Turnstile> (F1 \<^bold>\<rightarrow> F2)"
         by (simp only: formula_semantics.simps(6))
       thus ?thesis
         by (simp only: isModel_def)
     qed
   qed
 next
-  show "\<And>F1 F2. \<^bold>\<not> (F1 \<^bold>\<rightarrow> F2) \<in> S \<longrightarrow> \<not> isModel (interpretacionAsoc S) (F1 \<^bold>\<rightarrow> F2)"
+  show "\<And>F1 F2. \<^bold>\<not> (F1 \<^bold>\<rightarrow> F2) \<in> S \<longrightarrow> \<not> isModel (setValuation S) (F1 \<^bold>\<rightarrow> F2)"
   proof (rule impI)
     fix F1 F2
     assume "\<^bold>\<not> (F1 \<^bold>\<rightarrow> F2) \<in> S"
@@ -1238,148 +1227,140 @@ next
       using \<open>\<^bold>\<not> (F1 \<^bold>\<rightarrow> F2) \<in> S\<close> by (rule mp)
     then have "F1 \<in> S"
       by (rule conjunct1)
-    have "F1 \<in> S \<longrightarrow> isModel (interpretacionAsoc S) F1"
+    have "F1 \<in> S \<longrightarrow> isModel (setValuation S) F1"
       using assms(2) by (rule conjunct1)
-    then have "isModel (interpretacionAsoc S) F1"
+    then have "isModel (setValuation S) F1"
       using \<open>F1 \<in> S\<close> by (rule mp)
-    then have "(interpretacionAsoc S) \<Turnstile> F1"
+    then have "(setValuation S) \<Turnstile> F1"
       by (simp only: isModel_def)
     have "\<^bold>\<not> F2 \<in> S"
       using C by (rule conjunct2)
-    have "\<^bold>\<not> F2 \<in> S \<longrightarrow> \<not> isModel (interpretacionAsoc S) F2"
+    have "\<^bold>\<not> F2 \<in> S \<longrightarrow> \<not> isModel (setValuation S) F2"
       using assms(3) by (rule conjunct2)
-    then have "\<not> isModel (interpretacionAsoc S) F2"
+    then have "\<not> isModel (setValuation S) F2"
       using \<open>\<^bold>\<not> F2 \<in> S\<close> by (rule mp)
-    also have "(\<not> isModel (interpretacionAsoc S) F2) = 
-        (\<not> (interpretacionAsoc S) \<Turnstile> F2)"
+    also have "(\<not> isModel (setValuation S) F2) = (\<not> (setValuation S) \<Turnstile> F2)"
       by (simp only: isModel_def)
-    finally have "\<not> (interpretacionAsoc S) \<Turnstile> F2"
+    finally have "\<not> (setValuation S) \<Turnstile> F2"
       by this
-    have "\<not> ((interpretacionAsoc S) \<Turnstile> F1 \<longrightarrow> (interpretacionAsoc S) \<Turnstile> F2)"
+    have "\<not> ((setValuation S) \<Turnstile> F1 \<longrightarrow> (setValuation S) \<Turnstile> F2)"
     proof (rule notI)
-      assume "(interpretacionAsoc S) \<Turnstile> F1 \<longrightarrow> (interpretacionAsoc S) \<Turnstile> F2"
-      then have "(interpretacionAsoc S) \<Turnstile> F2"
-        using \<open>(interpretacionAsoc S) \<Turnstile> F1\<close> by (rule mp)
+      assume "(setValuation S) \<Turnstile> F1 \<longrightarrow> (setValuation S) \<Turnstile> F2"
+      then have "(setValuation S) \<Turnstile> F2"
+        using \<open>(setValuation S) \<Turnstile> F1\<close> by (rule mp)
       show "False" 
-        using \<open>\<not> (interpretacionAsoc S) \<Turnstile> F2\<close> 
-              \<open>(interpretacionAsoc S) \<Turnstile> F2\<close>
-        by (rule notE)
+        using \<open>\<not> (setValuation S) \<Turnstile> F2\<close> \<open>(setValuation S) \<Turnstile> F2\<close> by (rule notE)
     qed
-    also have "(\<not> ((interpretacionAsoc S) \<Turnstile> F1 \<longrightarrow> 
-        (interpretacionAsoc S) \<Turnstile> F2)) = 
-        (\<not> (interpretacionAsoc S) \<Turnstile> (F1 \<^bold>\<rightarrow> F2))"
+    also have "(\<not> ((setValuation S) \<Turnstile> F1 \<longrightarrow> (setValuation S) \<Turnstile> F2)) = 
+        (\<not> (setValuation S) \<Turnstile> (F1 \<^bold>\<rightarrow> F2))"
       by (simp only: formula_semantics.simps(6))
-    also have "\<dots> = (\<not> isModel (interpretacionAsoc S) (F1 \<^bold>\<rightarrow> F2))"
+    also have "\<dots> = (\<not> isModel (setValuation S) (F1 \<^bold>\<rightarrow> F2))"
       by (simp only: isModel_def)
-    finally show "\<not> isModel (interpretacionAsoc S) (F1 \<^bold>\<rightarrow> F2)"
+    finally show "\<not> isModel (setValuation S) (F1 \<^bold>\<rightarrow> F2)"
       by this
   qed
 qed
 
-text \<open> \comentario{Cambiar notación de interpretacionAsoc para ganar
-  espacio. Hacerlo al inglés. Después, cambiar cortes de línea.}\<close>
-
 lemma Hl2_5:
   assumes "Hintikka S"
   shows " \<And>F1 F2.
-       (F1 \<in> S \<longrightarrow> isModel (interpretacionAsoc S) F1) \<and>
-       (\<^bold>\<not> F1 \<in> S \<longrightarrow> \<not> isModel (interpretacionAsoc S) F1) \<Longrightarrow>
-       (F2 \<in> S \<longrightarrow> isModel (interpretacionAsoc S) F2) \<and>
-       (\<^bold>\<not> F2 \<in> S \<longrightarrow> \<not> isModel (interpretacionAsoc S) F2) \<Longrightarrow>
-       (F1 \<^bold>\<rightarrow> F2 \<in> S \<longrightarrow> isModel (interpretacionAsoc S) (F1 \<^bold>\<rightarrow> F2)) \<and>
-       (\<^bold>\<not> (F1 \<^bold>\<rightarrow> F2) \<in> S \<longrightarrow> \<not> isModel (interpretacionAsoc S) (F1 \<^bold>\<rightarrow> F2))"
+       (F1 \<in> S \<longrightarrow> isModel (setValuation S) F1) \<and>
+       (\<^bold>\<not> F1 \<in> S \<longrightarrow> \<not> isModel (setValuation S) F1) \<Longrightarrow>
+       (F2 \<in> S \<longrightarrow> isModel (setValuation S) F2) \<and>
+       (\<^bold>\<not> F2 \<in> S \<longrightarrow> \<not> isModel (setValuation S) F2) \<Longrightarrow>
+       (F1 \<^bold>\<rightarrow> F2 \<in> S \<longrightarrow> isModel (setValuation S) (F1 \<^bold>\<rightarrow> F2)) \<and>
+       (\<^bold>\<not> (F1 \<^bold>\<rightarrow> F2) \<in> S \<longrightarrow> \<not> isModel (setValuation S) (F1 \<^bold>\<rightarrow> F2))"
   by (meson Hintikka_l5 Hintikka_l9 assms isModel_def formula_semantics.simps(6))
 
 lemma Hintikkas_lemma_l2:
   assumes "Hintikka S"
-  shows "(F \<in> S \<longrightarrow> isModel (interpretacionAsoc S) F)
-           \<and> (\<^bold>\<not> F \<in> S \<longrightarrow> (\<not>(isModel (interpretacionAsoc S) F)))"
+  shows "(F \<in> S \<longrightarrow> isModel (setValuation S) F)
+           \<and> (\<^bold>\<not> F \<in> S \<longrightarrow> (\<not>(isModel (setValuation S) F)))"
 proof (induct F)
   fix x
-  show "(Atom x \<in> S \<longrightarrow> isModel (interpretacionAsoc S) (Atom x)) \<and>
-         (\<^bold>\<not> (Atom x) \<in> S \<longrightarrow> \<not> isModel (interpretacionAsoc S) (Atom x))"
+  show "(Atom x \<in> S \<longrightarrow> isModel (setValuation S) (Atom x)) \<and>
+         (\<^bold>\<not> (Atom x) \<in> S \<longrightarrow> \<not> isModel (setValuation S) (Atom x))"
     using assms by (rule Hl2_1)
 next
-  show " (\<bottom> \<in> S \<longrightarrow> isModel (interpretacionAsoc S) \<bottom>) \<and>
-    (\<^bold>\<not> \<bottom> \<in> S \<longrightarrow> \<not> isModel (interpretacionAsoc S) \<bottom>)" 
+  show " (\<bottom> \<in> S \<longrightarrow> isModel (setValuation S) \<bottom>) \<and>
+    (\<^bold>\<not> \<bottom> \<in> S \<longrightarrow> \<not> isModel (setValuation S) \<bottom>)" 
   proof (rule conjI)
-    show "\<bottom> \<in> S \<longrightarrow> isModel (interpretacionAsoc S) \<bottom>"
+    show "\<bottom> \<in> S \<longrightarrow> isModel (setValuation S) \<bottom>"
     proof (rule impI)
       assume "\<bottom> \<in> S"
       have "\<bottom> \<notin> S" 
         using assms by (rule Hintikka_l1)
-      thus "isModel (interpretacionAsoc S) \<bottom>"
+      thus "isModel (setValuation S) \<bottom>"
         using \<open>\<bottom> \<in> S\<close> by (rule notE)
     qed
   next
-    show "\<^bold>\<not> \<bottom> \<in> S \<longrightarrow> \<not> isModel (interpretacionAsoc S) \<bottom>"
+    show "\<^bold>\<not> \<bottom> \<in> S \<longrightarrow> \<not> isModel (setValuation S) \<bottom>"
     proof (rule impI)
       assume "\<^bold>\<not> \<bottom> \<in> S"
       have "\<bottom> \<notin> S"
         using assms by (rule Hintikka_l1)
-      have "\<not> (interpretacionAsoc S) \<Turnstile> \<bottom>"
+      have "\<not> (setValuation S) \<Turnstile> \<bottom>"
       proof (rule notI)
-        assume "interpretacionAsoc S \<Turnstile> \<bottom>"
+        assume "setValuation S \<Turnstile> \<bottom>"
         thus "False"
           by (simp only: formula_semantics.simps(2))
       qed
-      also have "(\<not> (interpretacionAsoc S) \<Turnstile> \<bottom>) = 
-              (\<not> isModel (interpretacionAsoc S) \<bottom>)"
+      also have "(\<not> (setValuation S) \<Turnstile> \<bottom>) = (\<not> isModel (setValuation S) \<bottom>)"
         by (simp only: isModel_def)
-      finally show "\<not> isModel (interpretacionAsoc S) \<bottom>"
+      finally show "\<not> isModel (setValuation S) \<bottom>"
         by this
     qed
   qed
 next
   fix F
-  show "(F \<in> S \<longrightarrow> isModel (interpretacionAsoc S) F) \<and>
-         (\<^bold>\<not> F \<in> S \<longrightarrow> \<not> isModel (interpretacionAsoc S) F) \<Longrightarrow>
-         (\<^bold>\<not> F \<in> S \<longrightarrow> isModel (interpretacionAsoc S) (\<^bold>\<not> F)) \<and>
-         (\<^bold>\<not> (\<^bold>\<not> F) \<in> S \<longrightarrow> \<not> isModel (interpretacionAsoc S) (\<^bold>\<not> F))"
+  show "(F \<in> S \<longrightarrow> isModel (setValuation S) F) \<and>
+         (\<^bold>\<not> F \<in> S \<longrightarrow> \<not> isModel (setValuation S) F) \<Longrightarrow>
+         (\<^bold>\<not> F \<in> S \<longrightarrow> isModel (setValuation S) (\<^bold>\<not> F)) \<and>
+         (\<^bold>\<not> (\<^bold>\<not> F) \<in> S \<longrightarrow> \<not> isModel (setValuation S) (\<^bold>\<not> F))"
     using assms by (rule Hl2_2)
 next
   fix F1 F2
-  show "(F1 \<in> S \<longrightarrow> isModel (interpretacionAsoc S) F1) \<and>
-       (\<^bold>\<not> F1 \<in> S \<longrightarrow> \<not> isModel (interpretacionAsoc S) F1) \<Longrightarrow>
-       (F2 \<in> S \<longrightarrow> isModel (interpretacionAsoc S) F2) \<and>
-       (\<^bold>\<not> F2 \<in> S \<longrightarrow> \<not> isModel (interpretacionAsoc S) F2) \<Longrightarrow>
-       (F1 \<^bold>\<and> F2 \<in> S \<longrightarrow> isModel (interpretacionAsoc S) (F1 \<^bold>\<and> F2)) \<and>
-       (\<^bold>\<not> (F1 \<^bold>\<and> F2) \<in> S \<longrightarrow> \<not> isModel (interpretacionAsoc S) (F1 \<^bold>\<and> F2))"
+  show "(F1 \<in> S \<longrightarrow> isModel (setValuation S) F1) \<and>
+       (\<^bold>\<not> F1 \<in> S \<longrightarrow> \<not> isModel (setValuation S) F1) \<Longrightarrow>
+       (F2 \<in> S \<longrightarrow> isModel (setValuation S) F2) \<and>
+       (\<^bold>\<not> F2 \<in> S \<longrightarrow> \<not> isModel (setValuation S) F2) \<Longrightarrow>
+       (F1 \<^bold>\<and> F2 \<in> S \<longrightarrow> isModel (setValuation S) (F1 \<^bold>\<and> F2)) \<and>
+       (\<^bold>\<not> (F1 \<^bold>\<and> F2) \<in> S \<longrightarrow> \<not> isModel (setValuation S) (F1 \<^bold>\<and> F2))"
     using assms by (rule Hl2_3)
 next
   fix F1 F2
-  show "(F1 \<in> S \<longrightarrow> isModel (interpretacionAsoc S) F1) \<and>
-       (\<^bold>\<not> F1 \<in> S \<longrightarrow> \<not> isModel (interpretacionAsoc S) F1) \<Longrightarrow>
-       (F2 \<in> S \<longrightarrow> isModel (interpretacionAsoc S) F2) \<and>
-       (\<^bold>\<not> F2 \<in> S \<longrightarrow> \<not> isModel (interpretacionAsoc S) F2) \<Longrightarrow>
-       (F1 \<^bold>\<or> F2 \<in> S \<longrightarrow> isModel (interpretacionAsoc S) (F1 \<^bold>\<or> F2)) \<and>
-       (\<^bold>\<not> (F1 \<^bold>\<or> F2) \<in> S \<longrightarrow> \<not> isModel (interpretacionAsoc S) (F1 \<^bold>\<or> F2))"
+  show "(F1 \<in> S \<longrightarrow> isModel (setValuation S) F1) \<and>
+       (\<^bold>\<not> F1 \<in> S \<longrightarrow> \<not> isModel (setValuation S) F1) \<Longrightarrow>
+       (F2 \<in> S \<longrightarrow> isModel (setValuation S) F2) \<and>
+       (\<^bold>\<not> F2 \<in> S \<longrightarrow> \<not> isModel (setValuation S) F2) \<Longrightarrow>
+       (F1 \<^bold>\<or> F2 \<in> S \<longrightarrow> isModel (setValuation S) (F1 \<^bold>\<or> F2)) \<and>
+       (\<^bold>\<not> (F1 \<^bold>\<or> F2) \<in> S \<longrightarrow> \<not> isModel (setValuation S) (F1 \<^bold>\<or> F2))"
     using assms by (rule Hl2_4)
 next
   fix F1 F2
-  show "(F1 \<in> S \<longrightarrow> isModel (interpretacionAsoc S) F1) \<and>
-       (\<^bold>\<not> F1 \<in> S \<longrightarrow> \<not> isModel (interpretacionAsoc S) F1) \<Longrightarrow>
-       (F2 \<in> S \<longrightarrow> isModel (interpretacionAsoc S) F2) \<and>
-       (\<^bold>\<not> F2 \<in> S \<longrightarrow> \<not> isModel (interpretacionAsoc S) F2) \<Longrightarrow>
-       (F1 \<^bold>\<rightarrow> F2 \<in> S \<longrightarrow> isModel (interpretacionAsoc S) (F1 \<^bold>\<rightarrow> F2)) \<and>
-       (\<^bold>\<not> (F1 \<^bold>\<rightarrow> F2) \<in> S \<longrightarrow> \<not> isModel (interpretacionAsoc S) (F1 \<^bold>\<rightarrow> F2))"
+  show "(F1 \<in> S \<longrightarrow> isModel (setValuation S) F1) \<and>
+       (\<^bold>\<not> F1 \<in> S \<longrightarrow> \<not> isModel (setValuation S) F1) \<Longrightarrow>
+       (F2 \<in> S \<longrightarrow> isModel (setValuation S) F2) \<and>
+       (\<^bold>\<not> F2 \<in> S \<longrightarrow> \<not> isModel (setValuation S) F2) \<Longrightarrow>
+       (F1 \<^bold>\<rightarrow> F2 \<in> S \<longrightarrow> isModel (setValuation S) (F1 \<^bold>\<rightarrow> F2)) \<and>
+       (\<^bold>\<not> (F1 \<^bold>\<rightarrow> F2) \<in> S \<longrightarrow> \<not> isModel (setValuation S) (F1 \<^bold>\<rightarrow> F2))"
     using assms by (rule Hl2_5)
 qed
 
 lemma Hintikka_model:
   assumes "Hintikka S"
-  shows "isModelSet (interpretacionAsoc S) S"
+  shows "isModelSet (setValuation S) S"
 proof -
-  have "\<forall>F. (F \<in> S \<longrightarrow> isModel (interpretacionAsoc S) F)"
+  have "\<forall>F. (F \<in> S \<longrightarrow> isModel (setValuation S) F)"
   proof (rule allI)
     fix F
-    have "(F \<in> S \<longrightarrow> isModel (interpretacionAsoc S) F)
-           \<and> (\<^bold>\<not> F \<in> S \<longrightarrow> (\<not>(isModel (interpretacionAsoc S) F)))"
+    have "(F \<in> S \<longrightarrow> isModel (setValuation S) F)
+           \<and> (\<^bold>\<not> F \<in> S \<longrightarrow> (\<not>(isModel (setValuation S) F)))"
       using assms by (rule Hintikkas_lemma_l2)
-    thus "F \<in> S \<longrightarrow> isModel (interpretacionAsoc S) F"
+    thus "F \<in> S \<longrightarrow> isModel (setValuation S) F"
       by (rule conjunct1)
   qed
-  thus "isModelSet (interpretacionAsoc S) S"
+  thus "isModelSet (setValuation S) S"
     by (simp only: modelSet)
 qed 
 
@@ -1387,7 +1368,7 @@ theorem
   assumes "Hintikka S"
   shows "sat S"
 proof -
-  have "isModelSet (interpretacionAsoc S) S"
+  have "isModelSet (setValuation S) S"
     using assms by (rule Hintikka_model)
   then have "\<exists>\<A>. isModelSet \<A> S"
     by (simp only: exI)
