@@ -881,10 +881,8 @@ text \<open>Previamente a la demostración del \<open>Lema de Hintikka\<close> y
 
   Su formalización en Isabelle es la siguiente.\<close>
 
-lemma
-  assumes "Hintikka S"
-  shows "(F \<in> S \<longrightarrow> isModel (setValuation S) F)
-           \<and> (\<^bold>\<not> F \<in> S \<longrightarrow> (\<not>(isModel (setValuation S) F)))"
+lemma "Hintikka S \<Longrightarrow> (F \<in> S \<longrightarrow> isModel (setValuation S) F)
+           \<and> (\<^bold>\<not> F \<in> S \<longrightarrow> (\<not> (isModel (setValuation S) F)))"
   oops
 
 text \<open>Procedamos a la demostración del resultado.
@@ -892,7 +890,34 @@ text \<open>Procedamos a la demostración del resultado.
     El lema se prueba mediante inducción en la estructura de las
     fórmulas. Como es habitual, se distinguen los siguientes casos.
 
-    En primer lugar, 
+    En primer lugar, consideremos el conjunto de Hintikka \<open>S\<close>. Queremos
+    probar que, dada una variable proposicional \<open>p\<close> cualquiera, se
+    verifica:
+    \begin{itemize} 
+      \item La interpretación asociada a \<open>S\<close> es modelo de \<open>p\<close> si la
+        fórmula \<open>p\<close> está en \<open>S\<close>.
+      \item La interpretación asociada a \<open>S\<close> no es modelo de \<open>p\<close> si la
+        fórmula \<open>\<not> p\<close> está en \<open>S\<close>.
+    \end{itemize}
+    Veamos la primera afirmación. Para ello, supongamos inicialmente
+    que la fórmula \<open>p\<close> pertenece al conjunto \<open>S\<close>. En este caso, 
+    la imagen de la variable \<open>p\<close> por la interpretación asociada al
+    conjunto \<open>S\<close> es \<open>Verdadero\<close>. Por definición del valor de una 
+    fórmula atómica en una interpretación, a su vez esto es igual al
+    valor de \<open>p\<close> en la interpretación asociada a \<open>S\<close>. Por tanto, la
+    interpretación asociada a \<open>S\<close> es modelo de \<open>p\<close> por definición.\\
+    Por otra parte, demostremos la segunda afirmación. Supongamos
+    primero que \<open>\<not> p\<close> pertenece a \<open>S\<close>. Por la propiedad demostrada 
+    anteriormente, sabemos que como \<open>S\<close> es de Hintikka, si \<open>\<not> p\<close> 
+    pertenece a \<open>S\<close>, entonces \<open>p\<close> no pertenece a \<open>S\<close>, luego se deduce 
+    esto último. De este modo, la imagen de la variable \<open>p\<close> por la 
+    interpretación asociada a \<open>S\<close> es \<open>Falso\<close> en este caso. A su vez, 
+    esto es igual al valor de la fórmula \<open>p\<close> en dicha interpretación, 
+    luego por definición de modelo se obtiene que la interpretación 
+    asociada al conjunto \<open>S\<close> no es modelo de \<open>p\<close>, como queríamos probar.
+ 
+    Probemos ahora el resultado para la fórmula \<open>\<bottom>\<close> dado un conjunto de
+    Hintikka cualquiera \<open>S\<close>.
   \end{demostracion}\<close>
 
 lemma
@@ -936,7 +961,45 @@ lemma Hl2_1:
   assumes  "Hintikka S"
   shows "\<And>x. (Atom x \<in> S \<longrightarrow> isModel (setValuation S) (Atom x)) \<and>
          (\<^bold>\<not> (Atom x) \<in> S \<longrightarrow> \<not> isModel (setValuation S) (Atom x))"
-  by (simp add: Hintikka_l10 assms isModel_def setValuation_def) 
+  by (simp add: Hintikka_l10 assms isModel_def setValuation_def)
+
+lemma 
+  assumes "Hintikka S"
+  shows "(\<bottom> \<in> S \<longrightarrow> isModel (setValuation S) \<bottom>)
+           \<and> (\<^bold>\<not> \<bottom> \<in> S \<longrightarrow> (\<not>(isModel (setValuation S) \<bottom>)))"
+proof (rule conjI)
+  show "\<bottom> \<in> S \<longrightarrow> isModel (setValuation S) \<bottom>"
+  proof (rule impI)
+    assume "\<bottom> \<in> S"
+    have "\<bottom> \<notin> S" 
+      using assms by (rule Hintikka_l1)
+    thus "isModel (setValuation S) \<bottom>"
+      using \<open>\<bottom> \<in> S\<close> by (rule notE)
+  qed
+next
+  show "\<^bold>\<not> \<bottom> \<in> S \<longrightarrow> \<not> isModel (setValuation S) \<bottom>"
+  proof (rule impI)
+    assume "\<^bold>\<not> \<bottom> \<in> S"
+    have "\<bottom> \<notin> S"
+      using assms by (rule Hintikka_l1)
+    have "\<not> (setValuation S) \<Turnstile> \<bottom>"
+    proof (rule notI)
+     assume "setValuation S \<Turnstile> \<bottom>"
+      thus "False"
+        by (simp only: formula_semantics.simps(2))
+    qed
+    also have "(\<not> (setValuation S) \<Turnstile> \<bottom>) = (\<not> isModel (setValuation S) \<bottom>)"
+      by (simp only: isModel_def)
+    finally show "\<not> isModel (setValuation S) \<bottom>"
+      by this
+  qed
+qed
+
+lemma Hl2_2:
+  assumes "Hintikka S"
+  shows "(\<bottom> \<in> S \<longrightarrow> isModel (setValuation S) \<bottom>)
+           \<and> (\<^bold>\<not> \<bottom> \<in> S \<longrightarrow> (\<not> (isModel (setValuation S) \<bottom>)))"
+  by (simp add: Hintikka_l1 assms isModel_def)
 
 lemma
   assumes "Hintikka S"
@@ -988,7 +1051,7 @@ next
   qed
 qed
 
-lemma Hl2_2:
+lemma Hl2_3:
   assumes "Hintikka S"
   shows " \<And>F. (F \<in> S \<longrightarrow> isModel (setValuation S) F) \<and>
          (\<^bold>\<not> F \<in> S \<longrightarrow> \<not> isModel (setValuation S) F) \<Longrightarrow>
@@ -1088,7 +1151,7 @@ next
   qed
 qed
 
-lemma Hl2_3:
+lemma Hl2_4:
   assumes "Hintikka S"
   shows "\<And>F1 F2.
        (F1 \<in> S \<longrightarrow> isModel (setValuation S) F1) \<and>
@@ -1190,7 +1253,7 @@ next
 qed
 
 
-lemma Hl2_4:
+lemma Hl2_5:
   assumes "Hintikka S"
   shows "\<And>F1 F2.
        (F1 \<in> S \<longrightarrow> isModel (setValuation S) F1) \<and>
@@ -1304,7 +1367,7 @@ next
   qed
 qed
 
-lemma Hl2_5:
+lemma Hl2_6:
   assumes "Hintikka S"
   shows " \<And>F1 F2.
        (F1 \<in> S \<longrightarrow> isModel (setValuation S) F1) \<and>
@@ -1325,42 +1388,16 @@ proof (induct F)
          (\<^bold>\<not> (Atom x) \<in> S \<longrightarrow> \<not> isModel (setValuation S) (Atom x))"
     using assms by (rule Hl2_1)
 next
-  show " (\<bottom> \<in> S \<longrightarrow> isModel (setValuation S) \<bottom>) \<and>
+  show "(\<bottom> \<in> S \<longrightarrow> isModel (setValuation S) \<bottom>) \<and>
     (\<^bold>\<not> \<bottom> \<in> S \<longrightarrow> \<not> isModel (setValuation S) \<bottom>)" 
-  proof (rule conjI)
-    show "\<bottom> \<in> S \<longrightarrow> isModel (setValuation S) \<bottom>"
-    proof (rule impI)
-      assume "\<bottom> \<in> S"
-      have "\<bottom> \<notin> S" 
-        using assms by (rule Hintikka_l1)
-      thus "isModel (setValuation S) \<bottom>"
-        using \<open>\<bottom> \<in> S\<close> by (rule notE)
-    qed
-  next
-    show "\<^bold>\<not> \<bottom> \<in> S \<longrightarrow> \<not> isModel (setValuation S) \<bottom>"
-    proof (rule impI)
-      assume "\<^bold>\<not> \<bottom> \<in> S"
-      have "\<bottom> \<notin> S"
-        using assms by (rule Hintikka_l1)
-      have "\<not> (setValuation S) \<Turnstile> \<bottom>"
-      proof (rule notI)
-        assume "setValuation S \<Turnstile> \<bottom>"
-        thus "False"
-          by (simp only: formula_semantics.simps(2))
-      qed
-      also have "(\<not> (setValuation S) \<Turnstile> \<bottom>) = (\<not> isModel (setValuation S) \<bottom>)"
-        by (simp only: isModel_def)
-      finally show "\<not> isModel (setValuation S) \<bottom>"
-        by this
-    qed
-  qed
+    using assms by (rule Hl2_2)
 next
   fix F
   show "(F \<in> S \<longrightarrow> isModel (setValuation S) F) \<and>
          (\<^bold>\<not> F \<in> S \<longrightarrow> \<not> isModel (setValuation S) F) \<Longrightarrow>
          (\<^bold>\<not> F \<in> S \<longrightarrow> isModel (setValuation S) (\<^bold>\<not> F)) \<and>
          (\<^bold>\<not> (\<^bold>\<not> F) \<in> S \<longrightarrow> \<not> isModel (setValuation S) (\<^bold>\<not> F))"
-    using assms by (rule Hl2_2)
+    using assms by (rule Hl2_3)
 next
   fix F1 F2
   show "(F1 \<in> S \<longrightarrow> isModel (setValuation S) F1) \<and>
@@ -1369,7 +1406,7 @@ next
        (\<^bold>\<not> F2 \<in> S \<longrightarrow> \<not> isModel (setValuation S) F2) \<Longrightarrow>
        (F1 \<^bold>\<and> F2 \<in> S \<longrightarrow> isModel (setValuation S) (F1 \<^bold>\<and> F2)) \<and>
        (\<^bold>\<not> (F1 \<^bold>\<and> F2) \<in> S \<longrightarrow> \<not> isModel (setValuation S) (F1 \<^bold>\<and> F2))"
-    using assms by (rule Hl2_3)
+    using assms by (rule Hl2_4)
 next
   fix F1 F2
   show "(F1 \<in> S \<longrightarrow> isModel (setValuation S) F1) \<and>
@@ -1378,7 +1415,7 @@ next
        (\<^bold>\<not> F2 \<in> S \<longrightarrow> \<not> isModel (setValuation S) F2) \<Longrightarrow>
        (F1 \<^bold>\<or> F2 \<in> S \<longrightarrow> isModel (setValuation S) (F1 \<^bold>\<or> F2)) \<and>
        (\<^bold>\<not> (F1 \<^bold>\<or> F2) \<in> S \<longrightarrow> \<not> isModel (setValuation S) (F1 \<^bold>\<or> F2))"
-    using assms by (rule Hl2_4)
+    using assms by (rule Hl2_5)
 next
   fix F1 F2
   show "(F1 \<in> S \<longrightarrow> isModel (setValuation S) F1) \<and>
@@ -1387,7 +1424,7 @@ next
        (\<^bold>\<not> F2 \<in> S \<longrightarrow> \<not> isModel (setValuation S) F2) \<Longrightarrow>
        (F1 \<^bold>\<rightarrow> F2 \<in> S \<longrightarrow> isModel (setValuation S) (F1 \<^bold>\<rightarrow> F2)) \<and>
        (\<^bold>\<not> (F1 \<^bold>\<rightarrow> F2) \<in> S \<longrightarrow> \<not> isModel (setValuation S) (F1 \<^bold>\<rightarrow> F2))"
-    using assms by (rule Hl2_5)
+    using assms by (rule Hl2_6)
 qed
 
 lemma Hintikka_model:
