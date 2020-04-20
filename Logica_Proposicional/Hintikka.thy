@@ -917,7 +917,23 @@ text \<open>Procedamos a la demostración del resultado.
     asociada al conjunto \<open>S\<close> no es modelo de \<open>p\<close>, como queríamos probar.
  
     Probemos ahora el resultado para la fórmula \<open>\<bottom>\<close> dado un conjunto de
-    Hintikka cualquiera \<open>S\<close>.
+    Hintikka cualquiera \<open>S\<close>. Análogamente, vamos a demostrar dos
+    afirmaciones.\\
+    En primer lugar probaremos que la interpretación asociada a \<open>S\<close>
+    es modelo de \<open>\<bottom>\<close> si dicha fórmula pertenece al conjunto. Para ello,
+    suponemos que \<open>\<bottom>\<close> pertenece efectivamente a \<open>S\<close>. Como \<open>S\<close> es de
+    Hintikka, por la primera condición de la definición sabemos que \<open>\<bottom>\<close>
+    no pertence al conjunto, de modo que hemos llegado a una
+    contradicción. Por la regla de eliminación de la negación lógica
+    tenemos, en particular, el resultado.\\
+    Demostremos a continuación que la interpretación asociada a \<open>S\<close> no
+    es modelo de \<open>\<bottom>\<close> si \<open>\<not> \<bottom>\<close> pertenece a \<open>S\<close>. Suponemos primero que
+    \<open>\<not> \<bottom>\<close> está en el conjunto. Como el valor de \<open>\<bottom>\<close> es \<open>Falso\<close> en toda
+    interpretación, en particular lo es en la interpretación asociada
+    al conjunto \<open>S\<close>. De este modo, dicha interpretación no es modelo
+    de \<open>\<bottom>\<close>, como queríamos demostrar.
+
+    
   \end{demostracion}\<close>
 
 lemma
@@ -980,8 +996,6 @@ next
   show "\<^bold>\<not> \<bottom> \<in> S \<longrightarrow> \<not> isModel (setValuation S) \<bottom>"
   proof (rule impI)
     assume "\<^bold>\<not> \<bottom> \<in> S"
-    have "\<bottom> \<notin> S"
-      using assms by (rule Hintikka_l1)
     have "\<not> (setValuation S) \<Turnstile> \<bottom>"
     proof (rule notI)
      assume "setValuation S \<Turnstile> \<bottom>"
