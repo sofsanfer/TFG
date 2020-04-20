@@ -933,8 +933,41 @@ text \<open>Procedamos a la demostración del resultado.
     al conjunto \<open>S\<close>. De este modo, dicha interpretación no es modelo
     de \<open>\<bottom>\<close>, como queríamos demostrar.
 
-    
-  \end{demostracion}\<close>
+    Consideremos ahora el conjunto de Hintikka \<open>S\<close> y una fórmula 
+    cualquiera \<open>F\<close> tal que la interpretación asociada a \<open>S\<close> es modelo
+    de \<open>F\<close> si esta pertenece al conjunto, y no es modelo de \<open>F\<close> si 
+    \<open>\<not> F\<close> pertenece a \<open>S\<close>. Vamos a probar que dicha interpretación es
+    modelo de \<open>\<not> F\<close> si \<open>\<not> F\<close> pertence al conjunto, y no es modelo de 
+    \<open>\<not> F\<close> si \<open>\<not> (\<not> F)\<close> pertenece al conjunto.\\
+    Probemos, en primer lugar, que la interpretación asociada al
+    conjunto \<open>S\<close> es modelo de \<open>\<not> F\<close> si esta pertenece a \<open>S\<close>. Supongamos
+    inicialmente que \<open>\<not> F\<close> está en \<open>S\<close>. Por hipótesis de inducción,
+    en este caso tenemos que la interpretación asociada a \<open>S\<close> no es 
+    modelo de \<open>F\<close>. En otras palabras, no es cierto que el valor de \<open>F\<close> 
+    en esta interpretación sea \<open>Verdadero\<close>. Por definición del valor
+    de la negación de una fórmula en una interpretación, esto es
+    equivalente a que el valor de la fórmula \<open>\<not> F\<close> en la interpretación
+    asociada a \<open>S\<close> sea \<open>Verdadero\<close>. Por lo tanto, dicha interpretación
+    es modelo de \<open>\<not> F\<close>.\\
+    Por otra parte, probemos que el la interpretación asociada a \<open>S\<close> no
+    es modelo de la fórmula \<open>\<not> F\<close> si \<open>\<not> (\<not> F)\<close> está en \<open>S\<close>. Supongamos,
+    pues, que \<open>\<not> (\<not> F)\<close> pertenece al conjunto \<open>S\<close>. Como \<open>S\<close> es de 
+    Hintikka, por la sexta condición de la definición tenemos que si 
+    \<open>\<not> (\<not> F)\<close> pertenece a \<open>S\<close>, entonces \<open>F\<close> pertenece a \<open>S\<close>. Por tanto,
+    se obtiene esto último. Por hipótesis de inducción, como \<open>F\<close>
+    pertenece al conjunto \<open>S\<close>, entonces la interpretación asociada a
+    \<open>S\<close> es modelo de \<open>F\<close>. Por introducción de la doble negación, se
+    deduce que no es cierto que dicha interpretación no sea modelo de 
+    \<open>F\<close>, es decir, no es cierto que el valor de \<open>F\<close> en dicha
+    interpretación no sea \<open>Verdadero\<close>. Análogamente, por definición del
+    valor de la negación de una fórmula en una interpretación, tenemos
+    que esto es equivalente a asumir que no es cierto que el valor de
+    \<open>\<not> F\<close> en la interpretación asociada a \<open>S\<close> sea \<open>Verdadero\<close>. Por lo
+    tanto, esta interpretación no es modelo de \<open>\<not> F\<close>, como queríamos
+    demostrar. 
+  \end{demostracion}
+
+  \comentario{Voy por aquí. Faltan conectivas binarias}\<close>
 
 lemma
   assumes  "Hintikka S"
