@@ -846,11 +846,54 @@ text \<open>Una vez definida la noción de conjunto de Hintikka y conocidas las
     al conjunto, y \<open>Falso\<close> en caso contrario.
   \end{definicion}
 
-  Su formalización en Isabelle/HOL es la siguiente.\<close>
+  En Isabelle se formalizará mediante el tipo \<open>definition\<close> como se
+  expone a continuación.\<close>
 
 definition setValuation :: 
    "('a formula) set \<Rightarrow> 'a valuation" where
     "setValuation S  \<equiv> \<lambda>k. Atom k \<in> S"
+
+text \<open>Presentemos ahora ejemplos del valor de ciertas fórmulas 
+  en la interpretación asociada a los conjuntos siguientes.\<close>
+
+notepad
+begin
+
+  have "(setValuation {Atom 0 \<^bold>\<and> ((\<^bold>\<not> (Atom 1)) \<^bold>\<rightarrow> Atom 2), 
+            ((\<^bold>\<not> (Atom 1)) \<^bold>\<rightarrow> Atom 2), Atom 0,
+            \<^bold>\<not>(\<^bold>\<not> (Atom 1)), Atom 1}) \<Turnstile> Atom 1 \<^bold>\<rightarrow> Atom 0 = True"
+    unfolding setValuation_def by simp
+
+  have "(setValuation {Atom 3 \<^bold>\<or> (\<^bold>\<not> (Atom 1)), 
+            \<^bold>\<not> (\<^bold>\<not> (Atom 6))}) \<Turnstile> Atom 2 \<^bold>\<or> Atom 6 = False"
+    unfolding setValuation_def by simp
+
+end
+
+text \<open>Previamente a la demostración del \<open>Lema de Hintikka\<close> y con el fin
+  de facilitarla, introduciremos el siguiente resultado.
+
+  \begin{lema}
+    La interpretación asociada a un conjunto de Hintikka es modelo de
+    toda fórmula perteneciente al conjunto. Además, dicha interpretación
+    no es modelo de las fórmulas cuya negación pertenece al conjunto.
+  \end{lema}
+
+  Su formalización en Isabelle es la siguiente.\<close>
+
+lemma
+  assumes "Hintikka S"
+  shows "(F \<in> S \<longrightarrow> isModel (setValuation S) F)
+           \<and> (\<^bold>\<not> F \<in> S \<longrightarrow> (\<not>(isModel (setValuation S) F)))"
+  oops
+
+text \<open>Procedamos a la demostración del resultado.
+  \begin{demostracion}
+    El lema se prueba mediante inducción en la estructura de las
+    fórmulas. Como es habitual, se distinguen los siguientes casos.
+
+    En primer lugar, 
+  \end{demostracion}\<close>
 
 lemma
   assumes  "Hintikka S"
