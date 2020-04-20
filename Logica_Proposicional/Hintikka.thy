@@ -832,7 +832,19 @@ text \<open>Una vez definida la noción de conjunto de Hintikka y conocidas las
 
   \begin{teorema}[Lema de Hintikka]
     Todo conjunto de Hintikka es satisfacible.
-  \end{teorema}\<close>
+  \end{teorema}
+
+  Por definición, para probar que un conjunto es satisfacible, basta
+  hallar una interpretación que sea modelo suyo. De este modo, dado
+  un conjunto cualquiera definimos las siguientes interpretaciones
+  asociadas.
+
+  \begin{definicion}
+    Sea \<open>S\<close> un conjunto de fórmulas. Se define la \<open>interpretación 
+    asociada a S\<close> como aquella que, dada una variable proposicional,
+    devuelve \<open>Verdadero\<close> si su correspondiente fórmula atómica pertence 
+    al conjunto, y \<open>Falso\<close> en caso contrario.
+  \end{definicion}\<close>
 
 definition interpretacionAsoc :: 
    "('a formula) set \<Rightarrow> 'a valuation" where
@@ -1358,7 +1370,7 @@ lemma Hintikka_model:
   assumes "Hintikka S"
   shows "isModelSet (interpretacionAsoc S) S"
 proof -
-  have "\<forall>F. (F\<in> S \<longrightarrow> isModel (interpretacionAsoc S) F)"
+  have "\<forall>F. (F \<in> S \<longrightarrow> isModel (interpretacionAsoc S) F)"
   proof (rule allI)
     fix F
     have "(F \<in> S \<longrightarrow> isModel (interpretacionAsoc S) F)
