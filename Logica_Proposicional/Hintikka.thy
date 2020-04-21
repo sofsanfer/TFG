@@ -965,6 +965,69 @@ text \<open>Procedamos a la demostración del resultado.
     \<open>\<not> F\<close> en la interpretación asociada a \<open>S\<close> sea \<open>Verdadero\<close>. Por lo
     tanto, esta interpretación no es modelo de \<open>\<not> F\<close>, como queríamos
     demostrar. 
+
+    Veamos el siguiente caso de la estructura de las fórmulas. Sea \<open>S\<close>
+    un conjunto de Hintikka. Se considera que para toda fórmulas \<open>F\<^sub>1\<close> y 
+    \<open>F\<^sub>2\<close>, la interpretación asociada a \<open>S\<close> es modelo de \<open>F\<^sub>i\<close> si
+    \<open>F\<^sub>i\<close> pertenece a \<open>S\<close> para \<open>i = 1,2\<close>. Además verifican también que
+    dicha interpretación no es modelo de \<open>F\<^sub>i\<close> si \<open>\<not> F\<^sub>i\<close> pertenece a
+    \<open>S\<close> para \<open>i=1,2\<close>. Hay que probar que para toda fórmula \<open>F\<^sub>1\<close> y
+    \<open>F\<^sub>2\<close> se tiene que la interpretación asociada a \<open>S\<close> es modelo de 
+    \<open>F\<^sub>1 \<and> F\<^sub>2\<close> si \<open>F\<^sub>1 \<and> F\<^sub>2\<close> está en \<open>S\<close>, y no es modelo de 
+    \<open>F\<^sub>1 \<and> F\<^sub>2\<close> si \<open>\<not>(F\<^sub>1 \<and> F\<^sub>2)\<close> está en \<open>S\<close>.\\
+    Probemos la primera afirmación. Supongamos, pues, que para las
+    fórmulas \<open>F\<^sub>1\<close> y \<open>F\<^sub>2\<close> cualesquiera fijadas, la fórmula \<open>F\<^sub>1 \<and> F\<^sub>2\<close> 
+    pertenece a \<open>S\<close>. Como \<open>S\<close> es un conjunto de Hintikka, en particular
+    verifica la tercera condición de la definición: si \<open>F\<^sub>1 \<and> F\<^sub>2\<close> está
+    en \<open>S\<close>, entonces \<open>F\<^sub>1\<close> y \<open>F\<^sub>2\<close> están ambas en \<open>S\<close>. En particular,
+    por una parte tenemos que \<open>F\<^sub>1\<close> está en \<open>S\<close> y, por hipótesis de
+    inducción, la interpretación asociada a \<open>S\<close> es modelo de \<open>F\<^sub>1\<close>. En
+    otras palabras, el valor de \<open>F\<^sub>1\<close> en la interpretación asociada a
+    \<open>S\<close> es \<open>Verdadero\<close>. Por otra parte, también obtuvimos que \<open>F\<^sub>2\<close> 
+    pertenece a \<open>S\<close>. Razonando de manera análoga, por hipótesis de
+    inducción se verifica entonces que la interpretación asociada a \<open>S\<close>
+    es modelo de \<open>F\<^sub>2\<close>. Es decir, el valor de \<open>F\<^sub>2\<close> en dicha
+    interpretación es \<open>Verdadero\<close>. Luego hemos obtenido que el valor
+    de \<open>F\<^sub>1\<close> en la interpretación asociada a \<open>S\<close> es \<open>Verdadero\<close> y el
+    valor de \<open>F\<^sub>2\<close> en dicha interpretación también es \<open>Verdadero\<close>. Por
+    definición del valor de la conjunción de dos fórmulas en una 
+    interpretación, tenemos que lo anterior es equivalente a que el
+    valor de \<open>F\<^sub>1 \<and> F\<^sub>2\<close> en la interpretación asociada a \<open>S\<close> sea 
+    \<open>Verdadero\<close>. Por tanto, la interpretación asociada a \<open>S\<close> es modelo
+    de \<open>F\<^sub>1 \<and> F\<^sub>2\<close>, como queríamos demostrar.\\
+    Finalmente vamos a probar la segunda afirmación: la interpretación
+    asociada a \<open>S\<close> no es modelo de \<open>F\<^sub>1 \<and> F\<^sub>2\<close> si \<open>\<not>(F\<^sub>1 \<and> F\<^sub>2)\<close>
+    pertenece a \<open>S\<close> para toda fórmula \<open>F\<^sub>1\<close> y \<open>F\<^sub>2\<close> verificando las 
+    condiciones anteriormente descritas. Para ello suponemos 
+    inicialmente que, fijadas las fórmulas \<open>F\<^sub>1\<close> y \<open>F\<^sub>2\<close>, 
+    \<open>\<not>(F\<^sub>1 \<and> F\<^sub>2)\<close> está en \<open>S\<close>. Como \<open>S\<close> es de Hintikka, verifica en 
+    particular la séptima condición de la definición: si \<open>\<not>(F\<^sub>1 \<and> F\<^sub>2)\<close>
+    pertenece a \<open>S\<close>, entonces \<open>\<not> F\<^sub>1\<close> pertenece a \<open>S\<close> o \<open>\<not> F\<^sub>2\<close>
+    pertenece a \<open>S\<close>. Vamos a demostrar que la interpretación asociada a
+    \<open>S\<close> no es modelo de \<open>F\<^sub>1 \<and> F\<^sub>2\<close> bajo estas condiciones mediante la
+    eliminación de la disyunción anterior.\\
+    En primer lugar, supongamos que \<open>\<not> F\<^sub>1\<close> está en \<open>S\<close>. Por hipótesis
+    de inducción, sabemos que si \<open>\<not> F\<^sub>1\<close> pertenece a \<open>S\<close>, entonces
+    la interpretación asociada a \<open>S\<close> no es modelo de \<open>F\<^sub>1\<close>. Esto
+    significa que el valor de \<open>F\<^sub>1\<close> en la interpretación asociada a \<open>S\<close>
+    no es \<open>Verdadero\<close>. Por tanto, no es cierto que el valor de \<open>F\<^sub>1\<close> y
+    \<open>F\<^sub>2\<close> en dicha interpretación sea \<open>Verdadero\<close>. Por definición del
+    valor de la conjunción de dos fórmulas en una interpretación, esto 
+    es equivalente a que no es cierto que el valor de \<open>F\<^sub>1 \<and> F\<^sub>2\<close> en la 
+    interpretación asociada a \<open>S\<close> sea \<open>Verdadero\<close>, luego dicha 
+    interpretación no es modelo de esta fórmula.\\
+    Por otro lado, supongamos que sea \<open>\<not> F\<^sub>2\<close> la que no pertenezca a
+    \<open>S\<close>. Razonando de la misma manera, por hipótesis de inducción 
+    tenemos que si \<open>\<not> F\<^sub>2\<close> está en \<open>S\<close>, entonces la interpretación 
+    asociada a \<open>S\<close> no es modelo de \<open>F\<^sub>2\<close>. Es decir, el valor de \<open>F\<^sub>2\<close>
+    en dicha interpretación no es \<open>Verdadero\<close>. Por lo tanto, se puede
+    afirmar que no es cierto que tanto el valor de \<open>F\<^sub>1\<close> como el de
+    \<open>F\<^sub>2\<close> en la interpretación asociada a \<open>S\<close> sea \<open>Verdadero\<close>. Por la 
+    definición del valor de la conjunción de dos fórmulas en una
+    interpretación, lo anterior es equivalente a que no es cierto que
+    el valor de \<open>F\<^sub>1 \<and> F\<^sub>2\<close> en la interpretación asociada a \<open>S\<close> sea 
+    \<open>Verdadero\<close>. Por tanto, dicha interpretación no es modelo de 
+    \<open>F\<^sub>1 \<and> F\<^sub>2\<close>, como se quería demostrar.
   \end{demostracion}
 
   \comentario{Voy por aquí. Faltan conectivas binarias}\<close>
