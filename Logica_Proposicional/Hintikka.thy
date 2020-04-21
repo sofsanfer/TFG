@@ -1189,7 +1189,11 @@ text \<open>Procedamos a la demostración del resultado.
     fórmula, probando así el resultado.
   \end{demostracion}
 
-  \comentario{Voy por aquí.}\<close>
+  Una vez terminada la prueba anterior, procedemos a las distintas
+  demostraciones del lema mediante Isabelle/HOL. En primer lugar
+  aparecerán las demostraciones detalladas de cada caso de la estructura
+  de las fórmulas por separado. Posteriormente se mostrará la prueba
+  detallada del lema completo.\<close>
 
 lemma
   assumes  "Hintikka S"
@@ -1695,6 +1699,10 @@ next
        (\<^bold>\<not> (F1 \<^bold>\<rightarrow> F2) \<in> S \<longrightarrow> \<not> isModel (setValuation S) (F1 \<^bold>\<rightarrow> F2))"
     using assms by (rule Hl2_6)
 qed
+
+text \<open>\comentario{\<questiondown>Prueba automática?}
+
+      \comentario{Voy por aquí.}\<close>
 
 lemma Hintikka_model:
   assumes "Hintikka S"
