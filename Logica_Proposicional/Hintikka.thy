@@ -875,8 +875,9 @@ text \<open>Previamente a la demostración del \<open>Lema de Hintikka\<close> y
 
   \begin{lema}
     La interpretación asociada a un conjunto de Hintikka es modelo de
-    toda fórmula perteneciente al conjunto. Además, dicha interpretación
-    no es modelo de las fórmulas cuya negación pertenece al conjunto.
+    una fórmula si esta pertenece al conjunto. Además, dicha 
+    interpretación no es modelo de una fórmula si su negación 
+    pertenece al conjunto.
   \end{lema}
 
   Su formalización en Isabelle es la siguiente.\<close>
@@ -1702,7 +1703,37 @@ qed
 
 text \<open>\comentario{\<questiondown>Prueba automática?}
 
-      \comentario{Voy por aquí.}\<close>
+      \comentario{Voy por aquí.}
+
+  Para concluir, demostremos el \<open>Lema de Hintikka\<close> empleando el
+  resultado anterior.
+
+  \begin{demostracion}
+    Consideremos un conjunto de fórmulas \<open>S\<close> tal que sea un conjunto de 
+    Hintikka. Queremos demostrar que \<open>S\<close> es satisfacible, es decir, que 
+    tiene algún modelo. En otras palabras, debemos hallar una 
+    interpretación que sea modelo de \<open>S\<close>.
+
+    En primer lugar, probemos que la interpretación asociada a \<open>S\<close> es 
+    modelo de \<open>S\<close>. Por definición de modelo de un conjunto, basta 
+    comprobar que es modelo de toda fórmula perteneciente al mismo. 
+    Fijemos una fórmula cualquiera. El resultado anterior probó, en
+    particular, que la interpretación asociada a \<open>S\<close> es modelo de la 
+    fórmula si esta pertenece al conjunto. Por tanto, para toda fórmula
+    se tiene que la interpretación asociada a \<open>S\<close> es modelo de la misma
+    si esta pertenece al conjunto. En otras palabras, dicha 
+    interpretación es, en efecto, modelo de todas las fórmulas que 
+    pertenecen a \<open>S\<close>. Luego la interpretación asociada a \<open>S\<close> es modelo 
+    de \<open>S\<close>.
+
+    En conclusión, hemos hallado una interpretación que es modelo del
+    conjunto. Por lo tanto, \<open>S\<close> es satisfacible, como se quería probar.
+  \end{demostracion}
+
+  Por su parte, la prueba detallada en Isabelle emplea el lema
+  auxiliar \<open>Hintikka_model\<close>. Con él se demuestra la primera parte del 
+  lema de Hintikka: dado un conjunto de Hintiikka, la interpretación 
+  asociada al conjunto es modelo del mismo.\<close>
 
 lemma Hintikka_model:
   assumes "Hintikka S"
@@ -1720,6 +1751,9 @@ proof -
   thus "isModelSet (setValuation S) S"
     by (simp only: modelSet)
 qed 
+
+text \<open>Finalmente, las pruebas detallada y automática del 
+  \<open>Lema de Hintikka\<close> en Isabelle/HOL.\<close>
 
 theorem
   assumes "Hintikka S"
