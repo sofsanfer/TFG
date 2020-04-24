@@ -6,7 +6,7 @@ theory Hintikka
 begin
 (*>*)
 
-section \<open>Conjuntos de Hintikka y propiedades\\ básicas\<close>
+section \<open>Conjuntos de Hintikka y propiedades básicas\<close>
 
 text \<open>En esta sección presentaremos un tipo de conjuntos de fórmulas:
   los conjuntos de Hintikka. Probaremos finalmente que todo conjunto 
@@ -155,17 +155,8 @@ proof (rule impI)
   \<and> (\<forall>F G. \<^bold>\<not>(F \<^bold>\<or> G) \<in> S \<longrightarrow> \<^bold>\<not> F \<in> S \<and> \<^bold>\<not> G \<in> S)
   \<and> (\<forall>F G. \<^bold>\<not>(F \<^bold>\<rightarrow> G) \<in> S \<longrightarrow> F \<in> S \<and> \<^bold>\<not> G \<in> S)"
    using assms by (rule auxEq)
-  then have "(\<forall>k. Atom k \<in> S \<longrightarrow> \<^bold>\<not> (Atom k) \<in> S \<longrightarrow> False)
-  \<and>(\<forall>F G. F \<^bold>\<and> G \<in> S \<longrightarrow> F \<in> S \<and> G \<in> S)
-  \<and> (\<forall>F G. F \<^bold>\<or> G \<in> S \<longrightarrow> F \<in> S \<or> G \<in> S)
-  \<and> (\<forall>F G. F \<^bold>\<rightarrow> G \<in> S \<longrightarrow> \<^bold>\<not>F \<in> S \<or> G \<in> S)
-  \<and> (\<forall>F. \<^bold>\<not> (\<^bold>\<not>F) \<in> S \<longrightarrow> F \<in> S)
-  \<and> (\<forall>F G. \<^bold>\<not>(F \<^bold>\<and> G) \<in> S \<longrightarrow> \<^bold>\<not> F \<in> S \<or> \<^bold>\<not> G \<in> S)
-  \<and> (\<forall>F G. \<^bold>\<not>(F \<^bold>\<or> G) \<in> S \<longrightarrow> \<^bold>\<not> F \<in> S \<and> \<^bold>\<not> G \<in> S)
-  \<and> (\<forall>F G. \<^bold>\<not>(F \<^bold>\<rightarrow> G) \<in> S \<longrightarrow> F \<in> S \<and> \<^bold>\<not> G \<in> S)"
-    by (rule conjunct2)
   then have "(\<forall>k. Atom k \<in> S \<longrightarrow> \<^bold>\<not> (Atom k) \<in> S \<longrightarrow> False)"
-    by (rule conjunct1)
+    by (iprover elim: conjunct2 conjunct1)
   then have "\<forall>k. Atom k \<in> S \<longrightarrow> \<^bold>\<not> (Atom k) \<notin> S"
     by (simp only: not_def)
   then have "Atom k \<in> S \<longrightarrow> \<^bold>\<not> (Atom k) \<notin> S"
@@ -194,7 +185,7 @@ proof (rule impI)
   \<and> (\<forall>F G. \<^bold>\<not>(F \<^bold>\<rightarrow> G) \<in> S \<longrightarrow> F \<in> S \<and> \<^bold>\<not> G \<in> S)"
    using assms by (rule auxEq)
   then have "\<forall>F G. F \<^bold>\<and> G \<in> S \<longrightarrow> F \<in> S \<and> G \<in> S"
-    by (iprover intro: conjunct2 conjunct1) 
+    by (iprover elim: conjunct2 conjunct1) 
   then have "\<forall> G. F \<^bold>\<and> G \<in> S \<longrightarrow> F \<in> S \<and> G \<in> S"
     by (rule allE)
   then have "F \<^bold>\<and> G \<in> S \<longrightarrow> F \<in> S \<and> G \<in> S"
@@ -223,7 +214,7 @@ proof (rule impI)
   \<and> (\<forall>F G. \<^bold>\<not>(F \<^bold>\<rightarrow> G) \<in> S \<longrightarrow> F \<in> S \<and> \<^bold>\<not> G \<in> S)"
    using assms by (rule auxEq)
   then have "\<forall>F G. F \<^bold>\<or> G \<in> S \<longrightarrow> F \<in> S \<or> G \<in> S" 
-    by (iprover intro: conjunct2 conjunct1)
+    by (iprover elim: conjunct2 conjunct1)
   then have "\<forall>G. F \<^bold>\<or> G \<in> S \<longrightarrow> F \<in> S \<or> G \<in> S"
     by (rule allE)
   then have "F \<^bold>\<or> G \<in> S \<longrightarrow> F \<in> S \<or> G \<in> S"
@@ -252,7 +243,7 @@ proof (rule impI)
   \<and> (\<forall>F G. \<^bold>\<not>(F \<^bold>\<rightarrow> G) \<in> S \<longrightarrow> F \<in> S \<and> \<^bold>\<not> G \<in> S)"
    using assms by (rule auxEq)
   then have "\<forall>F G. F \<^bold>\<rightarrow> G \<in> S \<longrightarrow> \<^bold>\<not>F \<in> S \<or> G \<in> S"
-    by (iprover intro: conjunct2 conjunct1)
+    by (iprover elim: conjunct2 conjunct1)
   then have "\<forall>G. F \<^bold>\<rightarrow> G \<in> S \<longrightarrow> \<^bold>\<not>F \<in> S \<or> G \<in> S"
     by (rule allE)
   then have "F \<^bold>\<rightarrow> G \<in> S \<longrightarrow> \<^bold>\<not>F \<in> S \<or> G \<in> S"
@@ -281,7 +272,7 @@ proof (rule impI)
   \<and> (\<forall>F G. \<^bold>\<not>(F \<^bold>\<rightarrow> G) \<in> S \<longrightarrow> F \<in> S \<and> \<^bold>\<not> G \<in> S)"
    using assms by (rule auxEq)
   then have "\<forall>F. \<^bold>\<not> (\<^bold>\<not>F) \<in> S \<longrightarrow> F \<in> S"
-    by (iprover intro: conjunct2 conjunct1)
+    by (iprover elim: conjunct2 conjunct1)
   then have "\<^bold>\<not> (\<^bold>\<not>F) \<in> S \<longrightarrow> F \<in> S"
     by (rule allE)
   thus "F \<in> S"
@@ -308,7 +299,7 @@ proof (rule impI)
   \<and> (\<forall>F G. \<^bold>\<not>(F \<^bold>\<rightarrow> G) \<in> S \<longrightarrow> F \<in> S \<and> \<^bold>\<not> G \<in> S)"
    using assms by (rule auxEq)
   then have "\<forall>F G. \<^bold>\<not>(F \<^bold>\<and> G) \<in> S \<longrightarrow> \<^bold>\<not> F \<in> S \<or> \<^bold>\<not> G \<in> S"
-    by (iprover intro: conjunct2 conjunct1)
+    by (iprover elim: conjunct2 conjunct1)
   then have "\<forall>G. \<^bold>\<not>(F \<^bold>\<and> G) \<in> S \<longrightarrow> \<^bold>\<not> F \<in> S \<or> \<^bold>\<not> G \<in> S"
     by (rule allE)
   then have "\<^bold>\<not>(F \<^bold>\<and> G) \<in> S \<longrightarrow> \<^bold>\<not> F \<in> S \<or> \<^bold>\<not> G \<in> S"
@@ -337,7 +328,7 @@ proof (rule impI)
   \<and> (\<forall>F G. \<^bold>\<not>(F \<^bold>\<rightarrow> G) \<in> S \<longrightarrow> F \<in> S \<and> \<^bold>\<not> G \<in> S)"
    using assms by (rule auxEq)
   then have "\<forall>F G. \<^bold>\<not>(F \<^bold>\<or> G) \<in> S \<longrightarrow> \<^bold>\<not> F \<in> S \<and> \<^bold>\<not> G \<in> S"
-    by (iprover intro: conjunct2 conjunct1)
+    by (iprover elim: conjunct2 conjunct1)
   then have "\<forall>G. \<^bold>\<not>(F \<^bold>\<or> G) \<in> S \<longrightarrow> \<^bold>\<not> F \<in> S \<and> \<^bold>\<not> G \<in> S"
     by (rule allE)
   then have "\<^bold>\<not>(F \<^bold>\<or> G) \<in> S \<longrightarrow> \<^bold>\<not> F \<in> S \<and> \<^bold>\<not> G \<in> S"
@@ -366,7 +357,7 @@ proof (rule impI)
   \<and> (\<forall>F G. \<^bold>\<not>(F \<^bold>\<rightarrow> G) \<in> S \<longrightarrow> F \<in> S \<and> \<^bold>\<not> G \<in> S)"
    using assms by (rule auxEq)
   then have "\<forall>F G. \<^bold>\<not>(F \<^bold>\<rightarrow> G) \<in> S \<longrightarrow> F \<in> S \<and> \<^bold>\<not> G \<in> S"
-    by (iprover intro: conjunct2)
+    by (iprover elim: conjunct2)
   then have "\<forall>G. \<^bold>\<not>(F \<^bold>\<rightarrow> G) \<in> S \<longrightarrow> F \<in> S \<and> \<^bold>\<not> G \<in> S"
     by (rule allE)
   then have "\<^bold>\<not>(F \<^bold>\<rightarrow> G) \<in> S \<longrightarrow> F \<in> S \<and> \<^bold>\<not> G \<in> S"
@@ -379,9 +370,22 @@ lemma Hintikka_l9:
  "Hintikka S \<Longrightarrow> \<^bold>\<not>(F \<^bold>\<rightarrow> G) \<in> S \<longrightarrow> F \<in> S \<and> \<^bold>\<not> G \<in> S"
   by (smt Hintikka_def)
 
-text \<open>\comentario{Explicar iprover intro.}\<close>
+text \<open>Como se puede observar, en las pruebas anteriores hemos
+  utilizado la táctica de demostración 
+  \<open>(iprover elim: \<open>rules\<close>)\<close>. Con esta táctica aplicamos
+  reiteradamente una o varias reglas y reducimos pasos en la prueba de 
+  Isabelle/HOL. Para ello, nos hemos servido del método de demostración 
+  \<open>elim\<close> que permite aplicar repetidamente una o varias reglas de 
+  eliminación especificadas. En nuestro caso, hemos utilizado las reglas 
+  de eliminación de la conjunción. Por otro lado, \<open>iprover\<close> es un 
+  buscador intuitivo de métodos de demostración en Isabelle/HOL que 
+  depende del contexto y de las reglas o métodos específicamente 
+  declarados a continuación del mismo. De este modo, combinando ambos, 
+  \<open>iprover\<close> busca intuitivamente el método de demostración que, mediante 
+  la aplicación reiterada de reglas de eliminación señaladas por \<open>elim\<close>, 
+  pruebe adecuadamente el resultado.
 
-text \<open>Finalmente, veamos un resultado derivado de las condiciones
+  Finalmente, veamos un resultado derivado de las condiciones
   exigidas a los conjuntos de Hintikka.
 
   \begin{lema}
@@ -1701,11 +1705,7 @@ next
     using assms by (rule Hl2_6)
 qed
 
-text \<open>\comentario{\<questiondown>Prueba automática?}
-
-      \comentario{Voy por aquí.}
-
-  Para concluir, demostremos el \<open>Lema de Hintikka\<close> empleando el
+text \<open>Para concluir, demostremos el \<open>Lema de Hintikka\<close> empleando el
   resultado anterior.
 
   \begin{demostracion}
