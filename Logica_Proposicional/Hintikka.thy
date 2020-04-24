@@ -115,7 +115,7 @@ qed
 
 text \<open>Asimismo presentaremos nueve lemas correspondientes a cada
   condición de la definición de conjunto de Hintikka. De este modo,
-  dado un conjunto de Hintikka, entonces cumple por separado cada 
+  dado un conjunto de Hintikka, este cumple por separado cada 
   condición señalada anteriormente. Veamos las demostraciones detalladas 
   y automáticas en\\ Isabelle/HOL de cada lema auxiliar.\<close>
 
@@ -186,10 +186,8 @@ proof (rule impI)
    using assms by (rule auxEq)
   then have "\<forall>F G. F \<^bold>\<and> G \<in> S \<longrightarrow> F \<in> S \<and> G \<in> S"
     by (iprover elim: conjunct2 conjunct1) 
-  then have "\<forall> G. F \<^bold>\<and> G \<in> S \<longrightarrow> F \<in> S \<and> G \<in> S"
-    by (rule allE)
   then have "F \<^bold>\<and> G \<in> S \<longrightarrow> F \<in> S \<and> G \<in> S"
-    by (rule allE)
+    by (iprover elim: allE)
   thus "F \<in> S \<and> G \<in> S"
     using \<open>F \<^bold>\<and> G \<in> S\<close> by (rule mp)
 qed
@@ -215,10 +213,8 @@ proof (rule impI)
    using assms by (rule auxEq)
   then have "\<forall>F G. F \<^bold>\<or> G \<in> S \<longrightarrow> F \<in> S \<or> G \<in> S" 
     by (iprover elim: conjunct2 conjunct1)
-  then have "\<forall>G. F \<^bold>\<or> G \<in> S \<longrightarrow> F \<in> S \<or> G \<in> S"
-    by (rule allE)
   then have "F \<^bold>\<or> G \<in> S \<longrightarrow> F \<in> S \<or> G \<in> S"
-    by (rule allE)
+    by (iprover elim: allE)
     thus "F \<in> S \<or> G \<in> S"
       using H by (rule mp)
   qed
@@ -244,10 +240,8 @@ proof (rule impI)
    using assms by (rule auxEq)
   then have "\<forall>F G. F \<^bold>\<rightarrow> G \<in> S \<longrightarrow> \<^bold>\<not>F \<in> S \<or> G \<in> S"
     by (iprover elim: conjunct2 conjunct1)
-  then have "\<forall>G. F \<^bold>\<rightarrow> G \<in> S \<longrightarrow> \<^bold>\<not>F \<in> S \<or> G \<in> S"
-    by (rule allE)
   then have "F \<^bold>\<rightarrow> G \<in> S \<longrightarrow> \<^bold>\<not>F \<in> S \<or> G \<in> S"
-    by (rule allE)
+    by (iprover elim: allE)
   thus "\<^bold>\<not>F \<in> S \<or> G \<in> S"
     using H by (rule mp)
 qed
@@ -300,10 +294,8 @@ proof (rule impI)
    using assms by (rule auxEq)
   then have "\<forall>F G. \<^bold>\<not>(F \<^bold>\<and> G) \<in> S \<longrightarrow> \<^bold>\<not> F \<in> S \<or> \<^bold>\<not> G \<in> S"
     by (iprover elim: conjunct2 conjunct1)
-  then have "\<forall>G. \<^bold>\<not>(F \<^bold>\<and> G) \<in> S \<longrightarrow> \<^bold>\<not> F \<in> S \<or> \<^bold>\<not> G \<in> S"
-    by (rule allE)
   then have "\<^bold>\<not>(F \<^bold>\<and> G) \<in> S \<longrightarrow> \<^bold>\<not> F \<in> S \<or> \<^bold>\<not> G \<in> S"
-    by (rule allE)
+    by (iprover elim: allE)
     thus "\<^bold>\<not> F \<in> S \<or> \<^bold>\<not> G \<in> S"
       using H by (rule mp)
   qed
@@ -329,10 +321,8 @@ proof (rule impI)
    using assms by (rule auxEq)
   then have "\<forall>F G. \<^bold>\<not>(F \<^bold>\<or> G) \<in> S \<longrightarrow> \<^bold>\<not> F \<in> S \<and> \<^bold>\<not> G \<in> S"
     by (iprover elim: conjunct2 conjunct1)
-  then have "\<forall>G. \<^bold>\<not>(F \<^bold>\<or> G) \<in> S \<longrightarrow> \<^bold>\<not> F \<in> S \<and> \<^bold>\<not> G \<in> S"
-    by (rule allE)
   then have "\<^bold>\<not>(F \<^bold>\<or> G) \<in> S \<longrightarrow> \<^bold>\<not> F \<in> S \<and> \<^bold>\<not> G \<in> S"
-    by (rule allE)
+    by (iprover elim: allE)
   thus "\<^bold>\<not> F \<in> S \<and> \<^bold>\<not> G \<in> S"
     using H by (rule mp)
 qed
@@ -358,10 +348,8 @@ proof (rule impI)
    using assms by (rule auxEq)
   then have "\<forall>F G. \<^bold>\<not>(F \<^bold>\<rightarrow> G) \<in> S \<longrightarrow> F \<in> S \<and> \<^bold>\<not> G \<in> S"
     by (iprover elim: conjunct2)
-  then have "\<forall>G. \<^bold>\<not>(F \<^bold>\<rightarrow> G) \<in> S \<longrightarrow> F \<in> S \<and> \<^bold>\<not> G \<in> S"
-    by (rule allE)
   then have "\<^bold>\<not>(F \<^bold>\<rightarrow> G) \<in> S \<longrightarrow> F \<in> S \<and> \<^bold>\<not> G \<in> S"
-    by (rule allE)
+    by (iprover elim: allE)
   thus "F \<in> S \<and> \<^bold>\<not> G \<in> S"
     using H by (rule mp)
 qed
@@ -373,11 +361,12 @@ lemma Hintikka_l9:
 text \<open>Como se puede observar, en las pruebas anteriores hemos
   utilizado la táctica de demostración 
   \<open>(iprover elim: \<open>rules\<close>)\<close>. Con esta táctica aplicamos
-  reiteradamente una o varias reglas y reducimos pasos en la prueba de 
+  reiteradamente una o varias reglas y reducimos pasos en la prueba de\\ 
   Isabelle/HOL. Para ello, nos hemos servido del método de demostración 
   \<open>elim\<close> que permite aplicar repetidamente una o varias reglas de 
   eliminación especificadas. En nuestro caso, hemos utilizado las reglas 
-  de eliminación de la conjunción. Por otro lado, \<open>iprover\<close> es un 
+  de eliminación de la conjunción y la regla de eliminación del 
+  cuantificador existencial. Por otro lado, \<open>iprover\<close> es un 
   buscador intuitivo de métodos de demostración en Isabelle/HOL que 
   depende del contexto y de las reglas o métodos específicamente 
   declarados a continuación del mismo. De este modo, combinando ambos, 
@@ -389,9 +378,8 @@ text \<open>Como se puede observar, en las pruebas anteriores hemos
   exigidas a los conjuntos de Hintikka.
 
   \begin{lema}
-    Sea un conjunto de Hintikka y \<open>F\<close> una fórmula cualquiera.
-    Si \<open>\<not> F\<close> pertenece al conjunto, entonces \<open>F\<close> no pertenece al
-    conjunto.
+    Dado un conjunto de Hintikka, una fórmula no pertenece al conjunto 
+    si su negación sí pertenece al mismo.
   \end{lema}
 
   Su formalización en Isabelle es la siguiente.\<close>
@@ -574,8 +562,8 @@ text \<open>En este caso, la regla \<open>contrapos_pn\<close> de la teoría
     Para ello, como es habitual, suponemos inicialmente que 
     \<open>\<not> (G \<longrightarrow> H)\<close> está en \<open>S\<close>. Al ser \<open>S\<close> un conjunto de Hintikka, en 
     particular verifica la condición novena de su definición: si
-    \<open>\<not> (G \<longrightarrow> H)\<close> pertenece a \<open>S\<close>, entonces \<open>G\<close> y \<open>\<not> H\<close> pertenecen 
-    ambas a \<open>S\<close>. Luego tenemos que tanto \<open>G\<close> como \<open>\<not> H\<close> pertencen
+    \<open>\<not> (G \<longrightarrow> H)\<close> pertenece a \<open>S\<close>, entonces \<open>G\<close> y\\ \<open>\<not> H\<close> pertenecen 
+    ambas a \<open>S\<close>. Luego tenemos que tanto \<open>G\<close> como \<open>\<not> H\<close> pertenecen
     a \<open>S\<close>. En particular tenemos, por tanto, que \<open>G\<close> pertenece
     al conjunto. Introduciendo la doble negación, se deduce que no es 
     cierto que \<open>G\<close> no pertenezca a \<open>S\<close>. Como \<open>S\<close> es un conjunto de 
@@ -642,11 +630,10 @@ proof (rule impI)
     using \<open>\<not> (F \<notin> S)\<close> by (rule mt)
 qed
 
-text \<open>A continuación, los siguientes lemas auxiliares nos permitirán
-  introducir la negación de una conjunción o disyunción de dos 
-  predicados. Estos resultados nos facilitarán las pruebas de los casos 
-  de conectivas binarias. Se observa que aparecen demostrados de 
-  manera detallada en Isabelle.\<close>
+text \<open>Para facilitar las pruebas de los casos de conectivas binarias, 
+  se introducen a continuación los siguientes lemas auxiliares. Estos
+  nos permitirán introducir la negación de una conjunción o disyunción 
+  de dos predicados.\<close>
 
 lemma notConj1: 
   assumes "\<not> P"
@@ -688,9 +675,9 @@ proof (rule notI)
   qed
 qed
 
-text \<open>De este modo, comencemos las pruebas detalladas de las conectivas
-  binarias. Una vez terminadas las demostraciones de cada caso por
-  separado, se mostrará la prueba detallada del lema completo.\<close>
+text \<open>Comencemos las pruebas detalladas de los casos correspondientes a 
+  las conectivas binarias. Una vez terminadas, se mostrará la prueba 
+  detallada del lema completo.\<close>
 
 lemma Hintikka_l10_and: 
   assumes "Hintikka S \<Longrightarrow> \<^bold>\<not> G \<in> S \<longrightarrow> G \<notin> S"
@@ -838,16 +825,16 @@ text \<open>Una vez definida la noción de conjunto de Hintikka y conocidas las
     Todo conjunto de Hintikka es satisfacible.
   \end{teorema}
 
-  Por definición, para probar que un conjunto es satisfacible, basta
-  hallar una interpretación que sea modelo suyo. De este modo, dado
-  un conjunto cualquiera definimos las siguientes interpretaciones
-  asociadas.
+  Por definición, para probar que un conjunto es satisfacible basta
+  hallar una interpretación que sea modelo suyo. De este modo, para
+  demostrar el lema definimos la interpretación asociada a un conjunto
+  dado.
 
   \begin{definicion}
-    Sea \<open>S\<close> un conjunto de fórmulas. Se define la \<open>interpretación 
-    asociada a S\<close> como aquella que, dada una variable proposicional,
-    devuelve \<open>Verdadero\<close> si su correspondiente fórmula atómica pertence 
-    al conjunto, y \<open>Falso\<close> en caso contrario.
+    Sea un conjunto de fórmulas cualquiera. Se define la \<open>interpretación 
+    asociada al conjunto\<close> como aquella que, dada una variable 
+    proposicional, devuelve \<open>Verdadero\<close> si su correspondiente fórmula 
+    atómica pertence al conjunto, y \<open>Falso\<close> en caso contrario.
   \end{definicion}
 
   En Isabelle se formalizará mediante el tipo \<open>definition\<close> como se
@@ -874,7 +861,7 @@ begin
 
 end
 
-text \<open>Previamente a la demostración del \<open>Lema de Hintikka\<close> y con el fin
+text \<open>Previamente a la demostración del \<open>lema de Hintikka\<close> y con el fin
   de facilitarla, introduciremos el siguiente resultado.
 
   \begin{lema}
@@ -891,6 +878,7 @@ lemma "Hintikka S \<Longrightarrow> (F \<in> S \<longrightarrow> isModel (setVal
   oops
 
 text \<open>Procedamos a la demostración del resultado.
+
   \begin{demostracion}
     El lema se prueba mediante inducción en la estructura de las
     fórmulas. Como es habitual, se distinguen los siguientes casos.
@@ -925,8 +913,8 @@ text \<open>Procedamos a la demostración del resultado.
     Hintikka cualquiera \<open>S\<close>. Análogamente, vamos a demostrar dos
     afirmaciones:
     \begin{enumerate}
-      \item La interpretación asociada a \<open>S\<close> es modelo de \<open>\<bottom>\<close> si dicha 
-        fórmula pertenece al conjunto.
+      \item La interpretación asociada a \<open>S\<close> es modelo de \<open>\<bottom>\<close> si \<open>\<bottom>\<close> 
+        pertenece al conjunto.
       \item La interpretación asociada a \<open>S\<close> no es modelo de \<open>\<bottom>\<close> si 
         \<open>\<not> \<bottom>\<close> pertenece a \<open>S\<close>.
     \end{enumerate}
@@ -1031,7 +1019,7 @@ text \<open>Procedamos a la demostración del resultado.
     interpretación no es modelo de esta fórmula.\\
     Por otro lado, supongamos que sea \<open>\<not> F\<^sub>2\<close> la que no pertenezca a
     \<open>S\<close>. Razonando de la misma manera, por hipótesis de inducción 
-    tenemos que si \<open>\<not> F\<^sub>2\<close> está en \<open>S\<close>, entonces la interpretación 
+    tenemos que si\\ \<open>\<not> F\<^sub>2\<close> está en \<open>S\<close>, entonces la interpretación 
     asociada a \<open>S\<close> no es modelo de \<open>F\<^sub>2\<close>. Es decir, el valor de \<open>F\<^sub>2\<close>
     en dicha interpretación no es \<open>Verdadero\<close>. Por lo tanto, se puede
     afirmar que no es cierto que tanto el valor de \<open>F\<^sub>1\<close> como el de
@@ -1042,7 +1030,7 @@ text \<open>Procedamos a la demostración del resultado.
     \<open>Verdadero\<close>. Por tanto, dicha interpretación no es modelo de 
     \<open>F\<^sub>1 \<and> F\<^sub>2\<close>, como se quería demostrar.
 
-    Consideremos de nuevo \<open>S\<close> un conjunto de Hintikka cualquiera. 
+    Consideremos de nuevo \<open>S\<close> un conjunto de Hintikka cualquiera.\\ 
     Suponemos análogamente que para toda fórmula \<open>F\<^sub>1\<close> y \<open>F\<^sub>2\<close>, la 
     interpretación asociada a \<open>S\<close> es modelo de \<open>F\<^sub>i\<close> si \<open>F\<^sub>i\<close> pertenece a 
     \<open>S\<close> para \<open>i = 1,2\<close>. Además, se verifica que dicha interpretación no 
@@ -1084,7 +1072,7 @@ text \<open>Procedamos a la demostración del resultado.
     asociada a \<open>S\<close>, luego dicha interpretación es modelo de la
     fórmula.\\
     Veamos, ahora, la segunda afirmación. Fijadas las fórmulas \<open>F\<^sub>1\<close> y 
-    \<open>F\<^sub>2\<close>, suponemos inicialmente que \<open>\<not>(F\<^sub>1 \<or> F\<^sub>2)\<close> pertenece a \<open>S\<close>. Como 
+    \<open>F\<^sub>2\<close>,\\ suponemos inicialmente que \<open>\<not>(F\<^sub>1 \<or> F\<^sub>2)\<close> pertenece a \<open>S\<close>. Como 
     se trata de un conjunto de Hintikka, verifica la octava condición de 
     su definición: si \<open>\<not>(F\<^sub>1 \<or> F\<^sub>2)\<close> pertenece a \<open>S\<close>, entonces tanto 
     \<open>\<not> F\<^sub>1\<close> como \<open>\<not> F\<^sub>2\<close> están en \<open>S\<close>. En particular, \<open>\<not> F\<^sub>1\<close> está en el 
@@ -1118,12 +1106,12 @@ text \<open>Procedamos a la demostración del resultado.
       \item La interpretación asociada a \<open>S\<close> es modelo de \<open>F\<^sub>1 \<rightarrow> F\<^sub>2\<close> si 
         \<open>F\<^sub>1 \<rightarrow> F\<^sub>2\<close> pertence a \<open>S\<close>. 
       \item La interpretación asociada a \<open>S\<close> no es modelo de \<open>F\<^sub>1 \<rightarrow> F\<^sub>2\<close> 
-        si \<open>\<not>(F\<^sub>1 \<rightarrow> F\<^sub>2)\<close> pertenece a \<open>S\<close>.
+        si\\ \<open>\<not>(F\<^sub>1 \<rightarrow> F\<^sub>2)\<close> pertenece a \<open>S\<close>.
     \end{enumerate}
     Probemos la primera afirmación. Para ello, fijadas las fórmulas \<open>F\<^sub>1\<close>
     y \<open>F\<^sub>2\<close>, supongamos que \<open>F\<^sub>1 \<rightarrow> F\<^sub>2\<close> pertenece a \<open>S\<close>. Como se trata de 
     un conjunto de Hintikka, \<open>S\<close> verifica en particular la quinta 
-    condición de la definición: si \<open>F\<^sub>1 \<rightarrow> F\<^sub>2\<close> pertenece a \<open>S\<close>, entonces 
+    condición de la definición: si\\ \<open>F\<^sub>1 \<rightarrow> F\<^sub>2\<close> pertenece a \<open>S\<close>, entonces 
     \<open>\<not> F\<^sub>1\<close> pertenece a \<open>S\<close> o \<open>F\<^sub>2\<close> pertenece a \<open>S\<close>. Vamos a probar que la
     interpretación asociada a \<open>S\<close> es modelo de \<open>F\<^sub>1 \<rightarrow> F\<^sub>2\<close> mediante la
     eliminación de la disyunción anterior.\\
@@ -1169,7 +1157,7 @@ text \<open>Procedamos a la demostración del resultado.
     pertenecen a \<open>S\<close>. En particular, \<open>F\<^sub>1\<close> está en \<open>S\<close>. Por hipótesis de 
     inducción, se tiene entonces que la interpretación asociada a \<open>S\<close> 
     es modelo de \<open>F\<^sub>1\<close>, es decir, el valor de esta fórmula es \<open>Verdadero\<close> 
-    en dicha interpretación. Análogamente, como hemos visto que \<open>\<not> F\<^sub>2\<close> 
+    en dicha interpretación. Análogamente, como hemos visto que\\ \<open>\<not> F\<^sub>2\<close> 
     pertenece también al conjunto, aplicando hipótesis de inducción se 
     obtiene que la interpretación asociada a \<open>S\<close> no es modelo de \<open>F\<^sub>2\<close>. 
     Luego, el valor de \<open>F\<^sub>2\<close> no es \<open>Verdadero\<close> en esta interpretación. 
@@ -1318,7 +1306,8 @@ next
       using \<open>F \<in> S\<close> by (rule mp)
     then have "(\<not> (\<not> isModel (setValuation S) F))"
       by (rule notnotI)
-    also have "(\<not> (\<not> isModel (setValuation S) F)) = (\<not> (\<not> (setValuation S) \<Turnstile> F))"
+    also have "(\<not> (\<not> isModel (setValuation S) F)) = 
+        (\<not> (\<not> (setValuation S) \<Turnstile> F))"
       by (simp only: isModel_def)
     also have "\<dots> = (\<not> (setValuation S) \<Turnstile> (\<^bold>\<not> F))"
       by (simp only: formula_semantics.simps(3))
@@ -1503,8 +1492,7 @@ next
       using assms(2) by (rule conjunct2)
     then have "\<not> isModel (setValuation S) F1"
       using \<open>\<^bold>\<not> F1 \<in> S\<close> by (rule mp)
-    also have "(\<not> isModel (setValuation S) F1) = 
-         (\<not> (setValuation S) \<Turnstile> F1)"
+    also have "(\<not> isModel (setValuation S) F1) = (\<not> (setValuation S) \<Turnstile> F1)"
       by (simp only: isModel_def)
     finally have D1:"\<not> (setValuation S) \<Turnstile> F1"
       by this
@@ -1732,7 +1720,7 @@ text \<open>Para concluir, demostremos el \<open>Lema de Hintikka\<close> emplea
 
   Por su parte, la prueba detallada en Isabelle emplea el lema
   auxiliar \<open>Hintikka_model\<close>. Con él se demuestra la primera parte del 
-  lema de Hintikka: dado un conjunto de Hintiikka, la interpretación 
+  lema de Hintikka: dado un conjunto de Hintikka, la interpretación 
   asociada al conjunto es modelo del mismo.\<close>
 
 lemma Hintikka_model:
