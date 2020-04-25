@@ -11,15 +11,13 @@ begin
 (* chapter \<open>Glosario de reglas\<close> *)
 
 text \<open>En este glosario se recoge la lista de los lemas y reglas usadas
-  indicando la página del \href{http://bit.ly/2OMbjMM}{libro de HOL} 
+  indicando la página del \href{https://bit.ly/2KvG2ej}{libro de HOL} 
   donde se encuentran.\<close>
 
 section \<open>La base de lógica de primer orden (2)\<close>
 
 text \<open>En Isabelle corresponde a la teoría 
-  \href{http://bit.ly/38iFKlA}{HOL.thy}
-
-  \comentario{Cambiar link.}\<close>
+  \href{https://bit.ly/3bGva9s}{HOL.thy}\<close>
 
 subsection \<open>Lógica primitiva (2.1)\<close>
 
@@ -158,9 +156,7 @@ text \<open>
 section \<open>Teoría de conjuntos para lógica de orden superior (7)\<close>
 
 text \<open>Los siguientes resultados corresponden a la teoría de conjuntos 
-  \href{https://n9.cl/qatp}{Set.thy}.
-
-  \comentario{Cambiar link.}\<close>
+  \href{https://bit.ly/3ePFv4B}{Set.thy}.\<close>
 
 subsection \<open>Subconjuntos y cuantificadores acotados (7.2)\<close>
 
@@ -274,9 +270,7 @@ text \<open>
 section \<open>Nociones sobre funciones (9)\<close>
 
 text \<open>En Isabelle, la teoría de funciones se corresponde con 
-  \href{http://bit.ly/2P9NWwq}{Fun.thy}
-
-  \comentario{Cambiar link.}\<close>
+  \href{https://bit.ly/2VBe1Im}{Fun.thy}.\<close>
 
 subsection \<open>Actualización de funciones (9.6)\<close>
 
@@ -289,9 +283,7 @@ text \<open>
 section \<open>Retículos completos (10)\<close>
 
 text \<open>En Isabelle corresponde a la teoría 
-  \href{http://bit.ly/2wimZjA}{Complete-Lattices.thy}
-
-  \comentario{Cambiar link.}\<close>
+  \href{https://bit.ly/2Y5wxKA}{Complete_Lattices.thy}.\<close>
 
 subsection \<open>Retículos completos en conjuntos (10.6)\<close>
 
@@ -306,9 +298,7 @@ text \<open>
 section \<open>Conjuntos finitos (18)\<close>
 
 text \<open>A continuación se muestran resultados relativos a la teoría 
-  \href{https://n9.cl/x86r}{FiniteSet.thy}.
-
-  \comentario{Cambiar link.}\<close>
+  \href{https://bit.ly/3bEIScG}{Finite_Set.thy}.\<close>
 
 subsection \<open>Predicado de conjuntos finitos (18.1)\<close>
 
@@ -330,9 +320,7 @@ section \<open>El tipo de datos de la listas finitas (66)\<close>
 
 text \<open>En esta sección se muestran resultados sobre listas finitas 
   dentro de la teoría de listas de Isabelle 
-  \href{http://bit.ly/2se9Oy0}{List.thy}
-  
-  \comentario{Cambiar link.}\<close>
+  \href{https://bit.ly/3bCNxvX}{List.thy}.\<close>
 
 text\<open>  
   \begin{itemize}
@@ -349,8 +337,6 @@ text\<open>
     \item (p.1195) @{thm[mode=Rule] set_append[no_vars]} 
       \hfill (@{text set_append})
   \end{itemize}\<close>
-
-text \<open>\comentario{Añadir reglas Hintikka al glosario.}\<close>
 
 (*<*)
 end
