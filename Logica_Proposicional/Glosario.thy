@@ -14,141 +14,153 @@ text \<open>En este glosario se recoge la lista de los lemas y reglas usadas
   indicando la página del \href{http://bit.ly/2OMbjMM}{libro de HOL} 
   donde se encuentran.\<close>
 
-section \<open>La base de lógica de primer orden (1)\<close>
+section \<open>La base de lógica de primer orden (2)\<close>
 
 text \<open>En Isabelle corresponde a la teoría 
-  \href{http://bit.ly/38iFKlA}{HOL.thy}\<close>
+  \href{http://bit.ly/38iFKlA}{HOL.thy}
 
-subsection \<open>Lógica primitiva (1.1)\<close>
+  \comentario{Cambiar link.}\<close>
 
-subsubsection \<open>Conectivas y cuantificadores definidos (1.1.2)\<close>
+subsection \<open>Lógica primitiva (2.1)\<close>
+
+subsubsection \<open>Conectivas y cuantificadores definidos (2.1.2)\<close>
 
 text \<open>
   \begin{itemize}
-    \item (p.33) @{thm[mode=Rule] not_def[no_vars]} 
+    \item (p.34) @{thm[mode=Rule] not_def[no_vars]} 
       \hfill (@{text not_def})
   \end{itemize}\<close>
 
-subsubsection \<open>Axiomas y definiciones básicas (1.1.4)\<close>
+subsubsection \<open>Axiomas y definiciones básicas (2.1.4)\<close>
 
 text \<open>
   \begin{itemize}
-    \item (p.35) @{thm[mode=Rule] impI[no_vars]} 
+    \item (p.36) @{thm[mode=Rule] impI[no_vars]} 
       \hfill (@{text impI})
-    \item (p.35) @{thm[mode=Rule] mp[no_vars]} 
+    \item (p.36) @{thm[mode=Rule] mp[no_vars]} 
       \hfill (@{text mp})
   \end{itemize}\<close>
 
-subsection \<open>Reglas fundamentales (1.2)\<close>
+subsection \<open>Reglas fundamentales (2.2)\<close>
 
-subsubsection \<open>Reglas de congruencia para aplicaciones (1.2.2)\<close>
+subsubsection \<open>Reglas de congruencia para aplicaciones (2.2.2)\<close>
 
 text \<open>
   \begin{itemize}
-    \item (p.36) @{thm[mode=Rule] arg_cong[no_vars]} 
+    \item (p.37) @{thm[mode=Rule] arg_cong[no_vars]} 
       \hfill (@{text arg_cong})
-    \item (p.36) @{thm[mode=Rule] arg_cong2[no_vars]} 
+    \item (p.37) @{thm[mode=Rule] arg_cong2[no_vars]} 
       \hfill (@{text arg_cong2})
   \end{itemize}\<close>
 
-subsubsection \<open>Igualdad de booleanos - \<open>iff\<close> (1.2.3)\<close>
+subsubsection \<open>Igualdad de booleanos - \<open>iff\<close> (2.2.3)\<close>
 
 text \<open>
   \begin{itemize}
-    \item (p.36) @{thm[mode=Rule] iffD1[no_vars]} 
+    \item (p.38) @{thm[mode=Rule] iffD1[no_vars]} 
       \hfill (@{text iffD1})
   \end{itemize}\<close>
 
-subsubsection \<open>Cuantificador universal I (1.2.5)\<close>
+subsubsection \<open>Cuantificador universal I (2.2.5)\<close>
 
 text \<open>
   \begin{itemize}
-    \item (p.37) @{thm[mode=Rule] allE[no_vars]} 
+    \item (p.38) @{thm[mode=Rule] allE[no_vars]} 
       \hfill (@{text allE})
   \end{itemize}\<close>
 
-subsubsection \<open>Negación (1.2.7)\<close>
+subsubsection \<open>Negación (2.2.7)\<close>
 
 text \<open>
   \begin{itemize}
-    \item (p.38) @{thm[mode=Rule] notI[no_vars]} 
+    \item (p.39) @{thm[mode=Rule] notI[no_vars]} 
       \hfill (@{text notI})
-    \item (p.38) @{thm[mode=Rule] notE[no_vars]} 
+    \item (p.39) @{thm[mode=Rule] notE[no_vars]} 
       \hfill (@{text notE})
   \end{itemize}\<close>
 
-subsubsection \<open>Disyunción I (1.2.9)\<close>
+subsubsection \<open>Disyunción I (2.2.9)\<close>
 
 text \<open>
   \begin{itemize}
-    \item (p.39) @{thm[mode=Rule] disjE[no_vars]} 
+    \item (p.40) @{thm[mode=Rule] disjE[no_vars]} 
       \hfill (@{text disjE})
   \end{itemize}\<close>
 
-subsubsection \<open>Cuantificador universal II (1.2.12)\<close>
+subsubsection \<open>Derivación de \<open>iffI\<close> (2.2.10)\<close>
 
 text \<open>
   \begin{itemize}
-    \item (p.40) @{thm[mode=Rule] allI[no_vars]} 
+    \item (p.40) @{thm[mode=Rule] iffI[no_vars]} 
+      \hfill (@{text iffI})
+  \end{itemize}\<close>
+
+subsubsection \<open>Cuantificador universal II (2.2.12)\<close>
+
+text \<open>
+  \begin{itemize}
+    \item (p.41) @{thm[mode=Rule] allI[no_vars]} 
       \hfill (@{text allI})
   \end{itemize}\<close>
 
-subsubsection \<open>Cuantificador existencia (1.2.13)\<close>
+subsubsection \<open>Cuantificador existencia (2.2.13)\<close>
 
 text \<open>
   \begin{itemize}
-    \item (p.40) @{thm[mode=Rule] exI[no_vars]} 
+    \item (p.41) @{thm[mode=Rule] exI[no_vars]} 
       \hfill (@{text exI})
+    \item (p.41) @{thm[mode=Rule] exE[no_vars]} 
+      \hfill (@{text exE})
   \end{itemize}\<close>
 
-subsubsection \<open>Conjunción (1.2.14)\<close>
+subsubsection \<open>Conjunción (2.2.14)\<close>
 
 text \<open>
   \begin{itemize}
-    \item (p.40) @{thm[mode=Rule] conjI[no_vars]} 
+    \item (p.41) @{thm[mode=Rule] conjI[no_vars]} 
       \hfill (@{text conjI})
-    \item (p.40) @{thm[mode=Rule] conjunct1[no_vars]} 
+    \item (p.41) @{thm[mode=Rule] conjunct1[no_vars]} 
       \hfill (@{text conjunct1})
-    \item (p.40) @{thm[mode=Rule] conjunct2[no_vars]} 
+    \item (p.41) @{thm[mode=Rule] conjunct2[no_vars]} 
       \hfill (@{text conjunct2})
   \end{itemize}\<close>
 
-subsubsection \<open>Disyunción II (1.2.15)\<close>
+subsubsection \<open>Disyunción II (2.2.15)\<close>
 
 text \<open>
   \begin{itemize}
-    \item (p.41) @{thm[mode=Rule] disjI1[no_vars]} 
+    \item (p.42) @{thm[mode=Rule] disjI1[no_vars]} 
       \hfill (@{text disjI1})
-    \item (p.41) @{thm[mode=Rule] disjI2[no_vars]} 
+    \item (p.42) @{thm[mode=Rule] disjI2[no_vars]} 
       \hfill (@{text disjI2})
   \end{itemize}\<close>
 
-subsubsection \<open>Atomización de conectivas de nivel intermedio (1.2.20)\<close>
+subsubsection \<open>Atomización de conectivas de nivel intermedio (2.2.20)\<close>
 
 text \<open>
   \begin{itemize}
-    \item (p.45) @{thm[mode=Rule] disjI1[no_vars]} 
-      \hfill (@{text disjI1})
+    \item (p.46) @{thm[mode=Rule] atomize_eq[no_vars]} 
+      \hfill (@{text atomize_eq})
   \end{itemize}\<close>
 
-subsection \<open>Configuración del paquete (1.3)\<close>
+subsection \<open>Configuración del paquete (2.3)\<close>
 
-subsubsection \<open>Simplificadores (1.3.4)\<close>
+subsubsection \<open>Simplificadores (2.3.4)\<close>
 
 text \<open>
   \begin{itemize}
-    \item (p.49) @{thm[mode=Rule] not_False_eq_True[no_vars]} 
+    \item (p.50) @{thm[mode=Rule] not_False_eq_True[no_vars]} 
       \hfill (@{text not_False_eq_True})
-    \item (p.51) @{thm[mode=Rule] not_ex[no_vars]} 
+    \item (p.53) @{thm[mode=Rule] not_ex[no_vars]} 
       \hfill (@{text not_ex})
   \end{itemize}\<close>
-
-text \<open>\comentario{Corregido hasta aquí.}\<close>
 
 section \<open>Teoría de conjuntos para lógica de orden superior (7)\<close>
 
 text \<open>Los siguientes resultados corresponden a la teoría de conjuntos 
-  \href{https://n9.cl/qatp}{Set.thy}.\<close>
+  \href{https://n9.cl/qatp}{Set.thy}.
+
+  \comentario{Cambiar link.}\<close>
 
 subsection \<open>Subconjuntos y cuantificadores acotados (7.2)\<close>
 
@@ -156,6 +168,8 @@ text \<open>
   \begin{itemize}
     \item (p.163) @{thm[mode=Rule] ballI[no_vars]} 
       \hfill (@{text ballI})
+    \item (p.163) @{thm[mode=Rule] bspec[no_vars]} 
+      \hfill (@{text bspec})
   \end{itemize}\<close>
 
 subsection \<open>Operaciones básicas (7.3)\<close>
@@ -252,13 +266,17 @@ text \<open>
       \hfill (@{text Un_mono})
     \item (p.188) @{thm[mode=Rule] imp_refl[no_vars]} 
       \hfill (@{text imp_refl})
+    \item (p.188) @{thm[mode=Rule] not_mono[no_vars]} 
+      \hfill (@{text not_mono})
   \end{itemize}
 \<close>
 
 section \<open>Nociones sobre funciones (9)\<close>
 
 text \<open>En Isabelle, la teoría de funciones se corresponde con 
-  \href{http://bit.ly/2P9NWwq}{Fun.thy}\<close>
+  \href{http://bit.ly/2P9NWwq}{Fun.thy}
+
+  \comentario{Cambiar link.}\<close>
 
 subsection \<open>Actualización de funciones (9.6)\<close>
 
@@ -271,7 +289,9 @@ text \<open>
 section \<open>Retículos completos (10)\<close>
 
 text \<open>En Isabelle corresponde a la teoría 
-  \href{http://bit.ly/2wimZjA}{Complete-Lattices.thy}\<close>
+  \href{http://bit.ly/2wimZjA}{Complete-Lattices.thy}
+
+  \comentario{Cambiar link.}\<close>
 
 subsection \<open>Retículos completos en conjuntos (10.6)\<close>
 
@@ -286,7 +306,9 @@ text \<open>
 section \<open>Conjuntos finitos (18)\<close>
 
 text \<open>A continuación se muestran resultados relativos a la teoría 
-  \href{https://n9.cl/x86r}{FiniteSet.thy}.\<close> 
+  \href{https://n9.cl/x86r}{FiniteSet.thy}.
+
+  \comentario{Cambiar link.}\<close>
 
 subsection \<open>Predicado de conjuntos finitos (18.1)\<close>
 
@@ -308,7 +330,9 @@ section \<open>El tipo de datos de la listas finitas (66)\<close>
 
 text \<open>En esta sección se muestran resultados sobre listas finitas 
   dentro de la teoría de listas de Isabelle 
-  \href{http://bit.ly/2se9Oy0}{List.thy}\<close>
+  \href{http://bit.ly/2se9Oy0}{List.thy}
+  
+  \comentario{Cambiar link.}\<close>
 
 text\<open>  
   \begin{itemize}
@@ -326,8 +350,7 @@ text\<open>
       \hfill (@{text set_append})
   \end{itemize}\<close>
 
-text \<open>\comentario{Actualizar glosario.}
-  \comentario{Añadir reglas Hintikka al glosario.}\<close>
+text \<open>\comentario{Añadir reglas Hintikka al glosario.}\<close>
 
 (*<*)
 end
