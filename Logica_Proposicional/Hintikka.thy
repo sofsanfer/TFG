@@ -51,8 +51,8 @@ definition "Hintikka S \<equiv>
   \<and> (\<forall>F G. \<^bold>\<not>(F \<^bold>\<or> G) \<in> S \<longrightarrow> \<^bold>\<not> F \<in> S \<and> \<^bold>\<not> G \<in> S)
   \<and> (\<forall>F G. \<^bold>\<not>(F \<^bold>\<rightarrow> G) \<in> S \<longrightarrow> F \<in> S \<and> \<^bold>\<not> G \<in> S))"
 
-text \<open>Mostremos a continuación un ejemplo de conjunto de fórmulas que
-  sea de Hintikka.\<close>
+text \<open>A continuación ilustramos con un ejemplo de conjunto de fórmulas
+  de Hintikka.\<close>
 
 notepad
 begin
@@ -78,14 +78,13 @@ begin
 
 end
 
-text \<open>A continuación vamos a presentar una serie de lemas auxiliares
+text \<open>En adelante presentaremos una serie de lemas auxiliares
   derivados de la definición de conjunto de Hintikka que nos facilitarán
   posteriormente las demostraciones en Isabelle/HOL.
 
   El primer lema expresa que, dado un conjunto de Hintikka,
   dicho conjunto verifica las nueve condiciones de la definición 
-  anterior. Se trata de un resultado que posteriormente nos ayudará
-  a probar los nueve siguientes lemas auxiliares.\<close>
+  anterior.\<close>
 
 lemma auxEq: 
   assumes "Hintikka S"
@@ -363,7 +362,7 @@ text \<open>Como se puede observar, en las pruebas anteriores hemos
   \<open>(iprover elim: \<open>rules\<close>)\<close>. Con esta táctica aplicamos
   reiteradamente una o varias reglas y reducimos pasos en la prueba de\\ 
   Isabelle/HOL. Para ello, nos hemos servido del método de demostración 
-  \<open>elim\<close> que permite aplicar repetidamente una o varias reglas de 
+  \<open>elim\<close> que permite aplicar repetidamente reglas de 
   eliminación especificadas. En nuestro caso, hemos utilizado las reglas 
   de eliminación de la conjunción y la regla de eliminación del 
   cuantificador existencial. Por otro lado, \<open>iprover\<close> es un 
@@ -387,11 +386,11 @@ text \<open>Como se puede observar, en las pruebas anteriores hemos
 lemma "Hintikka S \<Longrightarrow> (\<^bold>\<not> F \<in> S \<longrightarrow> F \<notin> S)"
   oops
 
-text \<open>Para la demostración del siguiente lema, vamos a utilizar las
+text \<open>Para la demostración del siguiente lema utilizaremos las
   reglas lógicas \<open>modus tollens\<close> e \<open>introducción a la doble negación\<close>. 
 
   \begin{teorema}[Modus tollens]
-   Si un enunciado implica otro y tenemos que el segundo es falso, 
+   Si un enunciado implica otro enunciado falso, 
    entonces el primero es también falso.
   \end{teorema}
 
@@ -630,10 +629,11 @@ proof (rule impI)
     using \<open>\<not> (F \<notin> S)\<close> by (rule mt)
 qed
 
-text \<open>Para facilitar las pruebas de los casos de conectivas binarias, 
-  se introducen a continuación los siguientes lemas auxiliares. Estos
-  nos permitirán introducir la negación de una conjunción o disyunción 
-  de dos predicados.\<close>
+text \<open>Para facilitar las pruebas de los casos correspondientes a las
+  conectivas binarias emplearemos los siguientes lemas auxiliares. Estos
+  nos permitirán, a partir de la negación de un predicado, introducir 
+  la negación de una conjunción o disyunción de dicho predicado con otro
+  cualquiera.\<close>
 
 lemma notConj1: 
   assumes "\<not> P"
@@ -827,8 +827,7 @@ text \<open>Una vez definida la noción de conjunto de Hintikka y conocidas las
 
   Por definición, para probar que un conjunto es satisfacible basta
   hallar una interpretación que sea modelo suyo. De este modo, para
-  demostrar el lema definimos la interpretación asociada a un conjunto
-  dado.
+  demostrar el lema definimos la siguiente clase de interpretaciones.
 
   \begin{definicion}
     Sea un conjunto de fórmulas cualquiera. Se define la \<open>interpretación 

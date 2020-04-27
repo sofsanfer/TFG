@@ -283,7 +283,7 @@ text \<open>
 section \<open>Retículos completos (10)\<close>
 
 text \<open>En Isabelle corresponde a la teoría 
-  \href{https://bit.ly/2Y5wxKA}{Complete_Lattices.thy}.\<close>
+  \href{https://bit.ly/2Y5wxKA}{Complete-Lattices.thy}.\<close>
 
 subsection \<open>Retículos completos en conjuntos (10.6)\<close>
 
@@ -298,7 +298,7 @@ text \<open>
 section \<open>Conjuntos finitos (18)\<close>
 
 text \<open>A continuación se muestran resultados relativos a la teoría 
-  \href{https://bit.ly/3bEIScG}{Finite_Set.thy}.\<close>
+  \href{https://bit.ly/3bEIScG}{Finite-Set.thy}.\<close>
 
 subsection \<open>Predicado de conjuntos finitos (18.1)\<close>
 
