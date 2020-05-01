@@ -12,6 +12,10 @@ text \<open>En esta sección presentaremos un tipo de conjuntos de fórmulas:
   los conjuntos de Hintikka. Probaremos finalmente que todo conjunto 
   de Hintikka es satisfacible.
 
+\comentario{Si en la definción escribes " Se llama conjunto de Hintikka
+  a todo conjunto de fórmulas S ...", las condiciones se pueden escribir
+de forma más ligera (ver Fitting)}
+
   \begin{definicion}
   Se llama \<open>conjunto de Hintikka\<close> a todo conjunto de fórmulas que
   verifica las siguientes condiciones para todo par de fórmulas
@@ -36,6 +40,8 @@ text \<open>En esta sección presentaremos un tipo de conjuntos de fórmulas:
         pertenecen al conjunto.
     \end{enumerate}  
   \end{definicion}
+
+
 
   En Isabelle se formaliza mediante el tipo \<open>definition\<close> de la siguiente
   manera.\<close>
@@ -116,7 +122,10 @@ text \<open>Asimismo presentaremos nueve lemas correspondientes a cada
   condición de la definición de conjunto de Hintikka. De este modo,
   dado un conjunto de Hintikka, este cumple por separado cada 
   condición señalada anteriormente. Veamos las demostraciones detalladas 
-  y automáticas en\\ Isabelle/HOL de cada lema auxiliar.\<close>
+  y automáticas en\\ Isabelle/HOL de cada lema auxiliar.
+
+\comentario{Enunciar cada uno de los lemas Hintikka\_l. Y comentario 
+breve de la demostración, tanto matemática como formalizada.}\<close>
 
 lemma
   assumes "Hintikka S" 
@@ -381,6 +390,11 @@ text \<open>Como se puede observar, en las pruebas anteriores hemos
     si su negación sí pertenece al mismo.
   \end{lema}
 
+\comentario{Añadir al enunciado: Es decir, si S es un conjunto de Hintikka 
+y $\neg F \in S$, entonces $F \notin S$. }
+\comentario{Aquí hay que escribir la demostración matemática del lema,
+antes de pasar a su formalización y prueba en Isabelle.}
+
   Su formalización en Isabelle es la siguiente.\<close>
 
 lemma "Hintikka S \<Longrightarrow> (\<^bold>\<not> F \<in> S \<longrightarrow> F \<notin> S)"
@@ -393,6 +407,9 @@ text \<open>Para la demostración del siguiente lema utilizaremos las
    Si un enunciado implica otro enunciado falso, 
    entonces el primero es también falso.
   \end{teorema}
+
+\comentario{Simplificar el enunciado de "Modus tollens" y ponerlo 
+como lema, no como teorema}
 
   Esta regla no está definida en Isabelle, de modo que las vamos a 
   introducir a continuación como lema auxiliar. Además, mostraremos
@@ -425,6 +442,9 @@ text \<open>En este caso, la regla \<open>contrapos_pn\<close> de la teoría
   \href{http://bit.ly/38iFKlA}{HOL.thy} prueba el resultado de manera
   directa.
 
+\comentario{Como es la misma regla, no hay que enunciarla y probarla 
+otra vez, sino usar en las pruebas contrapos\_pn, en vez de notnotI.}
+
   \begin{itemize}
     \item[] @{thm[mode=Rule] contrapos_pn[no_vars]} 
       \hfill (@{text contrapos_pn})
@@ -435,6 +455,17 @@ text \<open>En este caso, la regla \<open>contrapos_pn\<close> de la teoría
 
   Una vez realizadas las aclaraciones anteriores, procedamos con la
   demostración del lema.
+
+\comentario{Esta demostración tiene que ir justo con el lema correspondiente
+(lema 3.1.2)}
+\comentario{Simplificar la redacción de la demostración para que sea 
+más legible. Por ejemplo, en el caso de que $F$ sea una fórmula atómica $p$:
+Se tiene que $S$ es de Hintikka y que $\neg p \in S$. Si $p \in S$, por la
+definición de conjunto de Hintikka, $\neg p \notin S$, en contra de la hipótesis. 
+Por tanto,  $p \in S$.}
+
+
+\comentario{Corregido hasta aquí}
 
   \begin{demostracion}
     La prueba se realiza por inducción sobre la estructura de las 
@@ -588,6 +619,8 @@ text \<open>En este caso, la regla \<open>contrapos_pn\<close> de la teoría
   Como es habitual, demostremos ahora el resultado en Isabelle/HOL de
   manera detallada. Para facilitar dicha prueba, se hará cada caso de la
   estructura de fórmulas por separado.\<close>
+
+
 
 lemma Hintikka_l10_atom: 
   assumes "Hintikka S" 
