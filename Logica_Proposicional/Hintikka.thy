@@ -12,36 +12,29 @@ text \<open>En esta sección presentaremos un tipo de conjuntos de fórmulas:
   los conjuntos de Hintikka. Probaremos finalmente que todo conjunto 
   de Hintikka es satisfacible.
 
-\comentario{Si en la definción escribes " Se llama conjunto de Hintikka
-  a todo conjunto de fórmulas S ...", las condiciones se pueden escribir
-de forma más ligera (ver Fitting)}
-
   \begin{definicion}
-  Se llama \<open>conjunto de Hintikka\<close> a todo conjunto de fórmulas que
-  verifica las siguientes condiciones para todo par de fórmulas
-  \<open>F\<close> y \<open>G\<close>:
+  Se llama \<open>conjunto de Hintikka\<close> a todo conjunto de fórmulas \<open>S\<close> que
+  verifica las siguientes condiciones:
     \begin{enumerate}
-      \item \<open>\<bottom>\<close> no pertenece al conjunto.
-      \item Si una fórmula atómica \<open>p\<close> pertenece al conjunto, entonces 
-        \<open>\<not> p\<close> no pertenece al conjunto.
-      \item Si \<open>F \<and> G\<close> pertenece al conjunto, entonces \<open>F\<close> y \<open>G\<close> 
-        pertenecen al conjunto.
-      \item Si \<open>F \<or> G\<close> pertenece al conjunto, entonces \<open>F\<close> pertenece al 
-        conjunto o \<open>G\<close> pertenece al conjunto.
-      \item Si \<open>F \<rightarrow> G\<close> pertenece al conjunto, entonces \<open>\<not> F\<close> pertenece 
-        al conjunto o \<open>G\<close> pertenece al conjunto.
-      \item Si \<open>\<not>(\<not> F)\<close> pertenece al conjunto, entonces \<open>F\<close> pertenece 
-        al conjunto.
-      \item Si \<open>\<not>(F \<and> G)\<close> pertenece al conjunto, entonces \<open>\<not> F\<close> 
-        pertenece al conjunto o\\ \<open>\<not> G\<close> pertenece al conjunto.
-      \item Si \<open>\<not>(F \<or> G)\<close> pertenece al conjunto, entonces \<open>\<not> F\<close> y \<open>\<not> G\<close> 
-        pertenecen al conjunto.
-      \item Si \<open>\<not>(F \<rightarrow> G)\<close> pertenece al conjunto, entonces \<open>F\<close> y \<open>\<not> G\<close> 
-        pertenecen al conjunto.
+      \item \<open>\<bottom>\<close> no pertenece a \<open>S\<close>.
+      \item Dada \<open>p\<close> una fórmula atómica cualquiera, \<open>p\<close> y \<open>\<not> p\<close> no 
+        pertenecen simultáneamente a \<open>S\<close>.
+      \item Si \<open>F \<and> G\<close> pertenece a \<open>S\<close>, entonces \<open>F\<close> y \<open>G\<close> 
+        pertenecen a \<open>S\<close>.
+      \item Si \<open>F \<or> G\<close> pertenece a \<open>S\<close>, entonces \<open>F\<close> pertenece a
+        \<open>S\<close> o \<open>G\<close> pertenece a \<open>S\<close>.
+      \item Si \<open>F \<rightarrow> G\<close> pertenece a \<open>S\<close>, entonces \<open>\<not> F\<close> pertenece 
+        a \<open>S\<close> o \<open>G\<close> pertenece a \<open>S\<close>.
+      \item Si \<open>\<not>(\<not> F)\<close> pertenece a \<open>S\<close>, entonces \<open>F\<close> pertenece 
+        a \<open>S\<close>.
+      \item Si \<open>\<not>(F \<and> G)\<close> pertenece a \<open>S\<close>, entonces \<open>\<not> F\<close> 
+        pertenece a \<open>S\<close> o \<open>\<not> G\<close> pertenece a \<open>S\<close>.
+      \item Si \<open>\<not>(F \<or> G)\<close> pertenece a \<open>S\<close>, entonces \<open>\<not> F\<close> y \<open>\<not> G\<close> 
+        pertenecen a \<open>S\<close>.
+      \item Si \<open>\<not>(F \<rightarrow> G)\<close> pertenece a \<open>S\<close>, entonces \<open>F\<close> y \<open>\<not> G\<close> 
+        pertenecen a \<open>S\<close>.
     \end{enumerate}  
   \end{definicion}
-
-
 
   En Isabelle se formaliza mediante el tipo \<open>definition\<close> de la siguiente
   manera.\<close>
@@ -387,11 +380,10 @@ text \<open>Como se puede observar, en las pruebas anteriores hemos
 
   \begin{lema}
     Dado un conjunto de Hintikka, una fórmula no pertenece al conjunto 
-    si su negación sí pertenece al mismo.
+    si su negación sí pertenece al mismo. Es decir, si \<open>S\<close> es un 
+    conjunto de Hintikka y \<open>\<not> F \<in> S\<close>, entonces \<open>F \<notin> S\<close>.
   \end{lema}
 
-\comentario{Añadir al enunciado: Es decir, si S es un conjunto de Hintikka 
-y $\neg F \in S$, entonces $F \notin S$. }
 \comentario{Aquí hay que escribir la demostración matemática del lema,
 antes de pasar a su formalización y prueba en Isabelle.}
 
@@ -400,16 +392,12 @@ antes de pasar a su formalización y prueba en Isabelle.}
 lemma "Hintikka S \<Longrightarrow> (\<^bold>\<not> F \<in> S \<longrightarrow> F \<notin> S)"
   oops
 
-text \<open>Para la demostración del siguiente lema utilizaremos las
-  reglas lógicas \<open>modus tollens\<close> e \<open>introducción a la doble negación\<close>. 
+text \<open>Para la demostración del siguiente lema utilizaremos la
+  regla lógica \<open>modus tollens\<close>. 
 
-  \begin{teorema}[Modus tollens]
-   Si un enunciado implica otro enunciado falso, 
-   entonces el primero es también falso.
-  \end{teorema}
-
-\comentario{Simplificar el enunciado de "Modus tollens" y ponerlo 
-como lema, no como teorema}
+  \begin{lema}[Modus tollens]
+   Si \<open>P\<close> implica \<open>Q\<close> y \<open>Q\<close> es falso, entonces \<open>P\<close> es también falso.
+  \end{lema}
 
   Esta regla no está definida en Isabelle, de modo que las vamos a 
   introducir a continuación como lema auxiliar. Además, mostraremos
@@ -426,35 +414,7 @@ proof -
     using assms(2) by (rule mp)
 qed
 
-text \<open>Por otro lado, veamos la \<open>introducción de la doble negación\<close>.
-
-  \begin{teorema}[Introducción de la doble negación]
-   Si un enunciado es verdadero, entonces no es cierto que ese
-   enunciado no sea verdadero.
-  \end{teorema}
-
-  En Isabelle se formaliza y demuestra de la siguiente manera.\<close>
-
-lemma notnotI: "A \<Longrightarrow> \<not>\<not> A"
-  by (rule contrapos_pn)
-
-text \<open>En este caso, la regla \<open>contrapos_pn\<close> de la teoría
-  \href{http://bit.ly/38iFKlA}{HOL.thy} prueba el resultado de manera
-  directa.
-
-\comentario{Como es la misma regla, no hay que enunciarla y probarla 
-otra vez, sino usar en las pruebas contrapos\_pn, en vez de notnotI.}
-
-  \begin{itemize}
-    \item[] @{thm[mode=Rule] contrapos_pn[no_vars]} 
-      \hfill (@{text contrapos_pn})
-  \end{itemize}
-
-  Es fácil observar que \<open>notnotI\<close> se trata de un caso particular de
-  \<open>contrapos_pn\<close> en el que \<open>Q \<equiv> A\<close> y \<open>P \<equiv> \<not> A\<close>. 
-
-  Una vez realizadas las aclaraciones anteriores, procedamos con la
-  demostración del lema.
+text \<open>Procedamos con la demostración del lema.
 
 \comentario{Esta demostración tiene que ir justo con el lema correspondiente
 (lema 3.1.2)}
@@ -628,7 +588,7 @@ lemma Hintikka_l10_atom:
 proof (rule impI)
   assume "\<^bold>\<not> (Atom x) \<in> S"
   then have "\<not> (\<^bold>\<not> (Atom x) \<notin> S)"
-    by (rule notnotI)
+    by (rule contrapos_pn)
   have "Atom x \<in> S \<longrightarrow> \<^bold>\<not> (Atom x) \<notin> S"
     using assms by (rule Hintikka_l2)
   thus "Atom x \<notin> S"
@@ -655,7 +615,7 @@ proof (rule impI)
   then have "F \<in> S"
     using \<open>\<^bold>\<not> (\<^bold>\<not> F) \<in> S\<close> by (rule mp)
   then have "\<not> (F \<notin> S)"
-    by (rule notnotI)
+    by (rule contrapos_pn)
   have "\<^bold>\<not> F \<in> S \<longrightarrow> F \<notin> S"
     using assms by this
   thus "\<^bold>\<not> F \<notin> S"
@@ -796,7 +756,7 @@ proof (rule impI)
   then have "G \<in> S"
     by (rule conjunct1)
   then have "\<not> (G \<notin> S)"
-    by (rule notnotI)
+    by (rule contrapos_pn)
   have "\<^bold>\<not> G \<in> S \<longrightarrow> G \<notin> S"
     using assms(1) assms(3) by this
   then have "\<^bold>\<not> G \<notin> S"
@@ -1337,7 +1297,7 @@ next
     then have "isModel (setValuation S) F"
       using \<open>F \<in> S\<close> by (rule mp)
     then have "(\<not> (\<not> isModel (setValuation S) F))"
-      by (rule notnotI)
+      by (rule contrapos_pn)
     also have "(\<not> (\<not> isModel (setValuation S) F)) = 
         (\<not> (\<not> (setValuation S) \<Turnstile> F))"
       by (simp only: isModel_def)

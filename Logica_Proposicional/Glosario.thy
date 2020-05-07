@@ -77,6 +77,14 @@ text \<open>
       \hfill (@{text notE})
   \end{itemize}\<close>
 
+subsubsection \<open>Implicación (2.2.8)\<close>
+
+text \<open>
+  \begin{itemize}
+    \item (p.40) @{thm[mode=Rule] contrapos_pn[no_vars]} 
+      \hfill (@{text contrapos_pn})
+  \end{itemize}\<close>
+
 subsubsection \<open>Disyunción I (2.2.9)\<close>
 
 text \<open>
