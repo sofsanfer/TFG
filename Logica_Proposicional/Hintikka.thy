@@ -81,9 +81,9 @@ text \<open>En adelante presentaremos una serie de lemas auxiliares
   derivados de la definición de conjunto de Hintikka que nos facilitarán
   posteriormente las demostraciones en Isabelle/HOL.
 
-  El primer lema expresa que, dado un conjunto de Hintikka,
-  dicho conjunto verifica las nueve condiciones de la definición 
-  anterior.\<close>
+  El primer lema expresa que la conjunción de las nueve condiciones de 
+  la definición anterior es una condición necesaria para que un conjunto 
+  sea de Hintikka.\<close>
 
 lemma auxEq: 
   assumes "Hintikka S"
@@ -112,13 +112,58 @@ proof -
 qed
 
 text \<open>Asimismo presentaremos nueve lemas correspondientes a cada
-  condición de la definición de conjunto de Hintikka. De este modo,
-  dado un conjunto de Hintikka, este cumple por separado cada 
-  condición señalada anteriormente. Veamos las demostraciones detalladas 
-  y automáticas en\\ Isabelle/HOL de cada lema auxiliar.
+  condición de la definición de conjunto de Hintikka. 
 
-\comentario{Enunciar cada uno de los lemas Hintikka\_l. Y comentario 
-breve de la demostración, tanto matemática como formalizada.}\<close>
+  \begin{lema}
+    Si \<open>S\<close> es un conjunto de Hintikka, \<open>\<bottom>\<close> no pertenece a \<open>S\<close>.
+  \end{lema}
+
+  \begin{lema}
+    Si \<open>p\<close> es una fórmula atómica que pertenece a un conjunto de 
+    Hintikka \<open>S\<close>, entonces \<open>\<not> p\<close> no pertenece a \<open>S\<close>.
+  \end{lema}
+
+  \begin{lema}
+    Si \<open>F \<and> G\<close> pertenece a un conjunto de Hintikka \<open>S\<close>, entonces \<open>F\<close> y 
+    \<open>G\<close> pertenecen a \<open>S\<close>.
+  \end{lema}
+
+  \begin{lema}
+    Si \<open>F \<or> G\<close> pertenece a un conjunto de Hintikka \<open>S\<close>, entonces \<open>F\<close> 
+    pertenece a \<open>S\<close> o \<open>G\<close> pertenece a \<open>S\<close>.
+  \end{lema}
+
+  \begin{lema}
+    Si \<open>F \<rightarrow> G\<close> pertenece a un conjunto de Hintikka \<open>S\<close>, entonces \<open>\<not> F\<close> 
+    pertenece a \<open>S\<close> o \<open>G\<close> pertenece a \<open>S\<close>.
+  \end{lema}
+
+  \begin{lema}
+    Si \<open>\<not>(\<not> F)\<close> pertenece a un conjunto de Hintikka \<open>S\<close>, entonces \<open>F\<close> 
+    pertenece a \<open>S\<close>.
+  \end{lema}
+
+  \begin{lema}
+    Si \<open>\<not>(F \<and> G)\<close> pertenece a un conjunto de Hintikka \<open>S\<close>, entonces 
+    \<open>\<not> F\<close> pertenece a \<open>S\<close> o \<open>\<not> G\<close> pertenece a \<open>S\<close>.
+  \end{lema}
+
+  \begin{lema}
+    Si \<open>\<not>(F \<or> G)\<close> pertenece a un conjunto de Hintikka \<open>S\<close>, entonces 
+    \<open>\<not> F\<close> y \<open>\<not> G\<close> pertenecen a \<open>S\<close>.
+  \end{lema}
+
+  \begin{lema}
+    Si \<open>\<not>(F \<rightarrow> G)\<close> pertenece a un conjunto de Hintikka \<open>S\<close>, entonces \<open>F\<close> 
+    y \<open>\<not> G\<close> pertenecen a \<open>S\<close>.
+  \end{lema}
+
+  Como se puede observar, los lemas anteriores se corresponden con 
+  cada condición necesaria de la definición de conjunto de Hintikka. 
+  De este modo, la prueba de estos resultados se obtiene directamente 
+  de dicha definición al suponer que \<open>S\<close> es un conjunto de Hintikka.
+
+  Su formalización y demostración en Isabelle/HOL son las siguientes.\<close>
 
 lemma
   assumes "Hintikka S" 
@@ -359,9 +404,13 @@ lemma Hintikka_l9:
  "Hintikka S \<Longrightarrow> \<^bold>\<not>(F \<^bold>\<rightarrow> G) \<in> S \<longrightarrow> F \<in> S \<and> \<^bold>\<not> G \<in> S"
   by (smt Hintikka_def)
 
-text \<open>Como se puede observar, en las pruebas anteriores hemos
-  utilizado la táctica de demostración 
-  \<open>(iprover elim: \<open>rules\<close>)\<close>. Con esta táctica aplicamos
+text \<open>Las pruebas anteriores siguen un esquema similar en Isabelle. 
+  En primer lugar, mediante el lema \<open>auxEq\<close>, al suponer inicialmente
+  que el conjunto es de Hintikka, se verifica la conjunción de las 
+  condiciones de su definición. Posteriormente se emplean distintos
+  métodos para disgregar estas condiciones en los distintos lemas. Para 
+  este propósito se utiliza, en particular, la táctica de 
+  demostración \<open>(iprover elim: \<open>rules\<close>)\<close>. Con esta táctica aplicamos
   reiteradamente una o varias reglas y reducimos pasos en la prueba de\\ 
   Isabelle/HOL. Para ello, nos hemos servido del método de demostración 
   \<open>elim\<close> que permite aplicar repetidamente reglas de 
