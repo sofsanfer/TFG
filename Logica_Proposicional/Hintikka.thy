@@ -487,26 +487,19 @@ Por tanto,  $p \in S$.}
     \<open>modus tollens\<close>, se tiene que \<open>p \<notin> S\<close>.
 
     Sea la fórmula \<open>\<bottom>\<close> y \<open>S\<close> un conjunto de Hintikka. Supongamos 
-    que \<open>\<not> \<bottom>\<close> pertenece a \<open>S\<close>. Como \<open>S\<close> es un conjunto de Hintikka, 
-    verifica la primera condición de la definición: \<open>\<bottom>\<close> no pertenece a 
-    \<open>S\<close>, como queríamos demostrar.
+    que \<open>\<not> \<bottom> \<in> S\<close>. Como \<open>S\<close> es un conjunto de Hintikka, 
+    verifica la primera condición de la definición: \<open>\<bottom> \<notin> S\<close>, como 
+    queríamos demostrar.
 
     Consideremos \<open>S\<close> un conjunto de Hintikka. Sea \<open>F\<close> una fórmula
     cualquiera tal que para todo conjunto de Hintikka verifica que si
     \<open>\<not> F\<close> pertenece al conjunto, entonces \<open>F\<close> no pertenece al conjunto.
-    Vamos a probar que si \<open>\<not> (\<not> F)\<close> pertenece a \<open>S\<close>, entonces \<open>\<not> F\<close>
-    no pertenece a \<open>S\<close>.
-    Para ello, suponemos inicialmente que \<open>\<not> (\<not> F)\<close> pertenece a \<open>S\<close>. 
-    Como \<open>S\<close> es un conjunto de Hintikka por hipótesis, tenemos que
-    verifica la sexta condición de la definición para \<open>F\<close>: si \<open>\<not> (\<not> F)\<close>
-    pertenece a \<open>S\<close>, entonces \<open>F\<close> pertenece a \<open>S\<close>. Por tanto, obtenemos
-    de la primera suposición que \<open>F\<close> pertenece a \<open>S\<close>. Introduciendo la
-    doble negación, es equivalente a la negación de \<open>F\<close> no pertenece a
-    \<open>S\<close>. Por otra parte, al ser \<open>S\<close> un conjunto de Hintikka, por 
-    hipótesis de inducción se verifica que si \<open>\<not> F\<close> pertenece a \<open>S\<close>, 
-    entonces \<open>F\<close> no pertenece a \<open>S\<close>. Como anteriormente obtuvimos la
-    negación de \<open>F\<close> no pertenece a \<open>S\<close>, por la regla lógica del \<open>modus
-    tollens\<close>, llegamos finalmente a que \<open>\<not> F\<close> no pertenece a \<open>S\<close>.
+    Vamos a probar que si \<open>\<not> (\<not> F) \<in> S\<close>, entonces \<open>\<not> F \<notin> S\<close>.
+    Supongamos que \<open>\<not> (\<not> F) \<in> S\<close>. Por definición de conjunto de 
+    Hintikka, se tiene entonces que \<open>F \<in> S\<close>. Por otra parte, como \<open>S\<close>
+    es un conjunto de Hintikka, por hipótesis de inducción se verifica 
+    que si \<open>\<not> F \<in> S\<close>, entonces \<open>F \<notin> S\<close>, en contra de lo obtenido 
+    anteriormente. Por tanto, por la regla \<open>modus tollens\<close>, \<open>\<not> F \<notin> S\<close>.
 
     Sea \<open>S\<close> un conjunto de Hintikka. Consideremos la fórmula \<open>G\<close> tal
     que, para cualquier conjunto de Hintikka, si \<open>\<not> G\<close> pertenece al
