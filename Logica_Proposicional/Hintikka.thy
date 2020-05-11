@@ -18,7 +18,7 @@ text \<open>En esta sección presentaremos un tipo de conjuntos de fórmulas:
     \begin{enumerate}
       \item \<open>\<bottom> \<notin> S\<close>.
       \item Dada \<open>p\<close> una fórmula atómica cualquiera, no se tiene 
-        simultáneamente que \<open>p \<in> S\<close> y \<open>\<not> p \<in> S\<close>.
+        simultáneamente que\\ \<open>p \<in> S\<close> y \<open>\<not> p \<in> S\<close>.
       \item Si \<open>F \<and> G \<in> S\<close>, entonces \<open>F \<in> S\<close> y \<open>G \<in> S\<close>.
       \item Si \<open>F \<or> G \<in> S\<close>, entonces \<open>F \<in> S\<close> o \<open>G \<in> S\<close>.
       \item Si \<open>F \<rightarrow> G \<in> S\<close>, entonces \<open>\<not> F \<in> S\<close> o \<open>G \<in> S\<close>.
@@ -495,7 +495,7 @@ text \<open>Las pruebas anteriores siguen un esquema similar en Isabelle.
     entonces \<open>G \<or> H \<notin> S\<close>.\\
     Supongamos inicialmente que \<open>\<not> (G \<or> H) \<in> S\<close>. Luego, por definición
     de conjunto de Hintikka, se tiene \<open>\<not> G \<in> S\<close> y \<open>\<not> H \<in> S\<close>. En 
-    particular, \<open>\<not> G \<in> S\<close>. Como \<open>S\<close> es conjunto de Hintikka, por 
+    particular,\\ \<open>\<not> G \<in> S\<close>. Como \<open>S\<close> es conjunto de Hintikka, por 
     hipótesis de inducción tenemos entonces que \<open>G \<notin> S\<close>.\\
     Por otra parte, \<open>\<not> H \<in> S\<close> como vimos anteriormente. Luego, al ser 
     \<open>S\<close> un conjunto de Hintikka, aplicando la hipótesis de inducción de 
@@ -503,7 +503,7 @@ text \<open>Las pruebas anteriores siguen un esquema similar en Isabelle.
     Resumiendo, hemos probado que \<open>G \<notin> S\<close> y \<open>H \<notin> S\<close>. Es fácil observar 
     que esto implica, en particular, que no es cierto que \<open>G \<in> S\<close> o 
     \<open>H \<in> S\<close>. De nuevo, por definición de conjunto de Hintikka, si 
-    \<open>G \<or> H \<in> S\<close>, entonces \<open>G \<in> S\<close> o \<open>H \<in> S\<close>, en contra de lo obtenido
+    \<open>G \<or> H \<in> S\<close>, entonces \<open>G \<in> S\<close> o\\ \<open>H \<in> S\<close>, en contra de lo obtenido
     anteriormente. Por lo tanto, aplicando la regla \<open>modus tollens\<close>, 
     \<open>G \<or> H \<notin> S\<close>.
 
@@ -513,22 +513,22 @@ text \<open>Las pruebas anteriores siguen un esquema similar en Isabelle.
     está en el conjunto, entonces \<open>G\<close> no lo está. Del mismo modo se 
     considera la fórmula \<open>H\<close> tal que para un conjunto de Hintikka
     cualquiera verifica que si \<open>\<not> H\<close> pertenece al conjunto, entonces \<open>H\<close> 
-    no pertenece al mismo. Vamos a probar que si \<open>\<not> (G \<longrightarrow> H) \<in> S\<close>, 
+    no pertenece al mismo. Vamos a probar que si\\ \<open>\<not> (G \<longrightarrow> H) \<in> S\<close>, 
     entonces \<open>G \<longrightarrow> H \<notin> S\<close>.\\
     Supongamos que \<open>\<not> (G \<longrightarrow> H) \<in> S\<close>. Luego, por definición de conjunto 
-    de Hintikka, \<open>G \<in> S\<close> y \<open>\<not> H \<in> S\<close>. En particular, que \<open>G \<in> S\<close>. Como 
-    \<open>S\<close> es un conjunto de Hintikka, por hipótesis de inducción se 
-    verifica que si \<open>\<not> G \<in> S\<close>, entonces \<open>G \<notin> S\<close>, en contra de lo 
-    deducido anteriormente. Por lo tanto, aplicando la regla \<open>modus 
-    tollens\<close> obtenemos que \<open>\<not> G \<notin> S\<close>.\\
+    de Hintikka, \<open>G \<in> S\<close> y \<open>\<not> H \<in> S\<close>. En particular, tenemos que 
+    \<open>G \<in> S\<close>. Como \<open>S\<close> es un conjunto de Hintikka, por hipótesis de 
+    inducción se verifica que si\\ \<open>\<not> G \<in> S\<close>, entonces \<open>G \<notin> S\<close>, en 
+    contra de lo deducido anteriormente. Por lo tanto, aplicando la 
+    regla \<open>modus tollens\<close> obtenemos que \<open>\<not> G \<notin> S\<close>.\\
     Por otro lado, también probamos que \<open>\<not> H \<in> S\<close>. Luego, como 
     \<open>S\<close> es de Hintikka, se obtiene por hipótesis de inducción que 
     \<open>H \<notin> S\<close>.\\ 
-    Resumiendo, hemos deducido bajo las condiciones supuestas que 
+    Resumiendo, hemos deducido bajo las condiciones supuestas que\\ 
     \<open>\<not> G \<notin> S\<close> y \<open>H \<notin> S\<close>. Por lo tanto, es fácil observar que no es 
-    cierto que \<open>\<not> G \<in> S\<close> o \<open>H \<in> S\<close>. Por definición de conjunto de 
-    Hintikka, si \<open>G \<longrightarrow> H \<in> S\<close>, entonces \<open>\<not> G \<in> S\<close> o \<open>H \<in> S\<close>, en contra
-    de lo obtenido anteriormente. Por la regla \<open>modus tollens\<close>,
+    cierto que\\ \<open>\<not> G \<in> S\<close> o \<open>H \<in> S\<close>. Por definición de conjunto de 
+    Hintikka, si\\ \<open>G \<longrightarrow> H \<in> S\<close>, entonces \<open>\<not> G \<in> S\<close> o \<open>H \<in> S\<close>, en 
+    contra de lo obtenido anteriormente. Por la regla \<open>modus tollens\<close>,
     probamos finalmente que \<open>G \<longrightarrow> H \<notin> S\<close>.
   \end{demostracion}
 
@@ -789,11 +789,10 @@ section \<open>Lema de Hintikka\<close>
 
 text \<open>Una vez definida la noción de conjunto de Hintikka y conocidas las
   propiedades que se deducen de ella, nuestro objetivo será demostrar
-  que todo conjunto de Hintikka es satisfacible.
-
-  Por definición, para probar que un conjunto es satisfacible basta
-  hallar una interpretación que sea modelo suyo. De este modo, definimos 
-  el siguiente tipo de interpretaciones.
+  que todo conjunto de Hintikka es satisfacible. Por definición, para 
+  probar que un conjunto es satisfacible basta hallar una interpretación 
+  que sea modelo suyo. De este modo, definimos el siguiente tipo de 
+  interpretaciones.
 
   \begin{definicion}
     Sea un conjunto de fórmulas cualquiera. Se define la \<open>interpretación 
@@ -866,7 +865,7 @@ text \<open>Procedamos a la demostración del resultado.
     asociada a \<open>S\<close> es \<open>Verdadero\<close>. Por tanto, la
     interpretación asociada a \<open>S\<close> es modelo de \<open>p\<close>.\\
     Por otra parte, demostremos la segunda afirmación. Supongamos
-    que \<open>\<not> p \<in> S\<close>. Por un lema anterior, como \<open>S\<close> es de Hintikka, 
+    que\\ \<open>\<not> p \<in> S\<close>. Por un lema anterior, como \<open>S\<close> es de Hintikka, 
     entonces \<open>p \<notin> S\<close>. De este modo, la imagen de la variable \<open>p\<close> por la 
     interpretación asociada a \<open>S\<close> es \<open>Falso\<close>. Análogamente, por 
     definición del valor de una fórmula atómica en una interpretación,
@@ -887,7 +886,7 @@ text \<open>Procedamos a la demostración del resultado.
     definición de conjunto de Hintikka, sabemos que \<open>\<bottom> \<notin> S\<close>, de modo 
     que hemos llegado a una contradicción. Luego, en particular, 
     tenemos el resultado.\\
-    Demostremos a continuación la segunda afirmación. Supongamos que 
+    Demostremos a continuación la segunda afirmación. Supongamos que\\ 
     \<open>\<not> \<bottom> \<in> S\<close>. Como el valor de \<open>\<bottom>\<close> es \<open>Falso\<close> en toda interpretación, 
     en particular lo es en la interpretación asociada al conjunto \<open>S\<close>. 
     De este modo, dicha interpretación no es modelo de \<open>\<bottom>\<close>, como 
@@ -936,7 +935,7 @@ text \<open>Procedamos a la demostración del resultado.
       \item La interpretación asociada a \<open>S\<close> es modelo de \<open>F\<^sub>1 \<and> F\<^sub>2\<close> si 
         \<open>F\<^sub>1 \<and> F\<^sub>2 \<in> S\<close>.
       \item La interpretación asociada a \<open>S\<close> no es modelo de \<open>F\<^sub>1 \<and> F\<^sub>2\<close> 
-        si \<open>\<not>(F\<^sub>1 \<and> F\<^sub>2) \<in> S\<close>.
+        si\\ \<open>\<not>(F\<^sub>1 \<and> F\<^sub>2) \<in> S\<close>.
     \end{enumerate}
     Probemos la primera afirmación. Supongamos, pues, fijadas las
     fórmulas \<open>F\<^sub>1\<close> y \<open>F\<^sub>2\<close> cualesquiera, se tiene que \<open>F\<^sub>1 \<and> F\<^sub>2 \<in> S\<close>.
@@ -967,7 +966,7 @@ text \<open>Procedamos a la demostración del resultado.
     no es \<open>Verdadero\<close>. Por tanto, no es cierto afirmar que el valor de 
     \<open>F\<^sub>1\<close> y \<open>F\<^sub>2\<close> en dicha interpretación es \<open>Verdadero\<close>. Por definición 
     del valor de la conjunción de dos fórmulas en una interpretación, 
-    tenemos equivalentemenete que no es cierto que el valor de \<open>F\<^sub>1 \<and> F\<^sub>2\<close> 
+    tenemos equivalentemente que no es cierto que el valor de \<open>F\<^sub>1 \<and> F\<^sub>2\<close> 
     en la interpretación asociada a \<open>S\<close> sea \<open>Verdadero\<close>, luego dicha 
     interpretación no es modelo de esta fórmula.\\
     Por otro lado, supongamos ahora que \<open>\<not> F\<^sub>2 \<in> S\<close>. Razonando de la 
@@ -992,7 +991,7 @@ text \<open>Procedamos a la demostración del resultado.
       \item La interpretación asociada a \<open>S\<close> es modelo de \<open>F\<^sub>1 \<or> F\<^sub>2\<close> si 
         \<open>F\<^sub>1 \<or> F\<^sub>2 \<in> S\<close>.
       \item La interpretación asociada a \<open>S\<close> no es modelo de \<open>F\<^sub>1 \<or> F\<^sub>2\<close> 
-        si \<open>\<not>(F\<^sub>1 \<or> F\<^sub>2) \<in> S\<close>.
+        si\\ \<open>\<not>(F\<^sub>1 \<or> F\<^sub>2) \<in> S\<close>.
     \end{enumerate}
     Demostremos la primera afirmación. Supongamos que, fijadas las 
     fórmulas \<open>F\<^sub>1\<close> y \<open>F\<^sub>2\<close>, tenemos que \<open>F\<^sub>1 \<or> F\<^sub>2 \<in> S\<close>. Por definición
@@ -1024,7 +1023,7 @@ text \<open>Procedamos a la demostración del resultado.
     Veamos, ahora, la segunda afirmación. Fijadas las fórmulas \<open>F\<^sub>1\<close> y 
     \<open>F\<^sub>2\<close>,\\ suponemos inicialmente que \<open>\<not>(F\<^sub>1 \<or> F\<^sub>2) \<in> S\<close>. Por
     definición de conjunto de Hintikka, tenemos entonces que
-    \<open>\<not> F\<^sub>1 \<in> S\<close> y \<open>\<not> F\<^sub>2 \<in> S\<close>. En particular, \<open>\<not> F\<^sub>1 \<in> S\<close> luego 
+    \<open>\<not> F\<^sub>1 \<in> S\<close> y \<open>\<not> F\<^sub>2 \<in> S\<close>. En particular,\\ \<open>\<not> F\<^sub>1 \<in> S\<close> luego 
     como \<open>S\<close> es de Hintikka, se tiene por hipótesis de inducción que la 
     interpretación asociada a \<open>S\<close> no es modelo de \<open>F\<^sub>1\<close>. Es decir, el 
     valor de \<open>F\<^sub>1\<close> en la interpretación asociada a \<open>S\<close> no es \<open>Verdadero\<close>. 
