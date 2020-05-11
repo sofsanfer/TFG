@@ -433,50 +433,16 @@ text \<open>Las pruebas anteriores siguen un esquema similar en Isabelle.
     conjunto de Hintikka y \<open>\<not> F \<in> S\<close>, entonces \<open>F \<notin> S\<close>.
   \end{lema}
 
-\comentario{Aquí hay que escribir la demostración matemática del lema,
-antes de pasar a su formalización y prueba en Isabelle.}
-
-  Su formalización en Isabelle es la siguiente.\<close>
-
-lemma "Hintikka S \<Longrightarrow> (\<^bold>\<not> F \<in> S \<longrightarrow> F \<notin> S)"
-  oops
-
-text \<open>Para la demostración del siguiente lema utilizaremos la
-  regla lógica \<open>modus tollens\<close>. 
+  Antes de pasar a la demostración del resultado, cabe añadir que
+  para su prueba utilizaremos la regla lógica \<open>modus tollens\<close>. 
 
   \begin{lema}[Modus tollens]
    Si \<open>P\<close> implica \<open>Q\<close> y \<open>Q\<close> es falso, entonces \<open>P\<close> es también falso.
   \end{lema}
 
-  Esta regla no está definida en Isabelle, de modo que las vamos a 
-  introducir a continuación como lema auxiliar. Además, mostraremos
-  su prueba detallada usando otras reglas sí definidas en Isabelle/HOL.\<close>
+  Teniendo esto en cuenta, la demostración del lema es la siguiente.
 
-lemma mt: 
-  assumes "F \<longrightarrow> G" 
-          "\<not> G"
-  shows "\<not> F"
-proof -
-  have "\<not> G \<longrightarrow> \<not> F"
-    using assms(1) by (rule not_mono)
-  thus "\<not> F"
-    using assms(2) by (rule mp)
-qed
-
-text \<open>Procedamos con la demostración del lema.
-
-\comentario{Esta demostración tiene que ir justo con el lema correspondiente
-(lema 3.1.2)}
-\comentario{Simplificar la redacción de la demostración para que sea 
-más legible. Por ejemplo, en el caso de que $F$ sea una fórmula atómica $p$:
-Se tiene que $S$ es de Hintikka y que $\neg p \in S$. Si $p \in S$, por la
-definición de conjunto de Hintikka, $\neg p \notin S$, en contra de la hipótesis. 
-Por tanto,  $p \in S$.}
-
-
-\comentario{Corregido hasta aquí}
-
-  \begin{demostracion}
+\begin{demostracion}
     La prueba se realiza por inducción sobre la estructura de las 
     fórmulas proposicionales. Veamos los distintos casos.
 
@@ -575,11 +541,32 @@ Por tanto,  $p \in S$.}
     probamos finalmente que \<open>G \<longrightarrow> H \<notin> S\<close>.
   \end{demostracion}
 
-  Como es habitual, demostremos ahora el resultado en Isabelle/HOL de
-  manera detallada. Para facilitar dicha prueba, se hará cada caso de la
-  estructura de fórmulas por separado.\<close>
+  Por otra parte, su enunciado se formaliza en Isabelle de la siguiente 
+  forma.\<close>
 
+lemma "Hintikka S \<Longrightarrow> (\<^bold>\<not> F \<in> S \<longrightarrow> F \<notin> S)"
+  oops
 
+text \<open>Antes de proceder con las distintas pruebas en Isabelle/HOL, 
+  vamos a formalizar la regla \<open>modus tollens\<close> usada en las 
+  demostraciones. Esta regla no está definida en Isabelle, de modo que 
+  se introducirá a continuación como lema auxiliar. Además, mostraremos
+  su prueba detallada.\<close>
+
+lemma mt: 
+  assumes "F \<longrightarrow> G" 
+          "\<not> G"
+  shows "\<not> F"
+proof -
+  have "\<not> G \<longrightarrow> \<not> F"
+    using assms(1) by (rule not_mono)
+  thus "\<not> F"
+    using assms(2) by (rule mp)
+qed
+
+text \<open>Procedamos con la demostración del lema en Isabelle/HOL de
+  manera detallada. Como es habitual para facilitar dicha prueba, se 
+  hará cada caso de la estructura de fórmulas por separado.\<close>
 
 lemma Hintikka_l10_atom: 
   assumes "Hintikka S" 
@@ -810,21 +797,17 @@ lemma Hintikka_l10:
 section \<open>Lema de Hintikka\<close>
 
 text \<open>Una vez definida la noción de conjunto de Hintikka y conocidas las
-  propiedades que se deducen de ella, veamos el resultado más importante
-  sobre este tipo de conjuntos.
-
-  \begin{teorema}[Lema de Hintikka]
-    Todo conjunto de Hintikka es satisfacible.
-  \end{teorema}
+  propiedades que se deducen de ella, nuestro objetivo será demostrar
+  que todo conjunto de Hintikka es satisfacible.
 
   Por definición, para probar que un conjunto es satisfacible basta
-  hallar una interpretación que sea modelo suyo. De este modo, para
-  demostrar el lema definimos la siguiente clase de interpretaciones.
+  hallar una interpretación que sea modelo suyo. De este modo, definimos 
+  el siguiente tipo de interpretaciones.
 
   \begin{definicion}
     Sea un conjunto de fórmulas cualquiera. Se define la \<open>interpretación 
-    asociada al conjunto\<close> como aquella que, dada una variable 
-    proposicional, devuelve \<open>Verdadero\<close> si su correspondiente fórmula 
+    asociada al conjunto\<close> como aquella que devuelve \<open>Verdadero\<close> sobre 
+    las variables proposicionales cuya correspondiente fórmula 
     atómica pertence al conjunto, y \<open>Falso\<close> en caso contrario.
   \end{definicion}
 
@@ -852,8 +835,9 @@ begin
 
 end
 
-text \<open>Previamente a la demostración del \<open>lema de Hintikka\<close> y con el fin
-  de facilitarla, introduciremos el siguiente resultado.
+text \<open>Previamente a probar que los conjuntos de Hintikka son 
+  satisfacibles y con el fin de facilitar dicha demostración, 
+  introducimos el siguiente resultado.
 
   \begin{lema}
     La interpretación asociada a un conjunto de Hintikka es modelo de
@@ -878,26 +862,25 @@ text \<open>Procedamos a la demostración del resultado.
     probar que, dada una variable proposicional \<open>p\<close> cualquiera, se
     verifica:
     \begin{enumerate} 
-      \item La interpretación asociada a \<open>S\<close> es modelo de \<open>p\<close> si la
-        fórmula \<open>p\<close> está en \<open>S\<close>.
-      \item La interpretación asociada a \<open>S\<close> no es modelo de \<open>p\<close> si la
-        fórmula \<open>\<not> p\<close> está en \<open>S\<close>.
+      \item La interpretación asociada a \<open>S\<close> es modelo de \<open>p\<close> si
+        \<open>p \<in> S\<close>.
+      \item La interpretación asociada a \<open>S\<close> no es modelo de \<open>p\<close> si 
+        \<open>\<not> p \<in> S\<close>.
     \end{enumerate}
-    Veamos la primera afirmación. Para ello, supongamos inicialmente
-    que la fórmula \<open>p\<close> pertenece al conjunto \<open>S\<close>. En este caso, 
-    la imagen de la variable \<open>p\<close> por la interpretación asociada al
-    conjunto \<open>S\<close> es \<open>Verdadero\<close>. Por definición del valor de una 
-    fórmula atómica en una interpretación, a su vez esto es igual al
-    valor de \<open>p\<close> en la interpretación asociada a \<open>S\<close>. Por tanto, la
-    interpretación asociada a \<open>S\<close> es modelo de \<open>p\<close> por definición.\\
+    Veamos la primera afirmación. Para ello, supongamos que \<open>p \<in> S\<close>. En 
+    este caso, por definición de la interpretación asociada al conjunto
+    \<open>S\<close>, la imagen de la variable \<open>p\<close> por dicha interpretación es 
+    \<open>Verdadero\<close>. Luego, por definición del valor de una fórmula atómica 
+    en una interpretación, el valor de \<open>p\<close> en la interpretación 
+    asociada a \<open>S\<close> es \<open>Verdadero\<close>. Por tanto, la
+    interpretación asociada a \<open>S\<close> es modelo de \<open>p\<close>.\\
     Por otra parte, demostremos la segunda afirmación. Supongamos
-    primero que \<open>\<not> p\<close> pertenece a \<open>S\<close>. Por la propiedad demostrada 
-    anteriormente, sabemos que como \<open>S\<close> es de Hintikka, si \<open>\<not> p\<close> 
-    pertenece a \<open>S\<close>, entonces \<open>p\<close> no pertenece a \<open>S\<close>, luego se deduce 
-    esto último. De este modo, la imagen de la variable \<open>p\<close> por la 
-    interpretación asociada a \<open>S\<close> es \<open>Falso\<close> en este caso. A su vez, 
-    esto es igual al valor de la fórmula \<open>p\<close> en dicha interpretación, 
-    luego por definición de modelo se obtiene que la interpretación 
+    que \<open>\<not> p \<in> S\<close>. Por un lema anterior, como \<open>S\<close> es de Hintikka, 
+    entonces \<open>p \<notin> S\<close>. De este modo, la imagen de la variable \<open>p\<close> por la 
+    interpretación asociada a \<open>S\<close> es \<open>Falso\<close>. Análogamente, por 
+    definición del valor de una fórmula atómica en una interpretación,
+    obtenemos que el valor de la fórmula \<open>p\<close> en dicha interpretación
+    es \<open>Falso\<close>. Finalmente, por definición de modelo, la interpretación 
     asociada al conjunto \<open>S\<close> no es modelo de \<open>p\<close>, como queríamos probar.
  
     Probemos ahora el resultado para la fórmula \<open>\<bottom>\<close> dado un conjunto de
@@ -1686,6 +1669,10 @@ qed
 
 text \<open>Para concluir, demostremos el \<open>Lema de Hintikka\<close> empleando el
   resultado anterior.
+
+  \begin{teorema}[Lema de Hintikka]
+    Todo conjunto de Hintikka es satisfacible.
+  \end{teorema}
 
   \begin{demostracion}
     Consideremos un conjunto de fórmulas \<open>S\<close> tal que sea un conjunto de 
