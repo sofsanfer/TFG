@@ -534,30 +534,21 @@ Por tanto,  $p \in S$.}
     dicho conjunto, entonces \<open>G\<close> no pertenece a él. Del mismo modo se
     considera otra fórmula \<open>H\<close> verificando para cualquier conjunto de 
     Hintikka que, si \<open>\<not> H\<close> pertenece al conjunto, entonces \<open>H\<close> no 
-    pertence a él. Queremos probar que si \<open>\<not> (G \<or> H)\<close> pertenece a \<open>S\<close>,
-    entonces \<open>G \<or> H\<close> no pertenece a \<open>S\<close>.\\
-    Supongamos inicialmente que \<open>\<not> (G \<or> H)\<close> pertence a \<open>S\<close>. Como \<open>S\<close>
-    es un conjunto de Hintikka, en particular verifica la condición 
-    octava de su definición: si \<open>\<not> (G \<or> H)\<close> pertence \<open>S\<close>, entonces 
-    \<open>\<not> G\<close> y \<open>\<not> H\<close> están también en el conjunto. Luego, por la
-    suposición inicial, obtenemos que tanto \<open>\<not> G\<close> como \<open>\<not> H\<close> están en 
-    \<open>S\<close>. En particular, \<open>\<not> G\<close> está en \<open>S\<close>. Como \<open>S\<close> es conjunto de 
-    Hintikka, por hipótesis de inducción tenemos que si \<open>\<not> G\<close> pertence
-    a \<open>S\<close>, entonces \<open>G\<close> no pertenece al conjunto. Por tanto, como
-    \<open>\<not> G\<close> está en \<open>S\<close>, obtenemos así que \<open>G\<close> no está en el conjunto.\\
-    Por otra parte, \<open>\<not> H\<close> también está en \<open>S\<close> como vimos
-    anteriormente. Al ser \<open>S\<close> un conjunto de Hintikka, aplicando la
-    hipótesis de inducción tenemos que si \<open>\<not> H\<close> está en \<open>S\<close>, entonces
-    \<open>H\<close> no pertenece al conjunto. Por tanto, tenemos así que \<open>H\<close> no 
-    está en \<open>S\<close>.\\ Recopilando lo anterior, hemos llegado a que ni
-    \<open>G\<close> ni \<open>H\<close> están en el conjunto. Es fácil observar que esto implica,
-    en particular, que no es cierto que \<open>G\<close> esté en \<open>S\<close> o \<open>H\<close> esté en 
-    \<open>S\<close>. De nuevo, al ser \<open>S\<close> conjunto de Hintikka, verifica la
-    condición cuarta de la definición para \<open>G\<close> y \<open>H\<close>: si \<open>G \<or> H\<close> 
-    pertenece a \<open>S\<close>, entonces \<open>G\<close> pertenece a \<open>S\<close> o \<open>H\<close> pertenece a
-    \<open>S\<close>. Como deducimos de lo anterior que no es cierto que \<open>G\<close>
-    pertenezca a \<open>S\<close> o \<open>H\<close> pertenezca a \<open>S\<close>, por la regla del 
-    \<open>modus tollens\<close> obtenemos finalmente que \<open>G \<or> H\<close> no pertenece a \<open>S\<close>.
+    pertence a él. Queremos probar que si \<open>\<not> (G \<or> H) \<in> S\<close>,
+    entonces \<open>G \<or> H \<notin> S\<close>.\\
+    Supongamos inicialmente que \<open>\<not> (G \<or> H) \<in> S\<close>. Luego, por definición
+    de conjunto de Hintikka, se tiene \<open>\<not> G \<in> S\<close> y \<open>\<not> H \<in> S\<close>. En 
+    particular, \<open>\<not> G \<in> S\<close>. Como \<open>S\<close> es conjunto de Hintikka, por 
+    hipótesis de inducción tenemos entonces que \<open>G \<notin> S\<close>.\\
+    Por otra parte, \<open>\<not> H \<in> S\<close> como vimos anteriormente. Luego, al ser 
+    \<open>S\<close> un conjunto de Hintikka, aplicando la hipótesis de inducción de 
+    manera similar obtenemos que \<open>H \<notin> S\<close>.\\ 
+    Resumiendo, hemos probado que \<open>G \<notin> S\<close> y \<open>H \<notin> S\<close>. Es fácil observar 
+    que esto implica, en particular, que no es cierto que \<open>G \<in> S\<close> o 
+    \<open>H \<in> S\<close>. De nuevo, por definición de conjunto de Hintikka, si 
+    \<open>G \<or> H \<in> S\<close>, entonces \<open>G \<in> S\<close> o \<open>H \<in> S\<close>, en contra de lo obtenido
+    anteriormente. Por lo tanto, aplicando la regla \<open>modus tollens\<close>, 
+    \<open>G \<or> H \<notin> S\<close>.
 
     Veamos el último caso de la estructura de las fórmulas.
     Consideremos análogamente un conjunto de Hintikka \<open>S\<close>. Sea también
