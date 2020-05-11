@@ -16,23 +16,16 @@ text \<open>En esta sección presentaremos un tipo de conjuntos de fórmulas:
   Se llama \<open>conjunto de Hintikka\<close> a todo conjunto de fórmulas \<open>S\<close> que
   verifica las siguientes condiciones:
     \begin{enumerate}
-      \item \<open>\<bottom>\<close> no pertenece a \<open>S\<close>.
-      \item Dada \<open>p\<close> una fórmula atómica cualquiera, \<open>p\<close> y \<open>\<not> p\<close> no 
-        pertenecen simultáneamente a \<open>S\<close>.
-      \item Si \<open>F \<and> G\<close> pertenece a \<open>S\<close>, entonces \<open>F\<close> y \<open>G\<close> 
-        pertenecen a \<open>S\<close>.
-      \item Si \<open>F \<or> G\<close> pertenece a \<open>S\<close>, entonces \<open>F\<close> pertenece a
-        \<open>S\<close> o \<open>G\<close> pertenece a \<open>S\<close>.
-      \item Si \<open>F \<rightarrow> G\<close> pertenece a \<open>S\<close>, entonces \<open>\<not> F\<close> pertenece 
-        a \<open>S\<close> o \<open>G\<close> pertenece a \<open>S\<close>.
-      \item Si \<open>\<not>(\<not> F)\<close> pertenece a \<open>S\<close>, entonces \<open>F\<close> pertenece 
-        a \<open>S\<close>.
-      \item Si \<open>\<not>(F \<and> G)\<close> pertenece a \<open>S\<close>, entonces \<open>\<not> F\<close> 
-        pertenece a \<open>S\<close> o \<open>\<not> G\<close> pertenece a \<open>S\<close>.
-      \item Si \<open>\<not>(F \<or> G)\<close> pertenece a \<open>S\<close>, entonces \<open>\<not> F\<close> y \<open>\<not> G\<close> 
-        pertenecen a \<open>S\<close>.
-      \item Si \<open>\<not>(F \<rightarrow> G)\<close> pertenece a \<open>S\<close>, entonces \<open>F\<close> y \<open>\<not> G\<close> 
-        pertenecen a \<open>S\<close>.
+      \item \<open>\<bottom> \<notin> S\<close>.
+      \item Dada \<open>p\<close> una fórmula atómica cualquiera, no se tiene 
+        simultáneamente que \<open>p \<in> S\<close> y \<open>\<not> p \<in> S\<close>.
+      \item Si \<open>F \<and> G \<in> S\<close>, entonces \<open>F \<in> S\<close> y \<open>G \<in> S\<close>.
+      \item Si \<open>F \<or> G \<in> S\<close>, entonces \<open>F \<in> S\<close> o \<open>G \<in> S\<close>.
+      \item Si \<open>F \<rightarrow> G \<in> S\<close>, entonces \<open>\<not> F \<in> S\<close> o \<open>G \<in> S\<close>.
+      \item Si \<open>\<not>(\<not> F) \<in> S\<close>, entonces \<open>F \<in> S\<close>.
+      \item Si \<open>\<not>(F \<and> G) \<in> S\<close>, entonces \<open>\<not> F \<in> S\<close> o \<open>\<not> G \<in> S\<close>.
+      \item Si \<open>\<not>(F \<or> G) \<in> S\<close>, entonces \<open>\<not> F \<in> S\<close> y \<open>\<not> G \<in> S\<close>. 
+      \item Si \<open>\<not>(F \<rightarrow> G) \<in> S\<close>, entonces \<open>F \<in> S\<close> y \<open>\<not> G \<in> S\<close>. 
     \end{enumerate}  
   \end{definicion}
 
@@ -115,47 +108,46 @@ text \<open>Asimismo presentaremos nueve lemas correspondientes a cada
   condición de la definición de conjunto de Hintikka. 
 
   \begin{lema}
-    Si \<open>S\<close> es un conjunto de Hintikka, \<open>\<bottom>\<close> no pertenece a \<open>S\<close>.
+    Si \<open>S\<close> es un conjunto de Hintikka, \<open>\<bottom> \<notin> S\<close>.
   \end{lema}
 
   \begin{lema}
-    Si \<open>p\<close> es una fórmula atómica que pertenece a un conjunto de 
-    Hintikka \<open>S\<close>, entonces \<open>\<not> p\<close> no pertenece a \<open>S\<close>.
+    Sea \<open>S\<close> un conjunto de Hintikka. Si \<open>p\<close> es una fórmula atómica tal 
+    que \<open>p \<in> S\<close>, entonces \<open>\<not> p \<notin> S\<close>.
   \end{lema}
 
   \begin{lema}
-    Si \<open>F \<and> G\<close> pertenece a un conjunto de Hintikka \<open>S\<close>, entonces \<open>F\<close> y 
-    \<open>G\<close> pertenecen a \<open>S\<close>.
+    Sea \<open>S\<close> un conjunto de Hintikka. Si \<open>F \<and> G \<in> S\<close>, entonces 
+    \<open>F \<in> S\<close> y\\ \<open>G \<in> S\<close>.
   \end{lema}
 
   \begin{lema}
-    Si \<open>F \<or> G\<close> pertenece a un conjunto de Hintikka \<open>S\<close>, entonces \<open>F\<close> 
-    pertenece a \<open>S\<close> o \<open>G\<close> pertenece a \<open>S\<close>.
+    Sea \<open>S\<close> un conjunto de Hintikka. Si \<open>F \<or> G \<in> S\<close>, entonces 
+    \<open>F \<in> S\<close> o\\ \<open>G \<in> S\<close>.
   \end{lema}
 
   \begin{lema}
-    Si \<open>F \<rightarrow> G\<close> pertenece a un conjunto de Hintikka \<open>S\<close>, entonces \<open>\<not> F\<close> 
-    pertenece a \<open>S\<close> o \<open>G\<close> pertenece a \<open>S\<close>.
+    Sea \<open>S\<close> un conjunto de Hintikka. Si \<open>F \<rightarrow> G \<in> S\<close>, entonces 
+    \<open>\<not> F \<in> S\<close> o \<open>G \<in> S\<close>.
   \end{lema}
 
   \begin{lema}
-    Si \<open>\<not>(\<not> F)\<close> pertenece a un conjunto de Hintikka \<open>S\<close>, entonces \<open>F\<close> 
-    pertenece a \<open>S\<close>.
+    Sea \<open>S\<close> un conjunto de Hintikka. Si \<open>\<not>(\<not> F) \<in> S\<close>, entonces \<open>F \<in> S\<close>.
   \end{lema}
 
   \begin{lema}
-    Si \<open>\<not>(F \<and> G)\<close> pertenece a un conjunto de Hintikka \<open>S\<close>, entonces 
-    \<open>\<not> F\<close> pertenece a \<open>S\<close> o \<open>\<not> G\<close> pertenece a \<open>S\<close>.
+    Sea \<open>S\<close> un conjunto de Hintikka. Si \<open>\<not>(F \<and> G) \<in> S\<close>, entonces 
+    \<open>\<not> F \<in> S\<close> o \<open>\<not> G \<in> S\<close>.
   \end{lema}
 
   \begin{lema}
-    Si \<open>\<not>(F \<or> G)\<close> pertenece a un conjunto de Hintikka \<open>S\<close>, entonces 
-    \<open>\<not> F\<close> y \<open>\<not> G\<close> pertenecen a \<open>S\<close>.
+    Sea \<open>S\<close> un conjunto de Hintikka. Si \<open>\<not>(F \<or> G) \<in> S\<close>, entonces 
+    \<open>\<not> F \<in> S\<close> y \<open>\<not> G \<in> S\<close>.
   \end{lema}
 
   \begin{lema}
-    Si \<open>\<not>(F \<rightarrow> G)\<close> pertenece a un conjunto de Hintikka \<open>S\<close>, entonces \<open>F\<close> 
-    y \<open>\<not> G\<close> pertenecen a \<open>S\<close>.
+    Sea \<open>S\<close> un conjunto de Hintikka. Si \<open>\<not>(F \<rightarrow> G) \<in> S\<close>, entonces 
+    \<open>F \<in> S\<close> y \<open>\<not> G \<in> S\<close>.
   \end{lema}
 
   Como se puede observar, los lemas anteriores se corresponden con 
@@ -411,7 +403,7 @@ text \<open>Las pruebas anteriores siguen un esquema similar en Isabelle.
   métodos para disgregar estas condiciones en los distintos lemas. Para 
   este propósito se utiliza, en particular, la táctica de 
   demostración \<open>(iprover elim: \<open>rules\<close>)\<close>. Con esta táctica aplicamos
-  reiteradamente una o varias reglas y reducimos pasos en la prueba de\\ 
+  reiteradamente una o varias reglas y reducimos pasos en la prueba de 
   Isabelle/HOL. Para ello, nos hemos servido del método de demostración 
   \<open>elim\<close> que permite aplicar repetidamente reglas de 
   eliminación especificadas. En nuestro caso, hemos utilizado las reglas 
@@ -453,18 +445,17 @@ text \<open>Las pruebas anteriores siguen un esquema similar en Isabelle.
     \<open>modus tollens\<close>, se tiene que \<open>p \<notin> S\<close>.
 
     Sea la fórmula \<open>\<bottom>\<close> y \<open>S\<close> un conjunto de Hintikka. Supongamos 
-    que \<open>\<not> \<bottom> \<in> S\<close>. Como \<open>S\<close> es un conjunto de Hintikka, 
-    verifica la primera condición de la definición: \<open>\<bottom> \<notin> S\<close>, como 
-    queríamos demostrar.
+    que\\ \<open>\<not> \<bottom> \<in> S\<close>. Como \<open>S\<close> es un conjunto de Hintikka, por 
+    definición se tiene que \<open>\<bottom> \<notin> S\<close>, como queríamos demostrar.
 
     Consideremos \<open>S\<close> un conjunto de Hintikka. Sea \<open>F\<close> una fórmula
     cualquiera tal que para todo conjunto de Hintikka verifica que si
     \<open>\<not> F\<close> pertenece al conjunto, entonces \<open>F\<close> no pertenece al conjunto.
-    Vamos a probar que si \<open>\<not> (\<not> F) \<in> S\<close>, entonces \<open>\<not> F \<notin> S\<close>.
+    Vamos a probar que si\\ \<open>\<not> (\<not> F) \<in> S\<close>, entonces \<open>\<not> F \<notin> S\<close>.
     Supongamos que \<open>\<not> (\<not> F) \<in> S\<close>. Por definición de conjunto de 
     Hintikka, se tiene entonces que \<open>F \<in> S\<close>. Por otra parte, como \<open>S\<close>
     es un conjunto de Hintikka, por hipótesis de inducción se verifica 
-    que si \<open>\<not> F \<in> S\<close>, entonces \<open>F \<notin> S\<close>, en contra de lo obtenido 
+    que si\\ \<open>\<not> F \<in> S\<close>, entonces \<open>F \<notin> S\<close>, en contra de lo obtenido 
     anteriormente. Por tanto, por la regla \<open>modus tollens\<close>, \<open>\<not> F \<notin> S\<close>.
 
     Sea \<open>S\<close> un conjunto de Hintikka. Consideremos la fórmula \<open>G\<close> tal
@@ -484,8 +475,8 @@ text \<open>Las pruebas anteriores siguen un esquema similar en Isabelle.
     \<open>H \<in> S\<close> simultáneamente.
     Por otro lado, por definición de conjunto de Hintikka, si 
     \<open>G \<and> H \<in> S\<close>, entonces \<open>G \<in> S\<close> y \<open>H \<in> S\<close>, en contra de
-    lo obtenido anteriormente. De este modo, por la regla \<open>modus 
-    tollens\<close> se obtiene finalmente que \<open>G \<and> H \<notin> S\<close>.\\
+    lo obtenido anteriormente. De este modo, por la regla \<open>modus\<close>\\ 
+    \<open>tollens\<close> se obtiene finalmente que \<open>G \<and> H \<notin> S\<close>.\\
     En segundo lugar, supongamos que \<open>\<not> H \<in> S\<close>. Por hipótesis
     de inducción, como \<open>S\<close> es un conjunto de Hintikka, se obtiene que 
     \<open>H \<notin> S\<close>. Razonando igual que en el caso anterior con respecto a la 
