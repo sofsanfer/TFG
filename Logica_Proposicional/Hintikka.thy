@@ -1660,14 +1660,11 @@ text \<open>Para concluir, demostremos el \<open>Lema de Hintikka\<close> emplea
     En primer lugar, probemos que la interpretación asociada a \<open>S\<close> es 
     modelo de \<open>S\<close>. Por definición de modelo de un conjunto, basta 
     comprobar que es modelo de toda fórmula perteneciente al mismo. 
-    Fijemos una fórmula cualquiera. El resultado anterior probó, en
-    particular, que la interpretación asociada a \<open>S\<close> es modelo de la 
-    fórmula si esta pertenece al conjunto. Por tanto, para toda fórmula
-    se tiene que la interpretación asociada a \<open>S\<close> es modelo de la misma
-    si esta pertenece al conjunto. En otras palabras, dicha 
-    interpretación es, en efecto, modelo de todas las fórmulas que 
-    pertenecen a \<open>S\<close>. Luego la interpretación asociada a \<open>S\<close> es modelo 
-    de \<open>S\<close>.
+    Fijada una fórmula cualquiera, hemos visto anteriormente que la 
+    interpretación asociada a \<open>S\<close> es modelo de la fórmula si esta 
+    pertenece al conjunto. Por tanto, dicha interpretación es, en 
+    efecto, modelo de todas las fórmulas que pertenecen a \<open>S\<close>. Luego la 
+    interpretación asociada a \<open>S\<close> es modelo de \<open>S\<close>.
 
     En conclusión, hemos hallado una interpretación que es modelo del
     conjunto. Por lo tanto, \<open>S\<close> es satisfacible, como se quería probar.
