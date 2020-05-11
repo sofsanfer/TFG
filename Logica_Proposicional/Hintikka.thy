@@ -506,43 +506,28 @@ Por tanto,  $p \in S$.}
     conjunto, entonces \<open>G\<close> no pertenece al conjunto. Sea también la
     fórmula \<open>H\<close> que verifica análogamente para cualquier conjunto de 
     Hintikka que, si \<open>\<not> H\<close> pertenece al conjunto, entonces \<open>H\<close> no 
-    pertenece al conjunto. Queremos probar que si \<open>\<not> (G \<and> H)\<close> pertenece
-    a \<open>S\<close>, entonces \<open>G \<and> H\<close> no pertenece a \<open>S\<close>.\\
-    Para ello, suponemos inicialmente que \<open>\<not> (G \<and> H)\<close> pertenece a \<open>S\<close>.
-    Como \<open>S\<close> es un conjunto de Hintikka, por la séptima condición de la 
-    definición, tenemos que si \<open>\<not> (G \<and> H)\<close> pertenece a \<open>S\<close>, entonces 
-    \<open>\<not> G\<close> pertenece a \<open>S\<close> o \<open>\<not> H\<close> pertenece \<open>S\<close>. Como habíamos supuesto 
-    inicialmente que\\ \<open>\<not> (G \<and> H)\<close> pertenece a \<open>S\<close>, por la anterior 
-    tenemos que \<open>\<not> G\<close> pertenece a \<open>S\<close> o \<open>\<not> H\<close> pertenece a \<open>S\<close>. De este
-    modo, voy a probar que \<open>G \<and> H\<close> no pertenece a \<open>S\<close> por la
-    eliminación de la disyunción anterior.\\
-    En primer lugar, supongamos que \<open>\<not> G\<close> pertenece a \<open>S\<close>. Entonces,
+    pertenece al conjunto. Queremos probar que si \<open>\<not> (G \<and> H) \<in> S\<close>,
+    entonces \<open>G \<and> H \<notin> S\<close>.\\
+    Supongamos que \<open>\<not> (G \<and> H) \<in> S\<close>. Por tanto, por definición de 
+    conjunto de Hintikka, \<open>\<not> G \<in> S\<close> o \<open>\<not> H \<in> S\<close>. Veamos que \<open>G \<and> H \<notin> S\<close> 
+    por eliminación de la disyunción anterior.\\
+    En primer lugar, supongamos que \<open>\<not> G \<in> S\<close>. Entonces,
     como \<open>S\<close> es un conjunto de Hintikka, por hipótesis de inducción 
-    tenemos que, si\\ \<open>\<not> G\<close> pertenece a \<open>S\<close>, entonces \<open>G\<close> no pertenece 
-    a \<open>S\<close>. Como habíamos supuesto que \<open>\<not> G\<close> pertenece a \<open>S\<close>, por lo
-    anterior obtenemos que \<open>G\<close> no pertenece a \<open>S\<close>. Por propiedades de
-    la conjunción, se observa fácilmente que si \<open>G\<close> no pertenece a
-    \<open>S\<close>, entonces no es cierto que \<open>G\<close> y \<open>H\<close> pertenezcan ambas a \<open>S\<close>.
-    Por otro lado, como \<open>S\<close> es un conjunto de Hintikka, cumple también 
-    la condición tercera de la definición para \<open>G\<close> y \<open>H\<close>: si \<open>G \<and> H\<close>
-    pertenece a \<open>S\<close>, entonces \<open>G\<close> y \<open>H\<close> pertenecen ambas a \<open>S\<close>. Como 
-    anteriormente obtubimos que no es cierto que \<open>G\<close> y \<open>H\<close> pertenezcan
-    a \<open>S\<close>, por la regla de \<open>modus tollens\<close> obtenemos finalmente que
-    \<open>G \<and> H\<close> no pertenece a \<open>S\<close>.\\
-    En segundo lugar, supongamos que \<open>\<not> H\<close> pertenece a \<open>S\<close>. Vamos a
-    probar análogamente que \<open>G \<and> H\<close> no pertenece a \<open>S\<close>. Por hipótesis
-    de inducción, como \<open>S\<close> es un conjunto de Hintikka, tenemos que si
-    \<open>\<not> H\<close> pertenece a \<open>S\<close>, entonces \<open>H\<close> no pertenece a \<open>S\<close>. Como en
-    este caso hemos supuesto que\\ \<open>\<not> H\<close> pertenece a \<open>S\<close>, por lo 
-    anterior obtenemos que \<open>H\<close> no pertenece a \<open>S\<close>. Razonando igual que 
-    en el caso anterior con respecto a la conjunción, como \<open>H\<close> no 
-    pertenece a \<open>S\<close>, entonces no es cierto que \<open>G\<close> y \<open>H\<close> pertenezcan 
-    ambas a \<open>S\<close>. Por otra parte, como \<open>S\<close> es un conjunto de Hintikka, 
-    verifica la condición tercera de la definición para \<open>G\<close> y \<open>H\<close>: si 
-    \<open>G \<and> H\<close> pertenece a \<open>S\<close>, entonces \<open>G\<close> y \<open>H\<close> pertenecen ambas a \<open>S\<close>. 
-    Por lo tanto, como no es cierto que \<open>G\<close> y \<open>H\<close> pertenezcan ambas a 
-    \<open>S\<close>, por la regla del \<open>modus tollens\<close> se demuestra finalmente que 
-    \<open>G \<and> H\<close> no pertenece a \<open>S\<close>. 
+    tenemos que, \<open>G \<notin> S\<close>. Por propiedades de la conjunción, se observa 
+    fácilmente que si \<open>G \<notin> S\<close>, entonces no es cierto que \<open>G \<in> S\<close> y 
+    \<open>H \<in> S\<close> simultáneamente.
+    Por otro lado, por definición de conjunto de Hintikka, si 
+    \<open>G \<and> H \<in> S\<close>, entonces \<open>G \<in> S\<close> y \<open>H \<in> S\<close>, en contra de
+    lo obtenido anteriormente. De este modo, por la regla \<open>modus 
+    tollens\<close> se obtiene finalmente que \<open>G \<and> H \<notin> S\<close>.\\
+    En segundo lugar, supongamos que \<open>\<not> H \<in> S\<close>. Por hipótesis
+    de inducción, como \<open>S\<close> es un conjunto de Hintikka, se obtiene que 
+    \<open>H \<notin> S\<close>. Razonando igual que en el caso anterior con respecto a la 
+    conjunción, como \<open>H \<notin> S\<close>, entonces no es cierto que \<open>G \<in> S\<close> y 
+    \<open>H \<in> S\<close> simultáneamente. Por otra parte,  por definición de 
+    conjunto de Hintikka, si \<open>G \<and> H \<in> S\<close>, entonces \<open>G \<in> S\<close> y \<open>H \<in> S\<close>,
+    en contra de lo obtenido anteriormente. Finalmente, por la regla 
+    \<open>modus tollens\<close> se prueba que \<open>G \<and> H \<notin> S\<close>. 
 
     Sea el conjunto de Hintikka \<open>S\<close>. Consideremos la fórmula \<open>G\<close> tal
     que dado un conjunto de Hintikka cualquiera, si \<open>\<not> G\<close> pertenece a
