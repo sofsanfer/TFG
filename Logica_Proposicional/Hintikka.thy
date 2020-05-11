@@ -887,22 +887,20 @@ text \<open>Procedamos a la demostración del resultado.
     Hintikka cualquiera \<open>S\<close>. Análogamente, vamos a demostrar dos
     afirmaciones:
     \begin{enumerate}
-      \item La interpretación asociada a \<open>S\<close> es modelo de \<open>\<bottom>\<close> si \<open>\<bottom>\<close> 
-        pertenece al conjunto.
+      \item La interpretación asociada a \<open>S\<close> es modelo de \<open>\<bottom>\<close> si 
+        \<open>\<bottom> \<in> S\<close>.
       \item La interpretación asociada a \<open>S\<close> no es modelo de \<open>\<bottom>\<close> si 
-        \<open>\<not> \<bottom>\<close> pertenece a \<open>S\<close>.
+        \<open>\<not> \<bottom> \<in> S\<close>.
     \end{enumerate}
-    En primer lugar probaremos la primera. Para ello, suponemos que \<open>\<bottom>\<close> 
-    pertenece efectivamente a \<open>S\<close>. Como \<open>S\<close> es de Hintikka, por la 
-    primera condición de la definición sabemos que \<open>\<bottom>\<close> no pertence al 
-    conjunto, de modo que hemos llegado a una contradicción. Por la 
-    regla de eliminación de la negación lógica tenemos, en particular, 
-    el resultado.\\
-    Demostremos a continuación la segunda afirmación. Suponemos primero 
-    que \<open>\<not> \<bottom>\<close> está en el conjunto. Como el valor de \<open>\<bottom>\<close> es \<open>Falso\<close> en 
-    toda interpretación, en particular lo es en la interpretación 
-    asociada al conjunto \<open>S\<close>. De este modo, dicha interpretación no es 
-    modelo de \<open>\<bottom>\<close>, como queríamos demostrar.
+    Probemos la primera afirmación. Supongamos que \<open>\<bottom> \<in> S\<close>. Por 
+    definición de conjunto de Hintikka, sabemos que \<open>\<bottom> \<notin> S\<close>, de modo 
+    que hemos llegado a una contradicción. Luego, en particular, 
+    tenemos el resultado.\\
+    Demostremos a continuación la segunda afirmación. Supongamos que 
+    \<open>\<not> \<bottom> \<in> S\<close>. Como el valor de \<open>\<bottom>\<close> es \<open>Falso\<close> en toda interpretación, 
+    en particular lo es en la interpretación asociada al conjunto \<open>S\<close>. 
+    De este modo, dicha interpretación no es modelo de \<open>\<bottom>\<close>, como 
+    queríamos demostrar.
 
     Consideremos ahora el conjunto de Hintikka \<open>S\<close> cualquiera. Suponemos
     que, para toda fórmula \<open>F\<close>, la interpretación asociada a \<open>S\<close> es 
