@@ -481,23 +481,15 @@ Por tanto,  $p \in S$.}
     fórmulas proposicionales. Veamos los distintos casos.
 
     En primer lugar, consideremos una fórmula atómica cualquiera \<open>p\<close> y 
-    \<open>S\<close> un conjunto de Hintikka. Queremos probar que si \<open>\<not> p\<close> pertenece 
-    al conjunto, entonces \<open>p\<close> no pertenece al conjunto. Supongamos, 
-    pues, que \<open>\<not> p\<close> pertenece a \<open>S\<close>. Entonces, introduciendo la doble 
-    negación, obtenemos la negación de \<open>\<not> p\<close> no pertenece a \<open>S\<close>. Por 
-    otro lado, como hemos supuesto que \<open>S\<close> es un conjunto de Hintikka, 
-    verifica la segunda condición para \<open>p\<close>: si \<open>p\<close> pertenece a \<open>S\<close>,
-    entonces \<open>\<not> p\<close> no pertenece a \<open>S\<close>. Como anteriormente habíamos
-    supuesto la negación de \<open>\<not> p\<close> no pertenece a \<open>S\<close>, por la regla
-    lógica de \<open>modus tollens\<close>, se tiene por tanto que \<open>p\<close> no pertenece
-    al conjunto.
+    \<open>S\<close> un conjunto de Hintikka. Supongamos que \<open>\<not> p \<in> S\<close>. 
+    Por definición de conjunto de Hintikka, si \<open>p \<in> S\<close>, entonces 
+    \<open>\<not> p \<notin> S\<close>, en contra de la hipótesis. Luego, aplicando la regla de 
+    \<open>modus tollens\<close>, se tiene que \<open>p \<notin> S\<close>.
 
-    Sea la fórmula \<open>\<bottom>\<close> y \<open>S\<close> un conjunto de Hintikka. Probemos que si\\
-    \<open>\<not> \<bottom>\<close> pertenece a \<open>S\<close>, entonces \<open>\<bottom>\<close> no pertenece a \<open>S\<close>. Para ello,
-    suponemos inicialmente que \<open>\<not> \<bottom>\<close> pertenece a \<open>S\<close>. Como \<open>S\<close> es un 
-    conjunto de Hintikka por hipótesis, sabemos que verifica la primera
-    condición de la definición, de modo que \<open>\<bottom>\<close> no pertenece a \<open>S\<close>, 
-    como queríamos demostrar.
+    Sea la fórmula \<open>\<bottom>\<close> y \<open>S\<close> un conjunto de Hintikka. Supongamos 
+    que \<open>\<not> \<bottom>\<close> pertenece a \<open>S\<close>. Como \<open>S\<close> es un conjunto de Hintikka, 
+    verifica la primera condición de la definición: \<open>\<bottom>\<close> no pertenece a 
+    \<open>S\<close>, como queríamos demostrar.
 
     Consideremos \<open>S\<close> un conjunto de Hintikka. Sea \<open>F\<close> una fórmula
     cualquiera tal que para todo conjunto de Hintikka verifica que si
