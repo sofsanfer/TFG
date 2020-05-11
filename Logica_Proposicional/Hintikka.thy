@@ -555,35 +555,24 @@ Por tanto,  $p \in S$.}
     la fórmula \<open>G\<close> tal que dado cualquier conjunto de Hintikka, si \<open>\<not> G\<close>
     está en el conjunto, entonces \<open>G\<close> no lo está. Del mismo modo se 
     considera la fórmula \<open>H\<close> tal que para un conjunto de Hintikka
-    cualquiera verifica análogamente que si \<open>\<not> H\<close> pertenece al
-    conjunto, entonces \<open>H\<close> no pertenece a él. Vamos a probar que si
-    \<open>\<not> (G \<longrightarrow> H)\<close> pertenece a \<open>S\<close>, entonces \<open>G \<longrightarrow> H\<close> no pertenece a 
-    \<open>S\<close>.\\
-    Para ello, como es habitual, suponemos inicialmente que 
-    \<open>\<not> (G \<longrightarrow> H)\<close> está en \<open>S\<close>. Al ser \<open>S\<close> un conjunto de Hintikka, en 
-    particular verifica la condición novena de su definición: si
-    \<open>\<not> (G \<longrightarrow> H)\<close> pertenece a \<open>S\<close>, entonces \<open>G\<close> y\\ \<open>\<not> H\<close> pertenecen 
-    ambas a \<open>S\<close>. Luego tenemos que tanto \<open>G\<close> como \<open>\<not> H\<close> pertenecen
-    a \<open>S\<close>. En particular tenemos, por tanto, que \<open>G\<close> pertenece
-    al conjunto. Introduciendo la doble negación, se deduce que no es 
-    cierto que \<open>G\<close> no pertenezca a \<open>S\<close>. Como \<open>S\<close> es un conjunto de 
-    Hintikka, por hipótesis de inducción se verifica que si \<open>\<not> G\<close> 
-    pertence a \<open>S\<close>, entonces \<open>G\<close> no pertence a \<open>S\<close>. Como hemos deducido 
-    anteriormente que no es cierto que \<open>G\<close> no pertenezca a \<open>S\<close>, 
-    aplicando la regla del \<open>modus tollens\<close> obtenemos que \<open>\<not> G\<close> no 
-    pertenece al conjunto.\\
-    Por otro lado, anteriormente deducimos también que \<open>\<not> H\<close> está en
-    \<open>S\<close>. Como \<open>S\<close> es de Hintikka, por hipótesis de inducción si \<open>\<not> H\<close>
-    está en \<open>S\<close>, entonces \<open>H\<close> no lo está. Por tanto, obtenemos así que
-    \<open>H\<close> no pertenece a \<open>S\<close>.\\ Recopilando lo obtenido anteriormente, 
-    bajo las condiciones supuestas tenemos que ni \<open>\<not> G\<close> ni \<open>H\<close>
-    pertenecen a \<open>S\<close>. Por lo tanto, es fácil observar que no es cierto
-    que \<open>\<not> G\<close> pertenezca a \<open>S\<close> o \<open>H\<close> pertenezca a \<open>S\<close>. Como \<open>S\<close> es un
-    conjunto de Hintikka, verifica en particular la quinta condición de
-    su definición para \<open>G\<close> y \<open>H\<close>, de modo que si \<open>G \<longrightarrow> H\<close> está en \<open>S\<close>,
-    entonces \<open>\<not> G\<close> está en \<open>S\<close> o \<open>H\<close> está en \<open>S\<close>. Finalmente, obtenemos
-    de aquí que \<open>G \<longrightarrow> H\<close> no pertenece a \<open>S\<close> aplicando la regla del
-    \<open>modus tollens\<close>.
+    cualquiera verifica que si \<open>\<not> H\<close> pertenece al conjunto, entonces \<open>H\<close> 
+    no pertenece al mismo. Vamos a probar que si \<open>\<not> (G \<longrightarrow> H) \<in> S\<close>, 
+    entonces \<open>G \<longrightarrow> H \<notin> S\<close>.\\
+    Supongamos que \<open>\<not> (G \<longrightarrow> H) \<in> S\<close>. Luego, por definición de conjunto 
+    de Hintikka, \<open>G \<in> S\<close> y \<open>\<not> H \<in> S\<close>. En particular, que \<open>G \<in> S\<close>. Como 
+    \<open>S\<close> es un conjunto de Hintikka, por hipótesis de inducción se 
+    verifica que si \<open>\<not> G \<in> S\<close>, entonces \<open>G \<notin> S\<close>, en contra de lo 
+    deducido anteriormente. Por lo tanto, aplicando la regla \<open>modus 
+    tollens\<close> obtenemos que \<open>\<not> G \<notin> S\<close>.\\
+    Por otro lado, también probamos que \<open>\<not> H \<in> S\<close>. Luego, como 
+    \<open>S\<close> es de Hintikka, se obtiene por hipótesis de inducción que 
+    \<open>H \<notin> S\<close>.\\ 
+    Resumiendo, hemos deducido bajo las condiciones supuestas que 
+    \<open>\<not> G \<notin> S\<close> y \<open>H \<notin> S\<close>. Por lo tanto, es fácil observar que no es 
+    cierto que \<open>\<not> G \<in> S\<close> o \<open>H \<in> S\<close>. Por definición de conjunto de 
+    Hintikka, si \<open>G \<longrightarrow> H \<in> S\<close>, entonces \<open>\<not> G \<in> S\<close> o \<open>H \<in> S\<close>, en contra
+    de lo obtenido anteriormente. Por la regla \<open>modus tollens\<close>,
+    probamos finalmente que \<open>G \<longrightarrow> H \<notin> S\<close>.
   \end{demostracion}
 
   Como es habitual, demostremos ahora el resultado en Isabelle/HOL de
