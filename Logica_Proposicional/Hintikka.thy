@@ -29,8 +29,7 @@ text \<open>En esta sección presentaremos un tipo de conjuntos de fórmulas:
     \end{enumerate}  
   \end{definicion}
 
-  En Isabelle se formaliza mediante el tipo \<open>definition\<close> de la siguiente
-  manera.\<close>
+  En Isabelle se formaliza mediante el tipo \<open>definition\<close> como sigue.\<close>
 
 definition "Hintikka S \<equiv> 
 (\<bottom> \<notin> S
@@ -408,13 +407,10 @@ text \<open>Las pruebas anteriores siguen un esquema similar en Isabelle.
   \<open>elim\<close> que permite aplicar repetidamente reglas de 
   eliminación especificadas. En nuestro caso, hemos utilizado las reglas 
   de eliminación de la conjunción y la regla de eliminación del 
-  cuantificador existencial. Por otro lado, \<open>iprover\<close> es un 
-  buscador intuitivo de métodos de demostración en Isabelle/HOL que 
+  cuantificador existencial. Por otro lado, \<open>iprover\<close> es uno de los 
+  métodos automático de demostración en Isabelle/HOL que 
   depende del contexto y de las reglas o métodos específicamente 
-  declarados a continuación del mismo. De este modo, combinando ambos, 
-  \<open>iprover\<close> busca intuitivamente el método de demostración que, mediante 
-  la aplicación reiterada de reglas de eliminación señaladas por \<open>elim\<close>, 
-  pruebe adecuadamente el resultado.
+  declarados a continuación del mismo. 
 
   Finalmente, veamos un resultado derivado de las condiciones
   exigidas a los conjuntos de Hintikka.
@@ -531,6 +527,85 @@ text \<open>Las pruebas anteriores siguen un esquema similar en Isabelle.
     contra de lo obtenido anteriormente. Por la regla \<open>modus tollens\<close>,
     probamos finalmente que \<open>G \<longrightarrow> H \<notin> S\<close>.
   \end{demostracion}
+
+\comentario{Ver la siguiente redacción alternativa a la demostración anterior}
+
+\begin{demostracion}
+   Sea \<open>S\<close> un conjunto de Hintikka y \<open>F\<close> un fórmula. Hay que probar
+   que si \<open>\<not>F \<in> S\<close>, entonces \<open>F \<notin> S\<close>. 
+    La prueba se realiza por inducción sobre la estructura de las 
+    fórmulas proposicionales. Veamos los distintos casos.
+
+\begin{enumerate}
+   \item[Caso 1:] \<open>F = p\<close>, fórmula atómica.
+
+    Supongamos que \<open>\<not> p \<in> S\<close>.  Si \<open>p \<in> S\<close> por definición de conjunto de Hintikka,
+    \<open>\<not> p \<notin> S\<close>, en contra de la hipótesis. 
+
+   \item[Caso 2:] \<open>F = \<bottom>\<close>   
+
+    Supongamos que \<open>\<not> \<bottom> \<in> S\<close>. Como \<open>S\<close> es un conjunto de Hintikka, por 
+    definición se tiene que \<open>\<bottom> \<notin> S\<close>, como queríamos demostrar.
+
+    \item[Caso 3:] \<open>F = \<not>G\<close>, y \<open>G\<close> verifica la hipótesis de inducción. 
+
+     Es decir, \<open>G\<close> verifica HI: \<open>\<not>G \<in> S \<Longrightarrow> G \<notin> S\<close>. 
+
+     Probemos que  \<open>\<not>F \<in> S \<Longrightarrow> F \<notin> S\<close>. 
+
+    En efecto,
+
+$$\begin{array}{lrl}
+ & \<open>\<not>F \<in> S\<close> & \\
+\<open>\<Longrightarrow>\<close> & \<open>\<not>\<not> G \<in> S\<close> & \\
+\<open>\<Longrightarrow>\<close> & \<open>G \<in> S\<close> & @{text " (Eliminación doble negación) "}\\
+\<open>\<Longrightarrow>\<close> & \<open>\<not>G \<notin> S\<close> & @{text " (HI y contraposición) "}\\
+\<open>\<Longrightarrow>\<close> & \<open>F \<notin> S\<close> &
+      \end{array}$$ 
+
+   
+    \item[Caso 4:] \<open>F = G \<and> H\<close> y tanto \<open>G\<close> como \<open>H\<close> verifican la hipótesis de inducción. 
+
+     Es decir, se verifica HI: \<open>\<not>G \<in> S \<Longrightarrow> G \<notin> S\<close> y \<open>\<not>H \<in> S \<Longrightarrow> H \<notin> S\<close>. 
+
+     Probemos que  \<open>\<not>F \<in> S \<Longrightarrow> F \<notin> S\<close>. 
+
+    En efecto,
+$$\begin{array}{lrl}
+ & \<open>\<not>F \<in> S\<close> & \\
+\<open>\<Longrightarrow>\<close> & \<open>\<not> (G \<and> H) \<in> S\<close> & \\
+\<open>\<Longrightarrow>\<close> & \<open>\<not>G \<in> S \<or> \<not>H \<in> S\<close> & @{text " (\<open>S\<close> es conjunto de Hintikka) "}\\
+\<open>\<Longrightarrow>\<close> & \<open>G \<notin> S \<or> H \<notin> S\<close> & @{text " (Hipótesis de inducción) "}
+      \end{array}$$ 
+
+Por otra parte, si \<open>F \<in> S\<close> se tiene que \<open>G \<in> S \<and> H \<in> S\<close>, por ser \<open>S\<close> conjunto 
+de Hintikka, lo que contradice lo anterior. Por tanto, \<open>F \<notin> S\<close>.
+
+\item[Caso 5:] \<open>F = G \<or> H\<close> y tanto \<open>G\<close> como \<open>H\<close> verifican la hipótesis de inducción. 
+
+     Es decir, se verifica HI: \<open>\<not>G \<in> S \<Longrightarrow> G \<notin> S\<close> y \<open>\<not>H \<in> S \<Longrightarrow> H \<notin> S\<close>. 
+
+     Probemos que  \<open>\<not>F \<in> S \<Longrightarrow> F \<notin> S\<close>. 
+
+    En efecto,
+
+\item[Caso 6:] \<open>F = G \<longrightarrow> H\<close> y tanto \<open>G\<close> como \<open>H\<close> verifican la hipótesis de inducción. 
+
+     Es decir, se verifica HI: \<open>\<not>G \<in> S \<Longrightarrow> G \<notin> S\<close> y \<open>\<not>H \<in> S \<Longrightarrow> H \<notin> S\<close>. 
+
+     Probemos que  \<open>\<not>F \<in> S \<Longrightarrow> F \<notin> S\<close>. 
+
+    En efecto,
+
+\end{enumerate}
+   
+
+    Con lo que termina la demostración.
+  \end{demostracion} 
+  
+\comentario{Terminar los casos 5 y 6}
+
+ 
 
   Por otra parte, su enunciado se formaliza en Isabelle de la siguiente 
   forma.\<close>
@@ -1122,6 +1197,122 @@ text \<open>Procedamos a la demostración del resultado.
     \<open>Verdadero\<close>. Por tanto, dicha interpretación no es modelo de la
     fórmula, probando así el resultado.
   \end{demostracion}
+
+\comentario{Ver la siguiente redacción alternativa a la demostración anterior}
+
+\begin{demostracion}
+   Sea \<open>S\<close> un conjunto de Hintikka y denotemos por \<open>\<I>\<^sub>S\<close> la interpretación
+  asociada a \<open>S\<close>. Sea  \<open>F\<close> una fórmula, hay que probar lo siguiente:
+  \<open>(F \<in> S \<Longrightarrow> \<I>\<^sub>S \<Turnstile> F) \<and> (\<not>F \<in> S \<Longrightarrow>  \<I>\<^sub>S\<close>  $\not\models$ \<open>F)\<close>
+
+    La prueba se realiza por inducción sobre la estructura de las 
+    fórmulas proposicionales. Veamos los distintos casos.
+
+\begin{enumerate}
+   \item[Caso 1:] \<open>F = p\<close>, fórmula atómica.
+
+    Si \<open>p \<in> S\<close>, entonces \<open>\<I>\<^sub>S(p) = True\<close> por definición de la interpretación asociada 
+    a \<open>S\<close>. Y si \<open>\<not> p \<in> S\<close>, entonces  \<open>p \<notin> S\<close> por ser \<open>S\<close> de Hintikka. Por tanto, 
+     \<open>\<I>\<^sub>S(p) = False\<close> por definición de  \<open>\<I>\<^sub>S\<close>.
+
+   \item[Caso 2:] \<open>F = \<bottom>\<close>   
+
+    Si \<open>\<bottom> \<in> S\<close>, como por definición de conjunto de Hintikka, sabemos que \<open>\<bottom> \<notin> S\<close>, 
+    se tendría una contradicción. Luego, en particular, tenemos el resultado.
+
+    Por otra parte, si \<open>\<not> \<bottom> \<in> S\<close>, \<open>\<I>\<^sub>S\<close> no es modelo de \<open>\<bottom>\<close> pues el valor de \<open>\<bottom>\<close> 
+   es \<open>Falso\<close> en cualquier interpretación.
+
+    \item[Caso 3:] \<open>F = \<not>G\<close>, y \<open>G\<close> verifica la hipótesis de inducción. 
+
+     Es decir, HI: \<open>(G \<in> S \<Longrightarrow> \<I>\<^sub>S \<Turnstile> G) \<and> (\<not>G \<in> S \<Longrightarrow>  \<I>\<^sub>S\<close>  $\not\models$ \<open>G)\<close>
+
+     Probemos que  \<open>(F \<in> S \<Longrightarrow> \<I>\<^sub>S \<Turnstile> F) \<and> (\<not>F \<in> S \<Longrightarrow>  \<I>\<^sub>S\<close>  $\not\models$ \<open>F)\<close>
+
+    En efecto,
+    $$\begin{array}{lrl}
+    & \<open>F \<in> S\<close> & \\
+\<open>\<Longrightarrow>\<close> & \<open>\<not> G \<in> S\<close> & \\
+\<open>\<Longrightarrow>\<close> &  \<open>\<I>\<^sub>S (G)\<close>  @{text "= False "}& @{text " (Hipótesis de inducción) "}\\
+\<open>\<Longrightarrow>\<close> & \<open> \<I>\<^sub>S (\<not>G)\<close> @{text "= True  "} & \\
+\<open>\<Longrightarrow>\<close> & \<open> \<I>\<^sub>S \<Turnstile> F\<close> &
+      \end{array}$$ 
+
+ Análogamente,
+
+$$\begin{array}{lrl}
+ & \<open>\<not>F \<in> S\<close> & \\
+\<open>\<Longrightarrow>\<close> & \<open>\<not>\<not> G \<in> S\<close> & \\
+\<open>\<Longrightarrow>\<close> & \<open>G \<in> S\<close>  & @{text " (Eliminación doble negación) "}\\
+\<open>\<Longrightarrow>\<close> &  \<open>\<I>\<^sub>S (G)\<close>  @{text "= True "} & @{text " (Hipótesis de inducción) "}\\
+\<open>\<Longrightarrow>\<close> & \<open> \<I>\<^sub>S (\<not>G)\<close>  @{text "= False "} & \\
+\<open>\<Longrightarrow>\<close> & \<open> \<I>\<^sub>S (F)\<close>  @{text "= False  "}& 
+      \end{array}$$
+
+   
+    \item[Caso 4:] \<open>F = G \<and> H\<close> y tanto \<open>G\<close> como \<open>H\<close> verifican la hipótesis de inducción. 
+
+     Es decir, se verifican 
+     \begin{enumerate}
+       \item [HI1:]  \<open>(G \<in> S \<Longrightarrow> \<I>\<^sub>S \<Turnstile> G) \<and> (\<not>G \<in> S \<Longrightarrow>  \<I>\<^sub>S\<close>  $\not\models$ \<open>G)\<close>
+       \item [HI2:]  \<open>(H \<in> S \<Longrightarrow> \<I>\<^sub>S \<Turnstile> H) \<and> (\<not>H \<in> S \<Longrightarrow>  \<I>\<^sub>S\<close>  $\not\models$ \<open>H)\<close>
+     \end{enumerate}
+ 
+     Probemos que  \<open>(F \<in> S \<Longrightarrow> \<I>\<^sub>S \<Turnstile> F) \<and> (\<not>F \<in> S \<Longrightarrow>  \<I>\<^sub>S\<close>  $\not\models$ \<open>F)\<close>
+
+    En efecto,
+$$\begin{array}{lrl}
+ & \<open>F \<in> S\<close> & \\
+\<open>\<Longrightarrow>\<close> & \<open>G \<and> H \<in> S\<close> & \\
+\<open>\<Longrightarrow>\<close> & \<open>G \<in> S \<and> H \<in> S\<close> & @{text " (\<open>S\<close> es conjunto de Hintikka) "}\\
+\<open>\<Longrightarrow>\<close> & \<open>\<I>\<^sub>S \<Turnstile> G \<and> \<I>\<^sub>S \<Turnstile> H\<close> & @{text " (Hipótesis de inducción) "} \\
+\<open>\<Longrightarrow>\<close> & \<open>\<I>\<^sub>S \<Turnstile> (G \<and> H)\<close> & \\
+\<open>\<Longrightarrow>\<close> & \<open>\<I>\<^sub>S \<Turnstile> F\<close> & 
+      \end{array}$$ 
+
+Por otra parte, 
+$$\begin{array}{lrl}
+ & \<open>\<not>F \<in> S\<close> & \\
+\<open>\<Longrightarrow>\<close> & \<open>\<not>(G \<and> H) \<in> S\<close> & \\
+\<open>\<Longrightarrow>\<close> & \<open>\<not>G \<in> S \<or> \<not>H \<in> S\<close> & @{text " (\<open>S\<close> es conjunto de Hintikka) "}\\
+\<open>\<Longrightarrow>\<close> & \<open> \<^bold>\<not>  (\<I>\<^sub>S \<Turnstile> G) \<or>  \<^bold>\<not>  (\<I>\<^sub>S \<Turnstile> H) \<close> & @{text " (Hipótesis de inducción) "}\\
+\<open>\<Longrightarrow>\<close> & \<open> \<^bold>\<not> (\<I>\<^sub>S \<Turnstile> (G \<and> H))\<close> & \\
+\<open>\<Longrightarrow>\<close> & \<open> \<I>\<^sub>S (F)\<close>  @{text "= False  "}& 
+      \end{array}$$ 
+
+
+
+\item[Caso 5:] \<open>F = G \<or> H\<close> y tanto \<open>G\<close> como \<open>H\<close> verifican la hipótesis de inducción. 
+
+     Es decir, se verifican 
+     \begin{enumerate}
+       \item [HI1:]  \<open>(G \<in> S \<Longrightarrow> \<I>\<^sub>S \<Turnstile> G) \<and> (\<not>G \<in> S \<Longrightarrow>  \<I>\<^sub>S\<close>  $\not\models$ \<open>G)\<close>
+       \item [HI2:]  \<open>(H \<in> S \<Longrightarrow> \<I>\<^sub>S \<Turnstile> H) \<and> (\<not>H \<in> S \<Longrightarrow>  \<I>\<^sub>S\<close>  $\not\models$ \<open>H)\<close>
+     \end{enumerate}
+ 
+     Probemos que  \<open>(F \<in> S \<Longrightarrow> \<I>\<^sub>S \<Turnstile> F) \<and> (\<not>F \<in> S \<Longrightarrow>  \<I>\<^sub>S\<close>  $\not\models$ \<open>F)\<close> 
+
+    En efecto,
+
+\item[Caso 6:] \<open>F = G \<longrightarrow> H\<close> y tanto \<open>G\<close> como \<open>H\<close> verifican la hipótesis de inducción. 
+
+     Es decir, se verifican 
+     \begin{enumerate}
+       \item [HI1:]  \<open>(G \<in> S \<Longrightarrow> \<I>\<^sub>S \<Turnstile> G) \<and> (\<not>G \<in> S \<Longrightarrow>  \<I>\<^sub>S\<close>  $\not\models$ \<open>G)\<close>
+       \item [HI2:]  \<open>(H \<in> S \<Longrightarrow> \<I>\<^sub>S \<Turnstile> H) \<and> (\<not>H \<in> S \<Longrightarrow>  \<I>\<^sub>S\<close>  $\not\models$ \<open>H)\<close>
+     \end{enumerate}
+ 
+     Probemos que  \<open>(F \<in> S \<Longrightarrow> \<I>\<^sub>S \<Turnstile> F) \<and> (\<not>F \<in> S \<Longrightarrow>  \<I>\<^sub>S\<close>  $\not\models$ \<open>F)\<close>
+
+    En efecto,
+
+\end{enumerate}
+   
+
+    Con lo que termina la demostración.
+  \end{demostracion} 
+  
+\comentario{Terminar los casos 5 y 6}
 
   Una vez terminada la prueba anterior, procedemos a las distintas
   demostraciones del lema mediante Isabelle/HOL. En primer lugar
