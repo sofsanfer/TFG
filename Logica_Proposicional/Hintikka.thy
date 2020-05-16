@@ -840,400 +840,208 @@ lemma "Hintikka S \<Longrightarrow> (F \<in> S \<longrightarrow> isModel (setVal
 
 text \<open>Procedamos a la demostración del resultado.
 
-  \begin{demostracion}
-    El lema se prueba mediante inducción en la estructura de las
-    fórmulas. Como es habitual, se distinguen los siguientes casos.
-
-    En primer lugar, consideremos el conjunto de Hintikka \<open>S\<close>. Queremos
-    probar que, dada una variable proposicional \<open>p\<close> cualquiera, se
-    verifica:
-    \begin{enumerate} 
-      \item La interpretación asociada a \<open>S\<close> es modelo de \<open>p\<close> si
-        \<open>p \<in> S\<close>.
-      \item La interpretación asociada a \<open>S\<close> no es modelo de \<open>p\<close> si 
-        \<open>\<not> p \<in> S\<close>.
-    \end{enumerate}
-    Veamos la primera afirmación. Para ello, supongamos que \<open>p \<in> S\<close>. En 
-    este caso, por definición de la interpretación asociada al conjunto
-    \<open>S\<close>, la imagen de la variable \<open>p\<close> por dicha interpretación es 
-    \<open>Verdadero\<close>. Luego, por definición del valor de una fórmula atómica 
-    en una interpretación, el valor de \<open>p\<close> en la interpretación 
-    asociada a \<open>S\<close> es \<open>Verdadero\<close>. Por tanto, la
-    interpretación asociada a \<open>S\<close> es modelo de \<open>p\<close>.\\
-    Por otra parte, demostremos la segunda afirmación. Supongamos
-    que\\ \<open>\<not> p \<in> S\<close>. Por un lema anterior, como \<open>S\<close> es de Hintikka, 
-    entonces \<open>p \<notin> S\<close>. De este modo, la imagen de la variable \<open>p\<close> por la 
-    interpretación asociada a \<open>S\<close> es \<open>Falso\<close>. Análogamente, por 
-    definición del valor de una fórmula atómica en una interpretación,
-    obtenemos que el valor de la fórmula \<open>p\<close> en dicha interpretación
-    es \<open>Falso\<close>. Finalmente, por definición de modelo, la interpretación 
-    asociada al conjunto \<open>S\<close> no es modelo de \<open>p\<close>, como queríamos probar.
- 
-    Probemos ahora el resultado para la fórmula \<open>\<bottom>\<close> dado un conjunto de
-    Hintikka cualquiera \<open>S\<close>. Análogamente, vamos a demostrar dos
-    afirmaciones:
-    \begin{enumerate}
-      \item La interpretación asociada a \<open>S\<close> es modelo de \<open>\<bottom>\<close> si 
-        \<open>\<bottom> \<in> S\<close>.
-      \item La interpretación asociada a \<open>S\<close> no es modelo de \<open>\<bottom>\<close> si 
-        \<open>\<not> \<bottom> \<in> S\<close>.
-    \end{enumerate}
-    Probemos la primera afirmación. Supongamos que \<open>\<bottom> \<in> S\<close>. Por 
-    definición de conjunto de Hintikka, sabemos que \<open>\<bottom> \<notin> S\<close>, de modo 
-    que hemos llegado a una contradicción. Luego, en particular, 
-    tenemos el resultado.\\
-    Demostremos a continuación la segunda afirmación. Supongamos que\\ 
-    \<open>\<not> \<bottom> \<in> S\<close>. Como el valor de \<open>\<bottom>\<close> es \<open>Falso\<close> en toda interpretación, 
-    en particular lo es en la interpretación asociada al conjunto \<open>S\<close>. 
-    De este modo, dicha interpretación no es modelo de \<open>\<bottom>\<close>, como 
-    queríamos demostrar.
-
-    Consideremos ahora el conjunto de Hintikka \<open>S\<close> cualquiera. Suponemos
-    que, para toda fórmula \<open>F\<close>, la interpretación asociada a \<open>S\<close> es 
-    modelo de \<open>F\<close> si \<open>F \<in> S\<close>, y no es modelo de \<open>F\<close> si \<open>\<not> F \<in> S\<close>. Vamos 
-    a probar las siguientes afirmaciones:
-    \begin{enumerate}
-      \item La interpretación asociada a \<open>S\<close> es modelo de \<open>\<not> F\<close> si 
-        \<open>\<not> F \<in> S\<close>.
-      \item La interpretación asociada a \<open>S\<close> no es modelo de \<open>\<not> F\<close> si 
-        \<open>\<not> (\<not> F) \<in> S\<close>.
-    \end{enumerate}
-    Probemos la primera afirmación. Supongamos que, fijada una fórmula
-    cualquiera \<open>F\<close>, se tiene que \<open>\<not> F \<in> S\<close>. Por hipótesis de inducción, 
-    tenemos pues que la interpretación asociada a \<open>S\<close> no es modelo de 
-    \<open>F\<close>. En otras palabras, no es cierto que el valor de \<open>F\<close> en esta 
-    interpretación sea \<open>Verdadero\<close>. Por definición del valor de la 
-    negación de una fórmula en una interpretación, esto es equivalente a 
-    que el valor de la fórmula \<open>\<not> F\<close> en la interpretación asociada a \<open>S\<close> 
-    sea \<open>Verdadero\<close>. Por lo tanto, dicha interpretación es modelo de 
-    \<open>\<not> F\<close>.\\
-    Por otra parte, probemos la segunda afirmación fijada una fórmula
-    \<open>F\<close> cualquiera. Supongamos que \<open>\<not> (\<not> F) \<in> S\<close>. Luego, por definición 
-    de conjunto de Hintikka, \<open>F \<in> S\<close>. Además, por hipótesis de 
-    inducción, se tiene entonces que la interpretación asociada a \<open>S\<close> es 
-    modelo de \<open>F\<close>. En otras palabras, no es cierto que dicha 
-    interpretación no sea modelo de \<open>F\<close>. Por definición de ser modelo de 
-    una fórmula, no es cierto que el valor de \<open>F\<close> en dicha 
-    interpretación no sea \<open>Verdadero\<close>. Análogamente, por definición del 
-    valor de la negación de una fórmula en una interpretación, tenemos 
-    que esto es equivalente a asumir que no es cierto que el valor de 
-    \<open>\<not> F\<close> en la interpretación asociada a \<open>S\<close> sea \<open>Verdadero\<close>. Por lo 
-    tanto, esta interpretación no es modelo de \<open>\<not> F\<close>, como queríamos 
-    demostrar. 
-
-    Veamos el siguiente caso de la estructura de las fórmulas. Sea \<open>S\<close>
-    un conjunto de Hintikka. Se considera que, para toda fórmula \<open>F\<^sub>1\<close> y 
-    \<open>F\<^sub>2\<close>, la interpretación asociada a \<open>S\<close> es modelo de \<open>F\<^sub>i\<close> si
-    \<open>F\<^sub>i \<in> S\<close> para \<open>i = 1,2\<close>. Además, se verifica que
-    dicha interpretación no es modelo de \<open>F\<^sub>i\<close> si \<open>\<not> F\<^sub>i \<in> S\<close> para 
-    \<open>i=1,2\<close>. Hay que probar que se tienen las siguientes afirmaciones:
-    \begin{enumerate}
-      \item La interpretación asociada a \<open>S\<close> es modelo de \<open>F\<^sub>1 \<and> F\<^sub>2\<close> si 
-        \<open>F\<^sub>1 \<and> F\<^sub>2 \<in> S\<close>.
-      \item La interpretación asociada a \<open>S\<close> no es modelo de \<open>F\<^sub>1 \<and> F\<^sub>2\<close> 
-        si\\ \<open>\<not>(F\<^sub>1 \<and> F\<^sub>2) \<in> S\<close>.
-    \end{enumerate}
-    Probemos la primera afirmación. Supongamos, pues, fijadas las
-    fórmulas \<open>F\<^sub>1\<close> y \<open>F\<^sub>2\<close> cualesquiera, se tiene que \<open>F\<^sub>1 \<and> F\<^sub>2 \<in> S\<close>.
-    Luego, por definición de conjunto de Hintikka, se tiene que \<open>F\<^sub>1 \<in> S\<close> 
-    y \<open>F\<^sub>2 \<in> S\<close>. En particular, \<open>F\<^sub>1 \<in> S\<close> y, por hipótesis de
-    inducción, la interpretación asociada a \<open>S\<close> es modelo de \<open>F\<^sub>1\<close>. En
-    otras palabras, el valor de \<open>F\<^sub>1\<close> en la interpretación asociada a
-    \<open>S\<close> es \<open>Verdadero\<close>. Por otra parte, también obtuvimos que \<open>F\<^sub>2 \<in> S\<close>. 
-    Razonando de manera análoga, por hipótesis de inducción se verifica 
-    entonces que la interpretación asociada a \<open>S\<close> es modelo de \<open>F\<^sub>2\<close>. Es 
-    decir, el valor de \<open>F\<^sub>2\<close> en dicha interpretación es \<open>Verdadero\<close>. 
-    Resumiendo, hemos obtenido que el valor de \<open>F\<^sub>1\<close> en la interpretación 
-    asociada a \<open>S\<close> es \<open>Verdadero\<close> y el valor de \<open>F\<^sub>2\<close> en dicha 
-    interpretación también es \<open>Verdadero\<close>. Por definición del valor de 
-    la conjunción de dos fórmulas en una interpretación, tenemos 
-    equivalentemente que el valor de \<open>F\<^sub>1 \<and> F\<^sub>2\<close> en la interpretación 
-    asociada a \<open>S\<close> es \<open>Verdadero\<close>. Por tanto, la interpretación asociada 
-    a \<open>S\<close> es modelo de \<open>F\<^sub>1 \<and> F\<^sub>2\<close>.\\
-    Probemos ahora la segunda afirmación fijadas las fórmulas
-    \<open>F\<^sub>1\<close> y \<open>F\<^sub>2\<close>. Supongamos que \<open>\<not>(F\<^sub>1 \<and> F\<^sub>2) \<in> S\<close>. Entonces, por
-    definición de conjunto de Hintikka, \<open>\<not> F\<^sub>1 \<in> S\<close> o \<open>\<not> F\<^sub>2 \<in> S\<close>. Veamos 
-    que la interpretación asociada a \<open>S\<close> no es modelo de 
-    \<open>F\<^sub>1 \<and> F\<^sub>2\<close> mediante la eliminación de la disyunción anterior.\\
-    En primer lugar supongamos que \<open>\<not> F\<^sub>1 \<in> S\<close>. Como \<open>S\<close> es un conjunto
-    de Hintikka, por hipótesis de inducción obtenemos que la 
-    interpretación asociada a \<open>S\<close> no es modelo de \<open>F\<^sub>1\<close>. Esto significa 
-    que el valor de \<open>F\<^sub>1\<close> en la interpretación asociada a \<open>S\<close>
-    no es \<open>Verdadero\<close>. Por tanto, no es cierto afirmar que el valor de 
-    \<open>F\<^sub>1\<close> y \<open>F\<^sub>2\<close> en dicha interpretación es \<open>Verdadero\<close>. Por definición 
-    del valor de la conjunción de dos fórmulas en una interpretación, 
-    tenemos equivalentemente que no es cierto que el valor de \<open>F\<^sub>1 \<and> F\<^sub>2\<close> 
-    en la interpretación asociada a \<open>S\<close> sea \<open>Verdadero\<close>, luego dicha 
-    interpretación no es modelo de esta fórmula.\\
-    Por otro lado, supongamos ahora que \<open>\<not> F\<^sub>2 \<in> S\<close>. Razonando de la 
-    misma manera, al ser \<open>S\<close> de Hintikka se obtiene, por hipótesis de 
-    inducción, que la interpretación asociada a \<open>S\<close> no es modelo de 
-    \<open>F\<^sub>2\<close>. Es decir, el valor de \<open>F\<^sub>2\<close> en dicha interpretación no es 
-    \<open>Verdadero\<close>. Por lo tanto, se puede afirmar que no es cierto que 
-    tanto el valor de \<open>F\<^sub>1\<close> como el de \<open>F\<^sub>2\<close> en la interpretación asociada 
-    a \<open>S\<close> sean \<open>Verdadero\<close>. Por la definición del valor de la conjunción 
-    de dos fórmulas en una interpretación, equivalentemente no es cierto 
-    que el valor de \<open>F\<^sub>1 \<and> F\<^sub>2\<close> en la interpretación asociada a \<open>S\<close> es 
-    \<open>Verdadero\<close>. Por tanto, dicha interpretación no es modelo de 
-    \<open>F\<^sub>1 \<and> F\<^sub>2\<close>, como se quería probar.
-
-    Consideremos de nuevo \<open>S\<close> un conjunto de Hintikka cualquiera.\\ 
-    Suponemos análogamente que para toda fórmula \<open>F\<^sub>1\<close> y \<open>F\<^sub>2\<close>, la 
-    interpretación asociada a \<open>S\<close> es modelo de \<open>F\<^sub>i\<close> si \<open>F\<^sub>i \<in> S\<close> para 
-    \<open>i = 1,2\<close>. Además, se verifica que dicha interpretación no 
-    es modelo de \<open>F\<^sub>i\<close> si \<open>\<not> F\<^sub>i \<in> S\<close> para \<open>i=1,2\<close>. Vamos a probar que 
-    se verifican las siguientes afirmaciones:
-    \begin{enumerate}
-      \item La interpretación asociada a \<open>S\<close> es modelo de \<open>F\<^sub>1 \<or> F\<^sub>2\<close> si 
-        \<open>F\<^sub>1 \<or> F\<^sub>2 \<in> S\<close>.
-      \item La interpretación asociada a \<open>S\<close> no es modelo de \<open>F\<^sub>1 \<or> F\<^sub>2\<close> 
-        si\\ \<open>\<not>(F\<^sub>1 \<or> F\<^sub>2) \<in> S\<close>.
-    \end{enumerate}
-    Demostremos la primera afirmación. Supongamos que, fijadas las 
-    fórmulas \<open>F\<^sub>1\<close> y \<open>F\<^sub>2\<close>, tenemos que \<open>F\<^sub>1 \<or> F\<^sub>2 \<in> S\<close>. Por definición
-    de conjunto de Hintikka, se obtiene entonces que \<open>F\<^sub>1 \<in> S\<close> o 
-    \<open>F\<^sub>2 \<in> S\<close>. Vamos a probar que la interpretación asociada a \<open>S\<close> es 
-    modelo de \<open>F\<^sub>1 \<or> F\<^sub>2\<close> mediante la eliminación de la disyunción 
-    anterior.\\
-    Supongamos que \<open>F\<^sub>1 \<in> S\<close>. Por hipótesis de inducción, como \<open>S\<close> es de
-    Hintikka, obtenemos entonces que la interpretación asociada a \<open>S\<close> 
-    es modelo de \<open>F\<^sub>1\<close>. Es decir, el valor de \<open>F\<^sub>1\<close> en dicha 
-    interpretación es \<open>Verdadero\<close>. Por lo tanto, se puede afirmar que, 
-    o bien el valor de \<open>F\<^sub>1\<close> en la interpretación asociada a \<open>S\<close> es 
-    \<open>Verdadero\<close>, o bien lo es el valor de \<open>F\<^sub>2\<close> en la misma 
-    interpretación. Por la definición del valor de la disyunción de dos 
-    fórmulas en una interpretación, esto equivale a afirmar que el valor 
-    de \<open>F\<^sub>1 \<or> F\<^sub>2\<close> en la interpretación asociada a \<open>S\<close> es \<open>Verdadero\<close>. 
-    Luego, dicha interpretación es modelo de \<open>F\<^sub>1 \<or> F\<^sub>2\<close>.\\
-    Por otro lado, supongamos que \<open>F\<^sub>2 \<in> S\<close>. Análogamente, como \<open>S\<close> es
-    de Hintikka, por hipótesis de inducción se deduce que la 
-    interpretación asociada a \<open>S\<close> es modelo de \<open>F\<^sub>2\<close>. En otras palabras, 
-    el valor de \<open>F\<^sub>2\<close> en la interpretación asociada a \<open>S\<close> es \<open>Verdadero\<close>. 
-    De este modo se puede afirmar que, o bien el valor de \<open>F\<^sub>1\<close> en esta
-    interpretación es \<open>Verdadero\<close>, o bien lo es el de \<open>F\<^sub>2\<close> en la misma
-    interpretación. Por definición del valor de la disyunción de dos
-    fórmulas en una interpretación, esto es equivalente a afirmar que
-    el valor de \<open>F\<^sub>1 \<or> F\<^sub>2\<close> es \<open>Verdadero\<close> para la interpretación
-    asociada a \<open>S\<close>, luego dicha interpretación es modelo de la
-    fórmula.\\
-    Veamos, ahora, la segunda afirmación. Fijadas las fórmulas \<open>F\<^sub>1\<close> y 
-    \<open>F\<^sub>2\<close>,\\ suponemos inicialmente que \<open>\<not>(F\<^sub>1 \<or> F\<^sub>2) \<in> S\<close>. Por
-    definición de conjunto de Hintikka, tenemos entonces que
-    \<open>\<not> F\<^sub>1 \<in> S\<close> y \<open>\<not> F\<^sub>2 \<in> S\<close>. En particular,\\ \<open>\<not> F\<^sub>1 \<in> S\<close> luego 
-    como \<open>S\<close> es de Hintikka, se tiene por hipótesis de inducción que la 
-    interpretación asociada a \<open>S\<close> no es modelo de \<open>F\<^sub>1\<close>. Es decir, el 
-    valor de \<open>F\<^sub>1\<close> en la interpretación asociada a \<open>S\<close> no es \<open>Verdadero\<close>. 
-    Por otra parte, deducimos también que \<open>\<not> F\<^sub>2 \<in> S\<close>. Análogamente, por 
-    hipótesis de inducción tenemos entonces que la interpretación 
-    asociada a \<open>S\<close> no es modelo de \<open>F\<^sub>2\<close>. Luego el valor de \<open>F\<^sub>2\<close> en dicha 
-    interpretación no es \<open>Verdadero\<close>.\\
-    Resumiendo, hemos obtenido que ni el valor de \<open>F\<^sub>1\<close> en la
-    interpretación asociada a \<open>S\<close> es \<open>Verdadero\<close>, ni el valor de \<open>F\<^sub>2\<close>
-    en la misma interpretación es \<open>Verdadero\<close>. Luego, se puede afirmar
-    que no es cierto que el valor de \<open>F\<^sub>1\<close> o el valor de \<open>F\<^sub>2\<close> en la 
-    interpretación asociada a \<open>S\<close> sea \<open>Verdadero\<close>. Otra vez más, por
-    la definición del valor de la disyunción de dos fórmulas en una
-    interpretación, lo anterior es equivalente a afirmar que el valor
-    de \<open>F\<^sub>1 \<or> F\<^sub>2\<close> en la interpretación asociada a \<open>S\<close> no es \<open>Verdadero\<close>. 
-    Por lo tanto, esta interpretación no es modelo de \<open>F\<^sub>1 \<or> F\<^sub>2\<close>, como
-    se quería probar.
-
-    Concluyamos con la prueba del caso de la última conectiva binaria.
-    Sea \<open>S\<close> un conjunto de Hintikka cualquiera. Consideramos 
-    análogamente que, para toda fórmula \<open>F\<^sub>1\<close> y \<open>F\<^sub>2\<close>, la interpretación 
-    asociada a \<open>S\<close> es modelo de \<open>F\<^sub>i\<close> si \<open>F\<^sub>i \<in> S\<close> para \<open>i = 1,2\<close>. Además, 
-    se verifica que dicha interpretación no es modelo de \<open>F\<^sub>i\<close> si 
-    \<open>\<not> F\<^sub>i \<in> S\<close> para \<open>i=1,2\<close>. Se quieren probar las siguientes 
-    afirmaciones:
-    \begin{enumerate}
-      \item La interpretación asociada a \<open>S\<close> es modelo de \<open>F\<^sub>1 \<rightarrow> F\<^sub>2\<close> si 
-        \<open>F\<^sub>1 \<rightarrow> F\<^sub>2 \<in> S\<close>. 
-      \item La interpretación asociada a \<open>S\<close> no es modelo de \<open>F\<^sub>1 \<rightarrow> F\<^sub>2\<close> 
-        si\\ \<open>\<not>(F\<^sub>1 \<rightarrow> F\<^sub>2) \<in> S\<close>.
-    \end{enumerate}
-    Probemos la primera. Para ello, fijadas las fórmulas \<open>F\<^sub>1\<close> y \<open>F\<^sub>2\<close>, 
-    supongamos que \<open>F\<^sub>1 \<rightarrow> F\<^sub>2 \<in> S\<close>. Entonces, por definición de conjunto 
-    de Hintikka, tenemos que \<open>\<not> F\<^sub>1 \<in> S\<close> o \<open>F\<^sub>2 \<in> S\<close>. Vamos a probar que 
-    la interpretación asociada a \<open>S\<close> es modelo de \<open>F\<^sub>1 \<rightarrow> F\<^sub>2\<close> mediante la
-    eliminación de la disyunción anterior.\\
-    Consideremos el caso en que \<open>\<not> F\<^sub>1 \<in> S\<close>. Por tanto, al ser \<open>S\<close> de
-    Hintikka, se obtiene por hipótesis de inducción que la 
-    interpretación asociada a \<open>S\<close> no es modelo de \<open>F\<^sub>1\<close>, es decir, el 
-    valor de \<open>F\<^sub>1\<close> en esta interpretación no es \<open>Verdadero\<close>. Veamos ahora 
-    que si el valor de \<open>F\<^sub>1\<close> en la interpretación asociada a \<open>S\<close> es 
-    \<open>Verdadero\<close>, entonces el valor de \<open>F\<^sub>2\<close> en esta interpretación es 
-    también \<open>Verdadero\<close>.\\
-    Supongamos, pues, que el valor de \<open>F\<^sub>1\<close> en la interpretación
-    asociada a \<open>S\<close> fuese \<open>Verdadero\<close>. Como anteriormente deducimos
-    que no lo era, hemos llegado a una contradicción. Luego,
-    en particular, se prueba que el valor de \<open>F\<^sub>2\<close> en esta interpretación 
-    es \<open>Verdadero\<close>.\\
-    Por tanto, hemos probado que si el valor de \<open>F\<^sub>1\<close> es \<open>Verdadero\<close> en
-    la interpretación asociada a \<open>S\<close>, también lo es el valor de \<open>F\<^sub>2\<close>
-    en dicha interpretación. Por definición del valor de la implicación
-    de dos fórmulas en una interpretación, esto es equivalente a que
-    el valor de \<open>F\<^sub>1 \<rightarrow> F\<^sub>2\<close> sea \<open>Verdadero\<close> en la interpretación
-    asociada a \<open>S\<close>, como queríamos probar.\\
-    Supongamos ahora el caso en que \<open>F\<^sub>2\<close> pertenezca a \<open>S\<close>. Por tanto,
-    como \<open>S\<close> es de Hintikka, se obtiene por hipótesis de inducción que 
-    la interpretación asociada a \<open>S\<close> es modelo de \<open>F\<^sub>2\<close>. En otras 
-    palabras, el valor de \<open>F\<^sub>2\<close> dada dicha interpretación es \<open>Verdadero\<close>. 
-    Vamos a probar que, si el valor de \<open>F\<^sub>1\<close> en la interpretación 
-    asociada a \<open>S\<close> es \<open>Verdadero\<close>, entonces el valor de \<open>F\<^sub>2\<close> también lo 
-    es en esta interpretación.\\
-    Supongamos que el valor de \<open>F\<^sub>1\<close> es \<open>Verdadero\<close> en la interpretación
-    asociada a \<open>S\<close>. Entonces, como se dedujo anteriormente el valor de 
-    \<open>F\<^sub>2\<close> es también \<open>Verdadero\<close> en dicha interpretación.\\
-    Probado esto, por definición del valor de la implicación de dos 
-    fórmulas en una interpretación, se obtiene equivalentemente que
-    el valor de \<open>F\<^sub>1 \<rightarrow> F\<^sub>2\<close> es \<open>Verdadero\<close> en la interpretación asociada 
-    a \<open>S\<close>, como queríamos demostrar.\\
-    Probemos, finalmente, la segunda afirmación. Supongamos pues, 
-    fijadas las fórmulas \<open>F\<^sub>1\<close> y \<open>F\<^sub>2\<close>, que \<open>\<not>(F\<^sub>1 \<rightarrow> F\<^sub>2) \<in> S\<close>. Luego,
-    por definición de conjunto de Hintikka, \<open>F\<^sub>1 \<in> S\<close> y \<open>\<not> F\<^sub>2 \<in> S\<close>.
-    En particular, \<open>F\<^sub>1 \<in> S\<close> luego, al ser \<open>S\<close> de Hintikka, tenemos por 
-    hipótesis de inducción que la interpretación asociada a \<open>S\<close> 
-    es modelo de \<open>F\<^sub>1\<close>. Es decir, el valor de esta fórmula es \<open>Verdadero\<close> 
-    en dicha interpretación. Análogamente, como hemos visto que\\ 
-    \<open>\<not> F\<^sub>2 \<in> S\<close>, aplicando hipótesis de inducción se obtiene que la 
-    interpretación asociada a \<open>S\<close> no es modelo de \<open>F\<^sub>2\<close>. Luego, el valor 
-    de \<open>F\<^sub>2\<close> no es \<open>Verdadero\<close> en esta interpretación. Veamos que no es 
-    cierto que si el valor de \<open>F\<^sub>1\<close> en la interpretación asociada a \<open>S\<close> 
-    es \<open>Verdadero\<close>, entonces el valor de \<open>F\<^sub>2\<close> en dicha interpretación 
-    también lo es.\\
-    Para ello, supongamos lo contrario: si el valor de \<open>F\<^sub>1\<close> en la 
-    interpretación asociada a \<open>S\<close> es \<open>Verdadero\<close>, entonces el valor de 
-    \<open>F\<^sub>2\<close> en dicha interpretación también lo es. Como anteriormente vimos 
-    que el valor de \<open>F\<^sub>1\<close> en la interpretación asociada a \<open>S\<close> es 
-    \<open>Verdadero\<close>, tendríamos entonces que el valor de \<open>F\<^sub>2\<close> también lo es 
-    en esta interpretación. De este modo, hemos llegado a una 
-    contradicción, pues anteriormente demostramos que el valor de \<open>F\<^sub>2\<close> 
-    no era \<open>Verdadero\<close> en esta interpretación.\\
-    En conclusión, hemos demostrado que no es cierto que si el valor de 
-    \<open>F\<^sub>1\<close> en la interpretación asociada a \<open>S\<close> es \<open>Verdadero\<close>, entonces 
-    el valor de \<open>F\<^sub>2\<close> en dicha interpretación también lo es. Por
-    definición del valor de la implicación de dos fórmulas en una
-    interpretación, esto es equivalente a afirmar que no es cierto que
-    el valor de \<open>F\<^sub>1 \<rightarrow> F\<^sub>2\<close> en la interpretación asociada a \<open>S\<close> sea
-    \<open>Verdadero\<close>. Por tanto, dicha interpretación no es modelo de la
-    fórmula, probando así el resultado.
-  \end{demostracion}
-
-\comentario{Ver la siguiente redacción alternativa a la demostración anterior}
-
 \begin{demostracion}
-   Sea \<open>S\<close> un conjunto de Hintikka y denotemos por \<open>\<I>\<^sub>S\<close> la interpretación
-  asociada a \<open>S\<close>. Sea  \<open>F\<close> una fórmula, hay que probar lo siguiente:
-  \<open>(F \<in> S \<Longrightarrow> \<I>\<^sub>S \<Turnstile> F) \<and> (\<not>F \<in> S \<Longrightarrow>  \<I>\<^sub>S\<close>  $\not\models$ \<open>F)\<close>
+  Sea \<open>S\<close> un conjunto de Hintikka. Denotemos por \<open>\<A>\<^sub>S\<close> a la 
+  interpretación asociada a \<open>S\<close> y \<open>\<I>\<^sub>S\<close> a la aplicación
+  que, dada una fórmula, nos devuelve su valor en \<open>\<A>\<^sub>S\<close>. Sea \<open>F\<close> una 
+  fórmula, hay que probar lo siguiente:
+  \<open>(F \<in> S \<Longrightarrow> \<A>\<^sub>S \<Turnstile> F) \<and> (\<not> F \<in> S \<Longrightarrow>  \<A>\<^sub>S\<close>  $\not\models$ \<open>F)\<close>
 
-    La prueba se realiza por inducción sobre la estructura de las 
-    fórmulas proposicionales. Veamos los distintos casos.
+  La prueba se realiza por inducción sobre la estructura de las 
+  fórmulas proposicionales. Veamos los distintos casos.
 
 \begin{enumerate}
    \item[Caso 1:] \<open>F = p\<close>, fórmula atómica.
 
-    Si \<open>p \<in> S\<close>, entonces \<open>\<I>\<^sub>S(p) = True\<close> por definición de la interpretación asociada 
-    a \<open>S\<close>. Y si \<open>\<not> p \<in> S\<close>, entonces  \<open>p \<notin> S\<close> por ser \<open>S\<close> de Hintikka. Por tanto, 
-     \<open>\<I>\<^sub>S(p) = False\<close> por definición de  \<open>\<I>\<^sub>S\<close>.
+    Si \<open>p \<in> S\<close>, entonces \<open>\<I>\<^sub>S(p) = True\<close> por definición de la 
+    interpretación asociada a \<open>S\<close>. Luego, \<open>\<A>\<^sub>S \<Turnstile> p\<close>.
+
+    Además, si \<open>\<not> p \<in> S\<close>, entonces \<open>p \<notin> S\<close> por ser \<open>S\<close> de Hintikka. Por 
+    tanto, \<open>\<I>\<^sub>S(p) = False\<close> por definición de \<open>\<A>\<^sub>S\<close>. Luego,
+    \<open>\<A>\<^sub>S\<close> $\not\models$ \<open>p\<close>. 
 
    \item[Caso 2:] \<open>F = \<bottom>\<close>   
 
-    Si \<open>\<bottom> \<in> S\<close>, como por definición de conjunto de Hintikka, sabemos que \<open>\<bottom> \<notin> S\<close>, 
-    se tendría una contradicción. Luego, en particular, tenemos el resultado.
+    Si \<open>\<bottom> \<in> S\<close>, como por definición de conjunto de Hintikka sabemos que 
+    \<open>\<bottom> \<notin> S\<close>, se tendría una contradicción. Luego, en particular, 
+    tenemos el resultado.
 
-    Por otra parte, si \<open>\<not> \<bottom> \<in> S\<close>, \<open>\<I>\<^sub>S\<close> no es modelo de \<open>\<bottom>\<close> pues el valor de \<open>\<bottom>\<close> 
-   es \<open>Falso\<close> en cualquier interpretación.
+    Por otra parte, si \<open>\<not> \<bottom> \<in> S\<close>, \<open>\<A>\<^sub>S\<close> no es modelo de \<open>\<bottom>\<close> pues el 
+    valor de \<open>\<bottom>\<close> es \<open>Falso\<close> en cualquier interpretación.
 
-    \item[Caso 3:] \<open>F = \<not>G\<close>, y \<open>G\<close> verifica la hipótesis de inducción. 
+   \item[Caso 3:] \<open>F = \<not> G\<close>, y \<open>G\<close> verifica la hipótesis de inducción. 
 
-     Es decir, HI: \<open>(G \<in> S \<Longrightarrow> \<I>\<^sub>S \<Turnstile> G) \<and> (\<not>G \<in> S \<Longrightarrow>  \<I>\<^sub>S\<close>  $\not\models$ \<open>G)\<close>
+    Es decir, \<open>HI\<close>: \<open>(G \<in> S \<Longrightarrow> \<A>\<^sub>S \<Turnstile> G) \<and> (\<not> G \<in> S \<Longrightarrow>  \<A>\<^sub>S\<close>  
+        $\not\models$ \<open>G)\<close>
 
-     Probemos que  \<open>(F \<in> S \<Longrightarrow> \<I>\<^sub>S \<Turnstile> F) \<and> (\<not>F \<in> S \<Longrightarrow>  \<I>\<^sub>S\<close>  $\not\models$ \<open>F)\<close>
+    Probemos que  \<open>(F \<in> S \<Longrightarrow> \<A>\<^sub>S \<Turnstile> F) \<and> (\<not> F \<in> S \<Longrightarrow>  \<A>\<^sub>S\<close>  
+        $\not\models$ \<open>F)\<close>
 
     En efecto,
     $$\begin{array}{lrl}
     & \<open>F \<in> S\<close> & \\
 \<open>\<Longrightarrow>\<close> & \<open>\<not> G \<in> S\<close> & \\
-\<open>\<Longrightarrow>\<close> &  \<open>\<I>\<^sub>S (G)\<close>  @{text "= False "}& @{text " (Hipótesis de inducción) "}\\
-\<open>\<Longrightarrow>\<close> & \<open> \<I>\<^sub>S (\<not>G)\<close> @{text "= True  "} & \\
-\<open>\<Longrightarrow>\<close> & \<open> \<I>\<^sub>S \<Turnstile> F\<close> &
+\<open>\<Longrightarrow>\<close> &  \<open>\<A>\<^sub>S\<close> \not\models \<open>G\<close> & @{text " (HI) "}\\
+\<open>\<Longrightarrow>\<close> &  \<open>\<I>\<^sub>S(G)\<close>  @{text "= False "}& \\
+\<open>\<Longrightarrow>\<close> & \<open> \<I>\<^sub>S(\<not> G)\<close> @{text "= True  "} & \\
+\<open>\<Longrightarrow>\<close> & \<open> \<A>\<^sub>S \<Turnstile> F\<close> &
       \end{array}$$ 
 
  Análogamente,
 
 $$\begin{array}{lrl}
- & \<open>\<not>F \<in> S\<close> & \\
+ & \<open>\<not> F \<in> S\<close> & \\
 \<open>\<Longrightarrow>\<close> & \<open>\<not>\<not> G \<in> S\<close> & \\
-\<open>\<Longrightarrow>\<close> & \<open>G \<in> S\<close>  & @{text " (Eliminación doble negación) "}\\
-\<open>\<Longrightarrow>\<close> &  \<open>\<I>\<^sub>S (G)\<close>  @{text "= True "} & @{text " (Hipótesis de inducción) "}\\
-\<open>\<Longrightarrow>\<close> & \<open> \<I>\<^sub>S (\<not>G)\<close>  @{text "= False "} & \\
-\<open>\<Longrightarrow>\<close> & \<open> \<I>\<^sub>S (F)\<close>  @{text "= False  "}& 
+\<open>\<Longrightarrow>\<close> & \<open>G \<in> S\<close>  & @{text " (S es conjunto de Hintikka) "}\\
+\<open>\<Longrightarrow>\<close> &  \<open>\<A>\<^sub>S \<Turnstile> G\<close>  & @{text " (HI) "}\\
+\<open>\<Longrightarrow>\<close> &  \<open>\<I>\<^sub>S(G)\<close>  @{text "= True "} & \\
+\<open>\<Longrightarrow>\<close> & \<open> \<I>\<^sub>S(\<not> G)\<close>  @{text "= False "} & \\
+\<open>\<Longrightarrow>\<close> & \<open> \<I>\<^sub>S(F)\<close>  @{text "= False  "} & \\
+\<open>\<Longrightarrow>\<close> & \<open>\<A>\<^sub>S\<close> \not\models \<open>F\<close> & 
       \end{array}$$
+  
+ \item[Caso 4:] \<open>F = G \<and> H\<close> y tanto \<open>G\<close> como \<open>H\<close> verifican la 
+ hipótesis de inducción. 
 
-   
-    \item[Caso 4:] \<open>F = G \<and> H\<close> y tanto \<open>G\<close> como \<open>H\<close> verifican la hipótesis de inducción. 
-
-     Es decir, se verifican 
-     \begin{enumerate}
-       \item [HI1:]  \<open>(G \<in> S \<Longrightarrow> \<I>\<^sub>S \<Turnstile> G) \<and> (\<not>G \<in> S \<Longrightarrow>  \<I>\<^sub>S\<close>  $\not\models$ \<open>G)\<close>
-       \item [HI2:]  \<open>(H \<in> S \<Longrightarrow> \<I>\<^sub>S \<Turnstile> H) \<and> (\<not>H \<in> S \<Longrightarrow>  \<I>\<^sub>S\<close>  $\not\models$ \<open>H)\<close>
-     \end{enumerate}
+ Es decir, se verifican 
+  \begin{enumerate}
+    \item [HI1:]  \<open>(G \<in> S \<Longrightarrow> \<A>\<^sub>S \<Turnstile> G) \<and> (\<not> G \<in> S \<Longrightarrow>  \<A>\<^sub>S\<close>  
+        $\not\models$ \<open>G)\<close>
+    \item [HI2:]  \<open>(H \<in> S \<Longrightarrow> \<A>\<^sub>S \<Turnstile> H) \<and> (\<not> H \<in> S \<Longrightarrow>  \<I>\<^sub>S\<close>  
+        $\not\models$ \<open>H)\<close>
+  \end{enumerate}
  
-     Probemos que  \<open>(F \<in> S \<Longrightarrow> \<I>\<^sub>S \<Turnstile> F) \<and> (\<not>F \<in> S \<Longrightarrow>  \<I>\<^sub>S\<close>  $\not\models$ \<open>F)\<close>
+ Probemos que  \<open>(F \<in> S \<Longrightarrow> \<I>\<^sub>S \<Turnstile> F) \<and> (\<not> F \<in> S \<Longrightarrow>  \<I>\<^sub>S\<close>  
+    $\not\models$ \<open>F)\<close>
 
-    En efecto,
+ En efecto,
 $$\begin{array}{lrl}
  & \<open>F \<in> S\<close> & \\
 \<open>\<Longrightarrow>\<close> & \<open>G \<and> H \<in> S\<close> & \\
-\<open>\<Longrightarrow>\<close> & \<open>G \<in> S \<and> H \<in> S\<close> & @{text " (\<open>S\<close> es conjunto de Hintikka) "}\\
-\<open>\<Longrightarrow>\<close> & \<open>\<I>\<^sub>S \<Turnstile> G \<and> \<I>\<^sub>S \<Turnstile> H\<close> & @{text " (Hipótesis de inducción) "} \\
-\<open>\<Longrightarrow>\<close> & \<open>\<I>\<^sub>S \<Turnstile> (G \<and> H)\<close> & \\
-\<open>\<Longrightarrow>\<close> & \<open>\<I>\<^sub>S \<Turnstile> F\<close> & 
+\<open>\<Longrightarrow>\<close> & \<open>G \<in> S \<and> H \<in> S\<close> & @{text " (S es conjunto de Hintikka) "} \\
+\<open>\<Longrightarrow>\<close> & \<open>\<A>\<^sub>S \<Turnstile> G \<and> \<A>\<^sub>S \<Turnstile> H\<close> & @{text " (HI1 y HI2) "} \\
+\<open>\<Longrightarrow>\<close> & \<open>\<I>\<^sub>S(G) \<and> \<I>\<^sub>S(H)\<close> @{text "= True"}& \\
+\<open>\<Longrightarrow>\<close> & \<open>\<I>\<^sub>S(G \<and> H)\<close> @{text "= True"}& \\
+\<open>\<Longrightarrow>\<close> & \<open>\<A>\<^sub>S \<Turnstile> (G \<and> H)\<close> & \\
       \end{array}$$ 
 
 Por otra parte, 
 $$\begin{array}{lrl}
- & \<open>\<not>F \<in> S\<close> & \\
-\<open>\<Longrightarrow>\<close> & \<open>\<not>(G \<and> H) \<in> S\<close> & \\
-\<open>\<Longrightarrow>\<close> & \<open>\<not>G \<in> S \<or> \<not>H \<in> S\<close> & @{text " (\<open>S\<close> es conjunto de Hintikka) "}\\
-\<open>\<Longrightarrow>\<close> & \<open> \<^bold>\<not>  (\<I>\<^sub>S \<Turnstile> G) \<or>  \<^bold>\<not>  (\<I>\<^sub>S \<Turnstile> H) \<close> & @{text " (Hipótesis de inducción) "}\\
-\<open>\<Longrightarrow>\<close> & \<open> \<^bold>\<not> (\<I>\<^sub>S \<Turnstile> (G \<and> H))\<close> & \\
-\<open>\<Longrightarrow>\<close> & \<open> \<I>\<^sub>S (F)\<close>  @{text "= False  "}& 
+ & \<open>\<not> F \<in> S\<close> & \\
+\<open>\<Longrightarrow>\<close> & \<open>\<not> (G \<and> H) \<in> S\<close> & \\
+\<open>\<Longrightarrow>\<close> & \<open>\<not> G \<in> S \<or> \<not> H \<in> S\<close> & @{text " (S es conjunto de Hintikka) "}\\
+\<open>\<Longrightarrow>\<close> & \<open>\<A>\<^sub>S\<close> \not\models \<open>G \<or> \<A>\<^sub>S\<close> \not\models \<open>H\<close> & @{text " (HI1
+ y HI2) "}\\
+\<open>\<Longrightarrow>\<close> & \<open>\<not> (\<A>\<^sub>S \<Turnstile> G \<and> \<A>\<^sub>S \<Turnstile> H)\<close> & \\
+\<open>\<Longrightarrow>\<close> & \<open>\<I>\<^sub>S(G) \<and> \<I>\<^sub>S(H)\<close> @{text "= False"} & \\
+\<open>\<Longrightarrow>\<close> & \<open>\<I>\<^sub>S(G \<and> H)\<close> @{text "= False"} & \\
+\<open>\<Longrightarrow>\<close> & \<open> \<I>\<^sub>S(F)\<close>  @{text "= False  "}& \\ 
+\<open>\<Longrightarrow>\<close> & \<open>\<A>\<^sub>S\<close> \not\models \<open>F\<close> & 
       \end{array}$$ 
 
+  \item[Caso 5:] \<open>F = G \<or> H\<close> y tanto \<open>G\<close> como \<open>H\<close> verifican la hipótesis 
+  de inducción. 
 
-
-\item[Caso 5:] \<open>F = G \<or> H\<close> y tanto \<open>G\<close> como \<open>H\<close> verifican la hipótesis de inducción. 
-
-     Es decir, se verifican 
-     \begin{enumerate}
-       \item [HI1:]  \<open>(G \<in> S \<Longrightarrow> \<I>\<^sub>S \<Turnstile> G) \<and> (\<not>G \<in> S \<Longrightarrow>  \<I>\<^sub>S\<close>  $\not\models$ \<open>G)\<close>
-       \item [HI2:]  \<open>(H \<in> S \<Longrightarrow> \<I>\<^sub>S \<Turnstile> H) \<and> (\<not>H \<in> S \<Longrightarrow>  \<I>\<^sub>S\<close>  $\not\models$ \<open>H)\<close>
-     \end{enumerate}
+  Es decir, se verifican 
+   \begin{enumerate}
+      \item [HI1:]  \<open>(G \<in> S \<Longrightarrow> \<I>\<^sub>S \<Turnstile> G) \<and> (\<not>G \<in> S \<Longrightarrow>  \<I>\<^sub>S\<close>  
+          $\not\models$ \<open>G)\<close>
+      \item [HI2:]  \<open>(H \<in> S \<Longrightarrow> \<I>\<^sub>S \<Turnstile> H) \<and> (\<not>H \<in> S \<Longrightarrow>  \<I>\<^sub>S\<close>  
+          $\not\models$ \<open>H)\<close>
+   \end{enumerate}
  
-     Probemos que  \<open>(F \<in> S \<Longrightarrow> \<I>\<^sub>S \<Turnstile> F) \<and> (\<not>F \<in> S \<Longrightarrow>  \<I>\<^sub>S\<close>  $\not\models$ \<open>F)\<close> 
+  Probemos que  \<open>(F \<in> S \<Longrightarrow> \<A>\<^sub>S \<Turnstile> F) \<and> (\<not> F \<in> S \<Longrightarrow>  \<A>\<^sub>S\<close>  
+  $\not\models$ \<open>F)\<close> 
 
-    En efecto,
+  En efecto,
+$$\begin{array}{lrl}
+ & \<open>F \<in> S\<close> & \\
+\<open>\<Longrightarrow>\<close> & \<open>G \<or> H \<in> S\<close> & \\
+\<open>\<Longrightarrow>\<close> & \<open>G \<in> S \<or> H \<in> S\<close> & @{text " (S es conjunto de Hintikka) "} \\
+\<open>\<Longrightarrow>\<close> & \<open>\<A>\<^sub>S \<Turnstile> G \<or> \<A>\<^sub>S \<Turnstile> H\<close> & @{text " (HI1 y HI2) "} \\
+\<open>\<Longrightarrow>\<close> & \<open>\<I>\<^sub>S(G) \<or> \<I>\<^sub>S(H)\<close> @{text "= True"}& \\
+\<open>\<Longrightarrow>\<close> & \<open>\<I>\<^sub>S(G \<or> H)\<close> @{text "= True"}& \\
+\<open>\<Longrightarrow>\<close> & \<open>\<I>\<^sub>S(F)\<close> @{text "= True"}& \\
+\<open>\<Longrightarrow>\<close> & \<open>\<A>\<^sub>S \<Turnstile> F\<close> & \\
+      \end{array}$$ 
 
-\item[Caso 6:] \<open>F = G \<longrightarrow> H\<close> y tanto \<open>G\<close> como \<open>H\<close> verifican la hipótesis de inducción. 
+Por otra parte, 
+$$\begin{array}{lrl}
+ & \<open>\<not> F \<in> S\<close> & \\
+\<open>\<Longrightarrow>\<close> & \<open>\<not> (G \<or> H) \<in> S\<close> & \\
+\<open>\<Longrightarrow>\<close> & \<open>\<not> G \<in> S \<and> \<not> H \<in> S\<close> & @{text " (S es conjunto de Hintikka) "}\\
+\<open>\<Longrightarrow>\<close> & \<open>\<A>\<^sub>S\<close> \not\models \<open>G \<and> \<A>\<^sub>S\<close> \not\models \<open>H\<close> & @{text " (HI1
+ y HI2) "}\\
+\<open>\<Longrightarrow>\<close> & \<open>\<not> (\<A>\<^sub>S \<Turnstile> G \<or> \<A>\<^sub>S \<Turnstile> H)\<close> & \\
+\<open>\<Longrightarrow>\<close> & \<open>\<I>\<^sub>S(G) \<or> \<I>\<^sub>S(H)\<close> @{text "= False"} & \\
+\<open>\<Longrightarrow>\<close> & \<open>\<I>\<^sub>S(G \<or> H)\<close> @{text "= False"} & \\
+\<open>\<Longrightarrow>\<close> & \<open>\<I>\<^sub>S(F)\<close>  @{text "= False"}& \\ 
+\<open>\<Longrightarrow>\<close> & \<open>\<A>\<^sub>S\<close> \not\models \<open>F\<close> & 
+      \end{array}$$ 
 
-     Es decir, se verifican 
-     \begin{enumerate}
-       \item [HI1:]  \<open>(G \<in> S \<Longrightarrow> \<I>\<^sub>S \<Turnstile> G) \<and> (\<not>G \<in> S \<Longrightarrow>  \<I>\<^sub>S\<close>  $\not\models$ \<open>G)\<close>
-       \item [HI2:]  \<open>(H \<in> S \<Longrightarrow> \<I>\<^sub>S \<Turnstile> H) \<and> (\<not>H \<in> S \<Longrightarrow>  \<I>\<^sub>S\<close>  $\not\models$ \<open>H)\<close>
-     \end{enumerate}
+  \item[Caso 6:] \<open>F = G \<longrightarrow> H\<close> y tanto \<open>G\<close> como \<open>H\<close> verifican la 
+  hipótesis de inducción. 
+
+  Es decir, se verifican 
+   \begin{enumerate}
+     \item [HI1:]  \<open>(G \<in> S \<Longrightarrow> \<I>\<^sub>S \<Turnstile> G) \<and> (\<not>G \<in> S \<Longrightarrow>  \<I>\<^sub>S\<close>  
+        $\not\models$ \<open>G)\<close>
+     \item [HI2:]  \<open>(H \<in> S \<Longrightarrow> \<I>\<^sub>S \<Turnstile> H) \<and> (\<not>H \<in> S \<Longrightarrow>  \<I>\<^sub>S\<close>  
+        $\not\models$ \<open>H)\<close>
+   \end{enumerate}
  
-     Probemos que  \<open>(F \<in> S \<Longrightarrow> \<I>\<^sub>S \<Turnstile> F) \<and> (\<not>F \<in> S \<Longrightarrow>  \<I>\<^sub>S\<close>  $\not\models$ \<open>F)\<close>
+   Probemos que  \<open>(F \<in> S \<Longrightarrow> \<I>\<^sub>S \<Turnstile> F) \<and> (\<not>F \<in> S \<Longrightarrow>  \<I>\<^sub>S\<close>  
+   $\not\models$ \<open>F)\<close>
 
-    En efecto,
+   En efecto,
+$$\begin{array}{lrl}
+ & \<open>F \<in> S\<close> & \\
+\<open>\<Longrightarrow>\<close> & \<open>G \<longrightarrow> H \<in> S\<close> & \\
+\<open>\<Longrightarrow>\<close> & \<open>\<not> G \<in> S \<or> H \<in> S\<close> & @{text " (S es conjunto de Hintikka) "} \\
+  \end{array}$$ 
 
-\end{enumerate}
-   
+  Veamos que \<open>\<A>\<^sub>S \<Turnstile> F\<close> considerando ambos casos de la disyunción
+  anterior.
+$$\begin{array}{lrl}
+ & \<open>\<not> G \<in> S\<close> & \\
+\<open>\<Longrightarrow>\<close> & \<open>\<A>\<^sub>S\<close> \not\models \<open>G\<close> & @{text " (HI1) "} \\
+\<open>\<Longrightarrow>\<close> & \<open>\<A>\<^sub>S \<Turnstile> G \<longrightarrow> \<A>\<^sub>S \<Turnstile> H\<close> & \\
+\<open>\<Longrightarrow>\<close> & \<open>\<I>\<^sub>S(G) \<longrightarrow> \<I>\<^sub>S(G)\<close> @{text "= True"}& \\
+\<open>\<Longrightarrow>\<close> & \<open>\<I>\<^sub>S(G \<longrightarrow> H)\<close> @{text "= True"}& \\
+\<open>\<Longrightarrow>\<close> & \<open>\<I>\<^sub>S(F)\<close> @{text "= True"}& \\
+\<open>\<Longrightarrow>\<close> & \<open>\<A>\<^sub>S \<Turnstile> F\<close> & \\
+  \end{array}$$ 
+
+$$\begin{array}{lrl}
+ & \<open>H \<in> S\<close> & \\
+\<open>\<Longrightarrow>\<close> & \<open>\<A>\<^sub>S \<Turnstile> H\<close> & @{text " (HI2) "} \\
+\<open>\<Longrightarrow>\<close> & \<open>\<A>\<^sub>S \<Turnstile> G \<longrightarrow> \<A>\<^sub>S \<Turnstile> H\<close> & \\
+\<open>\<Longrightarrow>\<close> & \<open>\<I>\<^sub>S(G) \<longrightarrow> \<I>\<^sub>S(H)\<close> @{text "= True"}& \\
+\<open>\<Longrightarrow>\<close> & \<open>\<I>\<^sub>S(G \<longrightarrow> H)\<close> @{text "= True"}& \\
+\<open>\<Longrightarrow>\<close> & \<open>\<I>\<^sub>S(F)\<close> @{text "= True"}& \\
+\<open>\<Longrightarrow>\<close> & \<open>\<A>\<^sub>S \<Turnstile> F\<close> & \\
+  \end{array}$$ 
+
+  Probando, así, el resultado para este caso.
+
+Por otra parte, 
+$$\begin{array}{lrl}
+ & \<open>\<not> F \<in> S\<close> & \\
+\<open>\<Longrightarrow>\<close> & \<open>\<not> (G \<longrightarrow> H) \<in> S\<close> & \\
+\<open>\<Longrightarrow>\<close> & \<open>G \<in> S \<and> \<not> H \<in> S\<close> & @{text " (S es conjunto de Hintikka) "}\\
+\<open>\<Longrightarrow>\<close> & \<open>\<A>\<^sub>S \<Turnstile> G \<and> \<A>\<^sub>S\<close> \not\models \<open>H\<close> & @{text " (HI1 y HI2) "}\\
+\<open>\<Longrightarrow>\<close> & \<open>\<not> (\<A>\<^sub>S \<Turnstile> G \<longrightarrow> \<A>\<^sub>S \<Turnstile> H)\<close> & \\
+\<open>\<Longrightarrow>\<close> & \<open>\<I>\<^sub>S(G) \<longrightarrow> \<I>\<^sub>S(H)\<close> @{text "= False"} & \\
+\<open>\<Longrightarrow>\<close> & \<open>\<I>\<^sub>S(G \<longrightarrow> H)\<close> @{text "= False"} & \\
+\<open>\<Longrightarrow>\<close> & \<open>\<I>\<^sub>S(F)\<close>  @{text "= False"}& \\ 
+\<open>\<Longrightarrow>\<close> & \<open>\<A>\<^sub>S\<close> \not\models \<open>F\<close> & 
+      \end{array}$$ 
+ \end{enumerate}
+
+  Probando, así, la segunda afirmación.
 
     Con lo que termina la demostración.
-  \end{demostracion} 
-  
-\comentario{Terminar los casos 5 y 6}
+ \end{demostracion} 
 
   Una vez terminada la prueba anterior, procedemos a las distintas
   demostraciones del lema mediante Isabelle/HOL. En primer lugar
