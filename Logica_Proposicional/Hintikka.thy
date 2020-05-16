@@ -408,7 +408,7 @@ text \<open>Las pruebas anteriores siguen un esquema similar en Isabelle.
   eliminación especificadas. En nuestro caso, hemos utilizado las reglas 
   de eliminación de la conjunción y la regla de eliminación del 
   cuantificador existencial. Por otro lado, \<open>iprover\<close> es uno de los 
-  métodos automático de demostración en Isabelle/HOL que 
+  métodos automáticos de demostración en Isabelle/HOL que 
   depende del contexto y de las reglas o métodos específicamente 
   declarados a continuación del mismo. 
 
@@ -431,181 +431,102 @@ text \<open>Las pruebas anteriores siguen un esquema similar en Isabelle.
   Teniendo esto en cuenta, la demostración del lema es la siguiente.
 
 \begin{demostracion}
-    La prueba se realiza por inducción sobre la estructura de las 
-    fórmulas proposicionales. Veamos los distintos casos.
-
-    En primer lugar, consideremos una fórmula atómica cualquiera \<open>p\<close> y 
-    \<open>S\<close> un conjunto de Hintikka. Supongamos que \<open>\<not> p \<in> S\<close>. 
-    Por definición de conjunto de Hintikka, si \<open>p \<in> S\<close>, entonces 
-    \<open>\<not> p \<notin> S\<close>, en contra de la hipótesis. Luego, aplicando la regla de 
-    \<open>modus tollens\<close>, se tiene que \<open>p \<notin> S\<close>.
-
-    Sea la fórmula \<open>\<bottom>\<close> y \<open>S\<close> un conjunto de Hintikka. Supongamos 
-    que\\ \<open>\<not> \<bottom> \<in> S\<close>. Como \<open>S\<close> es un conjunto de Hintikka, por 
-    definición se tiene que \<open>\<bottom> \<notin> S\<close>, como queríamos demostrar.
-
-    Consideremos \<open>S\<close> un conjunto de Hintikka. Sea \<open>F\<close> una fórmula
-    cualquiera tal que para todo conjunto de Hintikka verifica que si
-    \<open>\<not> F\<close> pertenece al conjunto, entonces \<open>F\<close> no pertenece al conjunto.
-    Vamos a probar que si\\ \<open>\<not> (\<not> F) \<in> S\<close>, entonces \<open>\<not> F \<notin> S\<close>.
-    Supongamos que \<open>\<not> (\<not> F) \<in> S\<close>. Por definición de conjunto de 
-    Hintikka, se tiene entonces que \<open>F \<in> S\<close>. Por otra parte, como \<open>S\<close>
-    es un conjunto de Hintikka, por hipótesis de inducción se verifica 
-    que si\\ \<open>\<not> F \<in> S\<close>, entonces \<open>F \<notin> S\<close>, en contra de lo obtenido 
-    anteriormente. Por tanto, por la regla \<open>modus tollens\<close>, \<open>\<not> F \<notin> S\<close>.
-
-    Sea \<open>S\<close> un conjunto de Hintikka. Consideremos la fórmula \<open>G\<close> tal
-    que, para cualquier conjunto de Hintikka, si \<open>\<not> G\<close> pertenece al
-    conjunto, entonces \<open>G\<close> no pertenece al conjunto. Sea también la
-    fórmula \<open>H\<close> que verifica análogamente para cualquier conjunto de 
-    Hintikka que, si \<open>\<not> H\<close> pertenece al conjunto, entonces \<open>H\<close> no 
-    pertenece al conjunto. Queremos probar que si \<open>\<not> (G \<and> H) \<in> S\<close>,
-    entonces \<open>G \<and> H \<notin> S\<close>.\\
-    Supongamos que \<open>\<not> (G \<and> H) \<in> S\<close>. Por tanto, por definición de 
-    conjunto de Hintikka, \<open>\<not> G \<in> S\<close> o \<open>\<not> H \<in> S\<close>. Veamos que \<open>G \<and> H \<notin> S\<close> 
-    por eliminación de la disyunción anterior.\\
-    En primer lugar, supongamos que \<open>\<not> G \<in> S\<close>. Entonces,
-    como \<open>S\<close> es un conjunto de Hintikka, por hipótesis de inducción 
-    tenemos que, \<open>G \<notin> S\<close>. Por propiedades de la conjunción, se observa 
-    fácilmente que si \<open>G \<notin> S\<close>, entonces no es cierto que \<open>G \<in> S\<close> y 
-    \<open>H \<in> S\<close> simultáneamente.
-    Por otro lado, por definición de conjunto de Hintikka, si 
-    \<open>G \<and> H \<in> S\<close>, entonces \<open>G \<in> S\<close> y \<open>H \<in> S\<close>, en contra de
-    lo obtenido anteriormente. De este modo, por la regla \<open>modus\<close>\\ 
-    \<open>tollens\<close> se obtiene finalmente que \<open>G \<and> H \<notin> S\<close>.\\
-    En segundo lugar, supongamos que \<open>\<not> H \<in> S\<close>. Por hipótesis
-    de inducción, como \<open>S\<close> es un conjunto de Hintikka, se obtiene que 
-    \<open>H \<notin> S\<close>. Razonando igual que en el caso anterior con respecto a la 
-    conjunción, como \<open>H \<notin> S\<close>, entonces no es cierto que \<open>G \<in> S\<close> y 
-    \<open>H \<in> S\<close> simultáneamente. Por otra parte,  por definición de 
-    conjunto de Hintikka, si \<open>G \<and> H \<in> S\<close>, entonces \<open>G \<in> S\<close> y \<open>H \<in> S\<close>,
-    en contra de lo obtenido anteriormente. Finalmente, por la regla 
-    \<open>modus tollens\<close> se prueba que \<open>G \<and> H \<notin> S\<close>. 
-
-    Sea el conjunto de Hintikka \<open>S\<close>. Consideremos la fórmula \<open>G\<close> tal
-    que dado un conjunto de Hintikka cualquiera, si \<open>\<not> G\<close> pertenece a
-    dicho conjunto, entonces \<open>G\<close> no pertenece a él. Del mismo modo se
-    considera otra fórmula \<open>H\<close> verificando para cualquier conjunto de 
-    Hintikka que, si \<open>\<not> H\<close> pertenece al conjunto, entonces \<open>H\<close> no 
-    pertence a él. Queremos probar que si \<open>\<not> (G \<or> H) \<in> S\<close>,
-    entonces \<open>G \<or> H \<notin> S\<close>.\\
-    Supongamos inicialmente que \<open>\<not> (G \<or> H) \<in> S\<close>. Luego, por definición
-    de conjunto de Hintikka, se tiene \<open>\<not> G \<in> S\<close> y \<open>\<not> H \<in> S\<close>. En 
-    particular,\\ \<open>\<not> G \<in> S\<close>. Como \<open>S\<close> es conjunto de Hintikka, por 
-    hipótesis de inducción tenemos entonces que \<open>G \<notin> S\<close>.\\
-    Por otra parte, \<open>\<not> H \<in> S\<close> como vimos anteriormente. Luego, al ser 
-    \<open>S\<close> un conjunto de Hintikka, aplicando la hipótesis de inducción de 
-    manera similar obtenemos que \<open>H \<notin> S\<close>.\\ 
-    Resumiendo, hemos probado que \<open>G \<notin> S\<close> y \<open>H \<notin> S\<close>. Es fácil observar 
-    que esto implica, en particular, que no es cierto que \<open>G \<in> S\<close> o 
-    \<open>H \<in> S\<close>. De nuevo, por definición de conjunto de Hintikka, si 
-    \<open>G \<or> H \<in> S\<close>, entonces \<open>G \<in> S\<close> o\\ \<open>H \<in> S\<close>, en contra de lo obtenido
-    anteriormente. Por lo tanto, aplicando la regla \<open>modus tollens\<close>, 
-    \<open>G \<or> H \<notin> S\<close>.
-
-    Veamos el último caso de la estructura de las fórmulas.
-    Consideremos análogamente un conjunto de Hintikka \<open>S\<close>. Sea también
-    la fórmula \<open>G\<close> tal que dado cualquier conjunto de Hintikka, si \<open>\<not> G\<close>
-    está en el conjunto, entonces \<open>G\<close> no lo está. Del mismo modo se 
-    considera la fórmula \<open>H\<close> tal que para un conjunto de Hintikka
-    cualquiera verifica que si \<open>\<not> H\<close> pertenece al conjunto, entonces \<open>H\<close> 
-    no pertenece al mismo. Vamos a probar que si\\ \<open>\<not> (G \<longrightarrow> H) \<in> S\<close>, 
-    entonces \<open>G \<longrightarrow> H \<notin> S\<close>.\\
-    Supongamos que \<open>\<not> (G \<longrightarrow> H) \<in> S\<close>. Luego, por definición de conjunto 
-    de Hintikka, \<open>G \<in> S\<close> y \<open>\<not> H \<in> S\<close>. En particular, tenemos que 
-    \<open>G \<in> S\<close>. Como \<open>S\<close> es un conjunto de Hintikka, por hipótesis de 
-    inducción se verifica que si\\ \<open>\<not> G \<in> S\<close>, entonces \<open>G \<notin> S\<close>, en 
-    contra de lo deducido anteriormente. Por lo tanto, aplicando la 
-    regla \<open>modus tollens\<close> obtenemos que \<open>\<not> G \<notin> S\<close>.\\
-    Por otro lado, también probamos que \<open>\<not> H \<in> S\<close>. Luego, como 
-    \<open>S\<close> es de Hintikka, se obtiene por hipótesis de inducción que 
-    \<open>H \<notin> S\<close>.\\ 
-    Resumiendo, hemos deducido bajo las condiciones supuestas que\\ 
-    \<open>\<not> G \<notin> S\<close> y \<open>H \<notin> S\<close>. Por lo tanto, es fácil observar que no es 
-    cierto que\\ \<open>\<not> G \<in> S\<close> o \<open>H \<in> S\<close>. Por definición de conjunto de 
-    Hintikka, si\\ \<open>G \<longrightarrow> H \<in> S\<close>, entonces \<open>\<not> G \<in> S\<close> o \<open>H \<in> S\<close>, en 
-    contra de lo obtenido anteriormente. Por la regla \<open>modus tollens\<close>,
-    probamos finalmente que \<open>G \<longrightarrow> H \<notin> S\<close>.
-  \end{demostracion}
-
-\comentario{Ver la siguiente redacción alternativa a la demostración anterior}
-
-\begin{demostracion}
    Sea \<open>S\<close> un conjunto de Hintikka y \<open>F\<close> un fórmula. Hay que probar
    que si \<open>\<not>F \<in> S\<close>, entonces \<open>F \<notin> S\<close>. 
-    La prueba se realiza por inducción sobre la estructura de las 
-    fórmulas proposicionales. Veamos los distintos casos.
+   La prueba se realiza por inducción sobre la estructura de las 
+   fórmulas proposicionales. Veamos los distintos casos.
 
 \begin{enumerate}
    \item[Caso 1:] \<open>F = p\<close>, fórmula atómica.
 
-    Supongamos que \<open>\<not> p \<in> S\<close>.  Si \<open>p \<in> S\<close> por definición de conjunto de Hintikka,
-    \<open>\<not> p \<notin> S\<close>, en contra de la hipótesis. 
+    Supongamos que \<open>\<not> p \<in> S\<close>.  Si \<open>p \<in> S\<close> por definición de conjunto 
+    de Hintikka, \<open>\<not> p \<notin> S\<close>, en contra de la hipótesis. 
 
    \item[Caso 2:] \<open>F = \<bottom>\<close>   
 
     Supongamos que \<open>\<not> \<bottom> \<in> S\<close>. Como \<open>S\<close> es un conjunto de Hintikka, por 
     definición se tiene que \<open>\<bottom> \<notin> S\<close>, como queríamos demostrar.
 
-    \item[Caso 3:] \<open>F = \<not>G\<close>, y \<open>G\<close> verifica la hipótesis de inducción. 
+   \item[Caso 3:] \<open>F = \<not> G\<close>, y \<open>G\<close> verifica la hipótesis de inducción. 
 
-     Es decir, \<open>G\<close> verifica HI: \<open>\<not>G \<in> S \<Longrightarrow> G \<notin> S\<close>. 
+     Es decir, \<open>G\<close> verifica \<open>HI\<close>: \<open>\<not> G \<in> S \<Longrightarrow> G \<notin> S\<close>. 
 
-     Probemos que  \<open>\<not>F \<in> S \<Longrightarrow> F \<notin> S\<close>. 
+     Probemos que  \<open>\<not> F \<in> S \<Longrightarrow> F \<notin> S\<close>. 
 
     En efecto,
 
 $$\begin{array}{lrl}
- & \<open>\<not>F \<in> S\<close> & \\
+ & \<open>\<not> F \<in> S\<close> & \\
 \<open>\<Longrightarrow>\<close> & \<open>\<not>\<not> G \<in> S\<close> & \\
-\<open>\<Longrightarrow>\<close> & \<open>G \<in> S\<close> & @{text " (Eliminación doble negación) "}\\
-\<open>\<Longrightarrow>\<close> & \<open>\<not>G \<notin> S\<close> & @{text " (HI y contraposición) "}\\
+\<open>\<Longrightarrow>\<close> & \<open>G \<in> S\<close> & @{text " (S es conjunto de Hintikka) "}\\
+\<open>\<Longrightarrow>\<close> & \<open>\<not> G \<notin> S\<close> & @{text " (HI y contraposición) "}\\
 \<open>\<Longrightarrow>\<close> & \<open>F \<notin> S\<close> &
       \end{array}$$ 
 
    
-    \item[Caso 4:] \<open>F = G \<and> H\<close> y tanto \<open>G\<close> como \<open>H\<close> verifican la hipótesis de inducción. 
+    \item[Caso 4:] \<open>F = G \<and> H\<close> y tanto \<open>G\<close> como \<open>H\<close> verifican la 
+    hipótesis de inducción. 
 
-     Es decir, se verifica HI: \<open>\<not>G \<in> S \<Longrightarrow> G \<notin> S\<close> y \<open>\<not>H \<in> S \<Longrightarrow> H \<notin> S\<close>. 
+    Es decir, se verifica \<open>HI\<close>: \<open>\<not> G \<in> S \<Longrightarrow> G \<notin> S\<close> y 
+    \<open>\<not> H \<in> S \<Longrightarrow> H \<notin> S\<close>. 
 
-     Probemos que  \<open>\<not>F \<in> S \<Longrightarrow> F \<notin> S\<close>. 
+    Probemos que  \<open>\<not> F \<in> S \<Longrightarrow> F \<notin> S\<close>. 
 
     En efecto,
 $$\begin{array}{lrl}
- & \<open>\<not>F \<in> S\<close> & \\
+ & \<open>\<not> F \<in> S\<close> & \\
 \<open>\<Longrightarrow>\<close> & \<open>\<not> (G \<and> H) \<in> S\<close> & \\
-\<open>\<Longrightarrow>\<close> & \<open>\<not>G \<in> S \<or> \<not>H \<in> S\<close> & @{text " (\<open>S\<close> es conjunto de Hintikka) "}\\
-\<open>\<Longrightarrow>\<close> & \<open>G \<notin> S \<or> H \<notin> S\<close> & @{text " (Hipótesis de inducción) "}
+\<open>\<Longrightarrow>\<close> & \<open>\<not> G \<in> S \<or> \<not> H \<in> S\<close> & @{text " (S es conjunto de Hintikka) "}\\
+\<open>\<Longrightarrow>\<close> & \<open>G \<notin> S \<or> H \<notin> S\<close> & @{text " (HI) "}
       \end{array}$$ 
 
-Por otra parte, si \<open>F \<in> S\<close> se tiene que \<open>G \<in> S \<and> H \<in> S\<close>, por ser \<open>S\<close> conjunto 
-de Hintikka, lo que contradice lo anterior. Por tanto, \<open>F \<notin> S\<close>.
+  Por otra parte, si \<open>F \<in> S\<close> se tiene que \<open>G \<in> S \<and> H \<in> S\<close>, por ser \<open>S\<close> 
+  conjunto de Hintikka, lo que contradice lo anterior. Por tanto, 
+  \<open>F \<notin> S\<close>.
 
-\item[Caso 5:] \<open>F = G \<or> H\<close> y tanto \<open>G\<close> como \<open>H\<close> verifican la hipótesis de inducción. 
+  \item[Caso 5:] \<open>F = G \<or> H\<close> y tanto \<open>G\<close> como \<open>H\<close> verifican la hipótesis 
+  de inducción. 
 
-     Es decir, se verifica HI: \<open>\<not>G \<in> S \<Longrightarrow> G \<notin> S\<close> y \<open>\<not>H \<in> S \<Longrightarrow> H \<notin> S\<close>. 
+  Es decir, se verifica \<open>HI\<close>: \<open>\<not> G \<in> S \<Longrightarrow> G \<notin> S\<close> y 
+  \<open>\<not> H \<in> S \<Longrightarrow> H \<notin> S\<close>. 
 
-     Probemos que  \<open>\<not>F \<in> S \<Longrightarrow> F \<notin> S\<close>. 
+  Probemos que  \<open>\<not> F \<in> S \<Longrightarrow> F \<notin> S\<close>. 
 
-    En efecto,
+  En efecto,
+$$\begin{array}{lrl}
+ & \<open>\<not> F \<in> S\<close> & \\
+\<open>\<Longrightarrow>\<close> & \<open>\<not> (G \<or> H) \<in> S\<close> & \\
+\<open>\<Longrightarrow>\<close> & \<open>\<not> G \<in> S \<and> \<not> H \<in> S\<close> & @{text " (S es conjunto de Hintikka) "}\\
+\<open>\<Longrightarrow>\<close> & \<open>G \<notin> S \<and> H \<notin> S\<close> & @{text " (HI) "}
+      \end{array}$$ 
 
-\item[Caso 6:] \<open>F = G \<longrightarrow> H\<close> y tanto \<open>G\<close> como \<open>H\<close> verifican la hipótesis de inducción. 
+  Por otra parte, si \<open>F \<in> S\<close> se tiene que \<open>G \<in> S \<or> H \<in> S\<close>, por ser \<open>S\<close>
+  conjunto de Hintikka, en contra de lo obtenido anteriormente. Por
+  tanto,\\ \<open>F \<notin> S\<close>.
 
-     Es decir, se verifica HI: \<open>\<not>G \<in> S \<Longrightarrow> G \<notin> S\<close> y \<open>\<not>H \<in> S \<Longrightarrow> H \<notin> S\<close>. 
+  \item[Caso 6:] \<open>F = G \<longrightarrow> H\<close> y tanto \<open>G\<close> como \<open>H\<close> verifican la 
+  hipótesis de inducción. 
 
-     Probemos que  \<open>\<not>F \<in> S \<Longrightarrow> F \<notin> S\<close>. 
+  Es decir, se verifica \<open>HI\<close>: \<open>\<not> G \<in> S \<Longrightarrow> G \<notin> S\<close> y \<open>\<not> H \<in> S \<Longrightarrow> H \<notin> S\<close>. 
 
-    En efecto,
+  Probemos que  \<open>\<not> F \<in> S \<Longrightarrow> F \<notin> S\<close>. 
 
-\end{enumerate}
-   
+  En efecto,
+$$\begin{array}{lrl}
+ & \<open>\<not> F \<in> S\<close> & \\
+\<open>\<Longrightarrow>\<close> & \<open>\<not> (G \<longrightarrow> H) \<in> S\<close> & \\
+\<open>\<Longrightarrow>\<close> & \<open>G \<in> S \<and> \<not> H \<in> S\<close> & @{text " (S es conjunto de Hintikka) "}\\
+\<open>\<Longrightarrow>\<close> & \<open>\<not> G \<notin> S \<and> \<not> H \<in> S\<close> & @{text " (HI y contraposición) "}\\
+\<open>\<Longrightarrow>\<close> & \<open>\<not> G \<notin> S \<and> H \<notin> S\<close> & @{text " (HI) "}
+      \end{array}$$ 
 
-    Con lo que termina la demostración.
+  Por otra parte, si \<open>F \<in> S\<close> se tiene que \<open>\<not> G \<in> S \<or> H \<in> S\<close>, por ser
+  \<open>S\<close> conjunto de Hintikka, lo que contradice lo anterior. Por lo
+  tanto,\\ \<open>F \<notin> S\<close>.
+  \end{enumerate}
+
+  Con lo que termina la demostración.
   \end{demostracion} 
-  
-\comentario{Terminar los casos 5 y 6}
-
- 
 
   Por otra parte, su enunciado se formaliza en Isabelle de la siguiente 
   forma.\<close>
