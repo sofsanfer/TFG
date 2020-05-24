@@ -5,6 +5,7 @@ session Ejercicios_de_LMF = HOL +
 sessions
     "HOL-Library"    
   theories
+    Introduccion
     Sintaxis
     Semantica
     Hintikka
