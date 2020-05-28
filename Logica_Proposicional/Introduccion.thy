@@ -93,7 +93,30 @@ text \<open>
   versión proposicional del lema de Hintikka. Este último fue 
   desarrollado por el filósofo y lógico Jaakko Hintikka (1929- 2015) 
   como herramienta para probar la completitud de la lógica de 
-  primer orden. 
+  primer orden.
+
+  En el primer capítulo sobre \<open>Sintaxis\<close> se establecen inicialmente las
+  variables proposicionales que conforman los elementos básicos del 
+  alfabeto, junto con una serie de conectivas que actúan sobre ellas. El 
+  conjunto de las fórmulas se define recursivamente indicando la
+  estructura de las fórmulas básicas (una constante \<open>\<bottom>\<close>y las
+  las propias variables proposicionales, llamadas fórmulas atómicas) y 
+  los procesos de formación de nuevas fórmulas a partir de otras, en los 
+  que intervienen las conectivas. Como es habitual, dada esta definición 
+  recursiva, se dispone de un esquema de inducción sobre fórmulas que
+  nos permitirá probar los resultados expuestos. Entre ellos, se
+  demuestra que el conjunto de variables proposicionales que aparecen
+  en una fórmula es finito. Del mismo modo, se define recursivamente el 
+  conjunto de subfórmulas de una fórmula, mostrando propiedades 
+  que describen la estructura de las mismas en relación con las 
+  fórmulas. Finalmente se presenta la fórmula \<open>\<top>\<close> a partir de la 
+  constante \<open>\<bottom>\<close>, y dos conectivas generalizadas que permiten extender
+  conectivas a una lista de fórmulas.  
+
+  Una vez aclarada la formación sintáctica, introducimos en el
+  siguiente capítulo la semántica asociada a esta. Para ello, se define
+  una interpretación como una aplicación que asocia un valor booleano
+  a cada variable proposicional. (continuar por aquí)
 
   En lo referente a las demostraciones asistidas por Isabelle/HOL de
   los resultados formalizados, se elaborarán dos tipos de pruebas, cada 
