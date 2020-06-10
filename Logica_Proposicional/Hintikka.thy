@@ -841,11 +841,11 @@ lemma "Hintikka S \<Longrightarrow> (F \<in> S \<longrightarrow> isModel (setVal
 text \<open>Procedamos a la demostración del resultado.
 
 \begin{demostracion}
-  Sea \<open>S\<close> un conjunto de Hintikka. Denotemos por \<open>\<A>\<^sub>S\<close> a la 
-  interpretación asociada a \<open>S\<close> y \<open>\<I>\<^sub>S\<close> a la aplicación
-  que, dada una fórmula, nos devuelve su valor en \<open>\<A>\<^sub>S\<close>. Sea \<open>F\<close> una 
-  fórmula, hay que probar lo siguiente:
-  \<open>(F \<in> S \<Longrightarrow> \<A>\<^sub>S \<Turnstile> F) \<and> (\<not> F \<in> S \<Longrightarrow>  \<A>\<^sub>S\<close>  $\not\models$ \<open>F)\<close>
+  Sea \<open>S\<close> un conjunto de Hintikka y denotemos por \<open>\<I>\<^sub>S\<close> a la 
+  interpretación asociada a \<open>S\<close>. Sea \<open>F\<close> una fórmula, hay que probar lo 
+  siguiente:
+
+  \<open>(F \<in> S \<Longrightarrow> \<I>\<^sub>S \<Turnstile> F) \<and> (\<not> F \<in> S \<Longrightarrow>  \<I>\<^sub>S\<close>  $\not\models$ \<open>F)\<close>
 
   La prueba se realiza por inducción sobre la estructura de las 
   fórmulas proposicionales. Veamos los distintos casos.
@@ -854,11 +854,11 @@ text \<open>Procedamos a la demostración del resultado.
    \item[Caso 1:] \<open>F = p\<close>, fórmula atómica.
 
     Si \<open>p \<in> S\<close>, entonces \<open>\<I>\<^sub>S(p) = True\<close> por definición de la 
-    interpretación asociada a \<open>S\<close>. Luego, \<open>\<A>\<^sub>S \<Turnstile> p\<close>.
+    interpretación asociada a \<open>S\<close>. 
 
-    Además, si \<open>\<not> p \<in> S\<close>, entonces \<open>p \<notin> S\<close> por ser \<open>S\<close> de Hintikka. Por 
-    tanto, \<open>\<I>\<^sub>S(p) = False\<close> por definición de \<open>\<A>\<^sub>S\<close>. Luego,
-    \<open>\<A>\<^sub>S\<close> $\not\models$ \<open>p\<close>. 
+    Por otro lado, si \<open>\<not> p \<in> S\<close>, entonces
+    \<open>p \<notin> S\<close> por ser \<open>S\<close> de Hintikka. Por tanto, \<open>\<I>\<^sub>S(p) = False\<close> 
+    por definición de \<open>\<I>\<^sub>S\<close>. 
 
    \item[Caso 2:] \<open>F = \<bottom>\<close>   
 
@@ -866,25 +866,24 @@ text \<open>Procedamos a la demostración del resultado.
     \<open>\<bottom> \<notin> S\<close>, se tendría una contradicción. Luego, en particular, 
     tenemos el resultado.
 
-    Por otra parte, si \<open>\<not> \<bottom> \<in> S\<close>, \<open>\<A>\<^sub>S\<close> no es modelo de \<open>\<bottom>\<close> pues el 
+    Por otra parte, si \<open>\<not> \<bottom> \<in> S\<close>, \<open>\<I>\<^sub>S\<close> no es modelo de \<open>\<bottom>\<close> pues el 
     valor de \<open>\<bottom>\<close> es \<open>Falso\<close> en cualquier interpretación.
 
    \item[Caso 3:] \<open>F = \<not> G\<close>, y \<open>G\<close> verifica la hipótesis de inducción. 
 
-    Es decir, \<open>HI\<close>: \<open>(G \<in> S \<Longrightarrow> \<A>\<^sub>S \<Turnstile> G) \<and> (\<not> G \<in> S \<Longrightarrow>  \<A>\<^sub>S\<close>  
+    Es decir, \<open>HI\<close>: \<open>(G \<in> S \<Longrightarrow> \<I>\<^sub>S \<Turnstile> G) \<and> (\<not> G \<in> S \<Longrightarrow> \<I>\<^sub>S\<close>  
         $\not\models$ \<open>G)\<close>
 
-    Probemos que  \<open>(F \<in> S \<Longrightarrow> \<A>\<^sub>S \<Turnstile> F) \<and> (\<not> F \<in> S \<Longrightarrow>  \<A>\<^sub>S\<close>  
+    Probemos que  \<open>(F \<in> S \<Longrightarrow> \<I>\<^sub>S \<Turnstile> F) \<and> (\<not> F \<in> S \<Longrightarrow>  \<I>\<^sub>S\<close>  
         $\not\models$ \<open>F)\<close>
 
     En efecto,
     $$\begin{array}{lrl}
     & \<open>F \<in> S\<close> & \\
 \<open>\<Longrightarrow>\<close> & \<open>\<not> G \<in> S\<close> & \\
-\<open>\<Longrightarrow>\<close> &  \<open>\<A>\<^sub>S\<close> \not\models \<open>G\<close> & @{text " (HI) "}\\
-\<open>\<Longrightarrow>\<close> &  \<open>\<I>\<^sub>S(G)\<close>  @{text "= False "}& \\
+\<open>\<Longrightarrow>\<close> &  \<open>\<I>\<^sub>S(G)\<close>  @{text "= False "}& @{text " (HI) "}\\
 \<open>\<Longrightarrow>\<close> & \<open> \<I>\<^sub>S(\<not> G)\<close> @{text "= True  "} & \\
-\<open>\<Longrightarrow>\<close> & \<open> \<A>\<^sub>S \<Turnstile> F\<close> &
+\<open>\<Longrightarrow>\<close> & \<open> \<I>\<^sub>S \<Turnstile> F\<close> &
       \end{array}$$ 
 
  Análogamente,
@@ -893,11 +892,10 @@ $$\begin{array}{lrl}
  & \<open>\<not> F \<in> S\<close> & \\
 \<open>\<Longrightarrow>\<close> & \<open>\<not>\<not> G \<in> S\<close> & \\
 \<open>\<Longrightarrow>\<close> & \<open>G \<in> S\<close>  & @{text " (S es conjunto de Hintikka) "}\\
-\<open>\<Longrightarrow>\<close> &  \<open>\<A>\<^sub>S \<Turnstile> G\<close>  & @{text " (HI) "}\\
-\<open>\<Longrightarrow>\<close> &  \<open>\<I>\<^sub>S(G)\<close>  @{text "= True "} & \\
+\<open>\<Longrightarrow>\<close> &  \<open>\<I>\<^sub>S(G)\<close>  @{text "= True "} & @{text " (HI) "}\\
 \<open>\<Longrightarrow>\<close> & \<open> \<I>\<^sub>S(\<not> G)\<close>  @{text "= False "} & \\
 \<open>\<Longrightarrow>\<close> & \<open> \<I>\<^sub>S(F)\<close>  @{text "= False  "} & \\
-\<open>\<Longrightarrow>\<close> & \<open>\<A>\<^sub>S\<close> \not\models \<open>F\<close> & 
+\<open>\<Longrightarrow>\<close> & \<open>\<I>\<^sub>S\<close> \not\models \<open>F\<close> & 
       \end{array}$$
   
  \item[Caso 4:] \<open>F = G \<and> H\<close> y tanto \<open>G\<close> como \<open>H\<close> verifican la 
@@ -905,9 +903,9 @@ $$\begin{array}{lrl}
 
  Es decir, se verifican 
   \begin{enumerate}
-    \item [HI1:]  \<open>(G \<in> S \<Longrightarrow> \<A>\<^sub>S \<Turnstile> G) \<and> (\<not> G \<in> S \<Longrightarrow>  \<A>\<^sub>S\<close>  
+    \item [HI1:]  \<open>(G \<in> S \<Longrightarrow> \<I>\<^sub>S \<Turnstile> G) \<and> (\<not> G \<in> S \<Longrightarrow>  \<I>\<^sub>S\<close>  
         $\not\models$ \<open>G)\<close>
-    \item [HI2:]  \<open>(H \<in> S \<Longrightarrow> \<A>\<^sub>S \<Turnstile> H) \<and> (\<not> H \<in> S \<Longrightarrow>  \<I>\<^sub>S\<close>  
+    \item [HI2:]  \<open>(H \<in> S \<Longrightarrow> \<I>\<^sub>S \<Turnstile> H) \<and> (\<not> H \<in> S \<Longrightarrow>  \<I>\<^sub>S\<close>  
         $\not\models$ \<open>H)\<close>
   \end{enumerate}
  
@@ -919,10 +917,11 @@ $$\begin{array}{lrl}
  & \<open>F \<in> S\<close> & \\
 \<open>\<Longrightarrow>\<close> & \<open>G \<and> H \<in> S\<close> & \\
 \<open>\<Longrightarrow>\<close> & \<open>G \<in> S \<and> H \<in> S\<close> & @{text " (S es conjunto de Hintikka) "} \\
-\<open>\<Longrightarrow>\<close> & \<open>\<A>\<^sub>S \<Turnstile> G \<and> \<A>\<^sub>S \<Turnstile> H\<close> & @{text " (HI1 y HI2) "} \\
+\<open>\<Longrightarrow>\<close> & \<open>\<I>\<^sub>S \<Turnstile> G \<and> \<I>\<^sub>S \<Turnstile> H\<close> & @{text " (HI1 y HI2) "} \\
 \<open>\<Longrightarrow>\<close> & \<open>\<I>\<^sub>S(G) \<and> \<I>\<^sub>S(H)\<close> @{text "= True"}& \\
 \<open>\<Longrightarrow>\<close> & \<open>\<I>\<^sub>S(G \<and> H)\<close> @{text "= True"}& \\
-\<open>\<Longrightarrow>\<close> & \<open>\<A>\<^sub>S \<Turnstile> (G \<and> H)\<close> & \\
+\<open>\<Longrightarrow>\<close> & \<open>\<I>\<^sub>S(F)\<close> @{text "= True"}& \\
+\<open>\<Longrightarrow>\<close> & \<open>\<I>\<^sub>S \<Turnstile> F\<close> & \\
       \end{array}$$ 
 
 Por otra parte, 
@@ -930,13 +929,13 @@ $$\begin{array}{lrl}
  & \<open>\<not> F \<in> S\<close> & \\
 \<open>\<Longrightarrow>\<close> & \<open>\<not> (G \<and> H) \<in> S\<close> & \\
 \<open>\<Longrightarrow>\<close> & \<open>\<not> G \<in> S \<or> \<not> H \<in> S\<close> & @{text " (S es conjunto de Hintikka) "}\\
-\<open>\<Longrightarrow>\<close> & \<open>\<A>\<^sub>S\<close> \not\models \<open>G \<or> \<A>\<^sub>S\<close> \not\models \<open>H\<close> & @{text " (HI1
+\<open>\<Longrightarrow>\<close> & \<open>\<I>\<^sub>S\<close> \not\models \<open>G \<or> \<I>\<^sub>S\<close> \not\models \<open>H\<close> & @{text " (HI1
  y HI2) "}\\
-\<open>\<Longrightarrow>\<close> & \<open>\<not> (\<A>\<^sub>S \<Turnstile> G \<and> \<A>\<^sub>S \<Turnstile> H)\<close> & \\
+\<open>\<Longrightarrow>\<close> & \<open>\<not> (\<I>\<^sub>S \<Turnstile> G \<and> \<I>\<^sub>S \<Turnstile> H)\<close> & \\
 \<open>\<Longrightarrow>\<close> & \<open>\<I>\<^sub>S(G) \<and> \<I>\<^sub>S(H)\<close> @{text "= False"} & \\
 \<open>\<Longrightarrow>\<close> & \<open>\<I>\<^sub>S(G \<and> H)\<close> @{text "= False"} & \\
 \<open>\<Longrightarrow>\<close> & \<open> \<I>\<^sub>S(F)\<close>  @{text "= False  "}& \\ 
-\<open>\<Longrightarrow>\<close> & \<open>\<A>\<^sub>S\<close> \not\models \<open>F\<close> & 
+\<open>\<Longrightarrow>\<close> & \<open>\<I>\<^sub>S\<close> \not\models \<open>F\<close> & 
       \end{array}$$ 
 
   \item[Caso 5:] \<open>F = G \<or> H\<close> y tanto \<open>G\<close> como \<open>H\<close> verifican la hipótesis 
@@ -944,13 +943,13 @@ $$\begin{array}{lrl}
 
   Es decir, se verifican 
    \begin{enumerate}
-      \item [HI1:]  \<open>(G \<in> S \<Longrightarrow> \<I>\<^sub>S \<Turnstile> G) \<and> (\<not>G \<in> S \<Longrightarrow>  \<I>\<^sub>S\<close>  
+      \item [HI1:]  \<open>(G \<in> S \<Longrightarrow> \<I>\<^sub>S \<Turnstile> G) \<and> (\<not> G \<in> S \<Longrightarrow>  \<I>\<^sub>S\<close>  
           $\not\models$ \<open>G)\<close>
-      \item [HI2:]  \<open>(H \<in> S \<Longrightarrow> \<I>\<^sub>S \<Turnstile> H) \<and> (\<not>H \<in> S \<Longrightarrow>  \<I>\<^sub>S\<close>  
+      \item [HI2:]  \<open>(H \<in> S \<Longrightarrow> \<I>\<^sub>S \<Turnstile> H) \<and> (\<not> H \<in> S \<Longrightarrow>  \<I>\<^sub>S\<close>  
           $\not\models$ \<open>H)\<close>
    \end{enumerate}
  
-  Probemos que  \<open>(F \<in> S \<Longrightarrow> \<A>\<^sub>S \<Turnstile> F) \<and> (\<not> F \<in> S \<Longrightarrow>  \<A>\<^sub>S\<close>  
+  Probemos que  \<open>(F \<in> S \<Longrightarrow> \<I>\<^sub>S \<Turnstile> F) \<and> (\<not> F \<in> S \<Longrightarrow> \<I>\<^sub>S\<close>  
   $\not\models$ \<open>F)\<close> 
 
   En efecto,
@@ -958,11 +957,11 @@ $$\begin{array}{lrl}
  & \<open>F \<in> S\<close> & \\
 \<open>\<Longrightarrow>\<close> & \<open>G \<or> H \<in> S\<close> & \\
 \<open>\<Longrightarrow>\<close> & \<open>G \<in> S \<or> H \<in> S\<close> & @{text " (S es conjunto de Hintikka) "} \\
-\<open>\<Longrightarrow>\<close> & \<open>\<A>\<^sub>S \<Turnstile> G \<or> \<A>\<^sub>S \<Turnstile> H\<close> & @{text " (HI1 y HI2) "} \\
+\<open>\<Longrightarrow>\<close> & \<open>\<I>\<^sub>S \<Turnstile> G \<or> \<I>\<^sub>S \<Turnstile> H\<close> & @{text " (HI1 y HI2) "} \\
 \<open>\<Longrightarrow>\<close> & \<open>\<I>\<^sub>S(G) \<or> \<I>\<^sub>S(H)\<close> @{text "= True"}& \\
 \<open>\<Longrightarrow>\<close> & \<open>\<I>\<^sub>S(G \<or> H)\<close> @{text "= True"}& \\
 \<open>\<Longrightarrow>\<close> & \<open>\<I>\<^sub>S(F)\<close> @{text "= True"}& \\
-\<open>\<Longrightarrow>\<close> & \<open>\<A>\<^sub>S \<Turnstile> F\<close> & \\
+\<open>\<Longrightarrow>\<close> & \<open>\<I>\<^sub>S \<Turnstile> F\<close> & \\
       \end{array}$$ 
 
 Por otra parte, 
@@ -970,13 +969,13 @@ $$\begin{array}{lrl}
  & \<open>\<not> F \<in> S\<close> & \\
 \<open>\<Longrightarrow>\<close> & \<open>\<not> (G \<or> H) \<in> S\<close> & \\
 \<open>\<Longrightarrow>\<close> & \<open>\<not> G \<in> S \<and> \<not> H \<in> S\<close> & @{text " (S es conjunto de Hintikka) "}\\
-\<open>\<Longrightarrow>\<close> & \<open>\<A>\<^sub>S\<close> \not\models \<open>G \<and> \<A>\<^sub>S\<close> \not\models \<open>H\<close> & @{text " (HI1
+\<open>\<Longrightarrow>\<close> & \<open>\<I>\<^sub>S\<close> \not\models \<open>G \<and> \<I>\<^sub>S\<close> \not\models \<open>H\<close> & @{text " (HI1
  y HI2) "}\\
-\<open>\<Longrightarrow>\<close> & \<open>\<not> (\<A>\<^sub>S \<Turnstile> G \<or> \<A>\<^sub>S \<Turnstile> H)\<close> & \\
+\<open>\<Longrightarrow>\<close> & \<open>\<not> (\<I>\<^sub>S \<Turnstile> G \<or> \<I>\<^sub>S \<Turnstile> H)\<close> & \\
 \<open>\<Longrightarrow>\<close> & \<open>\<I>\<^sub>S(G) \<or> \<I>\<^sub>S(H)\<close> @{text "= False"} & \\
 \<open>\<Longrightarrow>\<close> & \<open>\<I>\<^sub>S(G \<or> H)\<close> @{text "= False"} & \\
 \<open>\<Longrightarrow>\<close> & \<open>\<I>\<^sub>S(F)\<close>  @{text "= False"}& \\ 
-\<open>\<Longrightarrow>\<close> & \<open>\<A>\<^sub>S\<close> \not\models \<open>F\<close> & 
+\<open>\<Longrightarrow>\<close> & \<open>\<I>\<^sub>S\<close> \not\models \<open>F\<close> & 
       \end{array}$$ 
 
   \item[Caso 6:] \<open>F = G \<longrightarrow> H\<close> y tanto \<open>G\<close> como \<open>H\<close> verifican la 
@@ -984,13 +983,13 @@ $$\begin{array}{lrl}
 
   Es decir, se verifican 
    \begin{enumerate}
-     \item [HI1:]  \<open>(G \<in> S \<Longrightarrow> \<I>\<^sub>S \<Turnstile> G) \<and> (\<not>G \<in> S \<Longrightarrow>  \<I>\<^sub>S\<close>  
+     \item [HI1:]  \<open>(G \<in> S \<Longrightarrow> \<I>\<^sub>S \<Turnstile> G) \<and> (\<not> G \<in> S \<Longrightarrow>  \<I>\<^sub>S\<close>  
         $\not\models$ \<open>G)\<close>
-     \item [HI2:]  \<open>(H \<in> S \<Longrightarrow> \<I>\<^sub>S \<Turnstile> H) \<and> (\<not>H \<in> S \<Longrightarrow>  \<I>\<^sub>S\<close>  
+     \item [HI2:]  \<open>(H \<in> S \<Longrightarrow> \<I>\<^sub>S \<Turnstile> H) \<and> (\<not> H \<in> S \<Longrightarrow>  \<I>\<^sub>S\<close>  
         $\not\models$ \<open>H)\<close>
    \end{enumerate}
  
-   Probemos que  \<open>(F \<in> S \<Longrightarrow> \<I>\<^sub>S \<Turnstile> F) \<and> (\<not>F \<in> S \<Longrightarrow>  \<I>\<^sub>S\<close>  
+   Probemos que  \<open>(F \<in> S \<Longrightarrow> \<I>\<^sub>S \<Turnstile> F) \<and> (\<not> F \<in> S \<Longrightarrow>  \<I>\<^sub>S\<close>  
    $\not\models$ \<open>F)\<close>
 
    En efecto,
@@ -1000,45 +999,45 @@ $$\begin{array}{lrl}
 \<open>\<Longrightarrow>\<close> & \<open>\<not> G \<in> S \<or> H \<in> S\<close> & @{text " (S es conjunto de Hintikka) "} \\
   \end{array}$$ 
 
-  Veamos que \<open>\<A>\<^sub>S \<Turnstile> F\<close> considerando ambos casos de la disyunción
+  Veamos que \<open>\<I>\<^sub>S \<Turnstile> F\<close> considerando ambos casos de la disyunción
   anterior.
 $$\begin{array}{lrl}
  & \<open>\<not> G \<in> S\<close> & \\
-\<open>\<Longrightarrow>\<close> & \<open>\<A>\<^sub>S\<close> \not\models \<open>G\<close> & @{text " (HI1) "} \\
-\<open>\<Longrightarrow>\<close> & \<open>\<A>\<^sub>S \<Turnstile> G \<longrightarrow> \<A>\<^sub>S \<Turnstile> H\<close> & \\
-\<open>\<Longrightarrow>\<close> & \<open>\<I>\<^sub>S(G) \<longrightarrow> \<I>\<^sub>S(G)\<close> @{text "= True"}& \\
+\<open>\<Longrightarrow>\<close> & \<open>\<I>\<^sub>S\<close> \not\models \<open>G\<close> & @{text " (HI1) "} \\
+\<open>\<Longrightarrow>\<close> & \<open>\<I>\<^sub>S \<Turnstile> G \<longrightarrow> \<I>\<^sub>S \<Turnstile> H\<close> & \\
+\<open>\<Longrightarrow>\<close> & \<open>\<I>\<^sub>S(G) \<longrightarrow> \<I>\<^sub>S(H)\<close> @{text "= True"}& \\
 \<open>\<Longrightarrow>\<close> & \<open>\<I>\<^sub>S(G \<longrightarrow> H)\<close> @{text "= True"}& \\
 \<open>\<Longrightarrow>\<close> & \<open>\<I>\<^sub>S(F)\<close> @{text "= True"}& \\
-\<open>\<Longrightarrow>\<close> & \<open>\<A>\<^sub>S \<Turnstile> F\<close> & \\
+\<open>\<Longrightarrow>\<close> & \<open>\<I>\<^sub>S \<Turnstile> F\<close> & \\
   \end{array}$$ 
 
 $$\begin{array}{lrl}
  & \<open>H \<in> S\<close> & \\
-\<open>\<Longrightarrow>\<close> & \<open>\<A>\<^sub>S \<Turnstile> H\<close> & @{text " (HI2) "} \\
-\<open>\<Longrightarrow>\<close> & \<open>\<A>\<^sub>S \<Turnstile> G \<longrightarrow> \<A>\<^sub>S \<Turnstile> H\<close> & \\
+\<open>\<Longrightarrow>\<close> & \<open>\<I>\<^sub>S \<Turnstile> H\<close> & @{text " (HI2) "} \\
+\<open>\<Longrightarrow>\<close> & \<open>\<I>\<^sub>S \<Turnstile> G \<longrightarrow> \<I>\<^sub>S \<Turnstile> H\<close> & \\
 \<open>\<Longrightarrow>\<close> & \<open>\<I>\<^sub>S(G) \<longrightarrow> \<I>\<^sub>S(H)\<close> @{text "= True"}& \\
 \<open>\<Longrightarrow>\<close> & \<open>\<I>\<^sub>S(G \<longrightarrow> H)\<close> @{text "= True"}& \\
 \<open>\<Longrightarrow>\<close> & \<open>\<I>\<^sub>S(F)\<close> @{text "= True"}& \\
-\<open>\<Longrightarrow>\<close> & \<open>\<A>\<^sub>S \<Turnstile> F\<close> & \\
+\<open>\<Longrightarrow>\<close> & \<open>\<I>\<^sub>S \<Turnstile> F\<close> & \\
   \end{array}$$ 
 
-  Probando, así, el resultado para este caso.
+  Probando el resultado para este caso.
 
 Por otra parte, 
 $$\begin{array}{lrl}
  & \<open>\<not> F \<in> S\<close> & \\
 \<open>\<Longrightarrow>\<close> & \<open>\<not> (G \<longrightarrow> H) \<in> S\<close> & \\
 \<open>\<Longrightarrow>\<close> & \<open>G \<in> S \<and> \<not> H \<in> S\<close> & @{text " (S es conjunto de Hintikka) "}\\
-\<open>\<Longrightarrow>\<close> & \<open>\<A>\<^sub>S \<Turnstile> G \<and> \<A>\<^sub>S\<close> \not\models \<open>H\<close> & @{text " (HI1 y HI2) "}\\
-\<open>\<Longrightarrow>\<close> & \<open>\<not> (\<A>\<^sub>S \<Turnstile> G \<longrightarrow> \<A>\<^sub>S \<Turnstile> H)\<close> & \\
+\<open>\<Longrightarrow>\<close> & \<open>\<I>\<^sub>S \<Turnstile> G \<and> \<I>\<^sub>S\<close> \not\models \<open>H\<close> & @{text " (HI1 y HI2) "}\\
+\<open>\<Longrightarrow>\<close> & \<open>\<not> (\<I>\<^sub>S \<Turnstile> G \<longrightarrow> \<I>\<^sub>S \<Turnstile> H)\<close> & \\
 \<open>\<Longrightarrow>\<close> & \<open>\<I>\<^sub>S(G) \<longrightarrow> \<I>\<^sub>S(H)\<close> @{text "= False"} & \\
 \<open>\<Longrightarrow>\<close> & \<open>\<I>\<^sub>S(G \<longrightarrow> H)\<close> @{text "= False"} & \\
 \<open>\<Longrightarrow>\<close> & \<open>\<I>\<^sub>S(F)\<close>  @{text "= False"}& \\ 
-\<open>\<Longrightarrow>\<close> & \<open>\<A>\<^sub>S\<close> \not\models \<open>F\<close> & 
+\<open>\<Longrightarrow>\<close> & \<open>\<I>\<^sub>S\<close> \not\models \<open>F\<close> & 
       \end{array}$$ 
  \end{enumerate}
 
-  Probando, así, la segunda afirmación.
+  Queda probada la segunda afirmación.
 
     Con lo que termina la demostración.
  \end{demostracion} 
