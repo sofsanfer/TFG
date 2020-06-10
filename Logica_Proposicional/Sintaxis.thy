@@ -34,7 +34,7 @@ text \<open>En esta sección presentaremos una formalización en Isabelle de la
   basada en dos elementos: un conjunto de fórmulas básicas y una serie 
   de procedimientos de definición de fórmulas a partir de otras. El 
   conjunto de las fórmulas será el menor conjunto de estructuras 
-  sinctáticas con dicho alfabeto y conectivas que contiene a las básicas 
+  sintácticas con dicho alfabeto y conectivas que contiene a las básicas 
   y es cerrado mediante los procedimientos de definición que mostraremos 
   a continuación.
 
