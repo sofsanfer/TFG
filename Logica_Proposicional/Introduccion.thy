@@ -12,19 +12,12 @@ begin
 
 text \<open>
   La lógica es una ciencia que consiste en la formalización del lenguaje 
-  natural para el desarrollo de métodos de razonamiento. Surgió con la
-  lógica silogística de Aristóteles (384 - 322 a.C). En ella, los 
-  silogismos son razonamientos fundamentados en la deducción de 
-  conclusiones a partir de dos premisas iniciales. Entre otras, 
-  introdujo la regla \<open>modus ponnens\<close>:
-
-  \<open>P \<longrightarrow> Q\<close>
-
-  \<open>P\<close>
-
-  \rule{20mm}{0.1mm}
-
-  \<open>Q\<close>
+  natural para el desarrollo de métodos de razonamiento. Tiene su 
+  origen en la Antigua Grecia con Aristóteles y su investigación acerca 
+  de los principios del razonamiento válido o correcto, recogidos 
+  fundamentalmente en su obra \<open>Organon\<close>. De este modo, dio lugar a la 
+  lógica silogística, que consistía en la deducción de conclusiones a 
+  partir de dos premisas iniciales. 
 
 	Posteriormente, los estoicos (400-200 a.C) comenzaron a cuestionarse 
   temas relacionados con la semántica, como la naturaleza de la verdad. 
@@ -55,44 +48,60 @@ text \<open>
 
 	En las últimas décadas, el desarrollo de la computación y la 
   inteligencia artificial ha permitido la formalización de las 
-  matemáticas y la lógica mediante el lenguaje computacional. Entre las 
-  principales aplicaciones de la lógica en la computación se encuentra 
-  la verificación y síntesis automáticas de programas. De este modo, 
-  podemos verificar distintos razonamientos, asicomo crear herramientas 
-  de razonamiento automático que permitan el desarrollo de nuevos 
-  resultados. 
+  matemáticas y la lógica mediante el lenguaje computacional. 
+  Concretamente, el razonamiento automático es un área que investiga los
+  distintos aspectos del razonamiento con el fin de crear programas y
+  algoritmos para razonar de manera prácticamente automática.
+  Se fundamenta en el programa lógico desarrollado por Leibniz,
+  estructurado en base a dos principios: la formalización rigurosa
+  de resultados y el desarrollo de algoritmos que permitan manipular
+  y razonar a partir de dichas formalizaciones. Entre las principales 
+  aplicaciones de este áres se encuentra la verificación y síntesis 
+  automáticas de programas. De este modo, podemos validar distintos 
+  razonamientos, así como crear herramientas de razonamiento automático 
+  que permitan el desarrollo de nuevos resultados.
 
   En este contexto nace Isabelle en 1986, desarrollada por Larry Paulson 
   de la Universidad de Cambridge y Tobias Nipkow del Techniche 
-  Universität München. Isabelle es un demostrador interactivo que 
-  facilita la formalización lógica de resultados y proporciona 
-  herramientas para realizar deducciones. En particular, 
-  Isabelle/HOL es una especificación de Isabelle para la lógica de 
-  primer orden. 
+  Universität München. Isabelle es un demostrador interactivo que,
+  desde el razonamiento automático, facilita la formalización lógica de 
+  resultados y proporciona herramientas para realizar deducciones. En 
+  particular,\\ Isabelle/HOL es una especificación de Isabelle para la 
+  lógica de primer orden. Junto con Coq, ACL2 y PVS, entre
+  otros, constituye uno de los demostradores interactivos más 
+  influyentes.
 
-  Fundamentalmente, como demostrador interactivo, Isabelle permite 
-  verificar cada paso de una deducción de manera precisa. Además, 
-  incorpora herramientas de razonamiento automático para mejorar la 
-  productividad del proceso de demostración. Para ello, cuenta con una 
-  extensa librería de resultados lógicos y matemáticos que han sido 
-  formalizados y continúan en desarrollo por parte de proyectos como 
-  \<open>The Alexandria Project: Large-Scale Formal Proof for the Working 
-  Mathematician\<close>. Este proyecto comienza en 2017, dirigido por 
-  Lawrence Paulson desde la Universidad de Cambridge. Tiene como 
-  finalidad la formalización de distintas teorías para ampliar la 
-  librería de Isabelle, junto con la creación de herramientas 
-  interactivas que asistan a los matemáticos en el proceso de 
-  formalización, demostración y búsqueda de nuevos resultados. 
+  Como demostrador interactivo, Isabelle permite automatizar 
+  razonamientos guiados por el usuario, verificando cada paso de una 
+  deducción de manera precisa. Además, incorpora herramientas de 
+  razonamiento automático para mejorar la productividad del proceso de 
+  demostración. Para ello, cuenta con una extensa librería de resultados 
+  lógicos y matemáticos que han sido formalizados y continúan en 
+  desarrollo por parte de proyectos como \<open>The Alexandria Project: 
+  Large-Scale Formal Proof for the Working Mathematician\<close>. Este proyecto 
+  comienza en 2017, dirigido por Lawrence Paulson desde la Universidad 
+  de Cambridge. Tiene como finalidad la formalización de distintas 
+  teorías para ampliar la librería de Isabelle, junto con la creación de 
+  herramientas interactivas que asistan a los matemáticos en el proceso 
+  de formalización, demostración y búsqueda de nuevos resultados. 
 
   El objetivo de este trabajo es la formalización de elementos y 
-  resultados destacados de la lógica proposicional en Isabelle/HOL. El 
-  desarrollo teórico de los mismos se fundamenta en el libro 
-  \<open>First-Order Logic and Automated Theorem Proving\<close> de Melvin Fitting. 
-  Los tres capítulos tratados consisten en la sintaxis, semántica y, 
-  finalmente, la versión proposicional del lema de Hintikka. Este último 
-  fue desarrollado por el filósofo y lógico Jaakko Hintikka (1929- 2015) 
-  como herramienta para probar la completitud de la lógica de 
-  primer orden.
+  resultados destacados de la lógica proposicional en Isabelle/HOL. 
+  Está inspirado en la primera sección de la publicación \<open>Propositional 
+  Proof Systems\<close> de Julius Michaelis y Tobias Nipkow. Del mismo modo,
+  cabe citar los artículos \<open>Constructive Formalization of Classical 
+  Modal Logic\<close> de Christian Doczkal y Gert Smolka, y \<open>Propositional 
+  Calculus in Coq\<close> de Floris van Doorn, por la influencia ejercida en
+  el desarrollo de este trabajo. El contenido teórico del mismo se 
+  fundamenta en el libro \<open>First-Order Logic and Automated Theorem\<close>\\ 
+  \<open>Proving\<close> \<open>[2]\<close> de Melvin Fitting. Los tres capítulos tratados consisten en 
+  la sintaxis, semántica y, finalmente, la versión proposicional del 
+  lema de Hintikka. Este último fue desarrollado por el filósofo y 
+  lógico Jaakko Hintikka (1929- 2015) como herramienta para probar la 
+  completitud de la lógica de primer orden.
+
+  \comentario{Añadir número de ordenación en la bibliografía a
+  continuación de las publicaciones citadas.} 
 
   En el primer capítulo sobre sintaxis se establecen inicialmente las
   variables proposicionales que conforman los elementos básicos del 
@@ -150,7 +159,7 @@ text \<open>
   librería de Isabelle, prescindiendo de las herramientas de 
   razonamiento automático del demostrador. Para ello, se realiza una 
   búsqueda inversa en cada paso de la demostración automática hasta 
-  llegar a un desarrollo de la prueba basado deducciones a partir de
+  llegar a un desarrollo de la prueba basado en deducciones a partir de
   resultados elementales que la completen de manera rigurosa. En 
   contraposición, se evidenciará la capacidad de razonamiento 
   automático de Isabelle/HOL mediante la realización de una prueba 
