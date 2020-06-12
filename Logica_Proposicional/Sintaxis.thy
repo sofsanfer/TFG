@@ -1841,7 +1841,6 @@ text \<open>Por último, su demostración automática.\<close>
 lemma atoms_BigAnd: 
   "atoms (\<^bold>\<And>Fs) = \<Union>(atoms ` set Fs)"
   by (induction Fs) simp_all
-
 (*<*)
 end
 (*>*) 

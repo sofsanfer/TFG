@@ -1620,7 +1620,6 @@ theorem Hintikkaslemma:
   assumes "Hintikka S"
   shows "sat S"
   using Hintikka_model assms satAlt by blast
-
 (*<*)
 end
 (*>*) 

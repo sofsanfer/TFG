@@ -11,13 +11,13 @@ begin
 (* chapter \<open>Introducción\<close> *)
 
 text \<open>
-  La lógica es una ciencia que consiste en la formalización del lenguaje 
-  natural para el desarrollo de métodos de razonamiento. Tiene su 
-  origen en la Antigua Grecia con Aristóteles y su investigación acerca 
-  de los principios del razonamiento válido o correcto, recogidos 
-  fundamentalmente en su obra \<open>Organon\<close>. De este modo, dio lugar a la 
-  lógica silogística, que consistía en la deducción de conclusiones a 
-  partir de dos premisas iniciales. 
+  El objetivo de la Lógica es la formalización del conocimiento y el 
+  razonamiento sobre el mismo. Tiene su origen en la Antigua Grecia con 
+  Aristóteles y su investigación acerca de los principios del 
+  razonamiento válido o correcto, recogidos fundamentalmente en su obra 
+  \<open>Organon\<close>. De este modo, dio lugar a la lógica silogística, que 
+  consistía en la deducción de conclusiones a partir de dos premisas 
+  iniciales. 
 
 	Posteriormente, los estoicos (400-200 a.C) comenzaron a cuestionarse 
   temas relacionados con la semántica, como la naturaleza de la verdad. 
@@ -66,8 +66,8 @@ text \<open>
   Universität München. Isabelle es un demostrador interactivo que,
   desde el razonamiento automático, facilita la formalización lógica de 
   resultados y proporciona herramientas para realizar deducciones. En 
-  particular,\\ Isabelle/HOL es una especificación de Isabelle para la 
-  lógica de primer orden. Junto con Coq, ACL2 y PVS, entre
+  particular,\\ Isabelle/HOL es la especialización de Isabelle para la 
+  lógica de orden superior. Junto con Coq, ACL2 y PVS, entre
   otros, constituye uno de los demostradores interactivos más 
   influyentes.
 
@@ -167,7 +167,6 @@ text \<open>
   ello se utilizarán las herramientas de razonamiento que han sido 
   elaboradas en Isabelle/HOL con el objetivo de realizar deducciones de 
   la manera más eficiente.\<close>
-
 (*<*)
 end
 (*>*) 
