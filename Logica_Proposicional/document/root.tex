@@ -1,19 +1,24 @@
-\documentclass[12pt,a4paper,fleqn]{book}
-\usepackage{isabelle,isabellesym}
+\documentclass[12pt,a4paper,twoside]{book}
+\usepackage{isabelle,isabellesym,latexsym}
 \usepackage{ifthen,mathpartir}
+\usepackage{amsmath}
+\usepackage{textcomp}
+\usepackage[only,bigsqcap]{stmaryrd}
+\usepackage[nottoc,notlot,notlof]{tocbibind}
 
 % further packages required for unusual symbols (see also
 % isabellesym.sty), use only when needed
 
 % Personalización
-% \usepackage{color,graphicx}      % Usa figuras.
+\usepackage{float}
+\usepackage{color,graphicx}      % Usa figuras.
 \usepackage[utf8x]{inputenc}       % Acentos de UTF8
-\usepackage[T1]{fontenc}           % Codificación T1 con European Computer
+% \usepackage[T1]{fontenc}         % Codificación T1 con European Computer
 % \usepackage[spanish]{babel}      % Castellanización.
-\usepackage{ucs}
+% \usepackage{ucs}
 \usepackage{mathpazo}            % Tipo de fuente
 \usepackage[scaled=.90]{helvet}  % Tipo de fuente
-% \usepackage{a4wide}              % Márgenes
+\usepackage{a4wide}              % Márgenes
 \linespread{1.05}                % Distancia entre líneas
 \setlength{\parindent}{2em}      % Indentación de comienzo de párrafo
 
@@ -57,21 +62,40 @@
 \input definiciones
 \input castellano
 
+% No ajusta los espacios verticales.
+\raggedbottom
+
+% Espacio entre párrafos
+\parindent 2em\parskip 1ex
+% Diagramas conmutativos 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Cabeceras                                                              %%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\usepackage{fancyhdr}
+
+\addtolength{\headheight}{\baselineskip}
+
+\pagestyle{fancy}
+
+\cfoot{}
+
+\fancyhead{}
+\fancyhead[RE]{\slshape \nouppercase{\leftmark}}
+\fancyhead[LO]{\slshape \nouppercase{\rightmark}}
+\fancyhead[LE,RO]{\slshape \thepage}
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% Documento
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \begin{document}
 
-% \title{Lógica proposicional en Isabelle/HOL}
-% \author{Sofía Santiago Fernández}
-% \date{actualizado el 12 de junio de 2020}
-% \maketitle
-
 \begin{titlepage}
  \vspace*{2cm}
   \begin{center}
-    {\huge \textbf{Lógica proposicional en Isabelle/HOL}}
+    {\huge \textbf{Elementos de lógica \\ \vspace*{1em}
+                   formalizados en Isabelle/HOL}}
   \end{center}
   \vspace{3cm}
   \begin{center}
@@ -101,7 +125,9 @@
 
 % generated text of all theories
 % \input{session}
-
+\chapter*{Sumario}
+\addcontentsline{toc}{chapter}{Sumario}
+\input{Resumen}
 \chapter*{Introducción}
 \addcontentsline{toc}{chapter}{Introducción}
 \input{Introduccion}
@@ -120,11 +146,9 @@
 \input{Glosario}
 
 % optional bibliography
-% \chapter*{Bibliografía}
-\nocite{fitting1996first,LMF,CC,articulo,escribir,tutorial,main,isar,implementation,datatypes}
+\nocite{fitting1996first,LMF,CC,articulo,escribir,tutorial,main,isar,implementation,intro,gamut,modal,proofsystems,automatic,coq}
 \bibliographystyle{plain}
 \bibliography{root}
-% \addcontentsline{toc}{chapter}{Bibliografía}
 
 % Pendientes
 \todototoc
