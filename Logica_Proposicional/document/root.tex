@@ -63,10 +63,34 @@
 
 \begin{document}
 
-\title{Lógica proposicional en Isabelle/HOL}
-\author{Sofía Santiago Fernández}
-\date{actualizado el 12 de junio de 2020}
-\maketitle
+% \title{Lógica proposicional en Isabelle/HOL}
+% \author{Sofía Santiago Fernández}
+% \date{actualizado el 12 de junio de 2020}
+% \maketitle
+
+\begin{titlepage}
+ \vspace*{2cm}
+  \begin{center}
+    {\huge \textbf{Lógica proposicional en Isabelle/HOL}}
+  \end{center}
+  \vspace{3cm}
+  \begin{center}
+    \begin{figure}[h]
+    \centering
+    \includegraphics[height=6cm]{sello.png}
+    % \includegraphics{sello.png}
+    \end{figure}
+  \vspace{3cm}
+    {\normalsize Facultad de Matemáticas} \\
+    {\normalsize Departamento de Ciencias de la Computación e Inteligencia Artificial}\\
+    {\normalsize Trabajo Fin de Grado} \\
+  \end{center}
+  \begin{center}
+    {\large \textbf{Sofía Santiago Fernández}}
+  \end{center}
+\end{titlepage}
+
+\newpage
 
 % \setcounter{tocdepth}{1}
 \tableofcontents
@@ -78,7 +102,8 @@
 % generated text of all theories
 % \input{session}
 
-\chapter{Introducción}
+\chapter*{Introducción}
+\addcontentsline{toc}{chapter}{Introducción}
 \input{Introduccion}
 
 \chapter{Sintaxis}
@@ -95,9 +120,11 @@
 \input{Glosario}
 
 % optional bibliography
+% \chapter*{Bibliografía}
 \nocite{fitting1996first,LMF,CC,articulo,escribir,tutorial,main,isar,implementation,datatypes}
 \bibliographystyle{plain}
 \bibliography{root}
+% \addcontentsline{toc}{chapter}{Bibliografía}
 
 % Pendientes
 \todototoc
