@@ -55,7 +55,7 @@ type_synonym 'a valuation = "'a \<Rightarrow> bool"
 
   En Isabelle, dada una interpretación \<open>\<A>\<close> y una fórmula \<open>F\<close>, vamos a 
   definir \<open>\<I>\<^sub>\<A>(F)\<close> mediante la función \<open>formula_semantics \<A> F\<close>, 
-  notado como\\ \<open>\<A> \<Turnstile> F\<close>.\<close>
+  notado como \<open>\<A> \<Turnstile> F\<close>.\<close>
 
 primrec formula_semantics :: 
   "'a valuation \<Rightarrow> 'a formula \<Rightarrow> bool" (infix "\<Turnstile>" 51) where
@@ -284,7 +284,7 @@ text\<open>Veamos ahora la prueba del lema.
   al conjunto de sus átomos \<open>{q}\<close>. De este modo, se tiene \<open>q \<noteq> p\<close>. 
   Por definición, el valor de la fórmula atómica \<open>q\<close> en la 
   interpretación \<open>\<A>'\<close>, es \<open>\<A>'(q)\<close>. Como hemos visto que \<open>q \<noteq> p\<close>, 
-  tenemos a su vez \<open>\<A>'(q) = \<A>(q)\<close> según la definición de \<open>\<A>'\<close>. A su
+  tenemos a su vez\\ \<open>\<A>'(q) = \<A>(q)\<close> según la definición de \<open>\<A>'\<close>. A su
   vez, \<open>\<A>(q)\<close> es el valor de la fórmula atómica \<open>q\<close> en la 
   interpretación \<open>\<A>\<close>, luego se tiene finalmente que ambos valores
   coinciden. 
@@ -370,12 +370,12 @@ text\<open>Veamos ahora la prueba del lema.
   \<open>G \<rightarrow> H\<close> en la interpretación \<open>\<A>\<close>, probando así el resultado.
   \end{demostracion}
 
-  Veamos a continuación la demostración detallada del lema en\\ 
+  Veamos a continuación la demostración detallada del lema en
   Isabelle/HOL. Para facilitar la lectura, inicialmente se ha
   probado el resultado para cada caso de la estructura de las fórmulas
   como es habitual. Además, se han empleado los lemas auxiliares 
   \<open>irrelevant_atom_atomic_l1\<close>, \<open>irrelevant_atom_not_l1\<close>,
-  \<open>irrelevant_atom_and_l1\<close>, \<open>irrelevant_atom_or_l1\<close> e\\ 
+  \<open>irrelevant_atom_and_l1\<close>,\\ \<open>irrelevant_atom_or_l1\<close> e 
   \<open>irrelevant_atom_imp_l1\<close> para mostrar resultados sobre la no
   pertenencia a los conjuntos de átomos en cada caso. Es fácil observar 
   que no ha sido necesario el uso de lemas auxiliares en el caso de la 
@@ -685,7 +685,7 @@ text \<open>Vamos a probar el resultado.
     la fórmula del caso anterior. Sean las interpretaciones \<open>\<A>\<^sub>1\<close> y \<open>\<A>\<^sub>2\<close> 
     tales que coinciden sobre el conjunto de átomos de \<open>F \<and> G\<close>. Vamos a
     probar que el valor de \<open>F \<and> G\<close> en \<open>\<A>\<^sub>1\<close> es el mismo que en \<open>\<A>\<^sub>2\<close>.
-    Como el conjunto de átomos de\\ \<open>F \<and> G\<close> es la unión del conjunto de
+    Como el conjunto de átomos de \<open>F \<and> G\<close> es la unión del conjunto de
     átomos de \<open>F\<close> y el conjunto de átomos de \<open>G\<close>, tenemos que \<open>\<A>\<^sub>1\<close> y 
     \<open>\<A>\<^sub>2\<close> coinciden sobre los elementos de dicha unión. En particular,
     coinciden sobre los elementos del conjunto de átomos de \<open>F\<close> y, por
@@ -695,7 +695,7 @@ text \<open>Vamos a probar el resultado.
     del conjunto de átomos de \<open>G\<close> luego, aplicando análogamente la 
     hipótesis de inducción, tenemos que el valor de \<open>G\<close> es el mismo 
     en las interpretaciones \<open>\<A>\<^sub>1\<close> y \<open>\<A>\<^sub>2\<close>. Veamos ahora que el valor
-    de\\ \<open>F \<and> G\<close> también coincide en dichas interpretaciones.
+    de \<open>F \<and> G\<close> también coincide en dichas interpretaciones.
     Por definición, el valor de \<open>F \<and> G\<close> en \<open>\<A>\<^sub>1\<close> es la conjunción
     del valor de \<open>F\<close> en \<open>\<A>\<^sub>1\<close> y el valor de \<open>G\<close> en \<open>\<A>\<^sub>1\<close>. Por lo 
     obtenido anteriormente por las hipótesis de inducción, tenemos que
@@ -705,7 +705,7 @@ text \<open>Vamos a probar el resultado.
 
     Volvamos a considerar \<open>F\<close> y \<open>G\<close> en las condiciones anteriores y
     dos interpretaciones \<open>\<A>\<^sub>1\<close> y \<open>\<A>\<^sub>2\<close> que coinciden sobre el
-    conjunto de átomos de\\ \<open>F \<or> G\<close>. Vamos a probar que el valor de 
+    conjunto de átomos de \<open>F \<or> G\<close>. Vamos a probar que el valor de 
     dicha fórmula es el mismo en ambas interpretaciones.
     De manera análoga al caso anterior, como el conjunto de átomos de
     \<open>F \<or> G\<close> es la unión del conjunto de átomos de \<open>F\<close> y el conjunto de
@@ -728,8 +728,8 @@ text \<open>Vamos a probar el resultado.
     las condiciones de los casos anteriores. Consideremos las
     interpretaciones \<open>\<A>\<^sub>1\<close> y \<open>\<A>\<^sub>2\<close> que coinciden sobre los elementos
     del conjunto de átomos de \<open>F \<rightarrow> G\<close>. Probemos que el valor de 
-    \<open>F \<rightarrow> G\<close> es el mismo en ambas interpretaciones.
-    Por definición, el conjunto de átomos de \<open>F \<rightarrow> G\<close> es la unión de los
+    \<open>F \<rightarrow> G\<close> es el mismo en ambas interpretaciones. Por definición, 
+    el conjunto de átomos de\\ \<open>F \<rightarrow> G\<close> es la unión de los
     conjuntos de átomos de \<open>F\<close> y \<open>G\<close>. Por tanto, dichas
     interpretaciones coinciden sobre los elementos de dicha unión. 
     Como hemos visto en casos anteriores, en particular coinciden sobre
@@ -975,7 +975,7 @@ text \<open>Como podemos observar, en el enunciado de la derecha hemos
    En primer lugar, lo probamos para la lista vacía de fórmulas. Sea la
    interpretación \<open>\<A>\<close> tal que es modelo de la conjunción generalizada
    de la lista vacía. Por definición de la conjunción generalizada,
-   \<open>\<A>\<close> es modelo de\\ \<open>\<not> \<bottom>\<close>. Aplicando la definición del valor de una
+   \<open>\<A>\<close> es modelo de \<open>\<not> \<bottom>\<close>. Aplicando la definición del valor de una
    fórmula en una interpretación para el caso de la negación,
    tenemos que esto es equivalente a que \<open>\<A>\<close> no es modelo de \<open>\<bottom>\<close>.
    Análogamente, como sabemos que el valor de \<open>\<bottom>\<close> es \<open>Falso\<close> en 
@@ -1233,7 +1233,7 @@ end
 text \<open>El siguiente resultado relaciona los conceptos de modelo de 
   una fórmula y modelo de un conjunto de fórmulas en Isabelle.
   La equivalencia se demostrará fácilmente mediante las definiciones
-  de \<open>isModel\<close> e\\ \<open>isModelSet\<close>.\<close>
+  de \<open>isModel\<close> e \<open>isModelSet\<close>.\<close>
 
 lemma modelSet:
   "isModelSet \<A> S \<equiv> \<forall>F. (F \<in> S \<longrightarrow> isModel \<A> F)" 
@@ -1427,8 +1427,6 @@ proof -
   finally show ?thesis
     by this
 qed
-
-text \<open>\comentario{Hay revisar los cortes de línea.}\<close>
 
 text \<open>Finalmente su demostración automática es la siguiente.\<close>
 

@@ -117,12 +117,12 @@ text \<open>Asimismo presentaremos nueve lemas correspondientes a cada
 
   \begin{lema}
     Sea \<open>S\<close> un conjunto de Hintikka. Si \<open>F \<and> G \<in> S\<close>, entonces 
-    \<open>F \<in> S\<close> y\\ \<open>G \<in> S\<close>.
+    \<open>F \<in> S\<close> y \<open>G \<in> S\<close>.
   \end{lema}
 
   \begin{lema}
     Sea \<open>S\<close> un conjunto de Hintikka. Si \<open>F \<or> G \<in> S\<close>, entonces 
-    \<open>F \<in> S\<close> o\\ \<open>G \<in> S\<close>.
+    \<open>F \<in> S\<close> o \<open>G \<in> S\<close>.
   \end{lema}
 
   \begin{lema}
@@ -418,7 +418,7 @@ text \<open>Las pruebas anteriores siguen un esquema similar en Isabelle.
   \begin{lema}
     Dado un conjunto de Hintikka, una fórmula no pertenece al conjunto 
     si su negación sí pertenece al mismo. Es decir, si \<open>S\<close> es un 
-    conjunto de Hintikka y \<open>\<not> F \<in> S\<close>, entonces \<open>F \<notin> S\<close>.
+    conjunto de Hintikka y \<open>\<not> F \<in> S\<close>, entonces\\ \<open>F \<notin> S\<close>.
   \end{lema}
 
   Antes de pasar a la demostración del resultado, cabe añadir que
@@ -440,7 +440,7 @@ text \<open>Las pruebas anteriores siguen un esquema similar en Isabelle.
    \item[Caso 1:] \<open>F = p\<close>, fórmula atómica.
 
     Supongamos que \<open>\<not> p \<in> S\<close>.  Si \<open>p \<in> S\<close> por definición de conjunto 
-    de Hintikka, \<open>\<not> p \<notin> S\<close>, en contra de la hipótesis. 
+    de Hintikka,\\ \<open>\<not> p \<notin> S\<close>, en contra de la hipótesis. 
 
    \item[Caso 2:] \<open>F = \<bottom>\<close>   
 
@@ -502,7 +502,7 @@ $$\begin{array}{lrl}
 
   Por otra parte, si \<open>F \<in> S\<close> se tiene que \<open>G \<in> S \<or> H \<in> S\<close>, por ser \<open>S\<close>
   conjunto de Hintikka, en contra de lo obtenido anteriormente. Por
-  tanto,\\ \<open>F \<notin> S\<close>.
+  tanto, \<open>F \<notin> S\<close>.
 
   \item[Caso 6:] \<open>F = G \<longrightarrow> H\<close> y tanto \<open>G\<close> como \<open>H\<close> verifican la 
   hipótesis de inducción. 
@@ -522,7 +522,7 @@ $$\begin{array}{lrl}
 
   Por otra parte, si \<open>F \<in> S\<close> se tiene que \<open>\<not> G \<in> S \<or> H \<in> S\<close>, por ser
   \<open>S\<close> conjunto de Hintikka, lo que contradice lo anterior. Por lo
-  tanto,\\ \<open>F \<notin> S\<close>.
+  tanto, \<open>F \<notin> S\<close>.
   \end{enumerate}
 
   Con lo que termina la demostración.
@@ -798,7 +798,7 @@ text \<open>Una vez definida la noción de conjunto de Hintikka y conocidas las
   \end{definicion}
 
   En Isabelle se formalizará mediante el tipo \<open>definition\<close> como se
-  expone a continuación.\<close>
+  expone a\\ continuación.\<close>
 
 definition setValuation :: 
    "('a formula) set \<Rightarrow> 'a valuation" where
@@ -857,7 +857,7 @@ text \<open>Procedamos a la demostración del resultado.
     interpretación asociada a \<open>S\<close>. 
 
     Por otro lado, si \<open>\<not> p \<in> S\<close>, entonces
-    \<open>p \<notin> S\<close> por ser \<open>S\<close> de Hintikka. Por tanto, \<open>\<I>\<^sub>S(p) = False\<close> 
+    \<open>p \<notin> S\<close> por ser \<open>S\<close> de Hintikka. Por tanto,\\ \<open>\<I>\<^sub>S(p) = False\<close> 
     por definición de \<open>\<I>\<^sub>S\<close>. 
 
    \item[Caso 2:] \<open>F = \<bottom>\<close>   

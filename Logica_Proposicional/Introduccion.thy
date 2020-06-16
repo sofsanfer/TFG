@@ -66,7 +66,7 @@ text \<open>
   Universität München. Isabelle es un demostrador interactivo que,
   desde el razonamiento automático, facilita la formalización lógica de 
   resultados y proporciona herramientas para realizar deducciones. En 
-  particular,\\ Isabelle/HOL es la especialización de Isabelle para la 
+  particular, Isabelle/HOL es la especialización de Isabelle para la 
   lógica de orden superior. Junto con Coq, ACL2 y PVS, entre
   otros, constituye uno de los demostradores interactivos más 
   influyentes.
@@ -88,20 +88,17 @@ text \<open>
   El objetivo de este trabajo es la formalización de elementos y 
   resultados destacados de la lógica proposicional en Isabelle/HOL. 
   Está inspirado en la primera sección de la publicación \<open>Propositional 
-  Proof Systems\<close> de Julius Michaelis y Tobias Nipkow. Del mismo modo,
-  cabe citar los artículos \<open>Constructive Formalization of Classical 
-  Modal Logic\<close> de Christian Doczkal y Gert Smolka, y \<open>Propositional 
-  Calculus in Coq\<close> de Floris van Doorn, por la influencia ejercida en
-  el desarrollo de este trabajo. El contenido teórico del mismo se 
-  fundamenta en el libro \<open>First-Order Logic and Automated Theorem\<close>\\ 
-  \<open>Proving\<close> \<open>[2]\<close> de Melvin Fitting. Los tres capítulos tratados consisten en 
-  la sintaxis, semántica y, finalmente, la versión proposicional del 
-  lema de Hintikka. Este último fue desarrollado por el filósofo y 
-  lógico Jaakko Hintikka (1929- 2015) como herramienta para probar la 
-  completitud de la lógica de primer orden.
-
-  \comentario{Añadir número de ordenación en la bibliografía a
-  continuación de las publicaciones citadas.} 
+  Proof Systems\<close> \<open>[10]\<close> de Julius Michaelis y Tobias Nipkow. Del mismo 
+  modo, cabe citar los artículos \<open>Constructive Formalization of 
+  Classical Modal Logic\<close> \<open>[2]\<close> de Christian Doczkal y Gert Smolka, y 
+  \<open>Propositional Calculus in Coq\<close> \<open>[13]\<close> de Floris van Doorn, por la 
+  influencia ejercida en el desarrollo de este trabajo. El contenido 
+  teórico del mismo se fundamenta en el libro \<open>First-Order Logic and 
+  Automated Theorem Proving\<close> \<open>[3]\<close> de Melvin Fitting. Los tres capítulos 
+  tratados consisten en la sintaxis, semántica y, finalmente, la versión 
+  proposicional del lema de Hintikka. Este último fue desarrollado por 
+  el filósofo y lógico Jaakko Hintikka (1929- 2015) como herramienta 
+  para probar la completitud de la lógica de primer orden.
 
   En el primer capítulo sobre sintaxis se establecen inicialmente las
   variables proposicionales que conforman los elementos básicos del 

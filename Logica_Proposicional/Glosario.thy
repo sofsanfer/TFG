@@ -252,6 +252,8 @@ subsubsection \<open>Igualdades sobre la union, intersección, inclusion,
 
 text \<open>
   \begin{itemize}
+    \item (p.179) @{thm[mode=Rule] insert_is_Un[no_vars]} 
+      \hfill (@{text insert_is_Un})
     \item (p.181) @{thm[mode=Rule] Un_absorb[no_vars]} 
       \hfill (@{text Un_absorb})
     \item (p.181) @{thm[mode=Rule] Un_empty_right[no_vars]} 
@@ -260,6 +262,8 @@ text \<open>
       \hfill (@{text Un_insert_left})
     \item (p.187) @{thm[mode=Rule] ball_simps[no_vars]} 
       \hfill (@{text ball_simps})
+    \item (p.187) @{thm[mode=Rule] bex_simps[no_vars]} 
+      \hfill (@{text bex_simps})
   \end{itemize}\<close>
 
 subsubsection \<open>Monotonía de varias operaciones (7.4.4)\<close>
@@ -284,6 +288,8 @@ subsection \<open>Actualización de funciones (9.6)\<close>
 
 text \<open>
   \begin{itemize}
+    \item (p.212) @{thm[mode=Rule] fun_upd_def[no_vars]} 
+      \hfill (@{text fun_upd_def})
     \item (p.213) @{thm[mode=Rule] fun_upd_other[no_vars]} 
       \hfill (@{text fun_upd_other})
   \end{itemize}\<close>

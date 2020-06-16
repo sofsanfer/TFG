@@ -57,11 +57,21 @@ text \<open>En esta sección presentaremos una formalización en Isabelle de la
 
   Intuitivamente, las fórmulas proposicionales son entendidas como un 
   tipo de árbol sintáctico cuyos nodos son las conectivas y sus hojas
-  las fórmulas atómicas.
+  las fórmulas atómicas. Veamos, por ejemplo, el árbol sintáctico de
+  la fórmula \<open>p \<rightarrow> (\<not> q \<or> p)\<close>.
 
-  \comentario{Incluir el árbol de formación.}
+ \begin{forest} for tree = {parent anchor = south, child anchor = north}
+        [\<open>p \<rightarrow> (\<not> q \<or> p)\<close>
+            [\<open>p\<close>]
+            [\<open>\<not> q \<or> p\<close>
+                [\<open>\<not> q\<close>
+                  [\<open>q\<close>]]
+                [\<open>p\<close>]]
+        ]
+ \end{forest}
 
-  A continuación, veamos su representación en Isabelle\<close>
+  A continuación, veamos la representación en Isabelle de la estructura
+  de las fórmulas proposicionales.\<close>
 
 datatype (atoms: 'a) formula = 
   Atom 'a
@@ -264,7 +274,7 @@ text \<open>A continuación, veamos la demostración clásica del lema.
   átomos y, por hipótesis de inducción, es finito.
 
   Consideremos las fórmulas \<open>F\<close> y \<open>G\<close> cuyos conjuntos de átomos son 
-  finitos. Por construcción, el conjunto de variables de \<open>F*G\<close> es la 
+  finitos. Por\\ construcción, el conjunto de variables de \<open>F*G\<close> es la 
   unión de sus respectivos conjuntos de átomos para cualquier \<open>*\<close> 
   conectiva binaria. Por lo tanto, usando la hipótesis de inducción, 
   dicho conjunto es finito. 
@@ -678,7 +688,7 @@ text \<open>Veamos ahora los distintos resultados sobre subfórmulas.
     por hipótesis de inducción tenemos que el conjunto de fórmulas
     atómicas de \<open>F\<close> está contenido en el conjunto de subfórmulas de 
     \<open>F\<close>. Por otro lado, como el conjunto de subfórmulas de \<open>\<not> F\<close> está 
-    definido como \<open>Subf(\<not> F) = {\<not> F} \<union> Subf(F)\<close>, tenemos que el 
+    definido como\\ \<open>Subf(\<not> F) = {\<not> F} \<union> Subf(F)\<close>, tenemos que el 
     el conjunto de subfórmulas de \<open>F\<close> está contenido en el de \<open>\<not> F\<close>
     Por tanto, por propiedades de contención, 
     tenemos que el conjunto de fórmulas atómicas de \<open>\<not> F\<close> está 
@@ -696,7 +706,7 @@ text \<open>Veamos ahora los distintos resultados sobre subfórmulas.
     Por tanto, por hipótesis de inducción tenemos que el conjunto de 
     fórmulas atómicas de \<open>F*G\<close> está contenido en la unión del conjunto
     de subfórmulas de \<open>F\<close> y el conjunto de subfórmulas de \<open>G\<close>. Como el
-    conjunto de subfórmulas de \<open>F*G\<close> se define como
+    conjunto de subfórmulas de \<open>F*G\<close> se define como\\
     \<open>Subf(F*G) = {F*G} \<union> Subf(F) \<union> Subf(G)\<close>, tenemos que la unión
     de los conjuntos de subfórmulas de \<open>F\<close> y \<open>G\<close> está contenida en el
     conjunto de subfórmulas de \<open>F*G\<close>. Por tanto, por propiedades
@@ -918,7 +928,7 @@ text \<open>La siguiente propiedad declara que el conjunto de átomos de una
   \<open>\<not> F\<close>.
   Por definición, tenemos que el conjunto de subfórmulas de \<open>\<not> F\<close> es de
   la forma \\ \<open>Subf(\<not> F) = {\<not> F} \<union> Subf(F)\<close>. De este modo, tenemos dos 
-  opciones posibles: \<open>G \<in> {\<not> F}\<close> o \<open>G \<in> Subf(F)\<close>. 
+  opciones posibles:\\ \<open>G \<in> {\<not> F}\<close> o \<open>G \<in> Subf(F)\<close>. 
   Del primer caso se deduce \<open>G = \<not> F\<close> 
   y, por tanto, tienen igual conjunto de átomos.
   Observando el segundo caso, por hipótesis de inducción, se tiene que 
@@ -934,7 +944,7 @@ text \<open>La siguiente propiedad declara que el conjunto de átomos de una
   cualquiera. Vamos a probar que el conjunto de átomos de \<open>G\<close> está 
   contenido en el conjunto de átomos de \<open>F1*F2\<close>.
   En primer lugar, por definición tenemos que el conjunto de
-  subfórmulas de \<open>F1*F2\<close> es de la forma \\
+  subfórmulas de \<open>F1*F2\<close> es de la forma
   \<open>Subf(F1*F2) = {F1*F2} \<union> (Subf(F1) \<union> Subf(F2))\<close>. De este modo, 
   tenemos dos posibles opciones:
   \<open>G \<in> {F1*F2}\<close> o \<open>G \<in> Subf(F1) \<union> Subf(F2)\<close>.\\
@@ -1208,7 +1218,7 @@ text \<open>A continuación vamos a introducir un lema para facilitar
   subfórmulas de \<open>G\<close> está contenido en el de \<open>\<not> F\<close>.
   En primer lugar, por definición se cumple que el conjunto de
   subfórmulas de \<open>\<not> F\<close> es de la forma \<open>Subf(\<not> F) = {\<not> F} \<union> Subf(F)\<close>.
-  Como hemos supuesto \<open>G\<close> subfórmula de \\\<open>\<not> F\<close>, hay dos opciones 
+  Como hemos supuesto \<open>G\<close> subfórmula de \<open>\<not> F\<close>, hay dos opciones 
   posibles: \<open>G \<in> {\<not> F}\<close> o \<open>G \<in> Subf(F)\<close>. 
   Del primer caso se obtiene que \<open>G = \<not> F\<close> y, por tanto, tienen igual 
   conjunto de subfórmulas. 
@@ -1229,10 +1239,10 @@ text \<open>A continuación vamos a introducir un lema para facilitar
   cualquiera. Vamos a probar que el conjunto de subfórmulas de \<open>G\<close> está
   contenido en el de \<open>F1*F2\<close>. 
   En primer lugar, por definición se cumple que el conjunto de 
-  subfórmulas de \<open>F1*F2\<close> es de la forma\\
+  subfórmulas de \<open>F1*F2\<close> es de la forma
   \<open>{F1*F2} \<union> (Subf(F1) \<union> Subf(F2))\<close>. De este modo,
-  tenemos dos opciones:\\ \<open>G \<in> {F1*F2}\<close> o \<open>G \<in> Subf(F1) \<union> Subf(F2)\<close>.
-   De la primera opción se deduce \\\<open>G = F1*F2\<close> y, por
+  tenemos dos opciones: \<open>G \<in> {F1*F2}\<close> o \<open>G \<in> Subf(F1) \<union> Subf(F2)\<close>.
+  De la primera opción se deduce \<open>G = F1*F2\<close> y, por
   tanto, tienen igual conjunto de subfórmulas. 
   Por otro lado, si \<open>G \<in> Subf(F1) \<union> Subf(F2)\<close>, tenemos a su vez dos 
   opciones: \<open>G\<close> es subfórmula de \<open>F1\<close> o \<open>G\<close> es subfórmula de \<open>F2\<close>.
@@ -1501,9 +1511,7 @@ text \<open>El siguiente lema nos da la noción de transitividad de contención
   pertenece al conjunto de subfórmulas de \<open>F\<close> como queríamos demostrar. 
   \end{demostracion}
 
-  Veamos su formalización y prueba estructurada en Isabelle.
-
-  Veamos su prueba según las distintas tácticas.\<close>
+  Veamos su formalización y prueba estructurada en Isabelle.\<close>
 
 lemma
   assumes "G \<in> setSubformulae F" 
@@ -1711,7 +1719,7 @@ text \<open>Ambas nuevas conectivas se definen con el tipo funciones
 
   En primer lugar lo probaremos para la lista vacía de fórmulas. Es
   claro por definición que la conjunción generalizada de la lista vacía
-  es \\\<open>\<not> \<bottom>\<close>. De este modo, su conjunto de átomos coincide con los de 
+  es \<open>\<not> \<bottom>\<close>. De este modo, su conjunto de átomos coincide con los de 
   \<open>\<bottom>\<close>, luego es el vacío. Por tanto, queda demostrado el resultado, 
   pues el vacío es igual a la unión del conjunto de átomos de cada 
   elemento de la lista vacía de fórmulas. 
