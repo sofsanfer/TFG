@@ -90,11 +90,11 @@ text \<open>
   Está inspirado en la primera sección de la publicación \<open>Propositional 
   Proof Systems\<close> \<open>[10]\<close> de Julius Michaelis y Tobias Nipkow. Del mismo 
   modo, cabe citar los artículos \<open>Constructive Formalization of 
-  Classical Modal Logic\<close> \<open>[2]\<close> de Christian Doczkal y Gert Smolka, y 
+  Classical Modal Logic\<close> \<open>[3]\<close> de Christian Doczkal y Gert Smolka, y 
   \<open>Propositional Calculus in Coq\<close> \<open>[13]\<close> de Floris van Doorn, por la 
   influencia ejercida en el desarrollo de este trabajo. El contenido 
   teórico del mismo se fundamenta en el libro \<open>First-Order Logic and 
-  Automated Theorem Proving\<close> \<open>[3]\<close> de Melvin Fitting. Los tres capítulos 
+  Automated Theorem Proving\<close> \<open>[4]\<close> de Melvin Fitting. Los tres capítulos 
   tratados consisten en la sintaxis, semántica y, finalmente, la versión 
   proposicional del lema de Hintikka. Este último fue desarrollado por 
   el filósofo y lógico Jaakko Hintikka (1929- 2015) como herramienta 

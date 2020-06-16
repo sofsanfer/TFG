@@ -8,7 +8,7 @@ text \<open>
 El objetivo de la Lógica es la formalización del conocimiento y su
 razonamiento. En este trabajo, estudiaremos elementos de la lógica
 proposicional desde la perspectiva teórica de \<open>First−Order Logic and 
-Automated Theorem Proving\<close> \<open>[3]\<close> de Melvin Fitting. En particular, nos 
+Automated Theorem Proving\<close> \<open>[4]\<close> de Melvin Fitting. En particular, nos 
 centraremos en la sintaxis y la semántica, concluyendo con la versión 
 proposicional del lema de Hintikka sobre la satisfacibilidad de una 
 clase determinada de conjuntos de fórmulas. Siguiendo la inspiración de 
@@ -34,7 +34,7 @@ automático de Isabelle.
 text\<open>Logic’s purpose is about knowledge’s formalisation and its 
 reasoning. In this project, we will approach Propositional Logic’s 
 elements from the theoretical perspective of \<open>First−Order Logic and 
-Automated Theorem Proving\<close> \<open>[3]\<close> by Melvin Fitting. We will focus on the 
+Automated Theorem Proving\<close> \<open>[4]\<close> by Melvin Fitting. We will focus on the 
 study of Syntax and Semantics to reach propositional version of 
 Hintikka’s lemma, which determinate the satisfiability of a concrete 
 type of formula set. Inspired by \<open>Propositional Proof Systems\<close> \<open>[10]\<close> by 
