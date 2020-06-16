@@ -161,6 +161,30 @@ text \<open>
       \hfill (@{text not_ex})
   \end{itemize}\<close>
 
+section \<open>Grupos, también combinados con órdenes (5)\<close>
+
+text \<open>Los siguientes resultados pertenecen a la teoría de 
+  grupos \href{https://bit.ly/3fwjIPe}{Groups.thy}.\<close>
+
+subsection \<open>Estructuras abstractas\<close>
+
+text \<open>
+  \begin{itemize}
+    \item (p.109) @{thm[mode=Rule] sup_bot.left_neutral[no_vars]} 
+      \hfill (@{text sup_bot.left_neutral})
+  \end{itemize}\<close>
+
+section \<open>Retículos abstractos (6)\<close>
+
+text \<open>Los resultados expuestos a continuación pertenecen a la teoría de 
+  retículos \href{https://bit.ly/2N4lbjn}{Lattices.thy}.\<close>
+
+text \<open>
+  \begin{itemize}
+    \item (p.139) @{thm[mode=Rule] sup.bounded_iff[no_vars]} 
+      \hfill (@{text sup.bounded_iff})
+  \end{itemize}\<close>
+
 section \<open>Teoría de conjuntos para lógica de orden superior (7)\<close>
 
 text \<open>Los siguientes resultados corresponden a la teoría de conjuntos 
@@ -232,6 +256,21 @@ text\<open>
       \hfill (@{text singletonD})
     \item (p.172) @{thm[mode=Rule] singleton_iff[no_vars]} 
       \hfill (@{text singleton_iff})
+  \end{itemize}
+\<close>
+
+subsubsection \<open>Imagen de un conjunto por una función (7.3.12)\<close>
+
+text\<open>
+  \begin{itemize}
+    \item (p.173) @{thm[mode=Def] image_def[no_vars]} 
+      \hfill (@{text image_def})
+    \item (p.173) @{thm[mode=Rule] image_Un[no_vars]} 
+      \hfill (@{text image_Un})
+    \item (p.174) @{thm[mode=Rule] image_empty[no_vars]} 
+      \hfill (@{text image_empty})
+    \item (p.174) @{thm[mode=Rule] image_insert[no_vars]} 
+      \hfill (@{text image_insert})
   \end{itemize}
 \<close>
 
@@ -318,7 +357,7 @@ subsection \<open>Predicado de conjuntos finitos (18.1)\<close>
 
 text \<open>
   \begin{itemize}
-    \item (p.419) @{thm[mode=Def] finite[no_vars]} 
+    \item (p.419) @{thm[mode=Rule] finite[no_vars]} 
       \hfill (@{text finite})
   \end{itemize}\<close>
 
@@ -328,6 +367,20 @@ text\<open>
   \begin{itemize}
     \item (p.422) @{thm[mode=Rule] finite_UnI[no_vars]} 
       \hfill (@{text finite_UnI})
+    \item (p.423) @{thm[mode=Rule] finite_insert[no_vars]} 
+      \hfill (@{text finite_insert})
+  \end{itemize}\<close>
+
+section \<open>Composición de functores naturales acotados (33)\<close>
+
+text \<open>En esta sección se muestran resultados pertenecientes a la
+  teoría de composición de functores naturales acotados de Isabelle 
+  \href{https://bit.ly/2zGl9v6}{BNFComposition.thy}.\<close>
+
+text\<open>  
+  \begin{itemize}
+    \item (p.718) @{thm[mode=Rule] Union_image_insert[no_vars]} 
+      \hfill (@{text Union_image_insert})
   \end{itemize}\<close>
 
 section \<open>El tipo de datos de la listas finitas (66)\<close>
