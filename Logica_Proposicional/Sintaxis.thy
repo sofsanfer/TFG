@@ -664,7 +664,7 @@ text \<open>Veamos ahora los distintos resultados sobre subfórmulas.
     cualquiera está formado a partir de cada elemento de su conjunto de 
     variables proposicionales. 
     Queremos demostrar que este conjunto está contenido en el conjunto 
-    de subfórmulas de dicha fórmula.
+    de\\ subfórmulas de dicha fórmula.
     De este modo, la prueba seguirá el esquema inductivo para la 
     estructura de fórmulas. Veamos cada caso:
   
@@ -938,18 +938,18 @@ text \<open>La siguiente propiedad declara que el conjunto de átomos de una
 
   Sea \<open>F1\<close> una fórmula proposicional tal que el conjunto de los átomos 
   de cualquier subfórmula suya está contenido en el conjunto de átomos 
-  de \<open>F1\<close>. Sea también \<open>F2\<close> cumpliendo dicha hipótesis de inducción para 
-  sus correspondientes subfórmulas. Supongamos además que \<open>G\<close> es
+  de \<open>F1\<close>. Sea también \<open>F2\<close>\\ cumpliendo dicha hipótesis de inducción 
+  para sus correspondientes subfórmulas. Supongamos además que \<open>G\<close> es
   subfórmula de \<open>F1*F2\<close>, donde \<open>*\<close> simboliza una conectiva binaria 
   cualquiera. Vamos a probar que el conjunto de átomos de \<open>G\<close> está 
   contenido en el conjunto de átomos de \<open>F1*F2\<close>.
   En primer lugar, por definición tenemos que el conjunto de
-  subfórmulas de \<open>F1*F2\<close> es de la forma
+  subfórmulas de \<open>F1*F2\<close> es de la forma\\
   \<open>Subf(F1*F2) = {F1*F2} \<union> (Subf(F1) \<union> Subf(F2))\<close>. De este modo, 
   tenemos dos posibles opciones:
-  \<open>G \<in> {F1*F2}\<close> o \<open>G \<in> Subf(F1) \<union> Subf(F2)\<close>.\\
+  \<open>G \<in> {F1*F2}\<close> o \<open>G \<in> Subf(F1) \<union> Subf(F2)\<close>.
   Si \<open>G \<in> {F1*F2}\<close>, entonces \<open>G = F1*F2\<close> y tienen igual conjunto de 
-  átomos. \\
+  átomos.
   Por otro lado, si \<open>G \<in> Subf(F1) \<union> Subf(F2)\<close> tenemos dos nuevas
   posibilidades: \<open>G\<close> es subfórmula de \<open>F1\<close> o \<open>G\<close> es subfórmula de \<open>F2\<close>.
   Suponiendo que fuese subfórmula de \<open>F1\<close>, aplicando hipótesis de
@@ -1808,7 +1808,7 @@ text \<open>Se trata de una modificación del lema \<open>Union_image_insert\<cl
   mostrar la equivalencia en el sentido en el que acaba de ser
   enunciada por simetría, pues en Isabelle aparece en sentido opuesto.
   Por tanto, el lema auxiliar \<open>union_imagen\<close> es fundamentalmente el
-  lema de Isabelle \<open>Union_image_insert\<close> teniendo en cuenta las
+  lema de Isabelle\\ \<open>Union_image_insert\<close> teniendo en cuenta las
   equivalencias anteriores.
 
   Procedamos a la demostración del último caso de inducción.\<close>

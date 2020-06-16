@@ -222,7 +222,7 @@ text \<open>Otro ejemplo de tautología se muestra con el siguiente lema.
   Veamos su prueba.
 
   \begin{demostracion}
-    Sea una interpretación cualquiera \<open>\<A>\<close>. Es obvio que, aplicando la
+    Sea una interpretación cualquiera \<open>\<A>\<close>. Es obvio que, aplicando la\\
     propiedad reflexiva de la implicación, tenemos que \<open>Verdadero\<close> es
     equivalente a suponer que valor de \<open>\<bottom>\<close> en \<open>\<A>\<close> se implica a sí 
     mismo. Por definición, se tiene que la implicación anterior es, a 

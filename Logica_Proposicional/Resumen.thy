@@ -54,12 +54,6 @@ contrast between these two different proving tactics.
 \<close>
 
 
-text \<open>\textbf{Palabras clave}: Lógica | Lógica Proposicional | 
-Isabelle | Isabelle/HOL | \\razonamiento automático | demostrador 
-interactivo | lemma de Hintikka | \\Hintikka’s lemma | logic | 
-propositional logic | automatic reasoning | \\proof assistant\<close>
-
-
 (*<*)
 end
 (*>*)
