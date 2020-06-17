@@ -1361,8 +1361,8 @@ definition entailment ::
  
 text \<open>Hagamos varias observaciones sobre esta definición. En primer
   lugar, hemos usado el tipo \<open>definition\<close>. Por otro lado, no hemos 
-  empleado \<open>isModel\<close> ni \<open>isModelSet\<close> para su definición ya que, de este 
-  modo, no tenemos que desplegar dichas definiciones en las 
+  empleado \<open>isModel\<close> ni \<open>isModelSet\<close> para su\\ definición ya que, de 
+  este modo, no tenemos que desplegar dichas definiciones en las 
   demostraciones detalladas y automáticas de los lemas posteriores. 
   Finalmente se puede observar la notación \<open>\<TTurnstile>\<close>. En la teoría clásica no 
   se suele emplear una nueva notación, ya que se diferencia por el 

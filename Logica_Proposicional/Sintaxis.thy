@@ -24,7 +24,7 @@ text \<open>En esta sección presentaremos una formalización en Isabelle de la
       También pueden ser llamadas átomos o símbolos proposicionales.
     \item[Conectivas:] Conjunto finito cuyos elementos interactúan con 
       las variables. Pueden ser monarias que afectan a un único elemento 
-      o binarias que afectan a dos. En el primer grupo se encuentra le 
+      o binarias que afectan a dos. En el primer grupo se encuentra la 
       negación (\<open>\<not>\<close>) y en el segundo la conjunción (\<open>\<and>\<close>), la disyunción 
       (\<open>\<or>\<close>) y la implicación (\<open>\<longrightarrow>\<close>).
   \end{description}
@@ -689,7 +689,7 @@ text \<open>Veamos ahora los distintos resultados sobre subfórmulas.
     atómicas de \<open>F\<close> está contenido en el conjunto de subfórmulas de 
     \<open>F\<close>. Por otro lado, como el conjunto de subfórmulas de \<open>\<not> F\<close> está 
     definido como\\ \<open>Subf(\<not> F) = {\<not> F} \<union> Subf(F)\<close>, tenemos que el 
-    el conjunto de subfórmulas de \<open>F\<close> está contenido en el de \<open>\<not> F\<close>
+    el conjunto de subfórmulas de \<open>F\<close> está contenido en el de \<open>\<not> F\<close>.
     Por tanto, por propiedades de contención, 
     tenemos que el conjunto de fórmulas atómicas de \<open>\<not> F\<close> está 
     contenido en el conjunto de subfórmulas de \<open>\<not> F\<close> como queríamos 
@@ -1735,7 +1735,7 @@ text \<open>Ambas nuevas conectivas se definen con el tipo funciones
   ahora la hipótesis de inducción sobre \<open>Fs\<close>, tenemos que lo anterior es 
   igual a la unión del conjunto de átomos de \<open>F\<close> con la unión
  (generalizada) de los conjuntos de átomos de cada fórmula de \<open>Fs\<close>. 
-  Luego por propiedades de la unión, es equivalente a la unión de los 
+  Luego, por propiedades de la unión, es equivalente a la unión de los 
   conjuntos de átomos de cada elemento de \<open>F#Fs\<close> como queríamos 
   demostrar.
   \end{demostracion}

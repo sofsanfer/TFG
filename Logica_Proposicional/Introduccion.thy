@@ -163,7 +163,13 @@ text \<open>
   alternativa siguiendo un esquema de demostración automático. Para 
   ello se utilizarán las herramientas de razonamiento que han sido 
   elaboradas en Isabelle/HOL con el objetivo de realizar deducciones de 
-  la manera más eficiente.\<close>
+  la manera más eficiente.
+
+  \<open>Este trabajo está disponible en la plataforma\<close> GitHub \<open>mediante el
+  siguiente enlace:\<close> 
+
+\href{https://github.com/sofsanfer/TFG}
+                  {\url{https://github.com/sofsanfer/TFG}}\<close>
 (*<*)
 end
 (*>*) 
